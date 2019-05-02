@@ -2,6 +2,10 @@
   "name": "bananojs",
   "version": "1.0.1",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coranos/bananojs.git"
+  },
   "scripts": {
     "eslint": "./node_modules/.bin/eslint 'scripts/**/*.js'",
     "eslint-test": "./node_modules/.bin/eslint 'test/**/*.js'",
@@ -13,7 +17,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "bignumber.js": "^8.1.1",
     "blakejs": "^1.1.0",
@@ -26,5 +30,5 @@
     "mocha": "^5.2.0",
     "nyc": "^14.0.0"
   },
-  "description": ""
+  "description": "JavaScript utilities for the banano cryptocurrency."
 }

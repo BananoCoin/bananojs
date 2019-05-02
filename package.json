@@ -1,0 +1,30 @@
+{
+  "name": "bananojs",
+  "version": "1.0.1",
+  "main": "index.js",
+  "scripts": {
+    "eslint": "./node_modules/.bin/eslint 'scripts/**/*.js'",
+    "eslint-test": "./node_modules/.bin/eslint 'test/**/*.js'",
+    "test": "./node_modules/mocha/bin/mocha -t 100000 test/unit",
+    "coverage": "nyc -x 'test/util/**' -x 'test/unit/**' -x 'libraries/**' -x '**/mock-bananode-api.js' -x '**/bananode-api.js' ./node_modules/mocha/bin/mocha -t 100000 test/unit",
+    "camo-test": "./node_modules/mocha/bin/mocha -t 1000000 test/camo",
+    "square-proof-test": "./node_modules/mocha/bin/mocha -t 1000000 test/square-proof",
+    "start": "node main.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bignumber.js": "^8.1.1",
+    "blakejs": "^1.1.0",
+    "eslint": "^5.16.0",
+    "eslint-config-google": "^0.12.0",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "nyc": "^14.0.0"
+  },
+  "description": ""
+}

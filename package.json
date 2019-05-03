@@ -10,6 +10,7 @@
     "eslint": "./node_modules/.bin/eslint 'scripts/**/*.js'",
     "eslint-test": "./node_modules/.bin/eslint 'test/**/*.js'",
     "test": "./node_modules/mocha/bin/mocha -t 100000 test/unit",
+    "test-win": ".\\node_modules\\mocha\\bin\\mocha -t 100000 test\\unit",
     "coverage": "nyc -x 'test/util/**' -x 'test/unit/**' -x 'libraries/**' -x '**/mock-bananode-api.js' -x '**/bananode-api.js' ./node_modules/mocha/bin/mocha -t 100000 test/unit",
     "camo-test": "./node_modules/mocha/bin/mocha -t 1000000 test/camo",
     "square-proof-test": "./node_modules/mocha/bin/mocha -t 1000000 test/square-proof",

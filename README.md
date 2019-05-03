@@ -17,9 +17,17 @@ JavaScript utilities for the banano cryptocurrency.
 
     npm test
 
+  4.1) or on windows
+
+    npm run test-win
+
   5) to test, run the command
 
     npm run coverage
+
+  5.1) or on windows
+
+    npm run coverage-win
 
 # simple banano functions
 

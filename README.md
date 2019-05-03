@@ -11,7 +11,7 @@ JavaScript utilities for the banano cryptocurrency.
 
   3) to install, run the command
 
-      npm install
+    npm install
 
   4) to test, run the command
 

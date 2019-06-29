@@ -502,15 +502,20 @@ const sendFromPrivateKeyWithRepresentativeAndPrevious = async (bananodeApi, priv
 
   /* istanbul ignore if */
   if (LOG_SEND) {
-    console.log(`STARTED getAccountBalanceRaw ${destAccount} ${amountRaw}`);
+    console.log(`STARTED getAccountInfo ${destAccount} ${amountRaw}`);
   }
 
-  const balanceRaw = await bananodeApi.getAccountBalanceRaw(accountAddress);
+  const accountInfo = await bananodeApi.getAccountInfo(accountAddress);
+  if (accountInfo == undefined) {
+    throw Error(`The server's account info cannot be retrieved, please try again.`);
+  }
 
   /* istanbul ignore if */
   if (LOG_SEND) {
-    console.log(`SUCCESS getAccountBalanceRaw ${accountAddress} ${balanceRaw}`);
+    console.log(`SUCCESS getAccountInfo ${accountAddress} ${balanceRaw}`);
   }
+
+  const balanceRaw = accountInfo.balance;
 
   if (balanceRaw == undefined) {
     throw Error(`The server's account balance cannot be retrieved, please try again.`);
@@ -550,7 +555,7 @@ const sendFromPrivateKeyWithRepresentativeAndPrevious = async (bananodeApi, priv
   if (newPrevious !== undefined) {
     previous = newPrevious;
   } else {
-    previous = await bananodeApi.getPrevious(accountAddress);
+    previous = accountInfo.frontier;
   }
 
   /* istanbul ignore if */

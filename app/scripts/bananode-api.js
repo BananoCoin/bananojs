@@ -151,7 +151,7 @@ const getAccountInfo = async (account) => {
   if (count === undefined) {
     throw Error(`'count' is a required parameter.`);
   }
-  // https://docs.nano.org/commands/rpc-protocol/#node-rpcs
+  // https://docs.nano.org/commands/rpc-protocol/#account_info
   const formData = {
     action: 'account_info',
     account: account

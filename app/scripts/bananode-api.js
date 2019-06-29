@@ -144,6 +144,28 @@ const getAccountHistory = async (account, count, head, raw) => {
   });
 }
 
+const getAccountInfo = async (account) => {
+  if (account === undefined) {
+    throw Error(`'account' is a required parameter.`);
+  }
+  if (count === undefined) {
+    throw Error(`'count' is a required parameter.`);
+  }
+  // https://docs.nano.org/commands/rpc-protocol/#node-rpcs
+  const formData = {
+    action: 'account_info',
+    account: account
+  };
+
+  //    console.log( `account_history request ${JSON.stringify( formData )}` );
+  return new Promise(resolve => {
+    sendRequest(formData).then((json) => {
+      //console.log( `account_history response ${JSON.stringify( json )}` );
+      resolve(json);
+    });
+  });
+}
+
 const getBlocks = async (hashes, source) => {
   if (hashes === undefined) {
     throw Error(`'hashes' is a required parameter.`);
@@ -301,6 +323,7 @@ exports.getPrevious = getPrevious;
 exports.process = process;
 exports.getGeneratedWork = getGeneratedWork;
 exports.getAccountHistory = getAccountHistory;
+exports.getAccountInfo = getAccountInfo;
 exports.getBlocks = getBlocks;
 exports.log = console.log;
 exports.trace = console.trace;

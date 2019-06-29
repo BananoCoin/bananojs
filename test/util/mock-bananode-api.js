@@ -92,6 +92,20 @@ const getFrontiers = async (account, count) => {
   return retval;
 };
 
+const getAccountInfo = async (account) => {
+  const retval = {};
+  retval.frontier = '000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F';
+  retval.open_block = '991CF190094C00F0B68E2E5F75F6BEE95A2E0BD93CEAA4A6734DB9F19B728948';
+  retval.representative_block = '991CF190094C00F0B68E2E5F75F6BEE95A2E0BD93CEAA4A6734DB9F19B728948';
+  retval.balance = '10' + '00000000000000000000000000000';
+  retval.modified_timestamp = '1501793775';
+  retval.block_count = '33';
+  retval.confirmation_height = '28';
+  retval.account_version = '1';
+  return retval;
+}
+
+
 exports.getAccountBalanceRaw = getAccountBalanceRaw;
 exports.getAccountRepresentative = getAccountRepresentative;
 exports.getPrevious = getPrevious;
@@ -99,4 +113,5 @@ exports.process = process;
 exports.getGeneratedWork = getGeneratedWork;
 exports.getAccountsPending = getAccountsPending;
 exports.getAccountHistory = getAccountHistory;
+exports.getAccountInfo = getAccountInfo;
 exports.getFrontiers = getFrontiers;

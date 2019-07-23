@@ -8,7 +8,7 @@ const sendRequest = async (formData) => {
   if (formData == undefined) {
     throw Error(`'formData' is a required parameter.`);
   }
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     // https://github.com/nanocurrency/raiblocks/wiki/RPC-protocol#accounts-balances
 
     const body = JSON.stringify(formData);
@@ -16,12 +16,12 @@ const sendRequest = async (formData) => {
 
     request({
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       uri: url,
       body: body,
       method: 'POST',
-      timeout: 30000
+      timeout: 30000,
     }, (err, httpResponse, body) => {
       //            console.log( 'sendRequest response', err, body );
 
@@ -37,7 +37,7 @@ const sendRequest = async (formData) => {
       }
     });
   });
-}
+};
 
 const getAccountBalanceRaw = async (account) => {
   if (account == undefined) {
@@ -45,9 +45,9 @@ const getAccountBalanceRaw = async (account) => {
   }
   const formData = {
     action: 'accounts_balances',
-    accounts: [account]
+    accounts: [account],
   };
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     sendRequest(formData).then((json) => {
       if (json == undefined) {
         resolve();
@@ -61,7 +61,7 @@ const getAccountBalanceRaw = async (account) => {
       resolve(balance);
     });
   });
-}
+};
 
 const getAccountRepresentative = async (account) => {
   if (account == undefined) {
@@ -70,9 +70,9 @@ const getAccountRepresentative = async (account) => {
   // https://github.com/nanocurrency/raiblocks/wiki/RPC-protocol#account-representative
   const formData = {
     action: 'account_representative',
-    account: account
+    account: account,
   };
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     sendRequest(formData).then((json) => {
       if (json === undefined) {
         resolve('');
@@ -82,7 +82,7 @@ const getAccountRepresentative = async (account) => {
       }
     });
   });
-}
+};
 
 const getPrevious = async (account) => {
   if (account == undefined) {
@@ -92,10 +92,10 @@ const getPrevious = async (account) => {
   const formData = {
     action: 'accounts_frontiers',
     accounts: [account],
-    count: 1
+    count: 1,
   };
   //    console.log( `getPrevious request ${account}` );
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     sendRequest(formData).then((json) => {
       //            console.log( `getPrevious response ${JSON.stringify( json )}` );
       if (json === undefined) {
@@ -110,7 +110,7 @@ const getPrevious = async (account) => {
       }
     });
   });
-}
+};
 
 
 const getAccountHistory = async (account, count, head, raw) => {
@@ -124,7 +124,7 @@ const getAccountHistory = async (account, count, head, raw) => {
   const formData = {
     action: 'account_history',
     account: account,
-    count: count
+    count: count,
   };
 
   if (head !== undefined) {
@@ -136,13 +136,13 @@ const getAccountHistory = async (account, count, head, raw) => {
   }
 
   //    console.log( `account_history request ${JSON.stringify( formData )}` );
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     sendRequest(formData).then((json) => {
-      //console.log( `account_history response ${JSON.stringify( json )}` );
+      // console.log( `account_history response ${JSON.stringify( json )}` );
       resolve(json);
     });
   });
-}
+};
 
 const getAccountInfo = async (account) => {
   if (account === undefined) {
@@ -154,17 +154,17 @@ const getAccountInfo = async (account) => {
   // https://docs.nano.org/commands/rpc-protocol/#account_info
   const formData = {
     action: 'account_info',
-    account: account
+    account: account,
   };
 
   //    console.log( `account_history request ${JSON.stringify( formData )}` );
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     sendRequest(formData).then((json) => {
-      //console.log( `account_history response ${JSON.stringify( json )}` );
+      // console.log( `account_history response ${JSON.stringify( json )}` );
       resolve(json);
     });
   });
-}
+};
 
 const getBlocks = async (hashes, source) => {
   if (hashes === undefined) {
@@ -173,7 +173,7 @@ const getBlocks = async (hashes, source) => {
   // https://github.com/nanocurrency/nano-node/wiki/RPC-protocol#retrieve-multiple-blocks
   const formData = {
     action: 'blocks',
-    hashes: hashes
+    hashes: hashes,
   };
 
   if (source !== undefined) {
@@ -181,13 +181,13 @@ const getBlocks = async (hashes, source) => {
   }
 
   //    console.log( `account_history request ${JSON.stringify( formData )}` );
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     sendRequest(formData).then((json) => {
-      //console.log( `account_history response ${JSON.stringify( json )}` );
+      // console.log( `account_history response ${JSON.stringify( json )}` );
       resolve(json);
     });
   });
-}
+};
 
 const process = async (block) => {
   if (block == undefined) {
@@ -196,7 +196,7 @@ const process = async (block) => {
   // https://github.com/nanocurrency/raiblocks/wiki/RPC-protocol#process-block
   const formData = {
     action: 'process',
-    block: JSON.stringify(block)
+    block: JSON.stringify(block),
   };
   //    console.log( `process request ${JSON.stringify( formData )}` );
   return new Promise((resolve, reject) => {
@@ -208,13 +208,14 @@ const process = async (block) => {
         if (json.hash === undefined) {
           console.log(`process reject ${JSON.stringify( json )}`);
           reject(json);
+        } else {
+          const hash = json.hash;
+          resolve(hash);
         }
-        const hash = json.hash;
-        resolve(hash);
       }
     });
   });
-}
+};
 
 
 /**
@@ -224,14 +225,14 @@ const getGeneratedWork = async (hash) => {
   // https://github.com/nanocurrency/raiblocks/wiki/RPC-protocol#work-generate
   const formData = {
     action: 'work_generate',
-    hash: hash
+    hash: hash,
   };
 
   if (LOG_GET_GENERATED_WORK) {
     console.log(`STARTED getGeneratedWork request ${JSON.stringify( formData )}`);
   }
 
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     sendRequest(formData).then((json) => {
       if (json === undefined) {
         resolve('');
@@ -244,7 +245,7 @@ const getGeneratedWork = async (hash) => {
       }
     });
   });
-}
+};
 
 const getAccountsPending = async (accounts, count) => {
   if (accounts === undefined) {
@@ -258,16 +259,16 @@ const getAccountsPending = async (accounts, count) => {
     action: 'accounts_pending',
     accounts: accounts,
     count: count,
-    threshold: 1
+    threshold: 1,
   };
   //    console.log( `accounts_pending request ${JSON.stringify( formData )}` );
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     sendRequest(formData).then((json) => {
       //            console.log( `accounts_pending response ${JSON.stringify( json )}` );
       resolve(json);
     });
   });
-}
+};
 
 const getBlockAccount = async (hash) => {
   if (hash === undefined) {
@@ -276,16 +277,16 @@ const getBlockAccount = async (hash) => {
   // https://github.com/nanocurrency/nano-node/wiki/RPC-protocol#block-account
   const formData = {
     action: 'block_account',
-    hash: hash
+    hash: hash,
   };
   //    console.log( `accounts_pending request ${JSON.stringify( formData )}` );
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     sendRequest(formData).then((json) => {
       //            console.log( `accounts_pending response ${JSON.stringify( json )}` );
       resolve(json);
     });
   });
-}
+};
 
 const getFrontiers = async (account, count) => {
   if (account === undefined) {
@@ -298,20 +299,20 @@ const getFrontiers = async (account, count) => {
   const formData = {
     action: 'frontiers',
     account: account,
-    count: count
+    count: count,
   };
   //    console.log( `accounts_pending request ${JSON.stringify( formData )}` );
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     sendRequest(formData).then((json) => {
       //            console.log( `accounts_pending response ${JSON.stringify( json )}` );
       resolve(json);
     });
   });
-}
+};
 
 const setUrl = (newUrl) => {
   url = newUrl;
-}
+};
 
 exports.setUrl = setUrl;
 exports.getFrontiers = getFrontiers;

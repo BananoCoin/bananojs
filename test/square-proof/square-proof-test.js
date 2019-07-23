@@ -9,6 +9,12 @@ const sharedSecretMultSquared = sharedSecretMult * sharedSecretMult;
 
 const sharedSecretMod = BigInt('107');
 
+// to prove A + B = C withount revealing A B or C,
+// you just have to prove that A, B, and C are all positive numbers.
+// all positive numbers are the sum of 1 to 4 square numbers.
+
+// a0+a1+a2+a3 + b0+b1+b2+b3 = c0+c1+c2+c3
+
 // console.log('multiplier', sharedSecretMult);
 // console.log('modulus', sharedSecretMod);
 
@@ -121,13 +127,13 @@ const isTxBalanced = (tx) => {
   const amount = getSumOfSquares(tx.amount);
   const leftSide = sourceOriginalBalance % sharedSecretMod;
   const rightSide = (destOriginalBalance + amount) % sharedSecretMod;
-  // console.log('leftSide', leftSide);
-  // console.log('rightSide', rightSide);
+  console.log('leftSide', leftSide);
+  console.log('rightSide', rightSide);
   return leftSide == rightSide;
 };
 
-describe.skip('square-proof', () => {
-  it('check sum of squares', () => {
+describe('square-proof', () => {
+  it.skip('check sum of squares', () => {
     for (let x = BigInt(0); x < sharedSecretMod; x++) {
       // console.log('x', x);
       const squares = getSquares(x);
@@ -137,7 +143,7 @@ describe.skip('square-proof', () => {
       expect(x.toString()).to.equal(sum.toString());
     }
   });
-  it('transfer 1 from 1 to 0', () => {
+  it.skip('transfer 1 from 1 to 0', () => {
     const tx = {};
     tx.sourceOriginalBalance = BigInt('1');
     tx.destOriginalBalance = BigInt('0');
@@ -149,7 +155,7 @@ describe.skip('square-proof', () => {
     const isTxSquaresFlag = isTxSquares(encryptedTx);
     expect(isTxSquaresFlag).to.equal(true);
   });
-  it('transfer -1 from 1 to 0', () => {
+  it.skip('transfer -1 from 1 to 0', () => {
     const tx = {};
     tx.sourceOriginalBalance = BigInt('1');
     tx.destOriginalBalance = BigInt('0');
@@ -160,5 +166,65 @@ describe.skip('square-proof', () => {
     expect(isTxBalancedFlag).to.equal(true);
     const isTxSquaresFlag = isTxSquares(encryptedTx);
     expect(isTxSquaresFlag).to.equal(false);
+  });
+  it('transfer 100 from 150 to 10', () => {
+    const newSourceBalanceSoS = [3, 3, 4, 4];
+    const amountSoS = [2, 4, 4, 8];
+    const oldSourceBalanceSoS = [2, 3, 4, 11];
+
+    const squareBigInt = (i) => {
+      return BigInt(i)*BigInt(i);
+    };
+
+    const squareBigInts = (array) => {
+      for (let i = 0; i < array.length; i++) {
+        array[i] = squareBigInt(array[i]);
+      }
+    };
+
+    squareBigInts(newSourceBalanceSoS);
+    squareBigInts(amountSoS);
+    squareBigInts(oldSourceBalanceSoS);
+
+    const getSum = (array) => {
+      let sum = BigInt(0);
+      for (let i = 0; i < array.length; i++) {
+        sum += array[i];
+      }
+      return sum;
+    };
+
+    const checkBalance = () => {
+      const newSourceBalance = getSum(newSourceBalanceSoS);
+      const amount = getSum(amountSoS);
+      const oldSourceBalance = getSum(oldSourceBalanceSoS);
+      const expected = oldSourceBalance % sharedSecretMod;
+      const actual = (newSourceBalance + amount) % sharedSecretMod;
+      expect(expected.toString()).to.equal(actual.toString());
+    };
+    checkBalance();
+
+
+    console.log('multiplier', sharedSecretMult);
+    console.log('sharedSecretMod', sharedSecretMod);
+    console.log('newSourceBalanceSoS', newSourceBalanceSoS);
+    console.log('amountSoS', amountSoS);
+    console.log('oldSourceBalanceSoS', oldSourceBalanceSoS);
+
+    for (let i = 0; i < 4; i++) {
+      newSourceBalanceSoS[i] *= sharedSecretMultSquared;
+      amountSoS[i] *= sharedSecretMultSquared;
+      oldSourceBalanceSoS[i] *= sharedSecretMultSquared;
+    }
+    checkBalance();
+    for (let i = 0; i < 4; i++) {
+      newSourceBalanceSoS[i] %= sharedSecretMod;
+      amountSoS[i] %= sharedSecretMod;
+      oldSourceBalanceSoS[i] %= sharedSecretMod;
+    }
+    checkBalance();
+    console.log('newSourceBalanceSoS', newSourceBalanceSoS);
+    console.log('amountSoS', amountSoS);
+    console.log('oldSourceBalanceSoS', oldSourceBalanceSoS);
   });
 });

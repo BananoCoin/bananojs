@@ -4,7 +4,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/coranos/bananojs.git"
+    "url": "https://github.com/bananocoin/bananojs.git"
   },
   "scripts": {
     "eslint": "./node_modules/.bin/eslint 'scripts/**/*.js'",

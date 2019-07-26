@@ -31,10 +31,18 @@ const getAccountHistory = async (account, count, head, raw) => {
   return await bananodeApi.getAccountHistory(account, count, head, raw);
 };
 
+const getAccountFromSeed = async (seed, seedIx) => {
+  const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
+  const publicKey = bananoUtil.getPublicKey(privateKey);
+  const account = bananoUtil.getAccount(publicKey);
+  return account;
+};
+
 const setBananodeApiUrl = (url) => {
   bananodeApi.setUrl(url);
 };
 
+module.exports.getAccountFromSeed = getAccountFromSeed;
 module.exports.bananoUtil = bananoUtil;
 module.exports.bananodeApi = bananodeApi;
 module.exports.camoUtil = camoUtil;

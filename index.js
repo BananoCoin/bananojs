@@ -31,7 +31,7 @@ const getAccountHistory = async (account, count, head, raw) => {
   return await bananodeApi.getAccountHistory(account, count, head, raw);
 };
 
-const getAccountFromSeed = async (seed, seedIx) => {
+const getAccountFromSeed = (seed, seedIx) => {
   const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
   const publicKey = bananoUtil.getPublicKey(privateKey);
   const account = bananoUtil.getAccount(publicKey);

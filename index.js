@@ -42,7 +42,12 @@ const setBananodeApiUrl = (url) => {
   bananodeApi.setUrl(url);
 };
 
+const getAccountInfo = async (account) => {
+  return await bananodeApi.getAccountInfo(account);
+};
+
 module.exports.getAccountFromSeed = getAccountFromSeed;
+module.exports.getAccountInfo = getAccountInfo;
 module.exports.bananoUtil = bananoUtil;
 module.exports.bananodeApi = bananodeApi;
 module.exports.camoUtil = camoUtil;

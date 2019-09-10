@@ -9,7 +9,7 @@ const sendRequest = async (formData) => {
     throw Error(`'formData' is a required parameter.`);
   }
   return new Promise((resolve) => {
-    // https://github.com/nanocurrency/raiblocks/wiki/RPC-protocol#accounts-balances
+    // https://docs.nano.org/commands/rpc-protocol#accounts-balances
 
     const body = JSON.stringify(formData);
     //        console.log( 'sendRequest request', body );
@@ -67,7 +67,7 @@ const getAccountRepresentative = async (account) => {
   if (account == undefined) {
     throw Error(`'account' is a required parameter.`);
   }
-  // https://github.com/nanocurrency/raiblocks/wiki/RPC-protocol#account-representative
+  // https://docs.nano.org/commands/rpc-protocol#account-representative
   const formData = {
     action: 'account_representative',
     account: account,
@@ -88,7 +88,7 @@ const getPrevious = async (account) => {
   if (account == undefined) {
     throw Error(`'account' is a required parameter.`);
   }
-  // https://github.com/nanocurrency/raiblocks/wiki/RPC-protocol#frontiers
+  // https://docs.nano.org/commands/rpc-protocol#frontiers
   const formData = {
     action: 'accounts_frontiers',
     accounts: [account],
@@ -120,7 +120,7 @@ const getAccountHistory = async (account, count, head, raw) => {
   if (count === undefined) {
     throw Error(`'count' is a required parameter.`);
   }
-  // https://github.com/nanocurrency/raiblocks/wiki/RPC-protocol#account-history
+  // https://docs.nano.org/commands/rpc-protocol/#account_history
   const formData = {
     action: 'account_history',
     account: account,
@@ -190,7 +190,7 @@ const process = async (block) => {
   if (block == undefined) {
     throw Error(`'block' is a required parameter.'`);
   }
-  // https://github.com/nanocurrency/raiblocks/wiki/RPC-protocol#process-block
+  // https://docs.nano.org/commands/rpc-protocol#process-block
   const formData = {
     action: 'process',
     block: JSON.stringify(block),
@@ -219,7 +219,7 @@ const process = async (block) => {
  * note: enable_control required.
  */
 const getGeneratedWork = async (hash) => {
-  // https://github.com/nanocurrency/raiblocks/wiki/RPC-protocol#work-generate
+  // https://docs.nano.org/commands/rpc-protocol#work-generate
   const formData = {
     action: 'work_generate',
     hash: hash,

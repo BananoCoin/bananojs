@@ -1,115 +1,66 @@
-const request = require('request');
-
-let url;
+const fetch = require('node-fetch');
+const ACTIONS = require('./actions');
 
 const LOG_GET_GENERATED_WORK = false;
+
+const jsonHeader = {
+  'Accept': 'application/json',
+  'Content-Type': 'application/json'
+};
+
+let url;
 
 const sendRequest = async (formData) => {
   if (formData == undefined) {
     throw Error(`'formData' is a required parameter.`);
   }
-  return new Promise((resolve) => {
-    // https://docs.nano.org/commands/rpc-protocol#accounts-balances
 
-    const body = JSON.stringify(formData);
-    //        console.log( 'sendRequest request', body );
-
-    request({
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      uri: url,
-      body: body,
-      method: 'POST',
-      timeout: 30000,
-    }, (err, httpResponse, body) => {
-      //            console.log( 'sendRequest response', err, body );
-
-      if (err !== null) {
-        console.log('sendRequest response', err, body);
-      }
-
-      if (body === undefined) {
-        resolve(undefined);
-      } else {
-        const json = JSON.parse(body);
-        resolve(json);
-      }
-    });
-  });
+  return fetch( url, {
+    headers: jsonHeader,
+    body: ( typeof formData !== 'string' ) ? JSON.stringify( formData ) : formData,
+    method: 'POST',
+  } )
+  .then( res => res.json() )
+  .catch( err => {
+    console.error( err );
+    throw err;
+  } );
 };
 
 const getAccountBalanceRaw = async (account) => {
   if (account == undefined) {
     throw Error(`'account' is a required parameter.`);
   }
-  const formData = {
-    action: 'accounts_balances',
-    accounts: [account],
-  };
-  return new Promise((resolve) => {
-    sendRequest(formData).then((json) => {
-      if (json == undefined) {
-        resolve();
-        return;
-      }
-      //            console.log( 'getAccountBalanceRaw json', json );
-      //            console.log( 'getAccountBalanceRaw json.balances', json.balances );
 
-      const balance = json.balances[account].balance;
-      //            console.log( 'getAccountBalanceRaw balance', balance );
-      resolve(balance);
-    });
-  });
+  const formData = ACTIONS.ACCOUNTS_BALANCES( account );
+
+  const { balances } = await sendRequest( formData );
+
+  return ( balances && Array.isArray( balances ) ) ? balances[ account ].balance : '';
 };
 
 const getAccountRepresentative = async (account) => {
   if (account == undefined) {
     throw Error(`'account' is a required parameter.`);
   }
-  // https://docs.nano.org/commands/rpc-protocol#account-representative
-  const formData = {
-    action: 'account_representative',
-    account: account,
-  };
-  return new Promise((resolve) => {
-    sendRequest(formData).then((json) => {
-      if (json === undefined) {
-        resolve('');
-      } else {
-        const representative = json.representative;
-        resolve(representative);
-      }
-    });
-  });
+  // https://github.com/nanocurrency/raiblocks/wiki/RPC-protocol#account-representative
+  const formData = ACTIONS.ACCOUNT_REPRESENTATIVE( account );
+
+  const { representative } = await sendRequest( formData );
+
+  return representative || '';
 };
 
 const getPrevious = async (account) => {
   if (account == undefined) {
     throw Error(`'account' is a required parameter.`);
   }
-  // https://docs.nano.org/commands/rpc-protocol#frontiers
-  const formData = {
-    action: 'accounts_frontiers',
-    accounts: [account],
-    count: 1,
-  };
-  //    console.log( `getPrevious request ${account}` );
-  return new Promise((resolve) => {
-    sendRequest(formData).then((json) => {
-      //            console.log( `getPrevious response ${JSON.stringify( json )}` );
-      if (json === undefined) {
-        resolve('');
-      } else if (json.frontiers == '') {
-        //                console.log( `getPrevious response ${account}` );
-        resolve('');
-      } else {
-        const previous = json.frontiers[account];
-        //                console.log( `getPrevious response ${account} ${previous}` );
-        resolve(previous);
-      }
-    });
-  });
+  // https://github.com/nanocurrency/raiblocks/wiki/RPC-protocol#frontiers
+  const formData = ACTIONS.ACCOUNTS_FRONTIERS( account );
+
+  const { frontiers } = await sendRequest( formData );
+
+  return ( frontiers && Array.isArray( frontiers ) ) ? frontiers[ account ] : '';
 };
 
 
@@ -120,28 +71,13 @@ const getAccountHistory = async (account, count, head, raw) => {
   if (count === undefined) {
     throw Error(`'count' is a required parameter.`);
   }
-  // https://docs.nano.org/commands/rpc-protocol/#account_history
-  const formData = {
-    action: 'account_history',
-    account: account,
-    count: count,
-  };
+  // https://github.com/nanocurrency/raiblocks/wiki/RPC-protocol#account-history
 
-  if (head !== undefined) {
-    formData.head = head;
-  }
+  const formData = ACTIONS.ACCOUNT_HISTORY( account, count );
 
-  if (raw !== undefined) {
-    formData.raw = raw;
-  }
+  const history = await sendRequest( formData );
 
-  //    console.log( `account_history request ${JSON.stringify( formData )}` );
-  return new Promise((resolve) => {
-    sendRequest(formData).then((json) => {
-      // console.log( `account_history response ${JSON.stringify( json )}` );
-      resolve(json);
-    });
-  });
+  return history || null;
 };
 
 const getAccountInfo = async (account) => {
@@ -149,18 +85,12 @@ const getAccountInfo = async (account) => {
     throw Error(`'account' is a required parameter.`);
   }
   // https://docs.nano.org/commands/rpc-protocol/#account_info
-  const formData = {
-    action: 'account_info',
-    account: account,
-  };
 
-  //    console.log( `account_history request ${JSON.stringify( formData )}` );
-  return new Promise((resolve) => {
-    sendRequest(formData).then((json) => {
-      // console.log( `account_history response ${JSON.stringify( json )}` );
-      resolve(json);
-    });
-  });
+  const formData = ACTIONS.ACCOUNT_INFO( account );
+
+  const infos = await sendRequest( formData );
+
+  return infos || null;
 };
 
 const getBlocks = async (hashes, source) => {
@@ -168,50 +98,25 @@ const getBlocks = async (hashes, source) => {
     throw Error(`'hashes' is a required parameter.`);
   }
   // https://github.com/nanocurrency/nano-node/wiki/RPC-protocol#retrieve-multiple-blocks
-  const formData = {
-    action: 'blocks',
-    hashes: hashes,
-  };
+  
+  const formData = ACTIONS.BLOCKS( hashes );
 
-  if (source !== undefined) {
-    formData.source = source;
-  }
+  const blocks = await sendRequest( formData );
 
-  //    console.log( `account_history request ${JSON.stringify( formData )}` );
-  return new Promise((resolve) => {
-    sendRequest(formData).then((json) => {
-      // console.log( `account_history response ${JSON.stringify( json )}` );
-      resolve(json);
-    });
-  });
+  return blocks || null;
 };
 
 const process = async (block) => {
   if (block == undefined) {
     throw Error(`'block' is a required parameter.'`);
   }
-  // https://docs.nano.org/commands/rpc-protocol#process-block
-  const formData = {
-    action: 'process',
-    block: JSON.stringify(block),
-  };
-  //    console.log( `process request ${JSON.stringify( formData )}` );
-  return new Promise((resolve, reject) => {
-    sendRequest(formData).then((json) => {
-      //            console.log( `process response ${JSON.stringify( json )}` );
-      if (json === undefined) {
-        resolve('');
-      } else {
-        if (json.hash === undefined) {
-          console.log(`process reject ${JSON.stringify( json )}`);
-          reject(json);
-        } else {
-          const hash = json.hash;
-          resolve(hash);
-        }
-      }
-    });
-  });
+  // https://github.com/nanocurrency/raiblocks/wiki/RPC-protocol#process-block
+
+  const formData = ACTIONS.PROCESS( JSON.stringify( block ) );
+
+  const { hash } = await sendRequest( formData );
+
+  return hash || '';
 };
 
 
@@ -219,29 +124,17 @@ const process = async (block) => {
  * note: enable_control required.
  */
 const getGeneratedWork = async (hash) => {
-  // https://docs.nano.org/commands/rpc-protocol#work-generate
-  const formData = {
-    action: 'work_generate',
-    hash: hash,
-  };
+  // https://github.com/nanocurrency/raiblocks/wiki/RPC-protocol#work-generate
+  
+  const formData = ACTIONS.WORK_GENERATE( hash );
 
   if (LOG_GET_GENERATED_WORK) {
     console.log(`STARTED getGeneratedWork request ${JSON.stringify( formData )}`);
   }
 
-  return new Promise((resolve) => {
-    sendRequest(formData).then((json) => {
-      if (json === undefined) {
-        resolve('');
-      } else {
-        if (LOG_GET_GENERATED_WORK) {
-          console.log(`SUCCESS getGeneratedWork response ${JSON.stringify( json )}`);
-        }
-        const work = json.work;
-        resolve(work);
-      }
-    });
-  });
+  const { work } = await sendRequest( formData );
+
+  return work || '';
 };
 
 const getAccountsPending = async (accounts, count) => {
@@ -252,19 +145,12 @@ const getAccountsPending = async (accounts, count) => {
     throw Error('count is a required parameter.');
   }
   // https://github.com/nanocurrency/nano-node/wiki/RPC-protocol#accounts-pending
-  const formData = {
-    action: 'accounts_pending',
-    accounts: accounts,
-    count: count,
-    threshold: 1,
-  };
-  //    console.log( `accounts_pending request ${JSON.stringify( formData )}` );
-  return new Promise((resolve) => {
-    sendRequest(formData).then((json) => {
-      //            console.log( `accounts_pending response ${JSON.stringify( json )}` );
-      resolve(json);
-    });
-  });
+
+  const formData = ACTIONS.ACCOUNTS_PENDING( accounts, count );
+
+  const accPending = await sendRequest( formData );
+
+  return accPending || null;
 };
 
 const getBlockAccount = async (hash) => {
@@ -272,17 +158,12 @@ const getBlockAccount = async (hash) => {
     throw Error('hash is a required parameter.');
   }
   // https://github.com/nanocurrency/nano-node/wiki/RPC-protocol#block-account
-  const formData = {
-    action: 'block_account',
-    hash: hash,
-  };
-  //    console.log( `accounts_pending request ${JSON.stringify( formData )}` );
-  return new Promise((resolve) => {
-    sendRequest(formData).then((json) => {
-      //            console.log( `accounts_pending response ${JSON.stringify( json )}` );
-      resolve(json);
-    });
-  });
+
+  const formData = ACTIONS.BLOCK_ACCOUNT( hash );
+
+  const blockAccount = await sendRequest( formData );
+
+  return blockAccount || null;
 };
 
 const getFrontiers = async (account, count) => {
@@ -293,23 +174,15 @@ const getFrontiers = async (account, count) => {
     throw Error('count is a required parameter.');
   }
   // https://github.com/nanocurrency/nano-node/wiki/RPC-protocol#frontiers
-  const formData = {
-    action: 'frontiers',
-    account: account,
-    count: count,
-  };
-  //    console.log( `accounts_pending request ${JSON.stringify( formData )}` );
-  return new Promise((resolve) => {
-    sendRequest(formData).then((json) => {
-      //            console.log( `accounts_pending response ${JSON.stringify( json )}` );
-      resolve(json);
-    });
-  });
+
+  const formData = ACTIONS.FRONTIERS( account, count );
+
+  const frontiers = await sendRequest( formData );
+
+  return frontiers || null;
 };
 
-const setUrl = (newUrl) => {
-  url = newUrl;
-};
+const setUrl = newUrl => url = newUrl;
 
 exports.setUrl = setUrl;
 exports.getFrontiers = getFrontiers;

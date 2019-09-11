@@ -15,6 +15,12 @@ const sendAmountToAccount = async (seed, seedIx, destAccount, amountRaw, success
   await bananoUtil.send(bananodeApi, seed, seedIx, destAccount, amountRaw, successCallback, failureCallback);
 };
 
+const changeRepresentativeForSeed = async (seed, seedIx, representative) => {
+  const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
+  const response = await bananoUtil.change(bananodeApi, privateKey, representative);
+  return response;
+};
+
 const receiveDepositsForSeed = async (seed, seedIx, representative) => {
   const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
   const publicKey = bananoUtil.getPublicKey(privateKey);
@@ -65,6 +71,7 @@ module.exports.getAccount = bananoUtil.getAccount;
 module.exports.getAccountPublicKey = bananoUtil.getAccountPublicKey;
 module.exports.getHash = bananoUtil.hash;
 module.exports.sendAmountToAccount = sendAmountToAccount;
+module.exports.changeRepresentativeForSeed = changeRepresentativeForSeed;
 module.exports.getSignature = bananoUtil.sign;
 module.exports.getBytesFromHex = bananoUtil.hexToBytes;
 module.exports.getWorkUsingCpu = bananoUtil.getHashCPUWorker;

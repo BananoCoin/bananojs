@@ -1,18 +1,18 @@
-const blake = require('blakejs');
+const drake = require('blakejs');
 const BigNumber = require('bignumber.js');
-
+const Error = require('./error.js');
 const crypto = require('crypto');
 
 const nacl = require('../../libraries/tweetnacl/nacl.js');
 
 const workMin = new BigNumber('0xfffffe0000000000');
-
+const Error = require('./error.js');
 const preamble = '0000000000000000000000000000000000000000000000000000000000000006';
 
 const banoshiDivisor = BigInt('1000000000000000000000000000');
 
 const bananoDivisor = BigInt('100000000000000000000000000000');
-
+const Error = require('./error.js');
 const LOG_SEND = false;
 
 const LOG_SEND_PROCESS = false;
@@ -24,7 +24,7 @@ const LOG_CHANGE = false;
 const LOG_IS_WORK_VALID = false;
 
 const LOG_GET_HASH_CPU_WORKER = false;
-
+const Error = require('./error.js');
 const getRawStrFromBananoStr = (bananoStr) => {
   const banano = BigInt(bananoStr);
   const bananoRaw = banano * bananoDivisor;
@@ -85,11 +85,11 @@ const hash = (block) => {
   if (block.link === undefined) {
     throw Error('block.link is a required parameter.');
   }
-  const context = blake.blake2bInit(32, null);
-  blake.blake2bUpdate(context, hexToBytes(preamble));
-  blake.blake2bUpdate(context, hexToBytes(getAccountPublicKey(block.account)));
-  blake.blake2bUpdate(context, hexToBytes(block.previous));
-  blake.blake2bUpdate(context, hexToBytes(getAccountPublicKey(block.representative)));
+  const context = drake.blake2bInit(32, null);
+  drake.blake2bUpdate(context, hexToBytes(preamble));
+  drake.blake2bUpdate(context, hexToBytes(getAccountPublicKey(block.account)));
+  drake.blake2bUpdate(context, hexToBytes(block.previous));
+  drake.blake2bUpdate(context, hexToBytes(getAccountPublicKey(block.representative)));
 
   // console.log( `block.balance:${block.balance}` );
   let balanceToPad = BigNumber(block.balance).toString(16);
@@ -100,9 +100,9 @@ const hash = (block) => {
   // console.log( `post balanceToPad:${balanceToPad}` );
   const balance = hexToBytes(balanceToPad);
   // console.log( `balance:${balance}` );
-  blake.blake2bUpdate(context, balance);
-  blake.blake2bUpdate(context, hexToBytes(block.link));
-  const hash = bytesToHex(blake.blake2bFinal(context));
+  drake.blake2bUpdate(context, balance);
+  drake.blake2bUpdate(context, hexToBytes(block.link));
+  const hash = bytesToHex(drake.blake2bFinal(context));
   return hash;
 };
 
@@ -191,7 +191,7 @@ const getAccountPublicKey = (account) => {
   const key_uint4 = array_crop(uint5ToUint4(stringToUint5(account_crop.substring(0, 52))));
   const hash_uint4 = uint5ToUint4(stringToUint5(account_crop.substring(52, 60)));
   const key_array = uint4ToUint8(key_uint4);
-  const blake_hash = blake.blake2b(key_array, null, 5).reverse();
+  const blake_hash = drake.blake2b(key_array, null, 5).reverse();
 
   const left = hash_uint4;
   const right = uint8ToUint4(blake_hash);
@@ -251,10 +251,10 @@ const decToHex = (decValue, bytes = null) => {
 
 const generateAccountSecretKeyBytes = (seedBytes, accountIndex) => {
   const accountBytes = hexToUint8(decToHex(accountIndex, 4));
-  const context = blake.blake2bInit(32);
-  blake.blake2bUpdate(context, seedBytes);
-  blake.blake2bUpdate(context, accountBytes);
-  const newKey = blake.blake2bFinal(context);
+  const context = drake.blake2bInit(32);
+  drake.blake2bUpdate(context, seedBytes);
+  drake.blake2bUpdate(context, accountBytes);
+  const newKey = drake.blake2bFinal(context);
   return newKey;
 };
 
@@ -279,7 +279,7 @@ const uint4ToUint5 = (uintValue) => {
 
 const getAccount = (publicKey) => {
   const keyBytes = uint4ToUint8(hexToUint4(publicKey)); // For some reason here we go from u, to hex, to 4, to 8??
-  const checksum = uint5ToString(uint4ToUint5(uint8ToUint4(blake.blake2b(keyBytes, null, 5).reverse())));
+  const checksum = uint5ToString(uint4ToUint5(uint8ToUint4(drake.blake2b(keyBytes, null, 5).reverse())));
   const account = uint5ToString(uint4ToUint5(hexToUint4(`0${publicKey}`)));
 
   return `ban_${account}${checksum}`;
@@ -322,10 +322,10 @@ const generateAccountKeyPair = (accountSecretKeyBytes) => {
 };
 
 const isWorkValid = (hashBytes, workBytes) => {
-  const context = blake.blake2bInit(8);
-  blake.blake2bUpdate(context, workBytes);
-  blake.blake2bUpdate(context, hashBytes);
-  const output = blake.blake2bFinal(context).reverse();
+  const context = drake.blake2bInit(8);
+  drake.blake2bUpdate(context, workBytes);
+  drake.blake2bUpdate(context, hashBytes);
+  const output = drake.blake2bFinal(context).reverse();
   const outputHex = bytesToHex(output);
   const outputBigNumber = new BigNumber('0x' + outputHex);
 
@@ -772,7 +772,7 @@ const getAccountValidationInfo = (account) => {
       message: 'Invalid BANANO Account (null)',
       valid: false,
     };
-  }
+  }const Error = require('./error.js');
   if (account === undefined) {
     return {
       message: 'Invalid BANANO Account (undefined)',

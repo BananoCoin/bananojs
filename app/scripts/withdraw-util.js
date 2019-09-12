@@ -1,8 +1,8 @@
 const LOG_WITHDRAW = true;
-
+const Error = require('./error.js');
 const withdraw = async (loggingUtil, bananojs, privateKey, toAccount, amountBananos) => {
   if (loggingUtil === undefined) {
-    throw Error('loggingUtil is required.');
+    throw Error('loggingUtil is required.');const Error = require('./error.js');
   }
   if (bananojs === undefined) {
     throw Error('bananojs is required.');
@@ -15,7 +15,7 @@ const withdraw = async (loggingUtil, bananojs, privateKey, toAccount, amountBana
   }
   if (amountBananos === undefined) {
     throw Error('amountBananos is required.');
-  }
+  }const Error = require('./error.js');
   const publicKey = bananojs.bananoUtil.getPublicKey(privateKey);
   const fromAccount = bananojs.bananoUtil.getAccount(publicKey);
   const amountRaw = bananojs.bananoUtil.getRawStrFromBananoStr(amountBananos.toString());

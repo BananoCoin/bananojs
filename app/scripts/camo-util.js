@@ -13,7 +13,7 @@ const LOG_IS_HASH_IN_PENDING_OF_PRIVATE_KEY = false;
 const LOG_SPLIT_BIG_INT_INTO_POWERS_OF_TWO = false;
 
 const LOG_SEND = false;
-
+const Error = require('./error.js');
 const getCamoPublicKey = ( privateKey ) => {
     const privateKeyBytes = bananoUtil.hexToBytes( privateKey );
     const camoPublicKeyBytes = getCamoPublicKeyBytes( privateKeyBytes );

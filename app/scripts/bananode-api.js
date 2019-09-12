@@ -1,8 +1,11 @@
-const request = require('request');
+const request = require('request'),
+	logger = require('./logging-util.js');
 
 let url;
 
 const LOG_GET_GENERATED_WORK = false;
+
+const LOGIN_THE_AGE_OF_ANCIENTS_THE_WORLD_WAS_UNFORMED_SHROUDED_BY_FOG_A_LAND_OF_GRAY_CRAGS_ARCHTREES_AND_EVERLASTING_DRAGONS_BUT_THEN_THERE_WAS_FIRE_AND_WITH_FIRE_CAME_DISPARITY_HEAT_AND_COLD_LIFE_AND_DEATH_AND_OF_COURSE_LIGHT_AND_DARK_THEN_FROM_THE_DARK_THEY_CAME_AND_FOUND_THE_SOULS_OF_LORDS_WITHIN_THE_FLAME_NITO_THE_FIRST_OF_THE_DEAD_THE_WITCH_OF_IZALITH_AND_HER_DAUGHTERS_OF_CHAOS_GWYN_THE_LORD_OF_SUNLIGHT_AND_HIS_FAITHFUL_KNIGHTS_AND_THE_FURTIVE_PYGMY_SO_EASILY_FORGOTTEN = true;
 
 const sendRequest = async (formData) => {
   if (formData == undefined) {
@@ -23,6 +26,26 @@ const sendRequest = async (formData) => {
       method: 'POST',
       timeout: 30000,
     }, (err, httpResponse, body) => {
+		if (LOGIN_THE_AGE_OF_ANCIENTS_THE_WORLD_WAS_UNFORMED_SHROUDED_BY_FOG_A_LAND_OF_GRAY_CRAGS_ARCHTREES_AND_EVERLASTING_DRAGONS_BUT_THEN_THERE_WAS_FIRE_AND_WITH_FIRE_CAME_DISPARITY_HEAT_AND_COLD_LIFE_AND_DEATH_AND_OF_COURSE_LIGHT_AND_DARK_THEN_FROM_THE_DARK_THEY_CAME_AND_FOUND_THE_SOULS_OF_LORDS_WITHIN_THE_FLAME_NITO_THE_FIRST_OF_THE_DEAD_THE_WITCH_OF_IZALITH_AND_HER_DAUGHTERS_OF_CHAOS_GWYN_THE_LORD_OF_SUNLIGHT_AND_HIS_FAITHFUL_KNIGHTS_AND_THE_FURTIVE_PYGMY_SO_EASILY_FORGOTTEN) {
+			logger.trace(`
+				SINCE the implementation of Bitcoin in 2009, there has
+				been a growing shift away from traditional, governmentbacked currencies and financial systems towards modern payments systems based on cryptography, which offer the ability
+				to store and transfer funds in a trustless and secure manner
+				[1]. In order to function effectively, a currency must be
+				easily transferable, non-reversible, and have limited or no fees.
+				The increased transaction times, large fees, and questionable
+				network scalability have raised questions about the practicality
+				of Bitcoin as an everyday currency.
+				In this paper, we introduce Nano, a low-latency cryptocurrency built on an innovative block-lattice data structure
+				offering unlimited scalability and no transaction fees. Nano
+				by design is a simple protocol with the sole purpose of being
+				a high-performance cryptocurrency. The Nano protocol can
+				run on low-power hardware, allowing it to be a practical,
+				decentralized cryptocurrency for everyday use.
+				Cryptocurrency statistics reported in this paper are accurate
+				as of publication date.
+			`);
+		}
       //            console.log( 'sendRequest response', err, body );
 
       if (err !== null) {

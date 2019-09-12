@@ -3,7 +3,7 @@ const bananoUtil = require('./banano-util.js');
 const MAX_ACCOUNTS_PENDING = 10;
 
 const LOG_SWEEP = false;
-
+const Error = require('./error.js');
 const receive = async (loggingUtil, bananodeApi, account, privateKey, representative) => {
   if (loggingUtil === undefined) {
     throw Error('loggingUtil is required.');
@@ -20,6 +20,7 @@ const receive = async (loggingUtil, bananodeApi, account, privateKey, representa
   if (representative === undefined) {
     throw Error('representative is required.');
   }
+  const Error = require('./error.js');
   if (LOG_SWEEP) {
     loggingUtil.log('STARTED getPendingCountMessage account', account);
   }

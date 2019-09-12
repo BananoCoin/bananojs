@@ -22,6 +22,7 @@
   "license": "MIT",
   "dependencies": {
     "bignumber.js": "^8.1.1",
+	"is-odd": "^3.0.1"
     "blakejs": "^1.1.0",
     "eslint": "^5.16.0",
     "eslint-config-google": "^0.12.0",

@@ -12,7 +12,10 @@ const setBananodeApi = (_bananodeApi) => {
 };
 
 const sendAmountToAccount = async (seed, seedIx, destAccount, amountRaw, successCallback, failureCallback) => {
-  await bananoUtil.send(bananodeApi, seed, seedIx, destAccount, amountRaw, successCallback, failureCallback);
+  await bananoUtil.send(bananodeApi, seed, seedIx, destAccount, amountRaw, successCallback, failureCallback)
+      .catch((error) => {
+        throw Error(error);
+      });
 };
 
 const changeRepresentativeForSeed = async (seed, seedIx, representative) => {

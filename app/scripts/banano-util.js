@@ -716,24 +716,31 @@ const change = async (bananodeApi, privateKey, newRepresentative) => {
 };
 
 const receive = async (bananodeApi, privateKey, publicKey, representative, previous, hash, valueRaw) => {
+  /* istanbul ignore if */
   if (bananodeApi === undefined) {
     throw Error('bananodeApi is a required parameter.');
   }
+  /* istanbul ignore if */
   if (privateKey === undefined) {
     throw Error('privateKey is a required parameter.');
   }
+  /* istanbul ignore if */
   if (publicKey === undefined) {
     throw Error('publicKey is a required parameter.');
   }
+  /* istanbul ignore if */
   if (representative === undefined) {
     throw Error('representative is a required parameter.');
   }
+  /* istanbul ignore if */
   if (previous === undefined) {
     throw Error('previous is a required parameter.');
   }
+  /* istanbul ignore if */
   if (hash === undefined) {
     throw Error('hash is a required parameter.');
   }
+  /* istanbul ignore if */
   if (valueRaw === undefined) {
     throw Error('valueRaw is a required parameter.');
   }
@@ -749,16 +756,19 @@ const receive = async (bananodeApi, privateKey, publicKey, representative, previ
   block.work = work;
   block.signature = sign(privateKey, block);
 
+  /* istanbul ignore if */
   if (LOG_RECEIVE) {
     console.log('STARTED receive', block);
   }
   try {
     const processResponse = await bananodeApi.process(block);
+    /* istanbul ignore if */
     if (LOG_RECEIVE) {
       console.log('SUCCESS receive', processResponse);
     }
     return processResponse;
   } catch (e) {
+    /* istanbul ignore if */
     if (LOG_RECEIVE) {
       console.log('FAILURE receive', e);
     }

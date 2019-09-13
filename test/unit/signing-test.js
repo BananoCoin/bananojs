@@ -3,7 +3,7 @@ const expect = require('chai').expect;
 
 const bananoTest = require('./banano-test.json');
 
-const bananojs = require('../util/test-util.js').getBananojsWithMockApi();
+const testUtil = require('../util/test-util.js');
 
 const bad = {};
 bad.seed = 'F975E272ECAF243CB30D3DAB4473F14A482A255A46AE140B1F96F5A1F32F3D51';
@@ -23,6 +23,7 @@ const bananoSeed = bananoTest.seed;
 
 describe('block-sign', () => {
   it('accountPublicKey matches expected', () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
     const expectedAccountPublicKey = accountPublicKey;
 
     const actualAccountPublicKey = bananojs.getAccountPublicKey(block.account);
@@ -30,6 +31,7 @@ describe('block-sign', () => {
     expect(expectedAccountPublicKey).to.deep.equal(actualAccountPublicKey);
   });
   it('hash of block matches expected', () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
     const expectedHash = hash;
 
     const actualHash = bananojs.getHash(block);
@@ -37,6 +39,7 @@ describe('block-sign', () => {
     expect(expectedHash).to.deep.equal(actualHash);
   });
   it('signature of block matches expected', () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
     const expectedSignature = signature;
 
     const actualSignature = bananojs.getSignature(privateKey, block);
@@ -44,6 +47,7 @@ describe('block-sign', () => {
     expect(expectedSignature).to.deep.equal(actualSignature);
   });
   it('send works, good account', (done) => {
+    const bananojs = testUtil.getBananojsWithMockApi();
     const successCallback = () => {
       done();
     };
@@ -53,6 +57,7 @@ describe('block-sign', () => {
     bananojs.sendAmountToAccount(bananoSeed, 0, bananoAccount, 1, successCallback, failureCallback);
   });
   it('send works, bad account', (done) => {
+    const bananojs = testUtil.getBananojsWithMockApi();
     const successCallback = () => {
       done();
     };
@@ -62,6 +67,7 @@ describe('block-sign', () => {
     bananojs.sendAmountToAccount(bad.seed, 0, bad.account, 1, successCallback, failureCallback);
   });
   it('getWork works', () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
     const workBytes = bananojs.getBytesFromHex(expectedWorkStart).reverse();
     const actualWork = bananojs.getWorkUsingCpu(expectedWorkHash, workBytes);
     expect(expectedWork).to.deep.equal(actualWork);

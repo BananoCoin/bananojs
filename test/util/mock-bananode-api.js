@@ -42,18 +42,27 @@ const process = async (block) => {
 };
 
 const getGeneratedWork = async (hash) => {
-  const defaultWork = 'FD7B280000000000';
-  //        console.log( `getGeneratedWork defaultWork ${defaultWork}` );
+  let defaultWork = undefined;
+  if (hash == '000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F') {
+    defaultWork = 'FD7B280000000000';
+  }
+  if (hash == 'C008B814A7D269A1FA3C6528B19201A24D797912DB9996FF02A1FF356E45552B') {
+    defaultWork = 'F5E2210000000000';
+  }
+  if (defaultWork == undefined) {
+    throw Error(`unknown hash ${hash} sent to getGeneratedWork`);
+  }
+  // console.log( `getGeneratedWork hash ${hash} defaultWork ${defaultWork}` );
 
   const workBytes = bananoUtil.hexToBytes(defaultWork).reverse();
   const hashBytes = bananoUtil.hexToBytes(hash);
   const isWorkValid = bananoUtil.isWorkValid(hashBytes, workBytes);
-  //        console.log( `getGeneratedWork defaultWork ${defaultWork} valid for hash ${hash} : ${isWorkValid}` );
+  // console.log( `getGeneratedWork defaultWork ${defaultWork} valid for hash ${hash} : ${isWorkValid}` );
   if (isWorkValid) {
     return defaultWork;
   }
   const work = bananoUtil.getHashCPUWorker(hash);
-  //    console.log( `getGeneratedWork work ${work} for hash ${JSON.stringify( hash )}` );
+  // console.log( `getGeneratedWork work ${work} for hash ${JSON.stringify( hash )}` );
   return work;
 };
 
@@ -103,7 +112,7 @@ const getAccountInfo = async (account) => {
   retval.confirmation_height = '28';
   retval.account_version = '1';
   return retval;
-}
+};
 
 
 exports.getAccountBalanceRaw = getAccountBalanceRaw;

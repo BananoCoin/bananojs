@@ -55,6 +55,12 @@ const getAccountInfo = async (account) => {
   return await bananodeApi.getAccountInfo(account);
 };
 
+const openAccountFromSeed = async (seed, seedIx, representative, pendingBlockHash, pendingValueRaw) => {
+  const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
+  const publicKey = bananoUtil.getPublicKey(privateKey);
+  return await bananoUtil.open(bananodeApi, privateKey, publicKey, representative, pendingBlockHash, pendingValueRaw);
+};
+
 module.exports.getAccountFromSeed = getAccountFromSeed;
 module.exports.getAccountInfo = getAccountInfo;
 module.exports.bananoUtil = bananoUtil;
@@ -66,6 +72,7 @@ module.exports.loggingUtil = loggingUtil;
 
 module.exports.setBananodeApi = setBananodeApi;
 module.exports.getAccountHistory = getAccountHistory;
+module.exports.openAccountFromSeed = openAccountFromSeed;
 module.exports.getAccountBalanceRaw = getAccountBalanceRaw;
 module.exports.getBananoPartsFromRaw = bananoUtil.getBananoPartsFromRaw;
 module.exports.getPrivateKey = bananoUtil.getPrivateKey;

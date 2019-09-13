@@ -647,25 +647,29 @@ const open = async (bananodeApi, privateKey, publicKey, representative, pending,
   block.work = work;
   block.signature = sign(privateKey, block);
 
-  //    console.log( 'open', block );
+  // console.log( 'open', block );
 
   const processResponse = await bananodeApi.process(block);
   return processResponse;
 };
 
 const change = async (bananodeApi, privateKey, newRepresentative) => {
+  /* istanbul ignore if */
   if (bananodeApi === undefined) {
     throw Error('bananodeApi is a required parameter.');
   }
+  /* istanbul ignore if */
   if (privateKey === undefined) {
     throw Error('privateKey is a required parameter.');
   }
+  /* istanbul ignore if */
   if (newRepresentative === undefined) {
     throw Error('newRepresentative is a required parameter.');
   }
   const publicKey = getPublicKey(privateKey);
   const accountAddress = getAccount(publicKey);
   const accountInfo = await bananodeApi.getAccountInfo(accountAddress);
+  /* istanbul ignore if */
   if (accountInfo == undefined) {
     throw Error(`The server's account info cannot be retrieved, please try again.`);
   }
@@ -673,6 +677,8 @@ const change = async (bananodeApi, privateKey, newRepresentative) => {
   const work = await bananodeApi.getGeneratedWork(previous);
   const balanceRaw = accountInfo.balance;
 
+
+  /* istanbul ignore if */
   if (balanceRaw == undefined) {
     throw Error(`The server's account balance cannot be retrieved, please try again.`);
   }
@@ -698,16 +704,20 @@ const change = async (bananodeApi, privateKey, newRepresentative) => {
   block.work = work;
   block.signature = sign(privateKey, block);
 
+
+  /* istanbul ignore if */
   if (LOG_CHANGE) {
     console.log('STARTED change', block);
   }
   try {
     const processResponse = await bananodeApi.process(block);
+    /* istanbul ignore if */
     if (LOG_CHANGE) {
       console.log('SUCCESS change', processResponse);
     }
     return processResponse;
   } catch (e) {
+  /* istanbul ignore if */
     if (LOG_CHANGE) {
       console.log('FAILURE change', e);
     }

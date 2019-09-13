@@ -13,8 +13,7 @@ const setBananodeApi = (_bananodeApi) => {
 
 const sendAmountToAccountWithRepresentativeAndPrevious = async (seed, seedIx, destAccount, amountRaw, representative, previousHash) => {
   const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
-  const hash = await bananoUtil.sendFromPrivateKeyWithRepresentativeAndPrevious(bananodeApi, privateKey, destAccount, amountRaw, undefined, previousHash);
-  console.log();
+  const hash = await bananoUtil.sendFromPrivateKeyWithRepresentativeAndPrevious(bananodeApi, privateKey, destAccount, amountRaw, representative, previousHash);
   return hash;
 };
 

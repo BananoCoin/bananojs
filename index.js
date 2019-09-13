@@ -11,8 +11,15 @@ const setBananodeApi = (_bananodeApi) => {
   bananodeApi = _bananodeApi;
 };
 
+const sendAmountToAccountWithRepresentativeAndPrevious = async (seed, seedIx, destAccount, amountRaw, representative, previousHash) => {
+  const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
+  const hash = await bananoUtil.sendFromPrivateKeyWithRepresentativeAndPrevious(bananodeApi, privateKey, destAccount, amountRaw, undefined, previousHash);
+  console.log();
+  return hash;
+};
+
 const sendAmountToAccount = async (seed, seedIx, destAccount, amountRaw, successCallback, failureCallback) => {
-  await bananoUtil.send(bananodeApi, seed, seedIx, destAccount, amountRaw, successCallback, failureCallback)
+  return await bananoUtil.send(bananodeApi, seed, seedIx, destAccount, amountRaw, successCallback, failureCallback)
       .catch((error) => {
         throw Error(error);
       });
@@ -86,6 +93,7 @@ module.exports.getAccount = bananoUtil.getAccount;
 module.exports.getAccountPublicKey = bananoUtil.getAccountPublicKey;
 module.exports.getHash = bananoUtil.hash;
 module.exports.sendAmountToAccount = sendAmountToAccount;
+module.exports.sendAmountToAccountWithRepresentativeAndPrevious = sendAmountToAccountWithRepresentativeAndPrevious;
 module.exports.changeRepresentativeForSeed = changeRepresentativeForSeed;
 module.exports.getSignature = bananoUtil.sign;
 module.exports.getBytesFromHex = bananoUtil.hexToBytes;

@@ -14,6 +14,15 @@ const seedIx = bananoTest.seedIx;
 const bananoAccount = bananoTest.account;
 
 describe('send', () => {
+  it('sendAmountToAccount with blank previous', async () => {
+    const expectedResponse = undefined;
+    const bananojs = testUtil.getBananojsWithMockApi();
+    const actualResponse = await bananojs.sendAmountToAccountWithRepresentativeAndPrevious(
+        seed0, seedIx, bananoAccount, 1,
+        '000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F',
+        '');
+    expect(actualResponse).to.deep.equal(expectedResponse);
+  });
   it('sendAmountToAccount valid account matches expected', (done) => {
     const bananojs = testUtil.getBananojsWithMockApi();
     const successCallback = () => {

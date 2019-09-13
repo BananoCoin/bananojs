@@ -514,7 +514,7 @@ const sendFromPrivateKeyWithRepresentativeAndPrevious = async (bananodeApi, priv
 
   /* istanbul ignore if */
   if (LOG_SEND) {
-    console.log(`SUCCESS getAccountInfo ${accountAddress} ${balanceRaw}`);
+    console.log(`SUCCESS getAccountInfo ${accountAddress} ${accountInfo}`);
   }
 
   const balanceRaw = accountInfo.balance;
@@ -566,6 +566,10 @@ const sendFromPrivateKeyWithRepresentativeAndPrevious = async (bananodeApi, priv
   }
 
   if (previous == '') {
+    /* istanbul ignore if */
+    if (LOG_SEND) {
+      console.log(`FAILURE previous == ''`);
+    }
     return undefined;
   } else {
     const hashBytes = hexToBytes(previous);

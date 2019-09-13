@@ -46,4 +46,11 @@ describe('send', () => {
     const message = 'Error: process block:[object Object]';
     testUtil.expectErrorMessage(message, bananojs.sendAmountToAccount, seed0, seedIx, bananoAccount, 1, successCallback, failureCallback);
   });
+
+  beforeEach(async () => {
+  });
+
+  afterEach(async () => {
+    testUtil.deactivate();
+  });
 });

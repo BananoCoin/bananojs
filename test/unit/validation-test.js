@@ -1,9 +1,14 @@
-// const assert = require('chai').assert;
-const expect = require('chai').expect;
+// libraries
+const chai = require('chai');
+
+// modules
+const assert = chai.assert;
+const expect = chai.expect;
 
 const bananoTest = require('./banano-test.json');
 
-const bananojs = require('../util/test-util.js').getBananojsWithMockApi();
+const testUtil = require('../util/test-util.js');
+const bananojs = testUtil.getBananojsWithMockApi();
 
 const block = bananoTest.block;
 
@@ -60,5 +65,12 @@ describe('account-validation', () => {
       valid: false,
       message: 'Invalid BANANO account (Incorrect checksum hifc8npq <> hifc8npp)',
     });
+  });
+
+  beforeEach(async () => {
+  });
+
+  afterEach(async () => {
+    testUtil.deactivate();
   });
 });

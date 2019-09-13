@@ -30,4 +30,11 @@ describe('recieve', () => {
     const message = 'process block:[object Object]';
     testUtil.expectErrorMessage(message, bananojs.changeRepresentativeForSeed, seed0, seedIx, representative1);
   });
+
+  beforeEach(async () => {
+  });
+
+  afterEach(async () => {
+    testUtil.deactivate();
+  });
 });

@@ -1,5 +1,9 @@
-// const assert = require('chai').assert;
-const expect = require('chai').expect;
+// libraries
+const chai = require('chai');
+
+// modules
+const assert = chai.assert;
+const expect = chai.expect;
 
 const bananoTest = require('./banano-test.json');
 
@@ -71,5 +75,12 @@ describe('block-sign', () => {
     const workBytes = bananojs.getBytesFromHex(expectedWorkStart).reverse();
     const actualWork = bananojs.getWorkUsingCpu(expectedWorkHash, workBytes);
     expect(expectedWork).to.deep.equal(actualWork);
+  });
+
+  beforeEach(async () => {
+  });
+
+  afterEach(async () => {
+    testUtil.deactivate();
   });
 });

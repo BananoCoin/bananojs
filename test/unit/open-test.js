@@ -32,4 +32,11 @@ describe('open', () => {
     const message = 'process block:[object Object]';
     testUtil.expectErrorMessage(message, bananojs.openAccountFromSeed, seed0, seedIx, representative1, pendingBlockHash, pendingValueRaw);
   });
+
+  beforeEach(async () => {
+  });
+
+  afterEach(async () => {
+    testUtil.deactivate();
+  });
 });

@@ -35,8 +35,8 @@ const expectErrorMessage = async (errorMessage, fn, arg1, arg2, arg3, arg4, arg5
   } catch (err) {
     assert.isDefined(err);
     if (err.message != errorMessage) {
-      console.trace('expectErrorMessage', errorMessage, fn, err);
-      expect(err.message).to.equal(errorMessage);
+      // console.trace('expectErrorMessage', errorMessage, fn, err);
+      assert.fail(`expected:'${err.message}'<>actual:'${errorMessage}'`);
     }
     return;
   }

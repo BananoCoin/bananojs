@@ -33,7 +33,7 @@ describe('send', () => {
       throw error;
     };
     const message = 'Error: getAccountInfo account:ban_3i1aq1cchnmbn9x5rsbap8b15akfh7wj7pwskuzi7ahz8oq6cobd99d4r3b7';
-    testUtil.expectErrorMessage(message, bananojs.sendAmountToAccount, seed0, seedIx, bananoAccount, 1, successCallback, failureCallback);
+    await testUtil.expectErrorMessage(message, bananojs.sendAmountToAccount, seed0, seedIx, bananoAccount, 1, successCallback, failureCallback);
   });
   it('sendAmountToAccount processing error', async () => {
     const bananojs = testUtil.getBananojsWithProcessErrorApi();
@@ -43,8 +43,8 @@ describe('send', () => {
     const failureCallback = (error) => {
       throw error;
     };
-    const message = 'Error: process block:[object Object]';
-    testUtil.expectErrorMessage(message, bananojs.sendAmountToAccount, seed0, seedIx, bananoAccount, 1, successCallback, failureCallback);
+    const message = 'Error: process block:9B4B70A4BE903A07C549D3AD16EDA268D61F572210B1E63B93F6827CB4944CF6';
+    await testUtil.expectErrorMessage(message, bananojs.sendAmountToAccount, seed0, seedIx, bananoAccount, 1, successCallback, failureCallback);
   });
 
   beforeEach(async () => {

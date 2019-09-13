@@ -1,8 +1,11 @@
 
 const bananodeApi = require('./mock-bananode-api.js');
 
+const bananojs = require('../../index.js');
+
 const process = (block) => {
-  throw new Error(`process block:${block}`);
+  const hash = bananojs.getBlockHash(block);
+  throw new Error(`process block:${hash}`);
 };
 
 exports.getAccountBalanceRaw = bananodeApi.getAccountBalanceRaw;

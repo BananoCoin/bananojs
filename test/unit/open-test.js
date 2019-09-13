@@ -25,12 +25,12 @@ describe('open', () => {
   it('openAccountFromSeed error', async () => {
     const bananojs = testUtil.getBananojsWithErrorApi();
     const message = 'getGeneratedWork hash:C008B814A7D269A1FA3C6528B19201A24D797912DB9996FF02A1FF356E45552B';
-    testUtil.expectErrorMessage(message, bananojs.openAccountFromSeed, seed0, seedIx, representative1, pendingBlockHash, pendingValueRaw);
+    await testUtil.expectErrorMessage(message, bananojs.openAccountFromSeed, seed0, seedIx, representative1, pendingBlockHash, pendingValueRaw);
   });
   it('openAccountFromSeed processing error', async () => {
     const bananojs = testUtil.getBananojsWithProcessErrorApi();
-    const message = 'process block:[object Object]';
-    testUtil.expectErrorMessage(message, bananojs.openAccountFromSeed, seed0, seedIx, representative1, pendingBlockHash, pendingValueRaw);
+    const message = 'process block:32ECFCF11DF3B6331A52B456CDC7252282C04230759776FA734CF13432207BE8';
+    await testUtil.expectErrorMessage(message, bananojs.openAccountFromSeed, seed0, seedIx, representative1, pendingBlockHash, pendingValueRaw);
   });
 
   beforeEach(async () => {

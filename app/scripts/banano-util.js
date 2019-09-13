@@ -629,9 +629,7 @@ const sendFromPrivateKeyWithRepresentativeAndPrevious = async (bananodeApi, priv
     if (LOG_SEND || LOG_SEND_PROCESS) {
       console.log(`STARTED process`, block);
     }
-    const processResponse = await bananodeApi.process(block).catch((e) => {
-      throw (e);
-    });
+    const processResponse = await bananodeApi.process(block);
     /* istanbul ignore if */
     if (LOG_SEND || LOG_SEND_PROCESS) {
       console.log(`SUCCESS process`, processResponse);

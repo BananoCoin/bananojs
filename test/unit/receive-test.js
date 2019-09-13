@@ -29,12 +29,12 @@ describe('recieve', () => {
   it('receiveDepositsForSeed errors', async () => {
     const bananojs = testUtil.getBananojsWithErrorApi();
     const message = 'getAccountsPending accounts:ban_3i1aq1cchnmbn9x5rsbap8b15akfh7wj7pwskuzi7ahz8oq6cobd99d4r3b7 count:10';
-    testUtil.expectErrorMessage(message, bananojs.receiveDepositsForSeed, seed0, seedIx, representative1);
+    await testUtil.expectErrorMessage(message, bananojs.receiveDepositsForSeed, seed0, seedIx, representative1);
   });
   it('receiveDepositsForSeed processing error', async () => {
     const bananojs = testUtil.getBananojsWithProcessErrorApi();
-    const message = 'process block:[object Object]';
-    testUtil.expectErrorMessage(message, bananojs.receiveDepositsForSeed, seed0, seedIx, representative1);
+    const message = 'process block:F275F2D9D82EF524C4AAA0FC53F44B01704A8C8C65112B994346B20540B60642';
+    await testUtil.expectErrorMessage(message, bananojs.receiveDepositsForSeed, seed0, seedIx, representative1);
   });
 
   beforeEach(async () => {

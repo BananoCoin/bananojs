@@ -570,15 +570,17 @@ const sendFromPrivateKeyWithRepresentativeAndPrevious = async (bananodeApi, priv
   } else {
     const hashBytes = hexToBytes(previous);
 
-
+    /* istanbul ignore if */
     if (LOG_SEND) {
       console.log('STARTED getGeneratedWork', previous);
     }
     const work = await bananodeApi.getGeneratedWork(previous);
+    /* istanbul ignore if */
     if (LOG_SEND) {
       console.log('SUCCESS getGeneratedWork', previous);
     }
 
+    /* istanbul ignore if */
     if (work == undefined) {
       throw Error(`work is undefined for ${previous}`);
     }
@@ -603,18 +605,22 @@ const sendFromPrivateKeyWithRepresentativeAndPrevious = async (bananodeApi, priv
     block.representative = representative;
     block.balance = remainingDecimal;
 
+    /* istanbul ignore if */
     if (LOG_SEND) {
       console.log('STARTED getAccountPublicKey', destAccount);
     }
     block.link = getAccountPublicKey(destAccount);
+    /* istanbul ignore if */
     if (LOG_SEND) {
       console.log('SUCCESS getAccountPublicKey', destAccount);
     }
     block.work = work;
+    /* istanbul ignore if */
     if (LOG_SEND) {
       console.log('STARTED sign');
     }
     block.signature = sign(privateKey, block);
+    /* istanbul ignore if */
     if (LOG_SEND) {
       console.log('SUCCESS sign');
     }
@@ -653,7 +659,7 @@ const open = async (bananodeApi, privateKey, publicKey, representative, pending,
   return processResponse;
 };
 
-const change = async (bananodeApi, privateKey, newRepresentative) => {
+const change = async (bananodeApi, privateKey, representative) => {
   /* istanbul ignore if */
   if (bananodeApi === undefined) {
     throw Error('bananodeApi is a required parameter.');
@@ -663,8 +669,8 @@ const change = async (bananodeApi, privateKey, newRepresentative) => {
     throw Error('privateKey is a required parameter.');
   }
   /* istanbul ignore if */
-  if (newRepresentative === undefined) {
-    throw Error('newRepresentative is a required parameter.');
+  if (representative === undefined) {
+    throw Error('representative is a required parameter.');
   }
   const publicKey = getPublicKey(privateKey);
   const accountAddress = getAccount(publicKey);
@@ -686,13 +692,6 @@ const change = async (bananodeApi, privateKey, newRepresentative) => {
   const remaining = new BigNumber(balanceRaw);
 
   const remainingDecimal = remaining.toString(10);
-
-  let representative;
-  if (newRepresentative !== undefined) {
-    representative = newRepresentative;
-  } else {
-    representative = await bananodeApi.getAccountRepresentative(accountAddress);
-  }
 
   const block = {};
   block.type = 'state';

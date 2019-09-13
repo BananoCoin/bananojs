@@ -32,9 +32,9 @@ const getBananojsWithProcessErrorApi = () => {
 };
 
 
-const expectErrorMessage = async (errorMessage, fn, arg1, arg2, arg3, arg4, arg5) => {
+const expectErrorMessage = async (errorMessage, fn, arg1, arg2, arg3, arg4, arg5, arg6) => {
   try {
-    await fn(arg1, arg2, arg3, arg4, arg4);
+    await fn(arg1, arg2, arg3, arg4, arg5, arg6);
   } catch (err) {
     assert.isDefined(err);
     if (err.message != errorMessage) {

@@ -9,6 +9,7 @@
   "scripts": {
     "eslint": "eslint 'scripts/**/*.js'",
     "eslint-test": "eslint 'test/**/*.js'",
+    "vanity-test": "./node_modules/mocha/bin/mocha -t 100000 test/unit/vanity-test.js",
     "test": "./node_modules/mocha/bin/mocha -t 100000 test/unit",
     "test-win": ".\\node_modules\\mocha\\bin\\mocha -t 100000 test\\unit",
     "coverage": "nyc -x 'test/util/**' -x 'test/unit/**' -x 'libraries/**' -x '**/mock-bananode-api.js' -x '**/bananode-api.js' ./node_modules/mocha/bin/mocha -t 100000 test/unit",

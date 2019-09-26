@@ -4,6 +4,7 @@ const camoUtil = require('./app/scripts/camo-util.js');
 const depositUtil = require('./app/scripts/deposit-util.js');
 const withdrawUtil = require('./app/scripts/withdraw-util.js');
 const loggingUtil = require('./app/scripts/logging-util.js');
+const vanityUtil = require('./app/scripts/vanity-util.js');
 
 let bananodeApi = realBananodeApi;
 
@@ -102,3 +103,4 @@ module.exports.getAccountValidationInfo = bananoUtil.getAccountValidationInfo;
 module.exports.receiveDepositsForSeed = receiveDepositsForSeed;
 module.exports.getRawStrFromBanoshiStr = bananoUtil.getRawStrFromBanoshiStr;
 module.exports.setBananodeApiUrl = setBananodeApiUrl;
+module.exports.generateSplitKeyVanity = vanityUtil.generateSplitKeyVanity;

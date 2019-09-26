@@ -836,6 +836,7 @@ const getAccountValidationInfo = (account) => {
   };
 };
 
+exports.incrementBytes = incrementBytes;
 exports.getAccountValidationInfo = getAccountValidationInfo;
 exports.receive = receive;
 exports.open = open;

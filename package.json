@@ -24,6 +24,7 @@
   "dependencies": {
     "bignumber.js": "^8.1.1",
     "blakejs": "^1.1.0",
+    "elliptic": "^6.5.1",
     "eslint": "^5.16.0",
     "eslint-config-google": "^0.12.0",
     "request": "^2.88.0"

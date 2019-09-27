@@ -114,6 +114,9 @@ const getAccountInfo = async (account) => {
   return retval;
 };
 
+const setUrl = () => {
+  
+}
 
 exports.getAccountBalanceRaw = getAccountBalanceRaw;
 exports.getAccountRepresentative = getAccountRepresentative;
@@ -124,3 +127,4 @@ exports.getAccountsPending = getAccountsPending;
 exports.getAccountHistory = getAccountHistory;
 exports.getAccountInfo = getAccountInfo;
 exports.getFrontiers = getFrontiers;
+exports.setUrl = setUrl;

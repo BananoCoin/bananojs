@@ -338,6 +338,32 @@ const isWorkValid = (hashBytes, workBytes) => {
   return retval;
 };
 
+const oldIncrementBytes = (bytes) => {
+  let carry = true;
+
+  for (let ix = bytes.length - 1; ix >= 0; ix--) {
+    // const outputHex = '0x' + bytesToHex( bytes );
+    // const outputBigNumber = new BigNumber( outputHex ).toString( 10 );
+    // console.log( `ix ${ix} carry ${carry} bytes ${bytes} hex ${outputHex} ba ${outputBigNumber} ${bytes}` );
+    if (carry) {
+      if (bytes[ix] == 0xFF) {
+        bytes[ix] = 0;
+        carry = true;
+      } else {
+        carry = false;
+        bytes[ix]++;
+      }
+    } else {
+      if (bytes[ix] == 0xFF) {
+        bytes[ix] = 0;
+        carry = true;
+      } else {
+        return;
+      }
+    }
+  }
+}
+
 const incrementBytes = (bytes) => {
   let carry = true;
 

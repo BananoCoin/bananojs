@@ -190,11 +190,15 @@ const process = async (block) => {
   if (block == undefined) {
     throw Error(`'block' is a required parameter.'`);
   }
+
   // https://docs.nano.org/commands/rpc-protocol#process-block
   const formData = {
     action: 'process',
     block: JSON.stringify(block),
   };
+  if (block.work === undefined) {
+    formData.do_work = true;
+  }
   //    console.log( `process request ${JSON.stringify( formData )}` );
   return new Promise((resolve, reject) => {
     sendRequest(formData).then((json) => {

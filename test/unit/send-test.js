@@ -36,7 +36,7 @@ describe('send', () => {
   it('sendAmountToAccount error', async () => {
     const bananojs = testUtil.getBananojsWithErrorApi();
     const successCallback = () => {
-      done();
+      throw new Error('successCallback should not be called');
     };
     const failureCallback = (error) => {
       throw error;
@@ -47,13 +47,37 @@ describe('send', () => {
   it('sendAmountToAccount processing error', async () => {
     const bananojs = testUtil.getBananojsWithProcessErrorApi();
     const successCallback = () => {
-      done();
+      throw new Error('successCallback should not be called');
     };
     const failureCallback = (error) => {
       throw error;
     };
     const message = 'Error: process block:9B4B70A4BE903A07C549D3AD16EDA268D61F572210B1E63B93F6827CB4944CF6';
     await testUtil.expectErrorMessage(message, bananojs.sendAmountToAccount, seed0, seedIx, bananoAccount, 1, successCallback, failureCallback);
+  });
+  it('sendAmountToAccount low balance error', async () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    const successCallback = () => {
+      throw new Error('successCallback should not be called');
+    };
+    const failureCallback = (error) => {
+      throw error;
+    };
+    const message = 'Error: The server\'s account balance of 10 bananos is too small, cannot withdraw 11 bananos.';
+    const amountRaw = bananojs.getRawStrFromBananoStr(11);
+    await testUtil.expectErrorMessage(message, bananojs.sendAmountToAccount, seed0, seedIx, bananoAccount, amountRaw, successCallback, failureCallback);
+  });
+  it('sendAmountToAccount undefined balance error', async () => {
+    const bananojs = testUtil.getBananojsWithBalanceErrorApi();
+    const successCallback = () => {
+      throw new Error('successCallback should not be called');
+    };
+    const failureCallback = (error) => {
+      throw error;
+    };
+    const message = 'Error: The server\'s account info cannot be retrieved, please try again.';
+    const amountRaw = bananojs.getRawStrFromBananoStr(11);
+    await testUtil.expectErrorMessage(message, bananojs.sendAmountToAccount, seed0, seedIx, bananoAccount, amountRaw, successCallback, failureCallback);
   });
 
   beforeEach(async () => {

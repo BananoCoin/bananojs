@@ -20,6 +20,7 @@ const sendAmountToAccountWithRepresentativeAndPrevious = async (seed, seedIx, de
 const sendAmountToAccount = async (seed, seedIx, destAccount, amountRaw, successCallback, failureCallback) => {
   return await bananoUtil.send(bananodeApi, seed, seedIx, destAccount, amountRaw, successCallback, failureCallback)
       .catch((error) => {
+        // console.trace(error);
         throw Error(error);
       });
 };
@@ -100,6 +101,7 @@ module.exports.getWorkUsingCpu = bananoUtil.getHashCPUWorker;
 module.exports.isWorkValid = bananoUtil.isWorkValid;
 module.exports.getAccountValidationInfo = bananoUtil.getAccountValidationInfo;
 module.exports.receiveDepositsForSeed = receiveDepositsForSeed;
+module.exports.getRawStrFromBananoStr = bananoUtil.getRawStrFromBananoStr;
 module.exports.getRawStrFromBanoshiStr = bananoUtil.getRawStrFromBanoshiStr;
 module.exports.setBananodeApiUrl = setBananodeApiUrl;
 module.exports.getCamoPublicKey = camoUtil.getCamoPublicKey;

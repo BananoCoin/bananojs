@@ -29,6 +29,12 @@ const getBananojsWithProcessErrorApi = () => {
   return bananojs;
 };
 
+const getBananojsWithBalanceErrorApi = () => {
+  const bananodeApi = require('./balance-error-bananode-api.js');
+  bananojs.setBananodeApi(bananodeApi);
+  return bananojs;
+};
+
 const expectErrorMessage = async (errorMessage, fn, arg1, arg2, arg3, arg4, arg5, arg6) => {
   try {
     await fn(arg1, arg2, arg3, arg4, arg5, arg6);
@@ -36,7 +42,7 @@ const expectErrorMessage = async (errorMessage, fn, arg1, arg2, arg3, arg4, arg5
     assert.isDefined(err);
     if (err.message != errorMessage) {
       // console.trace('expectErrorMessage', errorMessage, fn, err);
-      assert.fail(`expected:'${err.message}'<>actual:'${errorMessage}'`);
+      assert.fail(`expected:'${errorMessage}'<>actual:'${err.message}'`);
     }
     return;
   }
@@ -51,5 +57,6 @@ exports.getTimeNanos = getTimeNanos;
 exports.getBananojsWithMockApi = getBananojsWithMockApi;
 exports.getBananojsWithErrorApi = getBananojsWithErrorApi;
 exports.getBananojsWithProcessErrorApi = getBananojsWithProcessErrorApi;
+exports.getBananojsWithBalanceErrorApi = getBananojsWithBalanceErrorApi;
 exports.expectErrorMessage = expectErrorMessage;
 exports.deactivate = deactivate;

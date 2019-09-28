@@ -1,11 +1,10 @@
 const blake = require('blakejs');
-const BigNumber = require('bignumber.js');
 
 const crypto = require('crypto');
 
 const nacl = require('../../libraries/tweetnacl/nacl.js');
 
-const workMin = new BigNumber('0xfffffe0000000000');
+const workMin = BigInt('0xfffffe0000000000');
 
 const preamble = '0000000000000000000000000000000000000000000000000000000000000006';
 
@@ -92,7 +91,7 @@ const hash = (block) => {
   blake.blake2bUpdate(context, hexToBytes(getAccountPublicKey(block.representative)));
 
   // console.log( `block.balance:${block.balance}` );
-  let balanceToPad = BigNumber(block.balance).toString(16);
+  let balanceToPad = BigInt(block.balance).toString(16);
   // console.log( `pre  balanceToPad:${balanceToPad}` );
   while (balanceToPad.length < 32) {
     balanceToPad = '0' + balanceToPad;
@@ -327,12 +326,12 @@ const isWorkValid = (hashBytes, workBytes) => {
   blake.blake2bUpdate(context, hashBytes);
   const output = blake.blake2bFinal(context).reverse();
   const outputHex = bytesToHex(output);
-  const outputBigNumber = new BigNumber('0x' + outputHex);
+  const outputBigInt = BigInt('0x' + outputHex);
 
-  const retval = outputBigNumber.isGreaterThanOrEqualTo(workMin);
+  const retval = outputBigInt >= workMin;
 
   if (LOG_IS_WORK_VALID) {
-    console.log(`isWorkValid ${outputBigNumber} >= ${workMin} ? ${retval}`);
+    console.log(`isWorkValid ${outputBigInt} >= ${workMin} ? ${retval}`);
   }
 
   return retval;
@@ -516,7 +515,7 @@ const sendFromPrivateKeyWithRepresentativeAndPrevious = async (bananodeApi, priv
     throw Error(`The server's account balance of ${balance.banano} bananos is too small, cannot withdraw ${amount.banano} bananos.`);
   }
 
-  const remaining = new BigNumber(balanceRaw).minus(amountRaw);
+  const remaining = BigInt(balanceRaw) - BigInt(amountRaw);
 
 
   const remainingDecimal = remaining.toString(10);
@@ -677,7 +676,7 @@ const change = async (bananodeApi, privateKey, representative) => {
     throw Error(`The server's account balance cannot be retrieved, please try again.`);
   }
 
-  const remaining = new BigNumber(balanceRaw);
+  const remaining = BigInt(balanceRaw);
 
   const remainingDecimal = remaining.toString(10);
 

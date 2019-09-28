@@ -29,8 +29,14 @@ const getBananojsWithProcessErrorApi = () => {
   return bananojs;
 };
 
-const getBananojsWithBalanceErrorApi = () => {
-  const bananodeApi = require('./balance-error-bananode-api.js');
+const getBananojsWithAccountInfoBalanceErrorApi = () => {
+  const bananodeApi = require('./account-info-balance-error-bananode-api.js');
+  bananojs.setBananodeApi(bananodeApi);
+  return bananojs;
+};
+
+const getBananojsWithAccountInfoErrorApi = () => {
+  const bananodeApi = require('./account-info-error-bananode-api.js');
   bananojs.setBananodeApi(bananodeApi);
   return bananojs;
 };
@@ -57,6 +63,7 @@ exports.getTimeNanos = getTimeNanos;
 exports.getBananojsWithMockApi = getBananojsWithMockApi;
 exports.getBananojsWithErrorApi = getBananojsWithErrorApi;
 exports.getBananojsWithProcessErrorApi = getBananojsWithProcessErrorApi;
-exports.getBananojsWithBalanceErrorApi = getBananojsWithBalanceErrorApi;
+exports.getBananojsWithAccountInfoBalanceErrorApi = getBananojsWithAccountInfoBalanceErrorApi;
+exports.getBananojsWithAccountInfoErrorApi = getBananojsWithAccountInfoErrorApi;
 exports.expectErrorMessage = expectErrorMessage;
 exports.deactivate = deactivate;

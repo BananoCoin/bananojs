@@ -455,15 +455,19 @@ const sendFromPrivateKeyWithRepresentative = async (bananodeApi, privateKey, des
 };
 
 const sendFromPrivateKeyWithRepresentativeAndPrevious = async (bananodeApi, privateKey, destAccount, amountRaw, newRepresentative, newPrevious) => {
+  /* istanbul ignore if */
   if (bananodeApi === undefined) {
     throw Error('bananodeApi is a required parameter.');
   }
+  /* istanbul ignore if */
   if (privateKey === undefined) {
     throw Error('privateKey is a required parameter.');
   }
+  /* istanbul ignore if */
   if (destAccount === undefined) {
     throw Error('destAccount is a required parameter.');
   }
+  /* istanbul ignore if */
   if (amountRaw === undefined) {
     throw Error('amountRaw is a required parameter.');
   }

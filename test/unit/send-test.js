@@ -67,8 +67,20 @@ describe('send', () => {
     const amountRaw = bananojs.getRawStrFromBananoStr(11);
     await testUtil.expectErrorMessage(message, bananojs.sendAmountToAccount, seed0, seedIx, bananoAccount, amountRaw, successCallback, failureCallback);
   });
-  it('sendAmountToAccount undefined balance error', async () => {
-    const bananojs = testUtil.getBananojsWithBalanceErrorApi();
+  it('sendAmountToAccount undefined account info balance error', async () => {
+    const bananojs = testUtil.getBananojsWithAccountInfoBalanceErrorApi();
+    const successCallback = () => {
+      throw new Error('successCallback should not be called');
+    };
+    const failureCallback = (error) => {
+      throw error;
+    };
+    const message = 'Error: The server\'s account balance cannot be retrieved, please try again.';
+    const amountRaw = bananojs.getRawStrFromBananoStr(11);
+    await testUtil.expectErrorMessage(message, bananojs.sendAmountToAccount, seed0, seedIx, bananoAccount, amountRaw, successCallback, failureCallback);
+  });
+  it('sendAmountToAccount undefined account info error', async () => {
+    const bananojs = testUtil.getBananojsWithAccountInfoErrorApi();
     const successCallback = () => {
       throw new Error('successCallback should not be called');
     };

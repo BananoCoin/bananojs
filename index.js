@@ -33,7 +33,7 @@ const setBananodeApi = (_bananodeApi) => {
  * @param {string} amountRaw the amount to send, in raw.
  * @param {string} representative the representative (optional).
  * @param {string} previousHash the previous hash (optional).
- * @return {hash} returns the hash returned by the send.
+ * @return {string} returns the hash returned by the send.
  */
 const sendAmountToAccountWithRepresentativeAndPrevious = async (seed, seedIx, destAccount, amountRaw, representative, previousHash) => {
   const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
@@ -50,7 +50,7 @@ const sendAmountToAccountWithRepresentativeAndPrevious = async (seed, seedIx, de
  * @param {string} amountRaw the amount to send, in raw.
  * @param {string} successCallback the callback to call upon success.
  * @param {string} failureCallback the callback to call upon failure.
- * @return {hash} returns the hash returned by the send.
+ * @return {string} returns the hash returned by the send.
  */
 const sendAmountToAccount = async (seed, seedIx, destAccount, amountRaw, successCallback, failureCallback) => {
   return await bananoUtil.send(bananodeApi, seed, seedIx, destAccount, amountRaw, successCallback, failureCallback)
@@ -66,7 +66,7 @@ const sendAmountToAccount = async (seed, seedIx, destAccount, amountRaw, success
  * @param {string} seed the seed to use to find the account.
  * @param {string} seedIx the index to use with the seed.
  * @param {string} representative the representative.
- * @return {hash} returns the hash returned by the change.
+ * @return {string} returns the hash returned by the change.
  */
 const changeRepresentativeForSeed = async (seed, seedIx, representative) => {
   const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
@@ -81,7 +81,7 @@ const changeRepresentativeForSeed = async (seed, seedIx, representative) => {
  * @param {string} seed the seed to use to find the account.
  * @param {string} seedIx the index to use with the seed.
  * @param {string} representative the representative.
- * @return {hash} returns the hash returned by the change.
+ * @return {object} returns the response returned by the receive.
  */
 const receiveDepositsForSeed = async (seed, seedIx, representative) => {
   const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
@@ -99,7 +99,7 @@ const receiveDepositsForSeed = async (seed, seedIx, representative) => {
  * Calls {@link https://docs.nano.org/commands/rpc-protocol/#accounts_balances}
  * @memberof BananodeApi
  * @param {string} account the account to use.
- * @return {balance} the account's balance, in raw.
+ * @return {string} the account's balance, in raw.
  */
 const getAccountBalanceRaw = async (account) => {
   return await bananodeApi.getAccountBalanceRaw(account);
@@ -111,12 +111,21 @@ const getAccountBalanceRaw = async (account) => {
  * Calls {@link https://docs.nano.org/commands/rpc-protocol/#account_history}
  * @memberof BananodeApi
  * @param {string} account the account to use.
- * @return {history} the account's history.
+ * @return {object} the account's history.
  */
 const getAccountHistory = async (account, count, head, raw) => {
   return await bananodeApi.getAccountHistory(account, count, head, raw);
 };
 
+
+/**
+ * Get the account with a given seed and index.
+ *
+ * @memberof BananoUtil
+ * @param {string} seed the seed to use to find the account.
+ * @param {string} seedIx the index to use with the seed.
+ * @return {string} the account.
+ */
 const getAccountFromSeed = (seed, seedIx) => {
   const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
   const publicKey = bananoUtil.getPublicKey(privateKey);
@@ -124,6 +133,12 @@ const getAccountFromSeed = (seed, seedIx) => {
   return account;
 };
 
+/**
+ * Sets the URL to use for the node behind the Bananode Api
+ * @memberof Main
+ * @param {string} url the new url
+ * @return {undefined} returns nothing.
+ */
 const setBananodeApiUrl = (url) => {
   bananodeApi.setUrl(url);
 };

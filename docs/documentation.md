@@ -5,9 +5,19 @@
 -   [Main][1]
     -   [setBananodeApi][2]
         -   [Parameters][3]
--   [BananodeApi][4]
-    -   [getGeneratedWork][5]
+-   [BananoUtil][4]
+    -   [sendAmountToAccountWithRepresentativeAndPrevious][5]
         -   [Parameters][6]
+    -   [sendAmountToAccount][7]
+        -   [Parameters][8]
+    -   [changeRepresentativeForSeed][9]
+        -   [Parameters][10]
+-   [DepositUtil][11]
+    -   [receiveDepositsForSeed][12]
+        -   [Parameters][13]
+-   [BananodeApi][14]
+    -   [getAccountBalanceRaw][15]
+        -   [Parameters][16]
 
 ## Main
 
@@ -17,21 +27,84 @@ Sets the Bananode Api (useful for overriding some methods)
 
 #### Parameters
 
--   `_bananodeApi` **[string][7]** the new bananodeApi
+-   `_bananodeApi` **[string][17]** the new bananodeApi
 
-Returns **[undefined][8]** returns nothing.
+Returns **[undefined][18]** returns nothing.
 
-## BananodeApi
+## BananoUtil
 
-### getGeneratedWork
+### sendAmountToAccountWithRepresentativeAndPrevious
 
-returns a promise with the generated work.
+Sends the amount to the account with an optional representative and
+previous block hash.
+If the representative is not sent, it will be pulled from the api.
+If the previous is not sent, it will be pulled from the api.
+Be very careful with previous, as setting it incorrectly
+can cause an incorrect amount of funds to be sent.
 
 #### Parameters
 
--   `hash` **[string][7]** the hash.
+-   `seed` **[string][17]** the seed to use to find the account.
+-   `seedIx` **[string][17]** the index to use with the seed.
+-   `destAccount` **[string][17]** the destination account.
+-   `amountRaw` **[string][17]** the amount to send, in raw.
+-   `representative` **[string][17]** the representative (optional).
+-   `previousHash` **[string][17]** the previous hash (optional).
 
-Returns **[Promise][9]&lt;[string][7]>** a Promise with the generated work.
+Returns **hash** returns the hash returned by the send.
+
+### sendAmountToAccount
+
+Sends the amount to the account with a callback for success and failure.
+
+#### Parameters
+
+-   `seed` **[string][17]** the seed to use to find the account.
+-   `seedIx` **[string][17]** the index to use with the seed.
+-   `destAccount` **[string][17]** the destination account.
+-   `amountRaw` **[string][17]** the amount to send, in raw.
+-   `successCallback` **[string][17]** the callback to call upon success.
+-   `failureCallback` **[string][17]** the callback to call upon failure.
+
+Returns **hash** returns the hash returned by the send.
+
+### changeRepresentativeForSeed
+
+Sets the rep for an account with a given seed.
+
+#### Parameters
+
+-   `seed` **[string][17]** the seed to use to find the account.
+-   `seedIx` **[string][17]** the index to use with the seed.
+-   `representative` **[string][17]** the representative.
+
+Returns **hash** returns the hash returned by the change.
+
+## DepositUtil
+
+### receiveDepositsForSeed
+
+Recieve all deposits for an account with a given seed.
+
+#### Parameters
+
+-   `seed` **[string][17]** the seed to use to find the account.
+-   `seedIx` **[string][17]** the index to use with the seed.
+-   `representative` **[string][17]** the representative.
+
+Returns **hash** returns the hash returned by the change.
+
+## BananodeApi
+
+### getAccountBalanceRaw
+
+Get the balance, in raw, for an account.
+
+#### Parameters
+
+-   `account` **[string][17]** the account to use.
+
+Returns **hash** returns account's balance, in raw.
 
 [1]: #main
 
@@ -39,14 +112,32 @@ Returns **[Promise][9]&lt;[string][7]>** a Promise with the generated work.
 
 [3]: #parameters
 
-[4]: #bananodeapi
+[4]: #bananoutil
 
-[5]: #getgeneratedwork
+[5]: #sendamounttoaccountwithrepresentativeandprevious
 
 [6]: #parameters-1
 
-[7]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[7]: #sendamounttoaccount
 
-[8]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined
+[8]: #parameters-2
 
-[9]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise
+[9]: #changerepresentativeforseed
+
+[10]: #parameters-3
+
+[11]: #depositutil
+
+[12]: #receivedepositsforseed
+
+[13]: #parameters-4
+
+[14]: #bananodeapi
+
+[15]: #getaccountbalanceraw
+
+[16]: #parameters-5
+
+[17]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+
+[18]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined

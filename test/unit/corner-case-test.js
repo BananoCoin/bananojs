@@ -36,7 +36,7 @@ describe('corner-cases', () => {
   });
   it('getRawStrFromBanoshiStr matches expected', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
-    const expected = '01';
+    const expected = '1000000000000000000000000000';
     const actual = bananojs.getRawStrFromBanoshiStr(1);
     expect(expected).to.deep.equal(actual);
   });

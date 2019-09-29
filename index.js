@@ -1,8 +1,5 @@
 'use strict';
 
-/** @namespace Main */
-/** @namespace BananodeApi */
-
 const bananoUtil = require('./app/scripts/banano-util.js');
 const realBananodeApi = require('./app/scripts/bananode-api.js');
 const camoUtil = require('./app/scripts/camo-util.js');
@@ -22,12 +19,39 @@ const setBananodeApi = (_bananodeApi) => {
   bananodeApi = _bananodeApi;
 };
 
+/**
+ * Sends the amount to the account with an optional representative and
+ * previous block hash.
+ * If the representative is not sent, it will be pulled from the api.
+ * If the previous is not sent, it will be pulled from the api.
+ * Be very careful with previous, as setting it incorrectly
+ * can cause an incorrect amount of funds to be sent.
+ * @memberof BananoUtil
+ * @param {string} seed the seed to use to find the account.
+ * @param {string} seedIx the index to use with the seed.
+ * @param {string} destAccount the destination account.
+ * @param {string} amountRaw the amount to send, in raw.
+ * @param {string} representative the representative (optional).
+ * @param {string} previousHash the previous hash (optional).
+ * @return {hash} returns the hash returned by the send.
+ */
 const sendAmountToAccountWithRepresentativeAndPrevious = async (seed, seedIx, destAccount, amountRaw, representative, previousHash) => {
   const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
   const hash = await bananoUtil.sendFromPrivateKeyWithRepresentativeAndPrevious(bananodeApi, privateKey, destAccount, amountRaw, representative, previousHash);
   return hash;
 };
 
+/**
+ * Sends the amount to the account with a callback for success and failure.
+ * @memberof BananoUtil
+ * @param {string} seed the seed to use to find the account.
+ * @param {string} seedIx the index to use with the seed.
+ * @param {string} destAccount the destination account.
+ * @param {string} amountRaw the amount to send, in raw.
+ * @param {string} successCallback the callback to call upon success.
+ * @param {string} failureCallback the callback to call upon failure.
+ * @return {hash} returns the hash returned by the send.
+ */
 const sendAmountToAccount = async (seed, seedIx, destAccount, amountRaw, successCallback, failureCallback) => {
   return await bananoUtil.send(bananodeApi, seed, seedIx, destAccount, amountRaw, successCallback, failureCallback)
       .catch((error) => {
@@ -36,12 +60,29 @@ const sendAmountToAccount = async (seed, seedIx, destAccount, amountRaw, success
       });
 };
 
+/**
+ * Sets the rep for an account with a given seed.
+ * @memberof BananoUtil
+ * @param {string} seed the seed to use to find the account.
+ * @param {string} seedIx the index to use with the seed.
+ * @param {string} representative the representative.
+ * @return {hash} returns the hash returned by the change.
+ */
 const changeRepresentativeForSeed = async (seed, seedIx, representative) => {
   const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
   const response = await bananoUtil.change(bananodeApi, privateKey, representative);
   return response;
 };
 
+
+/**
+ * Recieve all deposits for an account with a given seed.
+ * @memberof DepositUtil
+ * @param {string} seed the seed to use to find the account.
+ * @param {string} seedIx the index to use with the seed.
+ * @param {string} representative the representative.
+ * @return {hash} returns the hash returned by the change.
+ */
 const receiveDepositsForSeed = async (seed, seedIx, representative) => {
   const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
   const publicKey = bananoUtil.getPublicKey(privateKey);
@@ -50,6 +91,14 @@ const receiveDepositsForSeed = async (seed, seedIx, representative) => {
   return response;
 };
 
+/**
+ * Get the balance, in raw, for an account.
+ * @memberof BananodeApi
+ * @param {string} account the account to use.
+ * @return {hash} returns account's balance, in raw.
+ * @link getBananoPartsFromRaw
+ * (use other methods like getBananoPartsFromRaw to convert to banano or banoshi)
+ */
 const getAccountBalanceRaw = async (account) => {
   return await bananodeApi.getAccountBalanceRaw(account);
 };

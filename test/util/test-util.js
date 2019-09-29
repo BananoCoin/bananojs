@@ -1,6 +1,5 @@
 // libraries
 const chai = require('chai');
-const BigNumber = require('bignumber.js');
 
 // modules
 const bananojs = require('../../index.js');
@@ -8,7 +7,7 @@ const assert = chai.assert;
 const expect = chai.expect;
 
 const getTimeNanos = () => {
-  return new BigNumber(process.hrtime.bigint());
+  return BigInt(process.hrtime.bigint());
 };
 
 const getBananojsWithMockApi = () => {

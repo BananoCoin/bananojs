@@ -1,6 +1,6 @@
 {
   "name": "@bananocoin/bananojs",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -16,7 +16,7 @@
     "camo-test": "./node_modules/mocha/bin/mocha -t 1000000 test/camo",
     "square-proof-test": "./node_modules/mocha/bin/mocha -t 1000000 test/square-proof",
     "start": "node main.js",
-    "docs": "./node_modules/documentation/bin/documentation.js build index.js -f md -o docs/documentation.md"
+    "docs": "./node_modules/documentation/bin/documentation.js build --config documentation.yaml documentation.js -f md -o docs/documentation.md"
   },
   "keywords": [],
   "author": "",

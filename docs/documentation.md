@@ -101,7 +101,10 @@ Returns **hash** returns the hash returned by the change.
 ### getAccountBalanceRaw
 
 Get the balance, in raw, for an account.
+
 (use other methods like getBananoPartsFromRaw to convert to banano or banoshi)
+
+Calls [https://docs.nano.org/commands/rpc-protocol/#accounts_balances][21]
 
 #### Parameters
 
@@ -113,7 +116,7 @@ Returns **balance** the account's balance, in raw.
 
 Get the history for an account.
 
-Calls [https://docs.nano.org/commands/rpc-protocol/#account_history][21]
+Calls [https://docs.nano.org/commands/rpc-protocol/#account_history][22]
 
 #### Parameters
 
@@ -122,7 +125,7 @@ Calls [https://docs.nano.org/commands/rpc-protocol/#account_history][21]
 -   `head`  
 -   `raw`  
 
-Returns **[history][22]** the account's history.
+Returns **[history][23]** the account's history.
 
 [1]: #main
 
@@ -164,6 +167,8 @@ Returns **[history][22]** the account's history.
 
 [20]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined
 
-[21]: https://docs.nano.org/commands/rpc-protocol/#account_history
+[21]: https://docs.nano.org/commands/rpc-protocol/#accounts_balances
 
-[22]: https://developer.mozilla.org/docs/Web/Guide/API/DOM/Manipulating_the_browser_history
+[22]: https://docs.nano.org/commands/rpc-protocol/#account_history
+
+[23]: https://developer.mozilla.org/docs/Web/Guide/API/DOM/Manipulating_the_browser_history

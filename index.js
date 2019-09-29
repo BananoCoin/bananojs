@@ -93,7 +93,10 @@ const receiveDepositsForSeed = async (seed, seedIx, representative) => {
 
 /**
  * Get the balance, in raw, for an account.
+ *
  * (use other methods like getBananoPartsFromRaw to convert to banano or banoshi)
+ *
+ * Calls {@link https://docs.nano.org/commands/rpc-protocol/#accounts_balances}
  * @memberof BananodeApi
  * @param {string} account the account to use.
  * @return {balance} the account's balance, in raw.
@@ -104,7 +107,7 @@ const getAccountBalanceRaw = async (account) => {
 
 /**
  * Get the history for an account.
- * 
+ *
  * Calls {@link https://docs.nano.org/commands/rpc-protocol/#account_history}
  * @memberof BananodeApi
  * @param {string} account the account to use.

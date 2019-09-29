@@ -36,6 +36,20 @@ const getRawStrFromBanoshiStr = (banoshiStr) => {
   return bananoRaw.toString();
 };
 
+/**
+ * @typedef {Object} BananoParts
+ * @property {string} banano - The amount of banano.
+ * @property {string} banoshi - The amount of banoshi (not counting whole banano).
+ * @property {string} raw - The amount of raw (not counting whole banano and whole banoshi).
+ */
+
+/**
+ * Get the banano parts (banano, banoshi, raw) for a given block.
+ *
+ * @memberof BananoUtil
+ * @param {string} bananoRawStr the raw banano, as a string.
+ * @return {BananoParts} the banano parts.
+ */
 const getBananoPartsFromRaw = (bananoRawStr) => {
   const bananoRaw = BigInt(bananoRawStr);
   //    console.log(`bananoRaw:    ${bananoRaw}`);

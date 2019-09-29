@@ -15,20 +15,22 @@
     "coverage-win": "nyc -x 'test\\util\\**' -x 'test\\unit\\**' -x 'libraries\\**' -x '**\\mock-bananode-api.js' -x '**\\bananode-api.js' .\\node_modules\\mocha\\bin\\mocha -t 100000 test\\unit",
     "camo-test": "./node_modules/mocha/bin/mocha -t 1000000 test/camo",
     "square-proof-test": "./node_modules/mocha/bin/mocha -t 1000000 test/square-proof",
-    "start": "node main.js"
+    "start": "node main.js",
+    "docs": "./node_modules/documentation/bin/documentation.js build index.js -f html -o docs/scripts"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "dependencies": {
     "blakejs": "^1.1.0",
-    "eslint": "^6.4.0",
-    "eslint-config-google": "^0.14.0",
     "request": "^2.88.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": "^6.2.0",
+    "documentation": "^12.1.2",
+    "eslint": "^6.5.0",
+    "eslint-config-google": "^0.14.0",
+    "mocha": "^6.2.1",
     "nyc": "^14.1.1"
   },
   "description": "JavaScript utilities for the banano cryptocurrency.",

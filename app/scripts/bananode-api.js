@@ -1,3 +1,5 @@
+'use strict';
+
 const request = require('request');
 
 let url;
@@ -218,9 +220,11 @@ const process = async (block) => {
   });
 };
 
-
 /**
- * note: enable_control required.
+ * returns a promise with the generated work.
+ * @memberof BananodeApi
+ * @param {string} hash the hash.
+ * @return {Promise<string>} a Promise with the generated work.
  */
 const getGeneratedWork = async (hash) => {
   // https://docs.nano.org/commands/rpc-protocol#work-generate

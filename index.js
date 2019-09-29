@@ -1,3 +1,8 @@
+'use strict';
+
+/** @namespace Main */
+/** @namespace BananodeApi */
+
 const bananoUtil = require('./app/scripts/banano-util.js');
 const realBananodeApi = require('./app/scripts/bananode-api.js');
 const camoUtil = require('./app/scripts/camo-util.js');
@@ -7,6 +12,12 @@ const loggingUtil = require('./app/scripts/logging-util.js');
 
 let bananodeApi = realBananodeApi;
 
+/**
+ * Sets the Bananode Api (useful for overriding some methods)
+ * @memberof Main
+ * @param {string} _bananodeApi the new bananodeApi
+ * @return {undefined} returns nothing.
+ */
 const setBananodeApi = (_bananodeApi) => {
   bananodeApi = _bananodeApi;
 };

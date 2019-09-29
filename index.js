@@ -93,11 +93,10 @@ const receiveDepositsForSeed = async (seed, seedIx, representative) => {
 
 /**
  * Get the balance, in raw, for an account.
+ * (use other methods like getBananoPartsFromRaw to convert to banano or banoshi)
  * @memberof BananodeApi
  * @param {string} account the account to use.
- * @return {hash} returns account's balance, in raw.
- * @link getBananoPartsFromRaw
- * (use other methods like getBananoPartsFromRaw to convert to banano or banoshi)
+ * @return {balance}, account's balance, in raw.
  */
 const getAccountBalanceRaw = async (account) => {
   return await bananodeApi.getAccountBalanceRaw(account);

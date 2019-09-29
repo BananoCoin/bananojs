@@ -99,12 +99,13 @@ Returns **hash** returns the hash returned by the change.
 ### getAccountBalanceRaw
 
 Get the balance, in raw, for an account.
+(use other methods like getBananoPartsFromRaw to convert to banano or banoshi)
 
 #### Parameters
 
 -   `account` **[string][17]** the account to use.
 
-Returns **hash** returns account's balance, in raw.
+Returns **balance** , account's balance, in raw.
 
 [1]: #main
 

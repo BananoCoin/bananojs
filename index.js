@@ -96,12 +96,19 @@ const receiveDepositsForSeed = async (seed, seedIx, representative) => {
  * (use other methods like getBananoPartsFromRaw to convert to banano or banoshi)
  * @memberof BananodeApi
  * @param {string} account the account to use.
- * @return {balance}, account's balance, in raw.
+ * @return {balance} the account's balance, in raw.
  */
 const getAccountBalanceRaw = async (account) => {
   return await bananodeApi.getAccountBalanceRaw(account);
 };
 
+/**
+ * Get the history for an account.
+ * {@link https://docs.nano.org/commands/rpc-protocol/#account_history}
+ * @memberof BananodeApi
+ * @param {string} account the account to use.
+ * @return {history} the account's history.
+ */
 const getAccountHistory = async (account, count, head, raw) => {
   return await bananodeApi.getAccountHistory(account, count, head, raw);
 };

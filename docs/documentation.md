@@ -18,6 +18,8 @@
 -   [BananodeApi][14]
     -   [getAccountBalanceRaw][15]
         -   [Parameters][16]
+    -   [getAccountHistory][17]
+        -   [Parameters][18]
 
 ## Main
 
@@ -27,9 +29,9 @@ Sets the Bananode Api (useful for overriding some methods)
 
 #### Parameters
 
--   `_bananodeApi` **[string][17]** the new bananodeApi
+-   `_bananodeApi` **[string][19]** the new bananodeApi
 
-Returns **[undefined][18]** returns nothing.
+Returns **[undefined][20]** returns nothing.
 
 ## BananoUtil
 
@@ -44,12 +46,12 @@ can cause an incorrect amount of funds to be sent.
 
 #### Parameters
 
--   `seed` **[string][17]** the seed to use to find the account.
--   `seedIx` **[string][17]** the index to use with the seed.
--   `destAccount` **[string][17]** the destination account.
--   `amountRaw` **[string][17]** the amount to send, in raw.
--   `representative` **[string][17]** the representative (optional).
--   `previousHash` **[string][17]** the previous hash (optional).
+-   `seed` **[string][19]** the seed to use to find the account.
+-   `seedIx` **[string][19]** the index to use with the seed.
+-   `destAccount` **[string][19]** the destination account.
+-   `amountRaw` **[string][19]** the amount to send, in raw.
+-   `representative` **[string][19]** the representative (optional).
+-   `previousHash` **[string][19]** the previous hash (optional).
 
 Returns **hash** returns the hash returned by the send.
 
@@ -59,12 +61,12 @@ Sends the amount to the account with a callback for success and failure.
 
 #### Parameters
 
--   `seed` **[string][17]** the seed to use to find the account.
--   `seedIx` **[string][17]** the index to use with the seed.
--   `destAccount` **[string][17]** the destination account.
--   `amountRaw` **[string][17]** the amount to send, in raw.
--   `successCallback` **[string][17]** the callback to call upon success.
--   `failureCallback` **[string][17]** the callback to call upon failure.
+-   `seed` **[string][19]** the seed to use to find the account.
+-   `seedIx` **[string][19]** the index to use with the seed.
+-   `destAccount` **[string][19]** the destination account.
+-   `amountRaw` **[string][19]** the amount to send, in raw.
+-   `successCallback` **[string][19]** the callback to call upon success.
+-   `failureCallback` **[string][19]** the callback to call upon failure.
 
 Returns **hash** returns the hash returned by the send.
 
@@ -74,9 +76,9 @@ Sets the rep for an account with a given seed.
 
 #### Parameters
 
--   `seed` **[string][17]** the seed to use to find the account.
--   `seedIx` **[string][17]** the index to use with the seed.
--   `representative` **[string][17]** the representative.
+-   `seed` **[string][19]** the seed to use to find the account.
+-   `seedIx` **[string][19]** the index to use with the seed.
+-   `representative` **[string][19]** the representative.
 
 Returns **hash** returns the hash returned by the change.
 
@@ -88,9 +90,9 @@ Recieve all deposits for an account with a given seed.
 
 #### Parameters
 
--   `seed` **[string][17]** the seed to use to find the account.
--   `seedIx` **[string][17]** the index to use with the seed.
--   `representative` **[string][17]** the representative.
+-   `seed` **[string][19]** the seed to use to find the account.
+-   `seedIx` **[string][19]** the index to use with the seed.
+-   `representative` **[string][19]** the representative.
 
 Returns **hash** returns the hash returned by the change.
 
@@ -103,9 +105,23 @@ Get the balance, in raw, for an account.
 
 #### Parameters
 
--   `account` **[string][17]** the account to use.
+-   `account` **[string][19]** the account to use.
 
-Returns **balance** , account's balance, in raw.
+Returns **balance** the account's balance, in raw.
+
+### getAccountHistory
+
+Get the history for an account.
+[https://docs.nano.org/commands/rpc-protocol/#account_history][21]
+
+#### Parameters
+
+-   `account` **[string][19]** the account to use.
+-   `count`  
+-   `head`  
+-   `raw`  
+
+Returns **[history][22]** the account's history.
 
 [1]: #main
 
@@ -139,6 +155,14 @@ Returns **balance** , account's balance, in raw.
 
 [16]: #parameters-5
 
-[17]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[17]: #getaccounthistory
 
-[18]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined
+[18]: #parameters-6
+
+[19]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+
+[20]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined
+
+[21]: https://docs.nano.org/commands/rpc-protocol/#account_history
+
+[22]: https://developer.mozilla.org/docs/Web/Guide/API/DOM/Manipulating_the_browser_history

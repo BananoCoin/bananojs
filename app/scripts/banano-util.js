@@ -66,21 +66,27 @@ const bytesToHex = (bytes) => {
 };
 
 const hash = (block) => {
+  /* istanbul ignore if */
   if (block === undefined) {
     throw Error('block is a required parameter.');
   }
+  /* istanbul ignore if */
   if (block.account === undefined) {
     throw Error('block.account is a required parameter.');
   }
+  /* istanbul ignore if */
   if (block.previous === undefined) {
     throw Error('block.previous is a required parameter.');
   }
+  /* istanbul ignore if */
   if (block.representative === undefined) {
     throw Error('block.representative is a required parameter.');
   }
+  /* istanbul ignore if */
   if (block.balance === undefined) {
     throw Error('block.balance is a required parameter.');
   }
+  /* istanbul ignore if */
   if (block.link === undefined) {
     throw Error('block.link is a required parameter.');
   }
@@ -179,12 +185,12 @@ const getAccountPublicKey = (account) => {
     throw Error(`Undefined BANANO Account`);
   }
   if (((!account.startsWith('ban_1')) && (!account.startsWith('ban_3'))) || (account.length !== 64)) {
-    throw Error(`Invalid BANANO Account ${account}`);
+    throw Error(`Invalid BANANO Account prefix '${account}'`);
   }
   const account_crop = account.substring(4, 64);
   const isValid = /^[13456789abcdefghijkmnopqrstuwxyz]+$/.test(account_crop);
   if (!isValid) {
-    throw Error(`Invalid BANANO account ${account}`);
+    throw Error(`Invalid BANANO Account '${account}'`);
   }
 
   const key_uint4 = array_crop(uint5ToUint4(stringToUint5(account_crop.substring(0, 52))));
@@ -330,6 +336,7 @@ const isWorkValid = (hashBytes, workBytes) => {
 
   const retval = outputBigInt >= workMin;
 
+  /* istanbul ignore if */
   if (LOG_IS_WORK_VALID) {
     console.log(`isWorkValid ${outputBigInt} >= ${workMin} ? ${retval}`);
   }
@@ -349,15 +356,22 @@ const incrementBytes = (bytes) => {
   }
 };
 
-const getHashCPUWorker = (hash, startWorkBytes) => {
+const getZeroedWorkBytes = () => {
+  return new Uint8Array(8);
+};
+
+const getHashCPUWorker = (hash, workBytes) => {
+  /* istanbul ignore if */
   if (LOG_GET_HASH_CPU_WORKER) {
     console.log('STARTED getHashCPUWorker', hash, bytesToHex(startWorkBytes));
   }
-  let workBytes;
-  if (startWorkBytes === undefined) {
-    workBytes = new Uint8Array(8);
-  } else {
-    workBytes = startWorkBytes;
+  /* istanbul ignore if */
+  if (hash === undefined) {
+    throw Error('hash is a required parameter.');
+  }
+  /* istanbul ignore if */
+  if (workBytes === undefined) {
+    throw Error('workBytes is a required parameter.');
   }
   const hashBytes = hexToBytes(hash);
 
@@ -377,6 +391,7 @@ const getHashCPUWorker = (hash, startWorkBytes) => {
     isWorkValidNanos += process.hrtime.bigint() - startTime1;
   }
   const retval = bytesToHex(workBytes.reverse());
+  /* istanbul ignore if */
   if (LOG_GET_HASH_CPU_WORKER) {
     console.log('SUCCESS getHashCPUWorker', hash, bytesToHex(startWorkBytes), retval);
   }
@@ -389,9 +404,11 @@ const getPublicKey = (privateKey) => {
 };
 
 const getPrivateKey = (seed, seedIx) => {
+  /* istanbul ignore if */
   if (seed === undefined) {
     throw Error('seed is a required parameter.');
   }
+  /* istanbul ignore if */
   if (seedIx === undefined) {
     throw Error('seedIx is a required parameter.');
   }
@@ -401,24 +418,31 @@ const getPrivateKey = (seed, seedIx) => {
 };
 
 const send = async (bananodeApi, seed, seedIx, destAccount, amountRaw, successCallback, failureCallback) => {
+  /* istanbul ignore if */
   if (bananodeApi === undefined) {
     throw Error('bananodeApi is a required parameter.');
   }
+  /* istanbul ignore if */
   if (seed === undefined) {
     throw Error('privateKey is a required parameter.');
   }
+  /* istanbul ignore if */
   if (seedIx === undefined) {
     throw Error('privateKey is a required parameter.');
   }
+  /* istanbul ignore if */
   if (destAccount === undefined) {
     throw Error('destAccount is a required parameter.');
   }
+  /* istanbul ignore if */
   if (amountRaw === undefined) {
     throw Error('amountRaw is a required parameter.');
   }
+  /* istanbul ignore if */
   if (successCallback === undefined) {
     throw Error('successCallback is a required parameter.');
   }
+  /* istanbul ignore if */
   if (failureCallback === undefined) {
     throw Error('failureCallback is a required parameter.');
   }
@@ -427,22 +451,24 @@ const send = async (bananodeApi, seed, seedIx, destAccount, amountRaw, successCa
     console.log(`STARTED send ${seed} ${seedIx}`);
   }
   const privateKey = getPrivateKey(seed, seedIx);
+  /* istanbul ignore if */
   if (LOG_SEND) {
     console.log(`INTERIM send ${seed} ${seedIx} ${privateKey}`);
   }
   await sendFromPrivateKey(bananodeApi, privateKey, destAccount, amountRaw)
       .then((hash) => {
+      /* istanbul ignore if */
         if (LOG_SEND) {
           console.log(`SUCCESS send ${seed} ${seedIx} ${hash}`);
         }
         successCallback(hash);
       })
       .catch((error) => {
+      /* istanbul ignore if */
         if (LOG_SEND) {
           console.log('FAILURE send', error);
         }
         failureCallback(error);
-        return;
       });
 };
 
@@ -825,6 +851,7 @@ const getAccountValidationInfo = (account) => {
   };
 };
 
+exports.decToHex = decToHex;
 exports.incrementBytes = incrementBytes;
 exports.getAccountValidationInfo = getAccountValidationInfo;
 exports.receive = receive;
@@ -840,6 +867,7 @@ exports.sign = sign;
 exports.getAccountPublicKey = getAccountPublicKey;
 exports.send = send;
 exports.getHashCPUWorker = getHashCPUWorker;
+exports.getZeroedWorkBytes = getZeroedWorkBytes;
 exports.bytesToHex = bytesToHex;
 exports.hexToBytes = hexToBytes;
 exports.isWorkValid = isWorkValid;

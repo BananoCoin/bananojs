@@ -76,6 +76,12 @@ describe('block-sign', () => {
     const actualWork = bananojs.getWorkUsingCpu(expectedWorkHash, workBytes);
     expect(expectedWork).to.deep.equal(actualWork);
   });
+  it('getZeroedWorkBytes', () => {
+    const expectedWorkBytes = new Uint8Array(8);
+    const bananojs = testUtil.getBananojsWithMockApi();
+    const actualWorkBytes = bananojs.getZeroedWorkBytes();
+    expect(expectedWorkBytes).to.deep.equal(actualWorkBytes);
+  });
 
   beforeEach(async () => {
   });

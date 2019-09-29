@@ -98,6 +98,7 @@ module.exports.changeRepresentativeForSeed = changeRepresentativeForSeed;
 module.exports.getSignature = bananoUtil.sign;
 module.exports.getBytesFromHex = bananoUtil.hexToBytes;
 module.exports.getWorkUsingCpu = bananoUtil.getHashCPUWorker;
+module.exports.getZeroedWorkBytes = bananoUtil.getZeroedWorkBytes;
 module.exports.isWorkValid = bananoUtil.isWorkValid;
 module.exports.getAccountValidationInfo = bananoUtil.getAccountValidationInfo;
 module.exports.receiveDepositsForSeed = receiveDepositsForSeed;

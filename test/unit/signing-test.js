@@ -38,7 +38,7 @@ describe('block-sign', () => {
     const bananojs = testUtil.getBananojsWithMockApi();
     const expectedHash = hash;
 
-    const actualHash = bananojs.getHash(block);
+    const actualHash = bananojs.getBlockHash(block);
 
     expect(expectedHash).to.deep.equal(actualHash);
   });

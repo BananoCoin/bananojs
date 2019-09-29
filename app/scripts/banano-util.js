@@ -24,12 +24,26 @@ const LOG_IS_WORK_VALID = false;
 
 const LOG_GET_HASH_CPU_WORKER = false;
 
+/**
+ * Converts a banano amount into a raw amount.
+ *
+ * @memberof BananoUtil
+ * @param {string} bananoStr the banano, as a string.
+ * @return {string} the banano as a raw value.
+ */
 const getRawStrFromBananoStr = (bananoStr) => {
   const banano = BigInt(bananoStr);
   const bananoRaw = banano * bananoDivisor;
   return bananoRaw.toString();
 };
 
+/**
+ * Converts a banoshi amount into a raw amount.
+ *
+ * @memberof BananoUtil
+ * @param {string} banoshiStr the banoshi, as a string.
+ * @return {string} the banano as a raw value.
+ */
 const getRawStrFromBanoshiStr = (banoshiStr) => {
   const banoshi = BigInt(banoshiStr);
   const bananoRaw = banoshi * banoshiDivisor;
@@ -44,7 +58,7 @@ const getRawStrFromBanoshiStr = (banoshiStr) => {
  */
 
 /**
- * Get the banano parts (banano, banoshi, raw) for a given block.
+ * Get the banano parts (banano, banoshi, raw) for a given raw value.
  *
  * @memberof BananoUtil
  * @param {string} bananoRawStr the raw banano, as a string.
@@ -194,6 +208,13 @@ const stringToUint5 = (string) => {
   return uint5;
 };
 
+/**
+ * Get the public key for a given account.
+ *
+ * @memberof BananoUtil
+ * @param {string} account the account.
+ * @return {string} the public key.
+ */
 const getAccountPublicKey = (account) => {
   if (account === undefined) {
     throw Error(`Undefined BANANO Account`);
@@ -296,6 +317,13 @@ const uint4ToUint5 = (uintValue) => {
   return uint5;
 };
 
+/**
+ * Get the account for a given public key.
+ *
+ * @memberof BananoUtil
+ * @param {string} publicKey the public key.
+ * @return {string} the account.
+ */
 const getAccount = (publicKey) => {
   const keyBytes = uint4ToUint8(hexToUint4(publicKey)); // For some reason here we go from u, to hex, to 4, to 8??
   const checksum = uint5ToString(uint4ToUint5(uint8ToUint4(blake.blake2b(keyBytes, null, 5).reverse())));
@@ -340,6 +368,14 @@ const generateAccountKeyPair = (accountSecretKeyBytes) => {
   return nacl.sign.keyPair.fromSecretKey(accountSecretKeyBytes);
 };
 
+/**
+ * returns true if the work (in bytes) for the hash (in bytes) is valid.
+ *
+ * @memberof BananoUtil
+ * @param {string} hashBytes the hash bytes to check.
+ * @param {string} workBytes the work bytes to check.
+ * @return {boolean} true if the work is valid for the hash.
+ */
 const isWorkValid = (hashBytes, workBytes) => {
   const context = blake.blake2bInit(8);
   blake.blake2bUpdate(context, workBytes);
@@ -370,6 +406,12 @@ const incrementBytes = (bytes) => {
   }
 };
 
+/**
+ * creates a new Uint8Array(8) to calculate work bytes.
+ *
+ * @memberof BananoUtil
+ * @return {Uint8Array} the bytes in a Uint8Array.
+ */
 const getZeroedWorkBytes = () => {
   return new Uint8Array(8);
 };
@@ -412,11 +454,27 @@ const getHashCPUWorker = (hash, workBytes) => {
   return retval;
 };
 
+
+/**
+ * Get the public key for a given private key.
+ *
+ * @memberof BananoUtil
+ * @param {string} privateKey the private key.
+ * @return {string} the public key.
+ */
 const getPublicKey = (privateKey) => {
   const accountKeyPair = generateAccountKeyPair(hexToBytes(privateKey));
   return bytesToHex(accountKeyPair.publicKey);
 };
 
+/**
+ * Get the private key for a given seed.
+ *
+ * @memberof BananoUtil
+ * @param {string} seed the seed to use to find the account.
+ * @param {string} seedIx the index to use with the seed.
+ * @return {string} the private key.
+ */
 const getPrivateKey = (seed, seedIx) => {
   /* istanbul ignore if */
   if (seed === undefined) {
@@ -816,6 +874,22 @@ const receive = async (bananodeApi, privateKey, publicKey, representative, previ
   }
 };
 
+
+/**
+ * @typedef {Object} AccountValidationInfo
+ * @property {string} message - The message describing why the account is valid or not.
+ * @property {boolean} valid - True if account is valid.
+ */
+
+/**
+  * Returns an object saying if the account is valid or not.
+
+  * If the account is not valid, the message describes why it is not valid.
+  *
+  * @memberof BananoUtil
+  * @param {string} account the account.
+  * @return {AccountValidationInfo} an object saying if the account is valid, and why.
+  */
 const getAccountValidationInfo = (account) => {
   if (account === null) {
     return {

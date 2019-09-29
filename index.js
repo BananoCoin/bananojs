@@ -186,6 +186,42 @@ const getBlockHash = (block) => {
   return bananoUtil.hash(block);
 };
 
+
+/**
+ * Get the signature for a given block (gets the hash of the block, and signs the hash).
+ *
+ * @memberof BananoUtil
+ * @param {string} privateKey the private key used to sign the block.
+ * @param {string} block the block to sign.
+ * @return {string} the block's signature.
+ */
+const getSignature = (privateKey, block) => {
+  return bananoUtil.sign(privateKey, block);
+};
+
+/**
+ * Converts a hex string to bytes in a Uint8Array.
+ *
+ * @memberof BananoUtil
+ * @param {string} hex the hex string to use.
+ * @return {Uint8Array} the bytes in a Uint8Array.
+ */
+const getBytesFromHex = (hex) => {
+  return bananoUtil.hexToBytes(hex);
+};
+
+/**
+ * gets work bytes using the CPU.
+ *
+ * @memberof BananoUtil
+ * @param {string} hash the hash to use to calculate work bytes.
+ * @param {Uint8Array} workBytes the Uint8Array(8) used to store temporary calculations.
+ * @return {string} the work bytes as a hex string.
+ */
+const getWorkUsingCpu = (hash, workBytes) => {
+  return bananoUtil.getHashCPUWorker(hash, workBytes);
+};
+
 module.exports.getAccountFromSeed = getAccountFromSeed;
 module.exports.getAccountInfo = getAccountInfo;
 module.exports.bananoUtil = bananoUtil;
@@ -205,13 +241,12 @@ module.exports.getPrivateKey = bananoUtil.getPrivateKey;
 module.exports.getPublicKey = bananoUtil.getPublicKey;
 module.exports.getAccount = bananoUtil.getAccount;
 module.exports.getAccountPublicKey = bananoUtil.getAccountPublicKey;
-module.exports.getHash = bananoUtil.hash;
 module.exports.sendAmountToAccount = sendAmountToAccount;
 module.exports.sendAmountToAccountWithRepresentativeAndPrevious = sendAmountToAccountWithRepresentativeAndPrevious;
 module.exports.changeRepresentativeForSeed = changeRepresentativeForSeed;
-module.exports.getSignature = bananoUtil.sign;
-module.exports.getBytesFromHex = bananoUtil.hexToBytes;
-module.exports.getWorkUsingCpu = bananoUtil.getHashCPUWorker;
+module.exports.getSignature = getSignature;
+module.exports.getBytesFromHex = getBytesFromHex;
+module.exports.getWorkUsingCpu = getWorkUsingCpu;
 module.exports.getZeroedWorkBytes = bananoUtil.getZeroedWorkBytes;
 module.exports.isWorkValid = bananoUtil.isWorkValid;
 module.exports.getAccountValidationInfo = bananoUtil.getAccountValidationInfo;

@@ -103,7 +103,8 @@ const getAccountBalanceRaw = async (account) => {
 };
 
 /**
- * Get the history for an account.  
+ * Get the history for an account.
+ * 
  * Calls {@link https://docs.nano.org/commands/rpc-protocol/#account_history}
  * @memberof BananodeApi
  * @param {string} account the account to use.

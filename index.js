@@ -111,6 +111,9 @@ const getAccountBalanceRaw = async (account) => {
  * Calls {@link https://docs.nano.org/commands/rpc-protocol/#account_history}
  * @memberof BananodeApi
  * @param {string} account the account to use.
+ * @param {string} count the count to use (use -1 for all).
+ * @param {string} head the head to start at (optional).
+ * @param {string} raw if true, return raw history (optional).
  * @return {object} the account's history.
  */
 const getAccountHistory = async (account, count, head, raw) => {
@@ -143,16 +146,42 @@ const setBananodeApiUrl = (url) => {
   bananodeApi.setUrl(url);
 };
 
+/**
+ * Get the account info for an account.
+ *
+ * Calls {@link https://docs.nano.org/commands/rpc-protocol/#account_info}
+ * @memberof BananodeApi
+ * @param {string} account the account to use.
+ * @return {object} the account's info.
+ */
 const getAccountInfo = async (account) => {
   return await bananodeApi.getAccountInfo(account);
 };
 
+
+/**
+ * Open an account with a given seed.
+ * @memberof BananoUtil
+ * @param {string} seed the seed to use to find the account.
+ * @param {string} seedIx the index to use with the seed.
+ * @param {string} representative the representative.
+ * @param {string} pendingBlockHash the pending block hash.
+ * @param {string} pendingValueRaw the pending block hash.
+ * @return {string} returns the hash returned by the open.
+ */
 const openAccountFromSeed = async (seed, seedIx, representative, pendingBlockHash, pendingValueRaw) => {
   const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
   const publicKey = bananoUtil.getPublicKey(privateKey);
   return await bananoUtil.open(bananodeApi, privateKey, publicKey, representative, pendingBlockHash, pendingValueRaw);
 };
 
+/**
+ * Get the hash for a given block.
+ *
+ * @memberof BananoUtil
+ * @param {string} block the seed to use to find the account.
+ * @return {string} the block's hash.
+ */
 const getBlockHash = (block) => {
   return bananoUtil.hash(block);
 };

@@ -111,7 +111,11 @@ Returns **balance** the account's balance, in raw.
 
 ### getAccountHistory
 
+<<<<<<< HEAD
 Get the history for an account.
+=======
+Get the history for an account.  
+>>>>>>> 5210e5950111bdd60c6e4ec2116454257245da5e
 
 Calls [https://docs.nano.org/commands/rpc-protocol/#account_history][21]
 

@@ -1,3 +1,5 @@
+'use strict';
+
 const LOG_WITHDRAW = true;
 
 const withdraw = async (loggingUtil, bananojs, privateKey, toAccount, amountBananos) => {

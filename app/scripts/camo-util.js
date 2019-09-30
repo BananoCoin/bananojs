@@ -1,3 +1,5 @@
+'use strict';
+
 const nacl = require( '../../libraries/tweetnacl/nacl.js' );
 
 const bananoUtil = require( './banano-util.js' );
@@ -13,6 +15,8 @@ const LOG_IS_HASH_IN_PENDING_OF_PRIVATE_KEY = false;
 const LOG_SPLIT_BIG_INT_INTO_POWERS_OF_TWO = false;
 
 const LOG_SEND = false;
+
+const LOG_RECEIVE = true;
 
 /**
  * Gets the camo public key from a private key.
@@ -81,16 +85,16 @@ const isUnopenedPrivateKeyInSeed = async ( bananodeApi, seed, seedIx ) => {
 const isUnopenedPrivateKey = async ( bananodeApi, privateKey ) => {
   const publicKey = bananoUtil.getPublicKey( privateKey );
   const account = bananoUtil.getAccount( publicKey );
-  //    console.log( 'account', account );
+  console.log( 'account', account );
   const history = await bananodeApi.getAccountHistory( account, 1 );
-  //    console.log( 'history', JSON.stringify( history, undefined, '  ' ) );
+  console.log( 'history', JSON.stringify( history, undefined, '  ' ) );
   const history_history = history.history;
-  //    console.log( 'history_history', JSON.stringify( history_history, undefined, '  ' ) );
+  console.log( 'history_history', JSON.stringify( history_history, undefined, '  ' ) );
   const history_history_length = history_history.length;
-  //    console.log( 'history_history_length', history_history_length );
+  console.log( 'history_history_length', history_history_length );
   const history_history_length_is_0 = history_history_length == 0;
 
-  //    console.log( 'isUnopenedPrivateKey', account, history_history_length_is_0 );
+  console.log( 'isUnopenedPrivateKey', account, history_history_length_is_0 );
 
   return history_history_length_is_0;
 };
@@ -202,13 +206,21 @@ const receiveSeed = async ( bananodeApi, seed ) => {
   let isUnopenedPrivateKeyFlag = await isUnopenedPrivateKeyInSeed( bananodeApi, seed, seedIx );
   unopenedAccounts.push( getAccount( seed, seedIx ) );
   while ( !isUnopenedPrivateKeyFlag ) {
+    if (LOG_RECEIVE) {
+      console.log( 'INTERIM camo.receiveSeed', 'unopenedAccounts', 'seedIx', seedIx );
+    }
+
     seedIx++;
     unopenedAccounts.push( getAccount( seed, seedIx ) );
     isUnopenedPrivateKeyFlag = await isUnopenedPrivateKeyInSeed( bananodeApi, seed, seedIx );
   }
-  //    console.log( 'accountsPending request', accounts);
+  if (LOG_RECEIVE) {
+    console.log( 'accountsPending request', unopenedAccounts);
+  }
   const accountsPending = await bananodeApi.getAccountsPending( unopenedAccounts, -1 );
-  //    console.log( 'accountsPending response', accountsPending );
+  if (LOG_RECEIVE) {
+    console.log( 'accountsPending response', accountsPending );
+  }
 
   const accounts = Object.keys( accountsPending.blocks );
 
@@ -528,10 +540,22 @@ const receive = async ( bananodeApi, toPrivateKey, fromPublicKey ) => {
   if ( fromPublicKey === undefined ) {
     throw Error( 'fromPublicKey is a required parameter.' );
   }
+
+  if (LOG_RECEIVE) {
+    console.log( 'STARTED camo.receive', toPrivateKey, fromPublicKey );
+  }
+
   const sharedSecret = await getSharedSecretFromRepresentative( bananodeApi, toPrivateKey, fromPublicKey );
+  if (LOG_RECEIVE) {
+    console.log( 'INTERIM camo.receive', 'sharedSecret', sharedSecret );
+  }
   const seed = sharedSecret;
 
-  return receiveSeed( bananodeApi, seed );
+  const returnValue = await receiveSeed( bananodeApi, seed );
+  if (LOG_RECEIVE) {
+    console.log( 'SUCCESS camo.receive', returnValue );
+  }
+  return returnValue;
 };
 
 exports.receiveSeed = receiveSeed;

@@ -1,3 +1,4 @@
+'use strict';
 
 const bananodeApi = require('./mock-bananode-api.js');
 

@@ -1,3 +1,5 @@
+'use strict';
+
 // libraries
 const chai = require('chai');
 

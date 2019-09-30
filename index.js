@@ -222,6 +222,19 @@ const getWorkUsingCpu = (hash, workBytes) => {
   return bananoUtil.getHashCPUWorker(hash, workBytes);
 };
 
+
+/**
+ * Converts a hex string to bytes in a Uint8Array.
+ *
+ * @memberof CamoUtil
+ * @param {string} toPrivateKey the private key that receives the funds.
+ * @param {string} fromPublicKey the public key that sent the funds.
+ * @return {string_array} the received hashes in an array.
+ */
+const camoReceive = async (toPrivateKey, fromPublicKey) => {
+  return await camoUtil.receive( bananodeApi, toPrivateKey, fromPublicKey );
+};
+
 module.exports.getAccountFromSeed = getAccountFromSeed;
 module.exports.getAccountInfo = getAccountInfo;
 module.exports.bananoUtil = bananoUtil;
@@ -256,3 +269,4 @@ module.exports.getRawStrFromBanoshiStr = bananoUtil.getRawStrFromBanoshiStr;
 module.exports.setBananodeApiUrl = setBananodeApiUrl;
 module.exports.getCamoPublicKey = camoUtil.getCamoPublicKey;
 module.exports.getSharedSecret = camoUtil.getSharedSecret;
+module.exports.camoReceive = camoReceive;

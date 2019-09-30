@@ -1,6 +1,8 @@
-const bananoUtil = require('./app/scripts/banano-util.js')
-const bananodeApi = require('./app/scripts/bananode-api.js')
-const camoUtil = require('./app/scripts/camo-util.js')
+'use strict';
+
+const bananoUtil = require('./app/scripts/banano-util.js');
+const bananodeApi = require('./app/scripts/bananode-api.js');
+const camoUtil = require('./app/scripts/camo-util.js');
 
 const config = require('./config.json');
 
@@ -21,7 +23,7 @@ commands['checkpending'] = async (seed) => {
   const blocks = Object.keys(accountsPending.blocks[account]);
   console.log('checkpending account', account);
   console.log('checkpending ', blocks.length, 'pending blocks', blocks);
-}
+};
 
 commands['register'] = async (seed) => {
   const privateKey = bananoUtil.getPrivateKey(seed, 0);
@@ -35,12 +37,12 @@ commands['register'] = async (seed) => {
   console.log('register camoAccount', camoAccount);
   const response = await bananoUtil.sendFromPrivateKeyWithRepresentative(bananodeApi, privateKey, account, 1, camoAccount);
   console.log('register account response', response);
-}
+};
 
 commands['checkaccount'] = async (account) => {
   const representative = await bananodeApi.getAccountRepresentative(account);
   console.log('checkaccount representative', representative);
-}
+};
 
 commands['checkseed'] = async (seed) => {
   const privateKey = bananoUtil.getPrivateKey(seed, 0);
@@ -49,21 +51,21 @@ commands['checkseed'] = async (seed) => {
   console.log('checkseed bananoAccount', account);
   const representative = await bananodeApi.getAccountRepresentative(account);
   console.log('checkseed camoAccount', representative);
-}
+};
 
 commands['sendraw'] = async (fundingPrivateKey, seed, toAccount, amountRaw) => {
   const privateKey = bananoUtil.getPrivateKey(seed, 0);
   const toPublicKey = bananoUtil.getAccountPublicKey(toAccount);
   const hashes = await camoUtil.send(bananodeApi, fundingPrivateKey, privateKey, toPublicKey, amountRaw);
   console.log('sendraw response', hashes);
-}
+};
 
 commands['receive'] = async (seed, fromBananoAccount) => {
   const toPrivateKey = bananoUtil.getPrivateKey(seed, 0);
   const fromPublicKey = bananoUtil.getAccountPublicKey(fromBananoAccount);
   const hashes = await camoUtil.receive(bananodeApi, toPrivateKey, fromPublicKey);
   console.log('receive response', hashes);
-}
+};
 
 const run = async () => {
   console.log('bananojs');
@@ -92,6 +94,6 @@ const run = async () => {
       await fn(arg0, arg1, arg2, arg3);
     }
   }
-}
+};
 
 run();

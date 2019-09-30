@@ -1,3 +1,5 @@
+'use strict';
+
 // libraries
 const chai = require('chai');
 
@@ -40,6 +42,12 @@ const getBananojsWithAccountInfoErrorApi = () => {
   return bananojs;
 };
 
+const getBananojsWithCamoApi = () => {
+  const bananodeApi = require('./camo-bananode-api.js');
+  bananojs.setBananodeApi(bananodeApi);
+  return bananojs;
+};
+
 const expectErrorMessage = async (errorMessage, fn, arg1, arg2, arg3, arg4, arg5, arg6) => {
   try {
     await fn(arg1, arg2, arg3, arg4, arg5, arg6);
@@ -65,5 +73,6 @@ exports.getBananojsWithErrorApi = getBananojsWithErrorApi;
 exports.getBananojsWithProcessErrorApi = getBananojsWithProcessErrorApi;
 exports.getBananojsWithAccountInfoBalanceErrorApi = getBananojsWithAccountInfoBalanceErrorApi;
 exports.getBananojsWithAccountInfoErrorApi = getBananojsWithAccountInfoErrorApi;
+exports.getBananojsWithCamoApi = getBananojsWithCamoApi;
 exports.expectErrorMessage = expectErrorMessage;
 exports.deactivate = deactivate;

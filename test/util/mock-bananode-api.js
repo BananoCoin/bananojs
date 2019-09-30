@@ -1,3 +1,5 @@
+'use strict';
+
 const bananoUtil = require('../../app/scripts/banano-util.js');
 
 const getAccountBalanceRaw = (account) => {
@@ -115,7 +117,7 @@ const getAccountInfo = async (account) => {
 };
 
 const setUrl = () => {
-  
+
 }
 
 exports.getAccountBalanceRaw = getAccountBalanceRaw;

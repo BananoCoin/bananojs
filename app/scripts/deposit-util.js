@@ -1,3 +1,5 @@
+'use strict';
+
 const bananoUtil = require('./banano-util.js');
 
 const MAX_ACCOUNTS_PENDING = 10;

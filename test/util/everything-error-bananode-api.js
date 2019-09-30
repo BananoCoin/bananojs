@@ -1,3 +1,5 @@
+'use strict';
+
 const getAccountBalanceRaw = (account) => {
   throw new Error(`getAccountBalanceRaw account:${account}`);
 };

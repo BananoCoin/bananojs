@@ -1,3 +1,5 @@
+'use strict';
+
 const blake = require('blakejs');
 
 const crypto = require('crypto');

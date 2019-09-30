@@ -16,7 +16,7 @@ const LOG_SPLIT_BIG_INT_INTO_POWERS_OF_TWO = false;
 
 const LOG_SEND = false;
 
-const LOG_RECEIVE = true;
+const LOG_RECEIVE = false;
 
 /**
  * Gets the camo public key from a private key.
@@ -85,16 +85,16 @@ const isUnopenedPrivateKeyInSeed = async ( bananodeApi, seed, seedIx ) => {
 const isUnopenedPrivateKey = async ( bananodeApi, privateKey ) => {
   const publicKey = bananoUtil.getPublicKey( privateKey );
   const account = bananoUtil.getAccount( publicKey );
-  console.log( 'account', account );
+  // console.log( 'account', account );
   const history = await bananodeApi.getAccountHistory( account, 1 );
-  console.log( 'history', JSON.stringify( history, undefined, '  ' ) );
+  // console.log( 'history', JSON.stringify( history, undefined, '  ' ) );
   const history_history = history.history;
-  console.log( 'history_history', JSON.stringify( history_history, undefined, '  ' ) );
+  // console.log( 'history_history', JSON.stringify( history_history, undefined, '  ' ) );
   const history_history_length = history_history.length;
-  console.log( 'history_history_length', history_history_length );
+  // console.log( 'history_history_length', history_history_length );
   const history_history_length_is_0 = history_history_length == 0;
 
-  console.log( 'isUnopenedPrivateKey', account, history_history_length_is_0 );
+  // console.log( 'isUnopenedPrivateKey', account, history_history_length_is_0 );
 
   return history_history_length_is_0;
 };

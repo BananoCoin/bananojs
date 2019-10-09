@@ -42,6 +42,12 @@ describe('corner-cases', () => {
     const actual = bananojs.getRawStrFromBanoshiStr(1);
     expect(expected).to.deep.equal(actual);
   });
+  it('getBlockCount matches expected', async () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    const expected = {'count': '1000', 'unchecked': '10'};
+    const actual = await bananojs.getBlockCount();
+    expect(expected).to.deep.equal(actual);
+  });
 
   beforeEach(async () => {
   });

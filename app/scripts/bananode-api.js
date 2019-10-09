@@ -278,10 +278,10 @@ const getBlockAccount = async (hash) => {
     action: 'block_account',
     hash: hash,
   };
-  //    console.log( `accounts_pending request ${JSON.stringify( formData )}` );
+  //    console.log( `block_account request ${JSON.stringify( formData )}` );
   return new Promise((resolve) => {
     sendRequest(formData).then((json) => {
-      //            console.log( `accounts_pending response ${JSON.stringify( json )}` );
+      //            console.log( `block_account response ${JSON.stringify( json )}` );
       resolve(json);
     });
   });
@@ -300,10 +300,24 @@ const getFrontiers = async (account, count) => {
     account: account,
     count: count,
   };
-  //    console.log( `accounts_pending request ${JSON.stringify( formData )}` );
+  //    console.log( `frontiers request ${JSON.stringify( formData )}` );
   return new Promise((resolve) => {
     sendRequest(formData).then((json) => {
-      //            console.log( `accounts_pending response ${JSON.stringify( json )}` );
+      //            console.log( `frontiers response ${JSON.stringify( json )}` );
+      resolve(json);
+    });
+  });
+};
+
+const getBlockCount = async () => {
+  // https://docs.nano.org/commands/rpc-protocol/#block_count
+  const formData = {
+    action: 'block_count',
+  };
+  //    console.log( `block_count request ${JSON.stringify( formData )}` );
+  return new Promise((resolve) => {
+    sendRequest(formData).then((json) => {
+      //            console.log( `block_count response ${JSON.stringify( json )}` );
       resolve(json);
     });
   });
@@ -325,5 +339,6 @@ exports.getGeneratedWork = getGeneratedWork;
 exports.getAccountHistory = getAccountHistory;
 exports.getAccountInfo = getAccountInfo;
 exports.getBlocks = getBlocks;
+exports.getBlockCount = getBlockCount;
 exports.log = console.log;
 exports.trace = console.trace;

@@ -158,6 +158,16 @@ const getAccountInfo = async (account) => {
   return await bananodeApi.getAccountInfo(account);
 };
 
+/**
+ * Get the network block count.
+ *
+ * Calls {@link https://docs.nano.org/commands/rpc-protocol/#block_count}
+ * @memberof BananodeApi
+ * @return {object} the block count.
+ */
+const getBlockCount = async () => {
+  return await bananodeApi.getBlockCount();
+};
 
 /**
  * Open an account with a given seed.
@@ -237,6 +247,8 @@ const camoReceive = async (toPrivateKey, fromPublicKey) => {
 
 module.exports.getAccountFromSeed = getAccountFromSeed;
 module.exports.getAccountInfo = getAccountInfo;
+module.exports.getBlockCount = getBlockCount;
+
 module.exports.bananoUtil = bananoUtil;
 module.exports.bananodeApi = bananodeApi;
 module.exports.camoUtil = camoUtil;

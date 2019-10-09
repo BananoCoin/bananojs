@@ -116,9 +116,16 @@ const getAccountInfo = async (account) => {
   return retval;
 };
 
+const getBlockCount = async () => {
+  const retval = {};
+  retval.count = "1000";
+  retval.unchecked = "10";
+  return retval;
+};
+
 const setUrl = () => {
 
-}
+};
 
 exports.getAccountBalanceRaw = getAccountBalanceRaw;
 exports.getAccountRepresentative = getAccountRepresentative;
@@ -128,5 +135,6 @@ exports.getGeneratedWork = getGeneratedWork;
 exports.getAccountsPending = getAccountsPending;
 exports.getAccountHistory = getAccountHistory;
 exports.getAccountInfo = getAccountInfo;
+exports.getBlockCount = getBlockCount;
 exports.getFrontiers = getFrontiers;
 exports.setUrl = setUrl;

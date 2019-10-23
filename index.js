@@ -259,6 +259,7 @@ const getAccountsPending = async (accounts, count) => {
   return await bananodeApi.getAccountsPending(accounts, count);
 };
 
+module.exports.getAccountsPending = getAccountsPending;
 module.exports.getAccountFromSeed = getAccountFromSeed;
 module.exports.getAccountInfo = getAccountInfo;
 module.exports.getBlockCount = getBlockCount;

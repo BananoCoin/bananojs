@@ -245,6 +245,20 @@ const camoReceive = async (toPrivateKey, fromPublicKey) => {
   return await camoUtil.receive( bananodeApi, toPrivateKey, fromPublicKey );
 };
 
+
+/**
+ * Get the network block count.
+ *
+ * Calls {@link https://docs.nano.org/commands/rpc-protocol/#accounts_pending}
+ * @memberof BananodeApi
+ * @param {string_array} accounts the array of pending accounts.
+ * @param {string} count the max count to get.
+ * @return {object} the account's pending blocks.
+ */
+const getAccountsPending = async (accounts, count) => {
+  return await bananodeApi.getAccountsPending(accounts, count);
+};
+
 module.exports.getAccountFromSeed = getAccountFromSeed;
 module.exports.getAccountInfo = getAccountInfo;
 module.exports.getBlockCount = getBlockCount;

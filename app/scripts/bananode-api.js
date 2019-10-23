@@ -253,7 +253,7 @@ const getAccountsPending = async (accounts, count) => {
   if (count === undefined) {
     throw Error('count is a required parameter.');
   }
-  // https://github.com/nanocurrency/nano-node/wiki/RPC-protocol#accounts-pending
+  // https://docs.nano.org/commands/rpc-protocol/#accounts_pending
   const formData = {
     action: 'accounts_pending',
     accounts: accounts,

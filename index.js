@@ -153,10 +153,11 @@ const setBananodeApiUrl = (url) => {
  * Calls {@link https://docs.nano.org/commands/rpc-protocol/#account_info}
  * @memberof BananodeApi
  * @param {string} account the account to use.
+ * @param {boolean} representativeFlag the representativeFlag to use (optional).
  * @return {object} the account's info.
  */
-const getAccountInfo = async (account) => {
-  return await bananodeApi.getAccountInfo(account);
+const getAccountInfo = async (account, representativeFlag) => {
+  return await bananodeApi.getAccountInfo(account, representativeFlag);
 };
 
 /**

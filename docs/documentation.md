@@ -318,6 +318,7 @@ Recieve all deposits for an account with a given seed.
 -   `seed` **[string][67]** the seed to use to find the account.
 -   `seedIx` **[string][67]** the index to use with the seed.
 -   `representative` **[string][67]** the representative.
+-   `specificPendingBlockHash` **[string][67]** a specific block hash to receive (optional).
 
 Returns **[object][73]** returns the response returned by the receive.
 
@@ -361,6 +362,7 @@ Calls [https://docs.nano.org/commands/rpc-protocol/#account_info][76]
 #### Parameters
 
 -   `account` **[string][67]** the account to use.
+-   `representativeFlag` **[boolean][71]** the representativeFlag to use (optional).
 
 Returns **[object][73]** the account's info.
 

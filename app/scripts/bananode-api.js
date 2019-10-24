@@ -146,7 +146,7 @@ const getAccountHistory = async (account, count, head, raw) => {
   });
 };
 
-const getAccountInfo = async (account) => {
+const getAccountInfo = async (account, representativeFlag) => {
   if (account === undefined) {
     throw Error(`'account' is a required parameter.`);
   }
@@ -155,6 +155,14 @@ const getAccountInfo = async (account) => {
     action: 'account_info',
     account: account,
   };
+
+  if (representative !== undefined) {
+    if (representative) {
+      formData.representative = 'true';
+    } else {
+      formData.representative = 'false';
+    }
+  }
 
   //    console.log( `account_history request ${JSON.stringify( formData )}` );
   return new Promise((resolve) => {

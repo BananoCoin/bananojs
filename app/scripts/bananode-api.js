@@ -156,8 +156,8 @@ const getAccountInfo = async (account, representativeFlag) => {
     account: account,
   };
 
-  if (representative !== undefined) {
-    if (representative) {
+  if (representativeFlag !== undefined) {
+    if (representativeFlag) {
       formData.representative = 'true';
     } else {
       formData.representative = 'false';

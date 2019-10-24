@@ -63,6 +63,21 @@ describe('account', () => {
     };
     expect(actualAccountInfo).to.deep.equal(expectedAccountInfo);
   });
+  it('getAccountsPending valid account matches expected', async () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    const account = bananojs.getAccountFromSeed(seed0, seedIx);
+    const actualAccountInfo = await bananojs.getAccountsPending([account], 1);
+    const expectedAccountInfo = {
+      'blocks': {
+        'ban_3i1aq1cchnmbn9x5rsbap8b15akfh7wj7pwskuzi7ahz8oq6cobd99d4r3b7': {
+          '142A538F36833D1CC78B94E11C766F75818F8B940771335C6C1B8AB880C5BB1D': 1,
+          '242A538F36833D1CC78B94E11C766F75818F8B940771335C6C1B8AB880C5BB1D': 2,
+        },
+      },
+    };
+    expect(actualAccountInfo).to.deep.equal(expectedAccountInfo);
+  });
+
   it('setBananodeApiUrl matches expected', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
     bananojs.setBananodeApiUrl('test');

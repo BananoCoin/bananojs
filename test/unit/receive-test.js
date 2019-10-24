@@ -20,12 +20,25 @@ describe('recieve', () => {
     const bananojs = testUtil.getBananojsWithMockApi();
 
     const expectedResponse= {};
-    expectedResponse.pendingCount = 1;
-    expectedResponse.pendingMessage = 'pending 1 blocks, of max 10.';
+    expectedResponse.pendingCount = 2;
+    expectedResponse.pendingMessage = 'pending 2 blocks, of max 10.';
+    expectedResponse.receiveCount = 2;
+    expectedResponse.receiveMessage = 'received 2 blocks.';
+
+    const actualResponse = await bananojs.receiveDepositsForSeed(seed0, seedIx, representative1);
+    expect(actualResponse).to.deep.equal(expectedResponse);
+  });
+  it('receiveDepositsForSeed valid account matches expected with specific pending hash', async () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    const specificPendingHash = '142A538F36833D1CC78B94E11C766F75818F8B940771335C6C1B8AB880C5BB1D';
+
+    const expectedResponse= {};
+    expectedResponse.pendingCount = 2;
+    expectedResponse.pendingMessage = 'pending 2 blocks, of max 10.';
     expectedResponse.receiveCount = 1;
     expectedResponse.receiveMessage = 'received 1 blocks.';
 
-    const actualResponse = await bananojs.receiveDepositsForSeed(seed0, seedIx, representative1);
+    const actualResponse = await bananojs.receiveDepositsForSeed(seed0, seedIx, representative1, specificPendingHash);
     expect(actualResponse).to.deep.equal(expectedResponse);
   });
   it('receiveDepositsForSeed errors', async () => {

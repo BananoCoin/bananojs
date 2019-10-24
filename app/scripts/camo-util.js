@@ -253,7 +253,7 @@ const receiveSeed = async ( bananodeApi, seed ) => {
           const publicKey = publicKeyByAccount[account];
           const representative = representativeByAccount[account];
           const frontiers = await bananodeApi.getFrontiers( account, 1 );
-          const previous = frontiers[account];
+          const previous = frontiers.frontiers[account];
           const hash = pendingBlockHash;
           const valueRaw = pendingValueRaw;
           const receiveBlockHash = await bananoUtil.receive( bananodeApi, privateKey, publicKey, representative, previous, hash, valueRaw );

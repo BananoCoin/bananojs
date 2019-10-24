@@ -3,7 +3,7 @@
 const bananoUtil = require('../../app/scripts/banano-util.js');
 
 const getAccountBalanceRaw = (account) => {
-  // https://github.com/nanocurrency/raiblocks/wiki/RPC-protocol#accounts-balances
+  // https://docs.nano.org/commands/rpc-protocol/#accounts-balances
 
   const json = {};
   json.balances = {};
@@ -17,14 +17,14 @@ const getAccountBalanceRaw = (account) => {
 };
 
 const getAccountRepresentative = (account) => {
-  // https://github.com/nanocurrency/raiblocks/wiki/RPC-protocol#account-representative
+  // https://docs.nano.org/commands/rpc-protocol/#account-representative
   const retval = {};
   retval.representative = account;
   return retval.representative;
 };
 
 const getPrevious = (account) => {
-  // https://github.com/nanocurrency/raiblocks/wiki/RPC-protocol#frontiers
+  // https://docs.nano.org/commands/rpc-protocol/#frontiers
   if (account.startsWith('ban_1bad1')) {
     return '';
   }
@@ -37,7 +37,7 @@ const getPrevious = (account) => {
 
 
 const process = async (block) => {
-  // https://github.com/nanocurrency/raiblocks/wiki/RPC-protocol#process-block
+  // https://docs.nano.org/commands/rpc-protocol/#process-block
   const retval = {};
   retval.hash = '000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F';
   return retval.hash;
@@ -69,18 +69,19 @@ const getGeneratedWork = async (hash) => {
 };
 
 const getAccountsPending = async (accounts, count) => {
-  // https://github.com/nanocurrency/nano-node/wiki/RPC-protocol#accounts-pending
+  // https://docs.nano.org/commands/rpc-protocol/#accounts-pending
   const retval = {};
   retval.blocks = {};
   accounts.forEach((account) => {
     retval.blocks[account] = {};
     retval.blocks[account]['142A538F36833D1CC78B94E11C766F75818F8B940771335C6C1B8AB880C5BB1D'] = 1;
+    retval.blocks[account]['242A538F36833D1CC78B94E11C766F75818F8B940771335C6C1B8AB880C5BB1D'] = 2;
   });
   return retval;
 };
 
 const getAccountHistory = async (account, count, head, raw) => {
-  // https://github.com/nanocurrency/raiblocks/wiki/RPC-protocol#account-history
+  // https://docs.nano.org/commands/rpc-protocol/#account-history
   const retval = {};
   retval.account = account;
   retval.history = [];
@@ -96,7 +97,7 @@ const getAccountHistory = async (account, count, head, raw) => {
 };
 
 const getFrontiers = async (account, count) => {
-  // https://github.com/nanocurrency/nano-node/wiki/RPC-protocol#frontiers
+  // https://docs.nano.org/commands/rpc-protocol/#frontiers
   const retval = {};
   retval.frontiers = {};
   retval.frontiers[account] = '000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F';
@@ -118,8 +119,8 @@ const getAccountInfo = async (account) => {
 
 const getBlockCount = async () => {
   const retval = {};
-  retval.count = "1000";
-  retval.unchecked = "10";
+  retval.count = '1000';
+  retval.unchecked = '10';
   return retval;
 };
 

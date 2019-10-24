@@ -81,13 +81,14 @@ const changeRepresentativeForSeed = async (seed, seedIx, representative) => {
  * @param {string} seed the seed to use to find the account.
  * @param {string} seedIx the index to use with the seed.
  * @param {string} representative the representative.
+ * @param {string} specificPendingBlockHash a specific block hash to receive (optional).
  * @return {object} returns the response returned by the receive.
  */
-const receiveDepositsForSeed = async (seed, seedIx, representative) => {
+const receiveDepositsForSeed = async (seed, seedIx, representative, specificPendingBlockHash) => {
   const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
   const publicKey = bananoUtil.getPublicKey(privateKey);
   const account = bananoUtil.getAccount(publicKey);
-  const response = await depositUtil.receive(loggingUtil, bananodeApi, account, privateKey, representative);
+  const response = await depositUtil.receive(loggingUtil, bananodeApi, account, privateKey, representative, specificPendingBlockHash);
   return response;
 };
 

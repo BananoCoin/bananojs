@@ -19,9 +19,12 @@ const getGeneratedWork = async (hash) => {
   if (hash == '70D97F8959975928AD0F1007E8517B75272526A114962CDE33A139E32B05530E') {
     defaultWork = 'BEB5C70000000000';
   }
-  // if (defaultWork == undefined) {
-  //   throw Error(`unknown hash ${hash} sent to getGeneratedWork`);
-  // }
+  if (hash == '000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F') {
+    defaultWork = 'FD7B280000000000';
+  }
+  if (defaultWork == undefined) {
+    throw Error(`unknown hash ${hash} sent to getGeneratedWork`);
+  }
 
   const workBytes = bananoUtil.hexToBytes(defaultWork).reverse();
   const hashBytes = bananoUtil.hexToBytes(hash);

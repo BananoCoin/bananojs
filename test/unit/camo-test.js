@@ -32,6 +32,7 @@ describe('camo', () => {
     const publicKey0 = await bananojs.getCamoPublicKey(privateKey0);
     const expectedResponse = [];
     expectedResponse.push('000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F');
+    expectedResponse.push('000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F');
     const actualResponse = await bananojs.camoReceive(privateKey0, publicKey0);
     expect(expectedResponse).to.deep.equal(actualResponse);
   });

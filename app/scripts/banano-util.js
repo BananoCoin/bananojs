@@ -663,34 +663,6 @@ const sendFromPrivateKeyWithRepresentativeAndPrevious = async (bananodeApi, priv
   } else {
     const hashBytes = hexToBytes(previous);
 
-    /* istanbul ignore if */
-    if (LOG_SEND) {
-      console.log('STARTED getGeneratedWork', previous);
-    }
-    const work = await bananodeApi.getGeneratedWork(previous);
-    /* istanbul ignore if */
-    if (LOG_SEND) {
-      console.log('SUCCESS getGeneratedWork', previous);
-    }
-
-    /* istanbul ignore if */
-    if (work == undefined) {
-      throw Error(`work is undefined for ${previous}`);
-    }
-
-    /* istanbul ignore if */
-    if (LOG_SEND) {
-      console.log(`work ${work} for hash ${previous}`);
-    }
-
-    const workBytes = hexToBytes(work).reverse();
-    const isWorkValidFlag = isWorkValid(hashBytes, workBytes);
-
-    /* istanbul ignore if */
-    if (!isWorkValidFlag) {
-      throw (`invalid work ${work} for hash ${previous}`);
-    }
-
     const block = {};
     block.type = 'state';
     block.account = accountAddress;
@@ -707,7 +679,6 @@ const sendFromPrivateKeyWithRepresentativeAndPrevious = async (bananodeApi, priv
     if (LOG_SEND) {
       console.log('SUCCESS getAccountPublicKey', destAccount);
     }
-    block.work = work;
     /* istanbul ignore if */
     if (LOG_SEND) {
       console.log('STARTED sign');

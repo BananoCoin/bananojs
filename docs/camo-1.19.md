@@ -37,7 +37,7 @@ the validator wants to make sure the accounts balance:
       (the sum of the old equals the sum of the new)  
     since the validator knows `n`, it can do this calculation, mod `n`, easily.  
 
-assumptions:  
+# assumptions:  
 1) it is cryptographically hard to create an `encA0`, `encB0`, `encA1`, `encB1`, and `encTx0` where the validator's encrypted accounts balance, but the decrypted ones do not:  
 
     `encA0` - `encTx0` = `encA1` BUT `decA0` - `decTx0` != `decA1`  

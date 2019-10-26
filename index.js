@@ -76,7 +76,7 @@ const changeRepresentativeForSeed = async (seed, seedIx, representative) => {
 
 
 /**
- * Recieve all deposits for an account with a given seed.
+ * Recieve deposits for an account with a given seed.
  * @memberof DepositUtil
  * @param {string} seed the seed to use to find the account.
  * @param {string} seedIx the index to use with the seed.
@@ -89,6 +89,21 @@ const receiveDepositsForSeed = async (seed, seedIx, representative, specificPend
   const publicKey = bananoUtil.getPublicKey(privateKey);
   const account = bananoUtil.getAccount(publicKey);
   const response = await depositUtil.receive(loggingUtil, bananodeApi, account, privateKey, representative, specificPendingBlockHash);
+  return response;
+};
+
+/**
+ * Send a withdrawal from an account with a given seed.
+ * @memberof WithdrawUtil
+ * @param {string} seed the seed to use to find the account.
+ * @param {string} seedIx the index to use with the seed.
+ * @param {string} toAccount the accont to send to.
+ * @param {string} amountBananos the amount of bananos.
+ * @return {object} returns the response returned by the withdraw.
+ */
+const sendWithdrawalFromSeed = async (seed, seedIx, toAccount, amountBananos) => {
+  const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
+  const response = withdrawUtil.withdraw(loggingUtil, bananodeApi, privateKey, toAccount, amountBananos);
   return response;
 };
 
@@ -261,6 +276,7 @@ const getAccountsPending = async (accounts, count) => {
   return await bananodeApi.getAccountsPending(accounts, count);
 };
 
+module.exports.sendWithdrawalFromSeed = sendWithdrawalFromSeed;
 module.exports.getAccountsPending = getAccountsPending;
 module.exports.getAccountFromSeed = getAccountFromSeed;
 module.exports.getAccountInfo = getAccountInfo;

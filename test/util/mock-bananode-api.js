@@ -2,6 +2,8 @@
 
 const bananoUtil = require('../../app/scripts/banano-util.js');
 
+const GENERATE_UNKNOWN_BLOCK_WORK = false;
+
 const getAccountBalanceRaw = (account) => {
   // https://docs.nano.org/commands/rpc-protocol/#accounts-balances
 
@@ -51,21 +53,30 @@ const getGeneratedWork = async (hash) => {
   if (hash == 'C008B814A7D269A1FA3C6528B19201A24D797912DB9996FF02A1FF356E45552B') {
     defaultWork = 'F5E2210000000000';
   }
-  if (defaultWork == undefined) {
-    throw Error(`unknown hash ${hash} sent to getGeneratedWork`);
+  if (hash == 'E30D22B7935BCC25412FC07427391AB4C98A4AD68BAA733300D23D82C9D20AD3') {
+    defaultWork = '5DAD3C0000000000';
   }
-  // console.log( `getGeneratedWork hash ${hash} defaultWork ${defaultWork}` );
 
-  const workBytes = bananoUtil.hexToBytes(defaultWork).reverse();
-  const hashBytes = bananoUtil.hexToBytes(hash);
-  const isWorkValid = bananoUtil.isWorkValid(hashBytes, workBytes);
-  // console.log( `getGeneratedWork defaultWork ${defaultWork} valid for hash ${hash} : ${isWorkValid}` );
-  if (isWorkValid) {
-    return defaultWork;
+  if (GENERATE_UNKNOWN_BLOCK_WORK) {
+    const work = bananoUtil.getHashCPUWorker(hash, bananoUtil.getZeroedWorkBytes());
+    console.log( `getGeneratedWork work ${work} for hash ${JSON.stringify( hash )}` );
+    return work;
+  } else {
+    if (defaultWork == undefined) {
+      throw Error(`unknown hash ${hash} sent to getGeneratedWork`);
+    }
+    // console.log( `getGeneratedWork hash ${hash} defaultWork ${defaultWork}` );
+
+    const workBytes = bananoUtil.hexToBytes(defaultWork).reverse();
+    const hashBytes = bananoUtil.hexToBytes(hash);
+    const isWorkValid = bananoUtil.isWorkValid(hashBytes, workBytes);
+    // console.log( `getGeneratedWork defaultWork ${defaultWork} valid for hash ${hash} : ${isWorkValid}` );
+    if (isWorkValid) {
+      return defaultWork;
+    } else {
+      throw Error(`invalid work for known hash ${hash} : ${defaultWork}`);
+    }
   }
-  const work = bananoUtil.getHashCPUWorker(hash);
-  // console.log( `getGeneratedWork work ${work} for hash ${JSON.stringify( hash )}` );
-  return work;
 };
 
 const getAccountsPending = async (accounts, count) => {
@@ -82,6 +93,12 @@ const getAccountsPending = async (accounts, count) => {
 
 const getAccountHistory = async (account, count, head, raw) => {
   // https://docs.nano.org/commands/rpc-protocol/#account-history
+  if (account == 'ban_3rrf6cus8pye6o1kzi5n6wwjof8bjb7ff4xcgesi3njxid6x64pms6onw1f9') {
+    const retval = {};
+    retval.account = account;
+    retval.history = [];
+    return retval;
+  }
   const retval = {};
   retval.account = account;
   retval.history = [];

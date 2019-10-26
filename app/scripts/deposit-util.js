@@ -29,7 +29,7 @@ const receive = async (loggingUtil, bananodeApi, account, privateKey, representa
   }
   /* istanbul ignore if */
   if (LOG_SWEEP) {
-    loggingUtil.log('STARTED getPendingCountMessage account', account);
+    loggingUtil.log('STARTED receive account', account);
   }
   const pending = await bananodeApi.getAccountsPending([account], MAX_ACCOUNTS_PENDING);
   const response = {};
@@ -43,7 +43,7 @@ const receive = async (loggingUtil, bananodeApi, account, privateKey, representa
     response.pendingCount = pendingHashes.length;
     /* istanbul ignore if */
     if (LOG_SWEEP) {
-      loggingUtil.log('INTERIM getPendingCountMessage pendingHashes', pendingHashes);
+      loggingUtil.log('INTERIM receive pendingHashes', pendingHashes);
     }
     if (pendingHashes.length > 0) {
       const sweepBlocks = await sweep(loggingUtil, bananodeApi, privateKey, representative, specificPendingBlockHash);
@@ -55,7 +55,7 @@ const receive = async (loggingUtil, bananodeApi, account, privateKey, representa
   }
   /* istanbul ignore if */
   if (LOG_SWEEP) {
-    loggingUtil.log('SUCCESS getPendingCountMessage account', account);
+    loggingUtil.log('SUCCESS receive account', account);
   }
   return response;
 };
@@ -103,7 +103,7 @@ const sweep = async (loggingUtil, bananodeApi, privateKey, representative, speci
           accountOpenAndReceiveBlocks.push(openBlockHash);
         } else {
           const frontiers = await bananodeApi.getFrontiers(account, 1);
-          const previous = frontiers[account];
+          const previous = frontiers.frontiers[account];
           const hash = pendingBlockHash;
           const valueRaw = pendingValueRaw;
           const receiveBlockHash = await bananoUtil.receive(bananodeApi, privateKey, publicKey, representative, previous, hash, valueRaw);

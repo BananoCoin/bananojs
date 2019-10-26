@@ -2,11 +2,11 @@
 
 amounts are encrypted using the formula:  
 
-  `x` = amount.  
-  `a` = large prime.  
-  `n` = large prime.  
+    `x` = amount.  
+    `a` = large prime.  
+    `n` = large prime.  
 
-  encryptedX =  (`x` + `a`) % `n`;  
+    encryptedX =  (`x` + `a`) % `n`;  
 
 `a` and `n` are computed from blake hashing the shared secret until you find two prime numbers.  
 
@@ -16,14 +16,14 @@ blake's old account balance is `decB0`.
 blake's new account balance is `decB1`.  
 
 when alice sends bans she sends:  
-  her old encrypted amount (`encA0`).  
-  her new encrypted amount (`encA1`).  
-  her sent amount (`encTx0`).  
-  the modulus (`n`).  
+    her old encrypted amount (`encA0`).  
+    her new encrypted amount (`encA1`).  
+    her sent amount (`encTx0`).  
+    the modulus (`n`).  
 
 when blake receives bans he puts in the receive block:  
-  the old encrypted amount (`encB0`).  
-  the new encrypted amount (`encB1`).  
+    the old encrypted amount (`encB0`).  
+    the new encrypted amount (`encB1`).  
 
 the validator wants to make sure the accounts balance:  
     `encA0` - `encTx0` = `encA1`  

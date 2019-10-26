@@ -43,6 +43,13 @@ assumptions:
     `encA0` - `encTx0` = `encA1` BUT `decA0` - `decTx0` != `decA1`  
     `encB0` + `encTx0` = `encB1` BUT `decB0` + `decTx0` != `decB1`  
     `encA0` + `encB0` = `encA1` + `encB1` BUT `decA0` + `decB0` != `decA1` + `decB1`  
-    
+
 2) it is cryptographically hard to find `a` given `n`.  
 3) it is cryptographically hard to find the shared secret given `a` and `n`.  
+4) it is cryptographically hard to find
+
+    `decA0` given `encA0`  
+    `decA1` given `encA1`  
+    `decB0` given `encB0`  
+    `decB1` given `encB1`  
+    `decTx0` given `encTx0`  

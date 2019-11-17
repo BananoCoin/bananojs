@@ -34,8 +34,27 @@ const LOG_GET_HASH_CPU_WORKER = false;
  * @return {string} the banano as a raw value.
  */
 const getRawStrFromBananoStr = (bananoStr) => {
+  /* istanbul ignore if */
+  if (typeof bananoStr !== 'string') {
+    throw Error(`'${bananoStr}' is not a string.`);
+  }
+  const decimalPlace = bananoStr.indexOf('.');
+  let divisor = BigInt('1');
+  // console.log('STARTED getRawStrFromBananoStr', bananoStr, decimalPlace, divisor);
+  if (decimalPlace !== -1) {
+    bananoStr = bananoStr.replace('.', '');
+    const decimalsAfter = bananoStr.length - decimalPlace;
+    // console.log('INTERIM getRawStrFromBananoStr decimalsAfter', decimalsAfter);
+    divisor = BigInt('10') ** BigInt(decimalsAfter);
+  }
+  // console.log('INTERIM getRawStrFromBananoStr', bananoStr, decimalPlace, divisor);
   const banano = BigInt(bananoStr);
-  const bananoRaw = banano * bananoDivisor;
+  // console.log('INTERIM getRawStrFromBananoStr banano   ', banano);
+  // console.log('INTERIM getRawStrFromBananoStr bananoDiv', bananoDivisor);
+  const bananoRaw = (banano * bananoDivisor) / divisor;
+  // console.log('INTERIM getRawStrFromBananoStr bananoRaw', bananoRaw);
+  // const parts = getBananoPartsFromRaw(bananoRaw.toString());
+  // console.log('SUCCESS getRawStrFromBananoStr', bananoStr, bananoRaw, parts);
   return bananoRaw.toString();
 };
 
@@ -319,6 +338,21 @@ const uint4ToUint5 = (uintValue) => {
   return uint5;
 };
 
+
+/**
+ * Get the account suffix for a given public key (everything but ban_ or camo_).
+ *
+ * @memberof BananoUtil
+ * @param {string} publicKey the public key.
+ * @return {string} the account suffix.
+ */
+const getAccountSuffix = (publicKey) => {
+  const keyBytes = uint4ToUint8(hexToUint4(publicKey)); // For some reason here we go from u, to hex, to 4, to 8??
+  const checksum = uint5ToString(uint4ToUint5(uint8ToUint4(blake.blake2b(keyBytes, null, 5).reverse())));
+  const account = uint5ToString(uint4ToUint5(hexToUint4(`0${publicKey}`)));
+  return `${account}${checksum}`;
+};
+
 /**
  * Get the account for a given public key.
  *
@@ -327,11 +361,8 @@ const uint4ToUint5 = (uintValue) => {
  * @return {string} the account.
  */
 const getAccount = (publicKey) => {
-  const keyBytes = uint4ToUint8(hexToUint4(publicKey)); // For some reason here we go from u, to hex, to 4, to 8??
-  const checksum = uint5ToString(uint4ToUint5(uint8ToUint4(blake.blake2b(keyBytes, null, 5).reverse())));
-  const account = uint5ToString(uint4ToUint5(hexToUint4(`0${publicKey}`)));
-
-  return `ban_${account}${checksum}`;
+  const accountSuffix = getAccountSuffix(publicKey);
+  return `ban_${accountSuffix}`;
 };
 
 const uint5ToString = (uint5) => {
@@ -936,3 +967,4 @@ exports.getBananoPartsFromRaw = getBananoPartsFromRaw;
 exports.sendFromPrivateKey = sendFromPrivateKey;
 exports.sendFromPrivateKeyWithRepresentative = sendFromPrivateKeyWithRepresentative;
 exports.sendFromPrivateKeyWithRepresentativeAndPrevious = sendFromPrivateKeyWithRepresentativeAndPrevious;
+exports.getAccountSuffix = getAccountSuffix;

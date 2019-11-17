@@ -66,7 +66,7 @@ describe('send', () => {
       throw error;
     };
     const message = 'Error: The server\'s account balance of 10 bananos is too small, cannot withdraw 11 bananos.';
-    const amountRaw = bananojs.getRawStrFromBananoStr(11);
+    const amountRaw = bananojs.getRawStrFromBananoStr('11');
     await testUtil.expectErrorMessage(message, bananojs.sendAmountToAccount, seed0, seedIx, bananoAccount, amountRaw, successCallback, failureCallback);
   });
   it('sendAmountToAccount undefined account info balance error', async () => {
@@ -78,7 +78,7 @@ describe('send', () => {
       throw error;
     };
     const message = 'Error: The server\'s account balance cannot be retrieved, please try again.';
-    const amountRaw = bananojs.getRawStrFromBananoStr(11);
+    const amountRaw = bananojs.getRawStrFromBananoStr('11');
     await testUtil.expectErrorMessage(message, bananojs.sendAmountToAccount, seed0, seedIx, bananoAccount, amountRaw, successCallback, failureCallback);
   });
   it('sendAmountToAccount undefined account info error', async () => {
@@ -90,7 +90,7 @@ describe('send', () => {
       throw error;
     };
     const message = 'Error: The server\'s account info cannot be retrieved, please try again.';
-    const amountRaw = bananojs.getRawStrFromBananoStr(11);
+    const amountRaw = bananojs.getRawStrFromBananoStr('11');
     await testUtil.expectErrorMessage(message, bananojs.sendAmountToAccount, seed0, seedIx, bananoAccount, amountRaw, successCallback, failureCallback);
   });
 

@@ -249,9 +249,8 @@ const getWorkUsingCpu = (hash, workBytes) => {
   return bananoUtil.getHashCPUWorker(hash, workBytes);
 };
 
-
 /**
- * Converts a hex string to bytes in a Uint8Array.
+ * receives funds at a camo address.
  *
  * @memberof CamoUtil
  * @param {string} toPrivateKey the private key that receives the funds.
@@ -262,7 +261,42 @@ const camoReceive = async (toPrivateKey, fromPublicKey) => {
   return await camoUtil.receive( bananodeApi, toPrivateKey, fromPublicKey );
 };
 
+/**
+ * finds a new private key to recieve more funds. the key would have no history.
+ *
+ * @memberof CamoUtil
+ * @param {string} seed the seed to use to find the account.
+ * @return {string} the private key to use.
+ */
+const camoGetNextPrivateKeyForReceive = async (seed) => {
+  return await camoUtil.getFirstUnopenedPrivateKey( bananodeApi, seed );
+};
 
+/**
+ * sends funds to a camo address.
+ *
+ * @memberof CamoUtil
+ * @param {string} fromPrivateKey the private key that sends the funds.
+ * @param {string} toPublicKey the public key that receiveds the funds.
+ * @return {string_array} the sent hashes in an array.
+ */
+const camoSend = async (fromPrivateKey, toPublicKey, amountBananos) => {
+  const amountRaw = bananoUtil.getRawStrFromBananoStr(amountBananos);
+  return await camoUtil.send( bananodeApi, fromPrivateKey, fromPrivateKey, toPublicKey, amountRaw);
+};
+
+/**
+ * gets the total account balance, in raw.
+ *
+ * @memberof CamoUtil
+ * @param {string} toPrivateKey the private key that receives the funds.
+ * @param {string} fromPublicKey the public key that sent the funds.
+ * @return {string} the account balance, in raw.
+ */
+const getCamoAccountBalanceRaw = async (toPrivateKey, fromPublicKey) => {
+  return await camoUtil.getBalanceRaw( bananodeApi, toPrivateKey, fromPublicKey);
+};
+1;
 /**
  * Get the network block count.
  *
@@ -315,3 +349,7 @@ module.exports.setBananodeApiUrl = setBananodeApiUrl;
 module.exports.getCamoPublicKey = camoUtil.getCamoPublicKey;
 module.exports.getSharedSecret = camoUtil.getSharedSecret;
 module.exports.camoReceive = camoReceive;
+module.exports.camoSend = camoSend;
+module.exports.getCamoAccount = camoUtil.getCamoAccount;
+module.exports.getCamoAccountBalanceRaw = getCamoAccountBalanceRaw;
+module.exports.camoGetNextPrivateKeyForReceive = camoGetNextPrivateKeyForReceive;

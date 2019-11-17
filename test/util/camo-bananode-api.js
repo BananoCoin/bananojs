@@ -11,33 +11,71 @@ const getAccountHistory = async (account, count, head, raw) => {
     retval.previous = '8D3AB98B301224253750D448B4BD997132400CEDD0A8432F775724F2D9821C72';
     return retval;
   }
+
+  if (account == 'ban_3jfbronhgapg9usdisp5rt4ioh65aajzp8woryt4jpxpakgpi5syfx96khed') {
+    return await bananodeApi.getAccountHistory(account, count, head, raw);
+  }
+  if (account == 'ban_39y66s786kbejeyohok53jfx3qoc78bapqc3hec8qgrswjrjskefqyhjrjsc') {
+    const retval = {};
+    retval.account = account;
+    retval.history = [];
+    retval.previous = '8D3AB98B301224253750D448B4BD997132400CEDD0A8432F775724F2D9821C72';
+    return retval;
+  }
+  if (account == 'ban_3i1aq1cchnmbn9x5rsbap8b15akfh7wj7pwskuzi7ahz8oq6cobd99d4r3b7') {
+    return await bananodeApi.getAccountHistory(account, count, head, raw);
+  }
+  if (account == 'ban_3rrf6cus8pye6o1kzi5n6wwjof8bjb7ff4xcgesi3njxid6x64pms6onw1f9') {
+    const retval = {};
+    retval.account = account;
+    retval.history = [];
+    retval.previous = '8D3AB98B301224253750D448B4BD997132400CEDD0A8432F775724F2D9821C72';
+    return retval;
+  }
   throw Error('unknown account:' + account);
 };
 
 const getGeneratedWork = async (hash) => {
-  let defaultWork = '';
+  let defaultWork = undefined;
   if (hash == '70D97F8959975928AD0F1007E8517B75272526A114962CDE33A139E32B05530E') {
     defaultWork = 'BEB5C70000000000';
   }
   if (hash == '000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F') {
     defaultWork = 'FD7B280000000000';
   }
-  if (defaultWork == undefined) {
-    throw Error(`unknown hash ${hash} sent to getGeneratedWork`);
+  if (hash == '9FC4264A62492C8B3D57D6430C5BD0DEAA29928B5D417B146BBB19E4711CC98D') {
+    defaultWork = '9B003C0100000000';
   }
 
-  const workBytes = bananoUtil.hexToBytes(defaultWork).reverse();
-  const hashBytes = bananoUtil.hexToBytes(hash);
-  const isWorkValid = bananoUtil.isWorkValid(hashBytes, workBytes);
-  if (isWorkValid) {
-    return defaultWork;
+  if (defaultWork !== undefined) {
+    const workBytes = bananoUtil.hexToBytes(defaultWork).reverse();
+    const hashBytes = bananoUtil.hexToBytes(hash);
+    const isWorkValid = bananoUtil.isWorkValid(hashBytes, workBytes);
+    if (isWorkValid) {
+      return defaultWork;
+    }
   }
-  const work = bananoUtil.getHashCPUWorker(hash, bananoUtil.getZeroedWorkBytes());
-  throw Error( `getGeneratedWork work ${work} for hash ${hash}` );
-  return work;
+
+  return await bananodeApi.getGeneratedWork(hash);
 };
 
-exports.getAccountBalanceRaw = bananodeApi.getAccountBalanceRaw;
+const getAccountBalanceRaw = (account) => {
+  if (account == 'ban_13pg5mmpp718zzypyxsmfni8td7fknspnzjanhd7crccmpnd36po7njq7m18') {
+    const json = {};
+    json.balances = {};
+    json.balances[account] = {};
+    json.balances[account].balance = '000000000000000000000000000000';
+    json.balances[account].pending = '000000000000000000000000000000';
+
+    const balance = json.balances[account].balance;
+
+    return balance;
+  } else {
+    return bananodeApi.getAccountBalanceRaw(account);
+  }
+};
+
+exports.getAccountBalanceRaw = getAccountBalanceRaw;
 exports.getAccountRepresentative = bananodeApi.getAccountRepresentative;
 exports.getPrevious = bananodeApi.getPrevious;
 exports.process = bananodeApi.process;

@@ -51,7 +51,7 @@ const receive = async (loggingUtil, bananodeApi, account, privateKey, representa
       response.receiveCount = sweepBlocks.length;
     }
   } else {
-    response.pendingMessage = `pending (max ${MAX_ACCOUNTS_PENDING}): none found:${JSON.stringify(pending)}\n`;
+    response.pendingMessage = `pending unknown blocks, of max ${MAX_ACCOUNTS_PENDING}.`;
   }
   /* istanbul ignore if */
   if (LOG_SWEEP) {

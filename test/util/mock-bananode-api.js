@@ -80,13 +80,28 @@ const getGeneratedWork = async (hash) => {
 };
 
 const getAccountsPending = async (accounts, count) => {
+  const validPendingAccountSet = new Set();
+  validPendingAccountSet.add('ban_3i1aq1cchnmbn9x5rsbap8b15akfh7wj7pwskuzi7ahz8oq6cobd99d4r3b7');
+  validPendingAccountSet.add('ban_3jfbronhgapg9usdisp5rt4ioh65aajzp8woryt4jpxpakgpi5syfx96khed');
+  validPendingAccountSet.add('ban_3rrf6cus8pye6o1kzi5n6wwjof8bjb7ff4xcgesi3njxid6x64pms6onw1f9');
+  validPendingAccountSet.add('ban_39y66s786kbejeyohok53jfx3qoc78bapqc3hec8qgrswjrjskefqyhjrjsc');
+  validPendingAccountSet.add('ban_1w8shy6om7ts74piy619x3aqpxb96nmc476p7mh59absweoicnrg5wqmz1kd');
+  validPendingAccountSet.add('ban_1dzcca9ycmtx3q79mocmu95zdduxptp3gp5fqkmb1ownscpweggzah8cb4rb');
+
   // https://docs.nano.org/commands/rpc-protocol/#accounts-pending
   const retval = {};
   retval.blocks = {};
   accounts.forEach((account) => {
+    if (!validPendingAccountSet.has(account)) {
+      throw Error(`unknown account '${account}'`);
+    }
     retval.blocks[account] = {};
-    retval.blocks[account]['142A538F36833D1CC78B94E11C766F75818F8B940771335C6C1B8AB880C5BB1D'] = 1;
-    retval.blocks[account]['242A538F36833D1CC78B94E11C766F75818F8B940771335C6C1B8AB880C5BB1D'] = 2;
+
+    if (account == 'ban_1dzcca9ycmtx3q79mocmu95zdduxptp3gp5fqkmb1ownscpweggzah8cb4rb') {
+    } else {
+      retval.blocks[account]['142A538F36833D1CC78B94E11C766F75818F8B940771335C6C1B8AB880C5BB1D'] = 1;
+      retval.blocks[account]['242A538F36833D1CC78B94E11C766F75818F8B940771335C6C1B8AB880C5BB1D'] = 2;
+    }
   });
   return retval;
 };

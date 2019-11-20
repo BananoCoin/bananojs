@@ -13,6 +13,8 @@ const testUtil = require('../util/test-util.js');
 
 const invalidBanAccount = 'ban_111111111111111111111111111111111111111111111111111111111112';
 
+const invalidCamoAccount = 'camo_21111111111111111111111111111111111111111111111111111111111';
+
 describe('corner-cases', () => {
   it('decToHex matches expected', () => {
     const bananojs = testUtil.getBananojsWithMockApi();
@@ -25,16 +27,28 @@ describe('corner-cases', () => {
     const message = 'Undefined BANANO Account';
     await testUtil.expectErrorMessage(message, bananojs.getAccountPublicKey);
   });
-  it('getAccountPublicKey error Invalid BANANO Account prefix \'\'', async () => {
+  it('getAccountPublicKey error Invalid BANANO Account prefix', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
     const message = 'Invalid BANANO Account prefix \'\'';
     await testUtil.expectErrorMessage(message, bananojs.getAccountPublicKey, '');
   });
   it('getAccountPublicKey error Invalid BANANO Account', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
-    const message = `Invalid BANANO Account \'${invalidBanAccount}\'`;
+    const message = `Invalid BANANO Account \'${invalidBanAccount}\', does not match regex '^[13456789abcdefghijkmnopqrstuwxyz]+$'`;
     await testUtil.expectErrorMessage(message, bananojs.getAccountPublicKey,
         invalidBanAccount);
+  });
+  it('getAccountPublicKey error Invalid CAMO BANANO Account prefix', async () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    const message = `Invalid CAMO BANANO Account prefix \'${invalidCamoAccount}\'`;
+    await testUtil.expectErrorMessage(message, bananojs.getAccountPublicKey,
+        invalidCamoAccount);
+  });
+  it('getAccountPublicKey camo', async () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    const expected = bananoTest.accountPublicKey;
+    const actual = bananojs.getAccountPublicKey(bananoTest.camoAccount);
+    expect(expected).to.deep.equal(actual);
   });
   it('getRawStrFromBanoshiStr matches expected', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();

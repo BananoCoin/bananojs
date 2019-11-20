@@ -240,13 +240,27 @@ const getAccountPublicKey = (account) => {
   if (account === undefined) {
     throw Error(`Undefined BANANO Account`);
   }
-  if (((!account.startsWith('ban_1')) && (!account.startsWith('ban_3'))) || (account.length !== 64)) {
-    throw Error(`Invalid BANANO Account prefix '${account}'`);
+  let account_crop;
+  if (account.startsWith('camo')) {
+    if (((!account.startsWith('camo_1')) &&
+        (!account.startsWith('camo_3'))) ||
+        (account.length !== 65)) {
+      throw Error(`Invalid CAMO BANANO Account prefix '${account}'`);
+    }
+    account_crop = account.substring(5, 65);
+  } else {
+    if (((!account.startsWith('ban_1')) &&
+        (!account.startsWith('ban_3'))) ||
+        (account.length !== 64)) {
+      throw Error(`Invalid BANANO Account prefix '${account}'`);
+    }
+    account_crop = account.substring(4, 64);
   }
-  const account_crop = account.substring(4, 64);
-  const isValid = /^[13456789abcdefghijkmnopqrstuwxyz]+$/.test(account_crop);
+  const regexStr = '^[13456789abcdefghijkmnopqrstuwxyz]+$';
+  const regex = new RegExp(regexStr);
+  const isValid = regex.test(account_crop);
   if (!isValid) {
-    throw Error(`Invalid BANANO Account '${account}'`);
+    throw Error(`Invalid BANANO Account '${account}', does not match regex '${regexStr}'`);
   }
 
   const key_uint4 = array_crop(uint5ToUint4(stringToUint5(account_crop.substring(0, 52))));

@@ -108,6 +108,24 @@ describe('camo', () => {
     const actualResponse = await bananojs.camoSend(privateKey0, publicKey0, amountBananos);
     expect(actualResponse).to.deep.equal(expectedResponse);
   });
+  it('camo camoSendWithdrawalFromSeed 1 valid account matches expected', async () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    const amountBananos = '1';
+    const publicKey0 = await bananojs.getCamoPublicKey(privateKey0);
+    const camoAccount0 = await bananojs.getCamoAccount(publicKey0);
+    const expectedResponse = [];
+    expectedResponse.push('000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F');
+    const actualResponse = await bananojs.camoSendWithdrawalFromSeed(seed0, 0, camoAccount0, amountBananos);
+    expect(actualResponse).to.deep.equal(expectedResponse);
+  });
+  it('getAccountPublicKey camo', async () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    const amountBananos = '1';
+    const invalidCamoAccount = 'camo_21111111111111111111111111111111111111111111111111111111111';
+    const message = `Invalid CAMO BANANO Account prefix \'${invalidCamoAccount}\'`;
+    await testUtil.expectErrorMessage(message, bananojs.camoSendWithdrawalFromSeed,
+        seed0, 0, invalidCamoAccount, amountBananos);
+  });
 
   beforeEach(async () => {
   });

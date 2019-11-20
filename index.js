@@ -278,12 +278,36 @@ const camoGetNextPrivateKeyForReceive = async (seed) => {
  * @memberof CamoUtil
  * @param {string} fromPrivateKey the private key that sends the funds.
  * @param {string} toPublicKey the public key that receiveds the funds.
+ * @param {string} amountBananos the amount of bananos.
  * @return {string_array} the sent hashes in an array.
  */
 const camoSend = async (fromPrivateKey, toPublicKey, amountBananos) => {
   const amountRaw = bananoUtil.getRawStrFromBananoStr(amountBananos);
   return await camoUtil.send( bananodeApi, fromPrivateKey, fromPrivateKey, toPublicKey, amountRaw);
 };
+
+
+/**
+ * sends funds to a camo address.
+ *
+ * @memberof CamoUtil
+ * @param {string} seed the seed to use to find the account.
+ * @param {string} seedIx the index to use with the seed.
+ * @param {string} toAccount the accont to send to.
+ * @param {string} amountBananos the amount of bananos.
+ * @return {string_array} the sent hashes in an array.
+ */
+const camoSendWithdrawalFromSeed = async (seed, seedIx, toAccount, amountBananos) => {
+  if (((!toAccount.startsWith('camo_1')) &&
+        (!toAccount.startsWith('camo_3'))) ||
+        (toAccount.length !== 65)) {
+    throw Error(`Invalid CAMO BANANO Account prefix '${toAccount}'`);
+  }
+  const fromPrivateKey = bananoUtil.getPrivateKey(seed, seedIx);
+  const toPublicKey = bananoUtil.getAccountPublicKey(toAccount);
+  return await camoSend( fromPrivateKey, toPublicKey, amountBananos);
+};
+
 
 /**
  * gets the total account balance, in raw.
@@ -296,7 +320,7 @@ const camoSend = async (fromPrivateKey, toPublicKey, amountBananos) => {
 const getCamoAccountBalanceRaw = async (toPrivateKey, fromPublicKey) => {
   return await camoUtil.getBalanceRaw( bananodeApi, toPrivateKey, fromPublicKey);
 };
-1;
+
 /**
  * Get the network block count.
  *
@@ -350,6 +374,7 @@ module.exports.getCamoPublicKey = camoUtil.getCamoPublicKey;
 module.exports.getSharedSecret = camoUtil.getSharedSecret;
 module.exports.camoReceive = camoReceive;
 module.exports.camoSend = camoSend;
+module.exports.camoSendWithdrawalFromSeed = camoSendWithdrawalFromSeed;
 module.exports.getCamoAccount = camoUtil.getCamoAccount;
 module.exports.getCamoAccountBalanceRaw = getCamoAccountBalanceRaw;
 module.exports.camoGetNextPrivateKeyForReceive = camoGetNextPrivateKeyForReceive;

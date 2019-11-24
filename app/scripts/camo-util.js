@@ -648,13 +648,64 @@ const receive = async ( bananodeApi, toPrivateKey, fromPublicKey ) => {
 /**
  * Get the camo account for a given camo public key.
  *
- * @memberof BananoUtil
+ * @memberof CamoUtil
  * @param {string} publicKey the camo public key.
  * @return {string} the camo account.
  */
 const getCamoAccount = (camoPublicKey) => {
   const accountSuffix = bananoUtil.getAccountSuffix(camoPublicKey);
   return `camo_${accountSuffix}`;
+};
+
+/**
+* @memberof CamoUtil
+ * checks if a camo account is valid.
+ * @param {string} publicKey the camo public key.
+ * @return {boolean} true if the camo account is valid.
+ */
+const isCamoAccountValid = (camoAccount) => {
+  if (((!camoAccount.startsWith('camo_1')) &&
+        (!camoAccount.startsWith('camo_3'))) ||
+        (camoAccount.length !== 65)) {
+    const retval = {};
+    retval.isValid = false;
+    retval.message = `Invalid CAMO BANANO Account prefix '${camoAccount}'`;
+    return retval;
+  }
+  const accountSuffix = camoAccount.substring(5, 65);
+  const isSuffixValid = bananoUtil.isAccountSuffixValid(accountSuffix);
+  if (!isSuffixValid.isValid) {
+    const retval = {};
+    retval.isValid = false;
+    retval.message = `Invalid CAMO BANANO Account '${camoAccount}', ${isSuffixValid.message}`;
+    return retval;
+  }
+  const retval = {};
+  retval.isValid = true;
+  retval.message = '';
+  return retval;
+};
+
+const getAccountsPending = async (bananodeApi, toPrivateKey, fromPublicKey, count) => {
+  /* istanbul ignore if */
+  if ( bananodeApi === undefined ) {
+    throw Error( 'bananodeApi is a required parameter.' );
+  }
+  /* istanbul ignore if */
+  if ( toPrivateKey === undefined ) {
+    throw Error( 'toPrivateKey is a required parameter.' );
+  }
+  /* istanbul ignore if */
+  if ( fromPublicKey === undefined ) {
+    throw Error( 'fromPublicKey is a required parameter.' );
+  }
+  const sharedSecret = await getSharedSecretFromRepresentative( bananodeApi, toPrivateKey, fromPublicKey );
+  const seed = sharedSecret;
+  const privateKey = bananoUtil.getPrivateKey( seed, 0 );
+  const publicKey = bananoUtil.getPublicKey( privateKey );
+  const account = bananoUtil.getAccount( publicKey );
+  const accounts = [account];
+  return bananodeApi.getAccountsPending(accounts, count);
 };
 
 exports.receiveSeed = receiveSeed;
@@ -671,3 +722,5 @@ exports.getCamoPublicKeyBytes = getCamoPublicKeyBytes;
 exports.getFirstUnopenedPrivateKey = getFirstUnopenedPrivateKey;
 // exports.openAccountWithPrivateKey = openAccountWithPrivateKey;
 exports.getCamoAccount = getCamoAccount;
+exports.isCamoAccountValid = isCamoAccountValid;
+exports.getAccountsPending = getAccountsPending;

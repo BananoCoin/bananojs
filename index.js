@@ -97,7 +97,7 @@ const receiveDepositsForSeed = async (seed, seedIx, representative, specificPend
  * @memberof WithdrawUtil
  * @param {string} seed the seed to use to find the account.
  * @param {string} seedIx the index to use with the seed.
- * @param {string} toAccount the accont to send to.
+ * @param {string} toAccount the account to send to.
  * @param {string} amountBananos the amount of bananos.
  * @return {object} returns the response returned by the withdraw.
  */
@@ -286,28 +286,43 @@ const camoSend = async (fromPrivateKey, toPublicKey, amountBananos) => {
   return await camoUtil.send( bananodeApi, fromPrivateKey, fromPrivateKey, toPublicKey, amountRaw);
 };
 
-
 /**
- * sends funds to a camo address.
+ * sends funds to a camo account.
  *
  * @memberof CamoUtil
  * @param {string} seed the seed to use to find the account.
  * @param {string} seedIx the index to use with the seed.
- * @param {string} toAccount the accont to send to.
+ * @param {string} toAccount the account to send to.
  * @param {string} amountBananos the amount of bananos.
  * @return {string_array} the sent hashes in an array.
  */
 const camoSendWithdrawalFromSeed = async (seed, seedIx, toAccount, amountBananos) => {
-  if (((!toAccount.startsWith('camo_1')) &&
-        (!toAccount.startsWith('camo_3'))) ||
-        (toAccount.length !== 65)) {
-    throw Error(`Invalid CAMO BANANO Account prefix '${toAccount}'`);
+  const accountValid = camoUtil.isCamoAccountValid(toAccount);
+  if (!accountValid.isValid) {
+    throw Error(accountValid.message);
   }
   const fromPrivateKey = bananoUtil.getPrivateKey(seed, seedIx);
   const toPublicKey = bananoUtil.getAccountPublicKey(toAccount);
   return await camoSend( fromPrivateKey, toPublicKey, amountBananos);
 };
 
+/**
+ * get the pending blocks for the camo account.
+ * @param {string} seed the seed to use to find the account.
+ * @param {string} seedIx the index to use with the seed.
+ * @param {string} fromAccount the account to recieve from.
+ * @param {number} count the max count to get.
+ * @return {string_array} the pending hashes in an array.
+ */
+const camoGetAccountsPending = async (seed, seedIx, fromAccount) => {
+  const accountValid = camoUtil.isCamoAccountValid(fromAccount);
+  if (!accountValid.isValid) {
+    throw Error(accountValid.message);
+  }
+  const toPrivateKey = bananoUtil.getPrivateKey(seed, seedIx);
+  const fromPublicKey = bananoUtil.getAccountPublicKey(fromAccount);
+  return await camoUtil.getAccountsPending(bananodeApi, toPrivateKey, fromPublicKey);
+};
 
 /**
  * gets the total account balance, in raw.
@@ -327,7 +342,7 @@ const getCamoAccountBalanceRaw = async (toPrivateKey, fromPublicKey) => {
  * Calls {@link https://docs.nano.org/commands/rpc-protocol/#accounts_pending}
  * @memberof BananodeApi
  * @param {string_array} accounts the array of pending accounts.
- * @param {string} count the max count to get.
+ * @param {number} count the max count to get.
  * @return {object} the account's pending blocks.
  */
 const getAccountsPending = async (accounts, count) => {
@@ -378,3 +393,4 @@ module.exports.camoSendWithdrawalFromSeed = camoSendWithdrawalFromSeed;
 module.exports.getCamoAccount = camoUtil.getCamoAccount;
 module.exports.getCamoAccountBalanceRaw = getCamoAccountBalanceRaw;
 module.exports.camoGetNextPrivateKeyForReceive = camoGetNextPrivateKeyForReceive;
+module.exports.camoGetAccountsPending = camoGetAccountsPending;

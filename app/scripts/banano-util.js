@@ -14,6 +14,8 @@ const banoshiDivisor = BigInt('1000000000000000000000000000');
 
 const bananoDivisor = BigInt('100000000000000000000000000000');
 
+const ACCOUNT_ALPHABET_REGEX_STR = '^[13456789abcdefghijkmnopqrstuwxyz]+$';
+
 const LOG_SEND = false;
 
 const LOG_SEND_PROCESS = false;
@@ -229,6 +231,19 @@ const stringToUint5 = (string) => {
   return uint5;
 };
 
+const isAccountSuffixValid = (accountSuffix) => {
+  const regex = new RegExp(ACCOUNT_ALPHABET_REGEX_STR);
+  const isValid = regex.test(accountSuffix);
+  const retval = {};
+  retval.isValid = isValid;
+  if (isValid) {
+    retval.message = '';
+  } else {
+    retval.message = `does not match regex '${ACCOUNT_ALPHABET_REGEX_STR}'`;
+  }
+  return retval;
+};
+
 /**
  * Get the public key for a given account.
  *
@@ -256,11 +271,9 @@ const getAccountPublicKey = (account) => {
     }
     account_crop = account.substring(4, 64);
   }
-  const regexStr = '^[13456789abcdefghijkmnopqrstuwxyz]+$';
-  const regex = new RegExp(regexStr);
-  const isValid = regex.test(account_crop);
-  if (!isValid) {
-    throw Error(`Invalid BANANO Account '${account}', does not match regex '${regexStr}'`);
+  const isAccountValid = isAccountSuffixValid(account_crop);
+  if (!isAccountValid.isValid) {
+    throw Error(`Invalid BANANO Account '${account}', ${isAccountValid.message}`);
   }
 
   const key_uint4 = array_crop(uint5ToUint4(stringToUint5(account_crop.substring(0, 52))));
@@ -982,3 +995,4 @@ exports.sendFromPrivateKey = sendFromPrivateKey;
 exports.sendFromPrivateKeyWithRepresentative = sendFromPrivateKeyWithRepresentative;
 exports.sendFromPrivateKeyWithRepresentativeAndPrevious = sendFromPrivateKeyWithRepresentativeAndPrevious;
 exports.getAccountSuffix = getAccountSuffix;
+exports.isAccountSuffixValid = isAccountSuffixValid;

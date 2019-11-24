@@ -574,7 +574,6 @@ const send = async ( bananodeApi, fundingPrivateKey, fromPrivateKey, toPublicKey
     amounts.push( powersOfTwoRaw );
   }
 
-
   const sharedSecret = await getSharedSecretFromRepresentative( bananodeApi, fromPrivateKey, toPublicKey );
   /* istanbul ignore if */
   if ( LOG_SEND ) {
@@ -686,6 +685,28 @@ const isCamoAccountValid = (camoAccount) => {
   return retval;
 };
 
+
+const getSharedAccount = async (bananodeApi, privateKey, publicKey) => {
+  /* istanbul ignore if */
+  if ( bananodeApi === undefined ) {
+    throw Error( 'bananodeApi is a required parameter.' );
+  }
+  /* istanbul ignore if */
+  if ( privateKey === undefined ) {
+    throw Error( 'privateKey is a required parameter.' );
+  }
+  /* istanbul ignore if */
+  if ( publicKey === undefined ) {
+    throw Error( 'publicKey is a required parameter.' );
+  }
+  const sharedSecret = await getSharedSecretFromRepresentative( bananodeApi, privateKey, publicKey );
+  const sharedSeed = sharedSecret;
+  const sharedPrivateKey = bananoUtil.getPrivateKey( sharedSeed, 0 );
+  const sharedPublicKey = bananoUtil.getPublicKey( sharedPrivateKey );
+  const sharedAccount = bananoUtil.getAccount( sharedPublicKey );
+  return sharedAccount;
+};
+
 const getAccountsPending = async (bananodeApi, toPrivateKey, fromPublicKey, count) => {
   /* istanbul ignore if */
   if ( bananodeApi === undefined ) {
@@ -703,11 +724,7 @@ const getAccountsPending = async (bananodeApi, toPrivateKey, fromPublicKey, coun
   if ( count === undefined ) {
     throw Error( 'count is a required parameter.' );
   }
-  const sharedSecret = await getSharedSecretFromRepresentative( bananodeApi, toPrivateKey, fromPublicKey );
-  const seed = sharedSecret;
-  const privateKey = bananoUtil.getPrivateKey( seed, 0 );
-  const publicKey = bananoUtil.getPublicKey( privateKey );
-  const account = bananoUtil.getAccount( publicKey );
+  const account = await getSharedAccount(bananodeApi, toPrivateKey, fromPublicKey);
   const accounts = [account];
   return bananodeApi.getAccountsPending(accounts, count);
 };
@@ -728,3 +745,4 @@ exports.getFirstUnopenedPrivateKey = getFirstUnopenedPrivateKey;
 exports.getCamoAccount = getCamoAccount;
 exports.isCamoAccountValid = isCamoAccountValid;
 exports.getAccountsPending = getAccountsPending;
+exports.getSharedAccount = getSharedAccount;

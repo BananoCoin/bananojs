@@ -158,6 +158,22 @@ describe('camo', () => {
     await testUtil.expectErrorMessage(message, bananojs.camoGetAccountsPending,
         seed0, 0, invalidCamoAccount, count);
   });
+  it('camo getCamoSharedAccount valid account matches expected', async () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    const publicKey0 = await bananojs.getCamoPublicKey(privateKey0);
+    const camoAccount0 = await bananojs.getCamoAccount(publicKey0);
+    const expectedResponse = 'ban_1jzp4mwnx9htxrycg9dbsgo4psk4yd1u4z1twsngz5ei6fk3gf395w8ponjs';
+    const actualResponse = await bananojs.getCamoSharedAccount(seed0, 0, camoAccount0);
+    expect(actualResponse).to.deep.equal(expectedResponse);
+  });
+  it('getCamoSharedAccount camo error', async () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    const count = 1;
+    const invalidCamoAccount = 'camo_123456789012345678901234567890123456789012345678901234567890';
+    const message = `Invalid CAMO BANANO Account \'${invalidCamoAccount}\', does not match regex '^[13456789abcdefghijkmnopqrstuwxyz]+$'`;
+    await testUtil.expectErrorMessage(message, bananojs.getCamoSharedAccount,
+        seed0, 0, invalidCamoAccount, count);
+  });
 
   beforeEach(async () => {
   });

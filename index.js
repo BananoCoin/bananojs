@@ -325,6 +325,24 @@ const camoGetAccountsPending = async (seed, seedIx, fromAccount, count) => {
 };
 
 /**
+ * get the shared account, used as an intermediary to send finds between the seed and the camo account.
+ * @param {string} seed the seed to use to find the account.
+ * @param {string} seedIx the index to use with the seed.
+ * @param {string} account the camo account to send or recieve from.
+ * @return {string} the shared account.
+ */
+const getCamoSharedAccount = async (seed, seedIx, account) => {
+  const accountValid = camoUtil.isCamoAccountValid(account);
+  if (!accountValid.isValid) {
+    throw Error(accountValid.message);
+  }
+  const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
+  const publicKey = bananoUtil.getAccountPublicKey(account);
+  return await camoUtil.getSharedAccount(bananodeApi, privateKey, publicKey);
+};
+
+
+/**
  * gets the total account balance, in raw.
  *
  * @memberof CamoUtil
@@ -394,3 +412,4 @@ module.exports.getCamoAccount = camoUtil.getCamoAccount;
 module.exports.getCamoAccountBalanceRaw = getCamoAccountBalanceRaw;
 module.exports.camoGetNextPrivateKeyForReceive = camoGetNextPrivateKeyForReceive;
 module.exports.camoGetAccountsPending = camoGetAccountsPending;
+module.exports.getCamoSharedAccount = getCamoSharedAccount;

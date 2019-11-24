@@ -699,6 +699,10 @@ const getAccountsPending = async (bananodeApi, toPrivateKey, fromPublicKey, coun
   if ( fromPublicKey === undefined ) {
     throw Error( 'fromPublicKey is a required parameter.' );
   }
+  /* istanbul ignore if */
+  if ( count === undefined ) {
+    throw Error( 'count is a required parameter.' );
+  }
   const sharedSecret = await getSharedSecretFromRepresentative( bananodeApi, toPrivateKey, fromPublicKey );
   const seed = sharedSecret;
   const privateKey = bananoUtil.getPrivateKey( seed, 0 );

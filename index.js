@@ -314,14 +314,14 @@ const camoSendWithdrawalFromSeed = async (seed, seedIx, toAccount, amountBananos
  * @param {number} count the max count to get.
  * @return {string_array} the pending hashes in an array.
  */
-const camoGetAccountsPending = async (seed, seedIx, fromAccount) => {
+const camoGetAccountsPending = async (seed, seedIx, fromAccount, count) => {
   const accountValid = camoUtil.isCamoAccountValid(fromAccount);
   if (!accountValid.isValid) {
     throw Error(accountValid.message);
   }
   const toPrivateKey = bananoUtil.getPrivateKey(seed, seedIx);
   const fromPublicKey = bananoUtil.getAccountPublicKey(fromAccount);
-  return await camoUtil.getAccountsPending(bananodeApi, toPrivateKey, fromPublicKey);
+  return await camoUtil.getAccountsPending(bananodeApi, toPrivateKey, fromPublicKey, count);
 };
 
 /**

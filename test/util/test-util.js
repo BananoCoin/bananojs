@@ -36,6 +36,12 @@ const getBananojsWithPendingErrorApi = () => {
   return bananojs;
 };
 
+const getBananojsWithAccountRepresentativeUndefinedApi = () => {
+  const bananodeApi = require('./representative-undefined-bananode-api.js');
+  bananojs.setBananodeApi(bananodeApi);
+  return bananojs;
+};
+
 const getBananojsWithAccountInfoBalanceErrorApi = () => {
   const bananodeApi = require('./account-info-balance-error-bananode-api.js');
   bananojs.setBananodeApi(bananodeApi);
@@ -81,5 +87,6 @@ exports.getBananojsWithAccountInfoBalanceErrorApi = getBananojsWithAccountInfoBa
 exports.getBananojsWithAccountInfoErrorApi = getBananojsWithAccountInfoErrorApi;
 exports.getBananojsWithCamoApi = getBananojsWithCamoApi;
 exports.getBananojsWithPendingErrorApi = getBananojsWithPendingErrorApi;
+exports.getBananojsWithAccountRepresentativeUndefinedApi = getBananojsWithAccountRepresentativeUndefinedApi;
 exports.expectErrorMessage = expectErrorMessage;
 exports.deactivate = deactivate;

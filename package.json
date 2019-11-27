@@ -1,6 +1,6 @@
 {
   "name": "@bananocoin/bananojs",
-  "version": "1.0.29",
+  "version": "1.0.30",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -29,7 +29,7 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "documentation": "^12.1.4",
-    "eslint": "^6.7.0",
+    "eslint": "^6.7.1",
     "eslint-config-google": "^0.14.0",
     "mocha": "^6.2.2",
     "nyc": "^14.1.1"

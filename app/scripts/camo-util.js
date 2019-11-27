@@ -398,9 +398,13 @@ const getSharedSecretFromRepresentative = async ( bananodeApi, toPrivateKey, fro
   }
   const fromAccount = bananoUtil.getAccount( fromPublicKey );
   const fromRepresentative = await bananodeApi.getAccountRepresentative( fromAccount );
-  const fromCamoPublicKey = bananoUtil.getAccountPublicKey( fromRepresentative );
-  const sharedSecret = getSharedSecret( toPrivateKey, fromCamoPublicKey );
-  return sharedSecret;
+  if (fromRepresentative) {
+    const fromCamoPublicKey = bananoUtil.getAccountPublicKey( fromRepresentative );
+    const sharedSecret = getSharedSecret( toPrivateKey, fromCamoPublicKey );
+    return sharedSecret;
+  } else {
+    return undefined;
+  }
 };
 
 const getBalanceRaw = async ( bananodeApi, toPrivateKey, fromPublicKey ) => {
@@ -685,7 +689,6 @@ const isCamoAccountValid = (camoAccount) => {
   return retval;
 };
 
-
 const getSharedAccount = async (bananodeApi, privateKey, publicKey) => {
   /* istanbul ignore if */
   if ( bananodeApi === undefined ) {
@@ -700,11 +703,15 @@ const getSharedAccount = async (bananodeApi, privateKey, publicKey) => {
     throw Error( 'publicKey is a required parameter.' );
   }
   const sharedSecret = await getSharedSecretFromRepresentative( bananodeApi, privateKey, publicKey );
-  const sharedSeed = sharedSecret;
-  const sharedPrivateKey = bananoUtil.getPrivateKey( sharedSeed, 0 );
-  const sharedPublicKey = bananoUtil.getPublicKey( sharedPrivateKey );
-  const sharedAccount = bananoUtil.getAccount( sharedPublicKey );
-  return sharedAccount;
+  if(sharedSecret) {
+    const sharedSeed = sharedSecret;
+    const sharedPrivateKey = bananoUtil.getPrivateKey( sharedSeed, 0 );
+    const sharedPublicKey = bananoUtil.getPublicKey( sharedPrivateKey );
+    const sharedAccount = bananoUtil.getAccount( sharedPublicKey );
+    return sharedAccount;
+  } else {
+    return undefined;
+  }
 };
 
 const getAccountsPending = async (bananodeApi, toPrivateKey, fromPublicKey, count) => {

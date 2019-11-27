@@ -168,11 +168,18 @@ describe('camo', () => {
   });
   it('getCamoSharedAccount camo error', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
-    const count = 1;
     const invalidCamoAccount = 'camo_123456789012345678901234567890123456789012345678901234567890';
     const message = `Invalid CAMO BANANO Account \'${invalidCamoAccount}\', does not match regex '^[13456789abcdefghijkmnopqrstuwxyz]+$'`;
     await testUtil.expectErrorMessage(message, bananojs.getCamoSharedAccount,
-        seed0, 0, invalidCamoAccount, count);
+        seed0, 0, invalidCamoAccount);
+  });
+  it('getCamoSharedAccount no rep error', async () => {
+    const bananojs = testUtil.getBananojsWithAccountRepresentativeUndefinedApi();
+    const publicKey0 = await bananojs.getCamoPublicKey(privateKey0);
+    const camoAccount0 = await bananojs.getCamoAccount(publicKey0);
+    const expectedResponse = undefined;
+    const actualResponse = await bananojs.getCamoSharedAccount(seed0, 0, camoAccount0);
+    expect(actualResponse).to.deep.equal(expectedResponse);
   });
 
   beforeEach(async () => {

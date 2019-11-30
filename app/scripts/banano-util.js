@@ -970,6 +970,13 @@ const getAccountValidationInfo = (account) => {
   };
 };
 
+const isAccountOpen = async (bananodeApi, account) => {
+  const history = await bananodeApi.getAccountHistory( account, 1 );
+  const history_history = history.history;
+  const history_history_length = history_history.length;
+  return history_history_length !== 0;
+};
+
 exports.decToHex = decToHex;
 exports.incrementBytes = incrementBytes;
 exports.getAccountValidationInfo = getAccountValidationInfo;
@@ -996,3 +1003,4 @@ exports.sendFromPrivateKeyWithRepresentative = sendFromPrivateKeyWithRepresentat
 exports.sendFromPrivateKeyWithRepresentativeAndPrevious = sendFromPrivateKeyWithRepresentativeAndPrevious;
 exports.getAccountSuffix = getAccountSuffix;
 exports.isAccountSuffixValid = isAccountSuffixValid;
+exports.isAccountOpen = isAccountOpen;

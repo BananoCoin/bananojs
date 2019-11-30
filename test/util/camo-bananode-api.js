@@ -32,6 +32,14 @@ const getAccountHistory = async (account, count, head, raw) => {
     retval.previous = '8D3AB98B301224253750D448B4BD997132400CEDD0A8432F775724F2D9821C72';
     return retval;
   }
+  if (account == 'ban_1jzp4mwnx9htxrycg9dbsgo4psk4yd1u4z1twsngz5ei6fk3gf395w8ponjs') {
+    const retval = {};
+    retval.account = account;
+    retval.history = [];
+    retval.previous = '8D3AB98B301224253750D448B4BD997132400CEDD0A8432F775724F2D9821C72';
+    return retval;
+  }
+
   throw Error('unknown account:' + account);
 };
 
@@ -45,6 +53,12 @@ const getGeneratedWork = async (hash) => {
   }
   if (hash == '9FC4264A62492C8B3D57D6430C5BD0DEAA29928B5D417B146BBB19E4711CC98D') {
     defaultWork = '9B003C0100000000';
+  }
+  if (hash == '47F614F94E9DFAEE3CA71D69CBAA2B6642F2C1B17C1AE668EF8D902364173427') {
+    defaultWork = '2E083C0000000000';
+  }
+  if (hash == '000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F') {
+    defaultWork = 'FD7B280000000000';
   }
 
   if (defaultWork !== undefined) {

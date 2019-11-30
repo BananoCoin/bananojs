@@ -343,6 +343,40 @@ const getCamoSharedAccount = async (seed, seedIx, account) => {
 
 
 /**
+ * recieve a pending camo block.
+ * @param {string} seed the seed to use to find the account.
+ * @param {string} seedIx the index to use with the seed.
+ * @param {string} account the camo account to send or recieve from.
+ * @param {string} pendingBlockHash the pending block to recieve.
+ * @param {string} pendingValueRaw the pending block's value in raw, to receive.
+ * @return {string} the response from receiving the block.
+ */
+const receiveCamoBlock = async (seed, seedIx, account, pendingBlockHash, pendingValueRaw) => {
+  const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
+  const publicKey = bananoUtil.getAccountPublicKey(account);
+  const sharedSecret = await camoUtil.getSharedSecretFromRepresentative( bananodeApi, privateKey, publicKey );
+  if (sharedSecret) {
+    const sharedSeed = sharedSecret;
+    const sharedPrivateKey = bananoUtil.getPrivateKey( sharedSeed, 0 );
+    const sharedPublicKey = bananoUtil.getPublicKey( sharedPrivateKey );
+    const sharedAccount = bananoUtil.getAccount( sharedPublicKey );
+    const sharedCamoPublicKey = await camoUtil.getCamoPublicKey( sharedPrivateKey );
+    const sharedCamoAccount = bananoUtil.getAccount( sharedCamoPublicKey );
+    const representative = sharedCamoAccount;
+
+    const blockOpenFlag = await bananoUtil.isAccountOpen(bananodeApi, sharedAccount);
+    const response = await camoUtil.receiveBlock(bananodeApi, blockOpenFlag, account, sharedPrivateKey,
+        sharedPublicKey, representative, pendingBlockHash, pendingValueRaw);
+    return response;
+  } else {
+    return undefined;
+  }
+};
+
+// exports.accountHasHistory = accountHasHistory;
+// exports.receiveCamoBlock = camo.receiveBlock;
+
+/**
  * gets the total account balance, in raw.
  *
  * @memberof CamoUtil
@@ -413,3 +447,4 @@ module.exports.getCamoAccountBalanceRaw = getCamoAccountBalanceRaw;
 module.exports.camoGetNextPrivateKeyForReceive = camoGetNextPrivateKeyForReceive;
 module.exports.camoGetAccountsPending = camoGetAccountsPending;
 module.exports.getCamoSharedAccount = getCamoSharedAccount;
+module.exports.receiveCamoBlock = receiveCamoBlock;

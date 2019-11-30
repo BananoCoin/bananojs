@@ -235,91 +235,97 @@ const receiveSeed = async ( bananodeApi, seed ) => {
     console.log( 'accountsPending response', accountsPending );
   }
 
+
   const accounts = Object.keys( accountsPending.blocks );
 
   const accountOpenAndReceiveBlocks = [];
 
   for ( let accountIx = 0; accountIx < accounts.length; accountIx++ ) {
     const account = accounts[accountIx];
-
-    const history = await bananodeApi.getAccountHistory( account, 1 );
-    const history_history = history.history;
-    const history_history_length = history_history.length;
-
-    if ( history_history_length == 0 ) {
-      const pendingBlockHashs = Object.keys( accountsPending.blocks[account] );
-      for ( let pendingBlockHashIx = 0; pendingBlockHashIx < pendingBlockHashs.length; pendingBlockHashIx++ ) {
-        const pendingBlockHash = pendingBlockHashs[pendingBlockHashIx];
-        const pendingValueRaw = accountsPending.blocks[account][pendingBlockHash];
+    const privateKey = privateKeyByAccount[account];
+    const publicKey = publicKeyByAccount[account];
+    const representative = representativeByAccount[account];
+    const accountOpenFlag = await bananoUtil.isAccountOpen(bananodeApi, account);
+    const pendingBlockHashs = Object.keys( accountsPending.blocks[account] );
+    for ( let pendingBlockHashIx = 0; pendingBlockHashIx < pendingBlockHashs.length; pendingBlockHashIx++ ) {
+      const pendingBlockHash = pendingBlockHashs[pendingBlockHashIx];
+      const pendingValueRaw = accountsPending.blocks[account][pendingBlockHash];
+      let blockOpenFlag = false;
+      if (!accountOpenFlag) {
         if ( pendingBlockHashIx == 0 ) {
-          const privateKey = privateKeyByAccount[account];
-          const publicKey = publicKeyByAccount[account];
-          const representative = representativeByAccount[account];
-          const pending = pendingBlockHash;
-          const openBlockHash = await bananoUtil.open( bananodeApi, privateKey, publicKey, representative, pending, pendingValueRaw );
-
-          /* istanbul ignore if */
-          if ( LOG_SWEEP_SEED_TO_INDEX ) {
-            console.log( `accountsPending openBlockHash[${accountIx}]`, account, openBlockHash );
-          }
-
-          accountOpenAndReceiveBlocks.push( openBlockHash );
-        } else {
-          const privateKey = privateKeyByAccount[account];
-          const publicKey = publicKeyByAccount[account];
-          const representative = representativeByAccount[account];
-          const frontiers = await bananodeApi.getFrontiers( account, 1 );
-          const previous = frontiers.frontiers[account];
-          const hash = pendingBlockHash;
-          const valueRaw = pendingValueRaw;
-          const receiveBlockHash = await bananoUtil.receive( bananodeApi, privateKey, publicKey, representative, previous, hash, valueRaw );
-
-          /* istanbul ignore if */
-          if ( LOG_SWEEP_SEED_TO_INDEX ) {
-            console.log( `accountsPending receiveBlockHash[${accountIx}]`, account, receiveBlockHash );
-          }
-
-          accountOpenAndReceiveBlocks.push( receiveBlockHash );
+          blockOpenFlag = true;
         }
       }
-    } else {
-      const pendingBlockHashs = Object.keys( accountsPending.blocks[account] );
-      for ( let pendingBlockHashIx = 0; pendingBlockHashIx < pendingBlockHashs.length; pendingBlockHashIx++ ) {
-        const pendingBlockHash = pendingBlockHashs[pendingBlockHashIx];
-        const pendingValueRaw = accountsPending.blocks[account][pendingBlockHash];
-        const privateKey = privateKeyByAccount[account];
-        const publicKey = publicKeyByAccount[account];
-        const representative = representativeByAccount[account];
-        const frontiers = await bananodeApi.getFrontiers( account, 1 );
 
-        /* istanbul ignore if */
-        if ( LOG_SWEEP_SEED_TO_INDEX ) {
-          console.log( `accountsPending hasHistory[${accountIx}] frontiers`, frontiers );
-        }
-        const accountBalanceRaw = await bananodeApi.getAccountBalanceRaw( account );
+      const blockHash = await receiveBlock(bananodeApi, blockOpenFlag, account, privateKey, publicKey, representative, pendingBlockHash, pendingValueRaw);
 
-        const previous = frontiers.frontiers[account];
-        const hash = pendingBlockHash;
-        const valueRaw = ( BigInt( pendingValueRaw ) + BigInt( accountBalanceRaw ) ).toString();
-        const receiveBlockHash = await bananoUtil.receive( bananodeApi, privateKey, publicKey, representative, previous, hash, valueRaw );
-
-        /* istanbul ignore if */
-        if ( LOG_SWEEP_SEED_TO_INDEX ) {
-          console.log( `accountsPending hasHistory receiveBlockHash[${accountIx}]`, account, receiveBlockHash );
-        }
-        accountOpenAndReceiveBlocks.push( receiveBlockHash );
-      }
-
-      /* istanbul ignore if */
-      if ( LOG_SWEEP_SEED_TO_INDEX ) {
-        console.log( `accountsPending hasHistory[${accountIx}]`, account, history_history.length, accountsPending.blocks[account] );
-      }
+      accountOpenAndReceiveBlocks.push( blockHash );
     }
   }
 
   return accountOpenAndReceiveBlocks;
 };
 
+const receiveBlock = async (bananodeApi, blockOpenFlag, account, privateKey, publicKey, representative, pendingBlockHash, pendingValueRaw) => {
+  /* istanbul ignore if */
+  if ( bananodeApi === undefined ) {
+    throw Error( 'bananodeApi is a required parameter.' );
+  }
+  /* istanbul ignore if */
+  if ( blockOpenFlag === undefined ) {
+    throw Error( 'blockOpenFlag is a required parameter.' );
+  }
+  /* istanbul ignore if */
+  if ( blockOpenFlag === undefined ) {
+    throw Error( 'blockOpenFlag is a required parameter.' );
+  }
+  /* istanbul ignore if */
+  if ( account === undefined ) {
+    throw Error( 'account is a required parameter.' );
+  }
+  /* istanbul ignore if */
+  if ( privateKey === undefined ) {
+    throw Error( 'privateKey is a required parameter.' );
+  }
+  /* istanbul ignore if */
+  if ( publicKey === undefined ) {
+    throw Error( 'publicKey is a required parameter.' );
+  }
+  /* istanbul ignore if */
+  if ( representative === undefined ) {
+    throw Error( 'representative is a required parameter.' );
+  }
+  /* istanbul ignore if */
+  if ( pendingBlockHash === undefined ) {
+    throw Error( 'pendingBlockHash is a required parameter.' );
+  }
+  /* istanbul ignore if */
+  if ( pendingValueRaw === undefined ) {
+    throw Error( 'pendingValueRaw is a required parameter.' );
+  }
+  if (blockOpenFlag) {
+    const pending = pendingBlockHash;
+    const openBlockHash = await bananoUtil.open( bananodeApi, privateKey, publicKey, representative, pending, pendingValueRaw );
+
+    /* istanbul ignore if */
+    if ( LOG_SWEEP_SEED_TO_INDEX ) {
+      console.log( `accountsPending openBlockHash[${accountIx}]`, account, openBlockHash );
+    }
+    return openBlockHash;
+  } else {
+    const frontiers = await bananodeApi.getFrontiers( account, 1 );
+    const previous = frontiers.frontiers[account];
+    const hash = pendingBlockHash;
+    const valueRaw = pendingValueRaw;
+    const receiveBlockHash = await bananoUtil.receive( bananodeApi, privateKey, publicKey, representative, previous, hash, valueRaw );
+
+    /* istanbul ignore if */
+    if ( LOG_SWEEP_SEED_TO_INDEX ) {
+      console.log( `accountsPending receiveBlockHash[${accountIx}]`, account, receiveBlockHash );
+    }
+    return receiveBlockHash;
+  }
+};
 
 // const isHashInPendingOfPrivateKey = async ( bananodeApi, privateKey, blockHash ) => {
 //   /* istanbul ignore if */
@@ -703,7 +709,7 @@ const getSharedAccount = async (bananodeApi, privateKey, publicKey) => {
     throw Error( 'publicKey is a required parameter.' );
   }
   const sharedSecret = await getSharedSecretFromRepresentative( bananodeApi, privateKey, publicKey );
-  if(sharedSecret) {
+  if (sharedSecret) {
     const sharedSeed = sharedSecret;
     const sharedPrivateKey = bananoUtil.getPrivateKey( sharedSeed, 0 );
     const sharedPublicKey = bananoUtil.getPublicKey( sharedPrivateKey );
@@ -753,3 +759,5 @@ exports.getCamoAccount = getCamoAccount;
 exports.isCamoAccountValid = isCamoAccountValid;
 exports.getAccountsPending = getAccountsPending;
 exports.getSharedAccount = getSharedAccount;
+exports.receiveBlock = receiveBlock;
+exports.getSharedSecretFromRepresentative = getSharedSecretFromRepresentative;

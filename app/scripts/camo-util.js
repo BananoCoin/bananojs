@@ -245,19 +245,16 @@ const receiveSeed = async ( bananodeApi, seed ) => {
     const privateKey = privateKeyByAccount[account];
     const publicKey = publicKeyByAccount[account];
     const representative = representativeByAccount[account];
-    const accountOpenFlag = await bananoUtil.isAccountOpen(bananodeApi, account);
+    let isAccountOpenFlag = await bananoUtil.isAccountOpen(bananodeApi, account);
     const pendingBlockHashs = Object.keys( accountsPending.blocks[account] );
     for ( let pendingBlockHashIx = 0; pendingBlockHashIx < pendingBlockHashs.length; pendingBlockHashIx++ ) {
       const pendingBlockHash = pendingBlockHashs[pendingBlockHashIx];
       const pendingValueRaw = accountsPending.blocks[account][pendingBlockHash];
-      let blockOpenFlag = false;
-      if (!accountOpenFlag) {
-        if ( pendingBlockHashIx == 0 ) {
-          blockOpenFlag = true;
-        }
+      if ( pendingBlockHashIx !== 0 ) {
+        isAccountOpenFlag = false;
       }
 
-      const blockHash = await receiveBlock(bananodeApi, blockOpenFlag, account, privateKey, publicKey, representative, pendingBlockHash, pendingValueRaw);
+      const blockHash = await receiveBlock(bananodeApi, isAccountOpenFlag, account, privateKey, publicKey, representative, pendingBlockHash, pendingValueRaw);
 
       accountOpenAndReceiveBlocks.push( blockHash );
     }
@@ -266,18 +263,14 @@ const receiveSeed = async ( bananodeApi, seed ) => {
   return accountOpenAndReceiveBlocks;
 };
 
-const receiveBlock = async (bananodeApi, blockOpenFlag, account, privateKey, publicKey, representative, pendingBlockHash, pendingValueRaw) => {
+const receiveBlock = async (bananodeApi, isAccountOpenFlag, account, privateKey, publicKey, representative, pendingBlockHash, pendingValueRaw) => {
   /* istanbul ignore if */
   if ( bananodeApi === undefined ) {
     throw Error( 'bananodeApi is a required parameter.' );
   }
   /* istanbul ignore if */
-  if ( blockOpenFlag === undefined ) {
-    throw Error( 'blockOpenFlag is a required parameter.' );
-  }
-  /* istanbul ignore if */
-  if ( blockOpenFlag === undefined ) {
-    throw Error( 'blockOpenFlag is a required parameter.' );
+  if ( isAccountOpenFlag === undefined ) {
+    throw Error( 'isAccountOpenFlag is a required parameter.' );
   }
   /* istanbul ignore if */
   if ( account === undefined ) {
@@ -303,16 +296,7 @@ const receiveBlock = async (bananodeApi, blockOpenFlag, account, privateKey, pub
   if ( pendingValueRaw === undefined ) {
     throw Error( 'pendingValueRaw is a required parameter.' );
   }
-  if (blockOpenFlag) {
-    const pending = pendingBlockHash;
-    const openBlockHash = await bananoUtil.open( bananodeApi, privateKey, publicKey, representative, pending, pendingValueRaw );
-
-    /* istanbul ignore if */
-    if ( LOG_SWEEP_SEED_TO_INDEX ) {
-      console.log( `accountsPending openBlockHash[${accountIx}]`, account, openBlockHash );
-    }
-    return openBlockHash;
-  } else {
+  if (isAccountOpenFlag) {
     const frontiers = await bananodeApi.getFrontiers( account, 1 );
     const previous = frontiers.frontiers[account];
     const hash = pendingBlockHash;
@@ -324,6 +308,15 @@ const receiveBlock = async (bananodeApi, blockOpenFlag, account, privateKey, pub
       console.log( `accountsPending receiveBlockHash[${accountIx}]`, account, receiveBlockHash );
     }
     return receiveBlockHash;
+  } else {
+    const pending = pendingBlockHash;
+    const openBlockHash = await bananoUtil.open( bananodeApi, privateKey, publicKey, representative, pending, pendingValueRaw );
+
+    /* istanbul ignore if */
+    if ( LOG_SWEEP_SEED_TO_INDEX ) {
+      console.log( `accountsPending openBlockHash[${accountIx}]`, account, openBlockHash );
+    }
+    return openBlockHash;
   }
 };
 

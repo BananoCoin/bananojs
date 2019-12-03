@@ -365,7 +365,7 @@ const receiveCamoBlock = async (seed, seedIx, account, pendingBlockHash, pending
     const representative = sharedCamoAccount;
 
     const isAccountOpenFlag = await bananoUtil.isAccountOpen(bananodeApi, sharedAccount);
-    const response = await camoUtil.receiveBlock(bananodeApi, isAccountOpenFlag, account, sharedPrivateKey,
+    const response = await camoUtil.receiveBlock(bananodeApi, isAccountOpenFlag, sharedAccount, sharedPrivateKey,
         sharedPublicKey, representative, pendingBlockHash, pendingValueRaw);
     return response;
   } else {

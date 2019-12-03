@@ -297,10 +297,6 @@ const receiveBlock = async (bananodeApi, isAccountOpenFlag, account, privateKey,
     throw Error( 'pendingValueRaw is a required parameter.' );
   }
   const frontiers = await bananodeApi.getFrontiers( account, 1 );
-  if (frontiers.frontiers === undefined) {
-    isAccountOpenFlag = false;
-  }
-
   if (isAccountOpenFlag) {
     const previous = frontiers.frontiers[account];
     const hash = pendingBlockHash;

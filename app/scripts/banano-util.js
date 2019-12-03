@@ -877,6 +877,7 @@ const receive = async (bananodeApi, privateKey, publicKey, representative, previ
   const accountAddress = getAccount(publicKey);
 
   const accountInfo = await bananodeApi.getAccountInfo(accountAddress);
+  /* istanbul ignore if */
   if (accountInfo == undefined) {
     throw Error(`The server's account info cannot be retrieved, please try again.`);
   }
@@ -888,6 +889,7 @@ const receive = async (bananodeApi, privateKey, publicKey, representative, previ
 
   const balanceRaw = accountInfo.balance;
 
+  /* istanbul ignore if */
   if (balanceRaw == undefined) {
     throw Error(`The server's account balance cannot be retrieved, please try again.`);
   }

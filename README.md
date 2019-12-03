@@ -14,3 +14,7 @@ JavaScript utilities for the banano cryptocurrency.
 # complete documentation of all functions
 
   <https://github.com/BananoCoin/bananojs/blob/master/docs/documentation.md>
+
+# complete documentation of camo CLI functions
+
+  <https://github.com/BananoCoin/bananojs/blob/master/docs/camo.md>

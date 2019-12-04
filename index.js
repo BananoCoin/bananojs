@@ -357,14 +357,12 @@ const receiveCamoDepositsForSeed = async (seed, seedIx, account, specificPending
   const sharedSecret = await camoUtil.getSharedSecretFromRepresentative( bananodeApi, privateKey, publicKey );
   if (sharedSecret) {
     const sharedSeed = sharedSecret;
-    const sharedPrivateKey = bananoUtil.getPrivateKey( sharedSeed, seedIx );
-    const sharedPublicKey = bananoUtil.getPublicKey( sharedPrivateKey );
-    const sharedAccount = bananoUtil.getAccount( sharedPublicKey );
-    const sharedCamoPublicKey = await camoUtil.getCamoPublicKey( sharedPrivateKey );
-    const sharedCamoAccount = bananoUtil.getAccount( sharedCamoPublicKey );
-    const representative = sharedCamoAccount;
-    const response = await depositUtil.receive(loggingUtil, bananodeApi, sharedAccount,
-        sharedPrivateKey, representative, specificPendingBlockHash);
+    const privateKey = bananoUtil.getPrivateKey(sharedSeed, 0);
+    const camoPublicKey = await camoUtil.getCamoPublicKey(privateKey);
+    const camoRepresentative = await camoUtil.getCamoAccount(camoPublicKey);
+    const repPublicKey = await bananoUtil.getAccountPublicKey(camoRepresentative);
+    const representative = await bananoUtil.getAccount(repPublicKey);
+    const response = await receiveDepositsForSeed(sharedSeed, 0, representative, specificPendingBlockHash);
     return response;
   } else {
     return undefined;

@@ -186,9 +186,13 @@ describe('camo', () => {
     const publicKey0 = await bananojs.getCamoPublicKey(privateKey0);
     const camoAccount0 = await bananojs.getCamoAccount(publicKey0);
     const pendingBlockHash = '142A538F36833D1CC78B94E11C766F75818F8B940771335C6C1B8AB880C5BB1D';
-    const pendingValueRaw = '1';
-    const expectedResponse = '000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F';
-    const actualResponse = await bananojs.receiveCamoBlock(seed0, 0, camoAccount0, pendingBlockHash, pendingValueRaw);
+    const expectedResponse = {
+      'pendingCount': 2,
+      'pendingMessage': 'pending 2 blocks, of max 10.',
+      'receiveCount': 1,
+      'receiveMessage': 'received 1 blocks.',
+    };
+    const actualResponse = await bananojs.receiveCamoDepositsForSeed(seed0, 0, camoAccount0, pendingBlockHash);
     expect(actualResponse).to.deep.equal(expectedResponse);
   });
   it('receiveCamoBlock no rep error', async () => {
@@ -196,9 +200,8 @@ describe('camo', () => {
     const publicKey0 = await bananojs.getCamoPublicKey(privateKey0);
     const camoAccount0 = await bananojs.getCamoAccount(publicKey0);
     const pendingBlockHash = '142A538F36833D1CC78B94E11C766F75818F8B940771335C6C1B8AB880C5BB1D';
-    const pendingValueRaw = '1';
     const expectedResponse = undefined;
-    const actualResponse = await bananojs.receiveCamoBlock(seed0, 0, camoAccount0, pendingBlockHash, pendingValueRaw);
+    const actualResponse = await bananojs.receiveCamoDepositsForSeed(seed0, 0, camoAccount0, pendingBlockHash);
     expect(actualResponse).to.deep.equal(expectedResponse);
   });
 

@@ -844,7 +844,7 @@ const change = async (bananodeApi, privateKey, representative) => {
   }
 };
 
-const receive = async (bananodeApi, privateKey, publicKey, representative, previous, hash, amountRaw) => {
+const receive = async (bananodeApi, privateKey, publicKey, representative, previous, hash, valueRaw) => {
   /* istanbul ignore if */
   if (bananodeApi === undefined) {
     throw Error('bananodeApi is a required parameter.');
@@ -870,41 +870,18 @@ const receive = async (bananodeApi, privateKey, publicKey, representative, previ
     throw Error('hash is a required parameter.');
   }
   /* istanbul ignore if */
-  if (amountRaw === undefined) {
+  if (valueRaw === undefined) {
     throw Error('valueRaw is a required parameter.');
   }
   const work = await bananodeApi.getGeneratedWork(previous);
   const accountAddress = getAccount(publicKey);
-
-  const accountInfo = await bananodeApi.getAccountInfo(accountAddress);
-  /* istanbul ignore if */
-  if (accountInfo == undefined) {
-    throw Error(`The server's account info cannot be retrieved, please try again.`);
-  }
-
-  /* istanbul ignore if */
-  if (LOG_RECEIVE) {
-    console.log(`SUCCESS getAccountInfo ${accountAddress} ${accountInfo}`);
-  }
-
-  const balanceRaw = accountInfo.balance;
-
-  /* istanbul ignore if */
-  if (balanceRaw == undefined) {
-    throw Error(`The server's account balance cannot be retrieved, please try again.`);
-  }
-
-  const newBalance = BigInt(balanceRaw) + BigInt(amountRaw);
-
-
-  const newBalanceDecimal = newBalance.toString(10);
 
   const block = {};
   block.type = 'state';
   block.account = accountAddress;
   block.previous = previous;
   block.representative = representative;
-  block.balance = newBalanceDecimal;
+  block.balance = valueRaw;
   block.link = hash;
   block.work = work;
   block.signature = sign(privateKey, block);

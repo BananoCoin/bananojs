@@ -73,7 +73,7 @@ describe('recieve', () => {
   });
   it('receiveDepositsForSeed processing error', async () => {
     const bananojs = testUtil.getBananojsWithProcessErrorApi();
-    const message = 'process block:9FEEF6BE3AB746534173F6C13E79F72AADC08997DDF91B14243398827B9D6FDC';
+    const message = 'process block:F275F2D9D82EF524C4AAA0FC53F44B01704A8C8C65112B994346B20540B60642';
     await testUtil.expectErrorMessage(message, bananojs.receiveDepositsForSeed, seed0, seedIx, representative1);
   });
   it('receiveDepositsForSeed pending error', async () => {

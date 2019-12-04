@@ -343,38 +343,33 @@ const getCamoSharedAccount = async (seed, seedIx, account) => {
 
 
 /**
- * recieve a pending camo block.
+* Recieve deposits for a camo account with a given seed.
+ * @memberof CamoUtil
  * @param {string} seed the seed to use to find the account.
  * @param {string} seedIx the index to use with the seed.
  * @param {string} account the camo account to send or recieve from.
  * @param {string} pendingBlockHash the pending block to recieve.
- * @param {string} pendingValueRaw the pending block's value in raw, to receive.
  * @return {string} the response from receiving the block.
  */
-const receiveCamoBlock = async (seed, seedIx, account, pendingBlockHash, pendingValueRaw) => {
+const receiveCamoDepositsForSeed = async (seed, seedIx, account, specificPendingBlockHash) => {
   const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
   const publicKey = bananoUtil.getAccountPublicKey(account);
   const sharedSecret = await camoUtil.getSharedSecretFromRepresentative( bananodeApi, privateKey, publicKey );
   if (sharedSecret) {
     const sharedSeed = sharedSecret;
-    const sharedPrivateKey = bananoUtil.getPrivateKey( sharedSeed, 0 );
+    const sharedPrivateKey = bananoUtil.getPrivateKey( sharedSeed, seedIx );
     const sharedPublicKey = bananoUtil.getPublicKey( sharedPrivateKey );
     const sharedAccount = bananoUtil.getAccount( sharedPublicKey );
     const sharedCamoPublicKey = await camoUtil.getCamoPublicKey( sharedPrivateKey );
     const sharedCamoAccount = bananoUtil.getAccount( sharedCamoPublicKey );
     const representative = sharedCamoAccount;
-
-    const isAccountOpenFlag = await bananoUtil.isAccountOpen(bananodeApi, sharedAccount);
-    const response = await camoUtil.receiveBlock(bananodeApi, isAccountOpenFlag, sharedAccount, sharedPrivateKey,
-        sharedPublicKey, representative, pendingBlockHash, pendingValueRaw);
+    const response = await depositUtil.receive(loggingUtil, bananodeApi, sharedAccount,
+        sharedPrivateKey, representative, specificPendingBlockHash);
     return response;
   } else {
     return undefined;
   }
 };
-
-// exports.accountHasHistory = accountHasHistory;
-// exports.receiveCamoBlock = camo.receiveBlock;
 
 /**
  * gets the total account balance, in raw.
@@ -447,4 +442,4 @@ module.exports.getCamoAccountBalanceRaw = getCamoAccountBalanceRaw;
 module.exports.camoGetNextPrivateKeyForReceive = camoGetNextPrivateKeyForReceive;
 module.exports.camoGetAccountsPending = camoGetAccountsPending;
 module.exports.getCamoSharedAccount = getCamoSharedAccount;
-module.exports.receiveCamoBlock = receiveCamoBlock;
+module.exports.receiveCamoDepositsForSeed = receiveCamoDepositsForSeed;

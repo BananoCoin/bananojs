@@ -314,14 +314,14 @@ const camoSendWithdrawalFromSeed = async (seed, seedIx, toAccount, amountBananos
  * @param {number} count the max count to get.
  * @return {string_array} the pending hashes in an array.
  */
-const camoGetAccountsPending = async (seed, seedIx, fromAccount, count) => {
+const camoGetAccountsPending = async (seed, seedIx, fromAccount, sharedSeedIx, count) => {
   const accountValid = camoUtil.isCamoAccountValid(fromAccount);
   if (!accountValid.isValid) {
     throw Error(accountValid.message);
   }
   const toPrivateKey = bananoUtil.getPrivateKey(seed, seedIx);
   const fromPublicKey = bananoUtil.getAccountPublicKey(fromAccount);
-  return await camoUtil.getAccountsPending(bananodeApi, toPrivateKey, fromPublicKey, count);
+  return await camoUtil.getAccountsPending(bananodeApi, toPrivateKey, fromPublicKey, sharedSeedIx, count);
 };
 
 /**
@@ -329,16 +329,17 @@ const camoGetAccountsPending = async (seed, seedIx, fromAccount, count) => {
  * @param {string} seed the seed to use to find the account.
  * @param {string} seedIx the index to use with the seed.
  * @param {string} account the camo account to send or recieve from.
+ * @param {string} sharedSeedIx the index to use with the shared seed.
  * @return {string} the shared account.
  */
-const getCamoSharedAccount = async (seed, seedIx, account) => {
+const getCamoSharedAccountData = async (seed, seedIx, account, sharedSeedIx) => {
   const accountValid = camoUtil.isCamoAccountValid(account);
   if (!accountValid.isValid) {
     throw Error(accountValid.message);
   }
   const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
   const publicKey = bananoUtil.getAccountPublicKey(account);
-  return await camoUtil.getSharedAccount(bananodeApi, privateKey, publicKey);
+  return await camoUtil.getSharedAccountData(bananodeApi, privateKey, publicKey, sharedSeedIx);
 };
 
 
@@ -439,5 +440,5 @@ module.exports.getCamoAccount = camoUtil.getCamoAccount;
 module.exports.getCamoAccountBalanceRaw = getCamoAccountBalanceRaw;
 module.exports.camoGetNextPrivateKeyForReceive = camoGetNextPrivateKeyForReceive;
 module.exports.camoGetAccountsPending = camoGetAccountsPending;
-module.exports.getCamoSharedAccount = getCamoSharedAccount;
+module.exports.getCamoSharedAccountData = getCamoSharedAccountData;
 module.exports.receiveCamoDepositsForSeed = receiveCamoDepositsForSeed;

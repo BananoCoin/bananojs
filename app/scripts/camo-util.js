@@ -688,7 +688,7 @@ const isCamoAccountValid = (camoAccount) => {
   return retval;
 };
 
-const getSharedAccount = async (bananodeApi, privateKey, publicKey) => {
+const getSharedAccountData = async (bananodeApi, privateKey, publicKey, sharedSeedIx) => {
   /* istanbul ignore if */
   if ( bananodeApi === undefined ) {
     throw Error( 'bananodeApi is a required parameter.' );
@@ -701,19 +701,28 @@ const getSharedAccount = async (bananodeApi, privateKey, publicKey) => {
   if ( publicKey === undefined ) {
     throw Error( 'publicKey is a required parameter.' );
   }
+  /* istanbul ignore if */
+  if ( sharedSeedIx === undefined ) {
+    throw Error( 'sharedSeedIx is a required parameter.' );
+  }
   const sharedSecret = await getSharedSecretFromRepresentative( bananodeApi, privateKey, publicKey );
   if (sharedSecret) {
     const sharedSeed = sharedSecret;
-    const sharedPrivateKey = bananoUtil.getPrivateKey( sharedSeed, 0 );
+    const sharedPrivateKey = bananoUtil.getPrivateKey( sharedSeed, sharedSeedIx );
     const sharedPublicKey = bananoUtil.getPublicKey( sharedPrivateKey );
     const sharedAccount = bananoUtil.getAccount( sharedPublicKey );
-    return sharedAccount;
+    const data = {};
+    data.sharedSeed = sharedSeed;
+    data.sharedPrivateKey = sharedPrivateKey;
+    data.sharedPublicKey = sharedPublicKey;
+    data.sharedAccount = sharedAccount;
+    return data;
   } else {
     return undefined;
   }
 };
 
-const getAccountsPending = async (bananodeApi, toPrivateKey, fromPublicKey, count) => {
+const getAccountsPending = async (bananodeApi, toPrivateKey, fromPublicKey, sharedSeedIx, count) => {
   /* istanbul ignore if */
   if ( bananodeApi === undefined ) {
     throw Error( 'bananodeApi is a required parameter.' );
@@ -727,11 +736,15 @@ const getAccountsPending = async (bananodeApi, toPrivateKey, fromPublicKey, coun
     throw Error( 'fromPublicKey is a required parameter.' );
   }
   /* istanbul ignore if */
+  if ( sharedSeedIx === undefined ) {
+    throw Error( 'sharedSeedIx is a required parameter.' );
+  }
+  /* istanbul ignore if */
   if ( count === undefined ) {
     throw Error( 'count is a required parameter.' );
   }
-  const account = await getSharedAccount(bananodeApi, toPrivateKey, fromPublicKey);
-  const accounts = [account];
+  const accountData = await getSharedAccountData(bananodeApi, toPrivateKey, fromPublicKey, sharedSeedIx);
+  const accounts = [accountData.sharedAccount];
   return bananodeApi.getAccountsPending(accounts, count);
 };
 
@@ -751,6 +764,6 @@ exports.getFirstUnopenedPrivateKey = getFirstUnopenedPrivateKey;
 exports.getCamoAccount = getCamoAccount;
 exports.isCamoAccountValid = isCamoAccountValid;
 exports.getAccountsPending = getAccountsPending;
-exports.getSharedAccount = getSharedAccount;
+exports.getSharedAccountData = getSharedAccountData;
 exports.receiveBlock = receiveBlock;
 exports.getSharedSecretFromRepresentative = getSharedSecretFromRepresentative;

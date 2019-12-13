@@ -142,6 +142,15 @@ describe('camo', () => {
     const actualResponse = await bananojs.camoGetAccountsPending(seed0, 0, camoAccount0, 0, count);
     expect(actualResponse).to.deep.equal(expectedResponse);
   });
+  it('camo camoGetAccountsPending no rep error', async () => {
+    const bananojs = testUtil.getBananojsWithAccountRepresentativeUndefinedApi();
+    const count = 1;
+    const publicKey0 = await bananojs.getCamoPublicKey(privateKey0);
+    const camoAccount0 = await bananojs.getCamoAccount(publicKey0);
+    const expectedResponse = undefined;
+    const actualResponse = await bananojs.camoGetAccountsPending(seed0, 0, camoAccount0, 0, count);
+    expect(actualResponse).to.deep.equal(expectedResponse);
+  });
   it('camoGetAccountsPending camo error', async () => {
     const bananojs = testUtil.getBananojsWithCamoApi();
     const count = 1;

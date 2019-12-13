@@ -744,8 +744,10 @@ const getAccountsPending = async (bananodeApi, toPrivateKey, fromPublicKey, shar
     throw Error( 'count is a required parameter.' );
   }
   const accountData = await getSharedAccountData(bananodeApi, toPrivateKey, fromPublicKey, sharedSeedIx);
-  const accounts = [accountData.sharedAccount];
-  return bananodeApi.getAccountsPending(accounts, count);
+  if (accountData) {
+    const accounts = [accountData.sharedAccount];
+    return bananodeApi.getAccountsPending(accounts, count);
+  }
 };
 
 exports.receiveSeed = receiveSeed;

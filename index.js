@@ -359,21 +359,22 @@ const getCamoSharedAccountData = async (seed, seedIx, account, sharedSeedIx) => 
  * @param {string} seed the seed to use to find the account.
  * @param {string} seedIx the index to use with the seed.
  * @param {string} account the camo account to send or recieve from.
+ * @param {string} sharedSeedIx the index to use with the shared seed.
  * @param {string} pendingBlockHash the pending block to recieve.
  * @return {string} the response from receiving the block.
  */
-const receiveCamoDepositsForSeed = async (seed, seedIx, account, specificPendingBlockHash) => {
+const receiveCamoDepositsForSeed = async (seed, seedIx, account, sharedSeedIx, specificPendingBlockHash) => {
   const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
   const publicKey = bananoUtil.getAccountPublicKey(account);
   const sharedSecret = await camoUtil.getSharedSecretFromRepresentative( bananodeApi, privateKey, publicKey );
   if (sharedSecret) {
     const sharedSeed = sharedSecret;
-    const privateKey = bananoUtil.getPrivateKey(sharedSeed, 0);
+    const privateKey = bananoUtil.getPrivateKey(sharedSeed, sharedSeedIx);
     const camoPublicKey = await camoUtil.getCamoPublicKey(privateKey);
     const camoRepresentative = await camoUtil.getCamoAccount(camoPublicKey);
     const repPublicKey = await bananoUtil.getAccountPublicKey(camoRepresentative);
     const representative = await bananoUtil.getAccount(repPublicKey);
-    const response = await receiveDepositsForSeed(sharedSeed, 0, representative, specificPendingBlockHash);
+    const response = await receiveDepositsForSeed(sharedSeed, sharedSeedIx, representative, specificPendingBlockHash);
     return response;
   } else {
     return undefined;

@@ -213,7 +213,7 @@ describe('camo', () => {
       'receiveCount': 1,
       'receiveMessage': 'received 1 blocks.',
     };
-    const actualResponse = await bananojs.receiveCamoDepositsForSeed(seed0, 0, camoAccount0, pendingBlockHash);
+    const actualResponse = await bananojs.receiveCamoDepositsForSeed(seed0, 0, camoAccount0, 0, pendingBlockHash);
     expect(actualResponse).to.deep.equal(expectedResponse);
   });
   it('receiveCamoBlock no rep error', async () => {
@@ -222,7 +222,7 @@ describe('camo', () => {
     const camoAccount0 = await bananojs.getCamoAccount(publicKey0);
     const pendingBlockHash = '142A538F36833D1CC78B94E11C766F75818F8B940771335C6C1B8AB880C5BB1D';
     const expectedResponse = undefined;
-    const actualResponse = await bananojs.receiveCamoDepositsForSeed(seed0, 0, camoAccount0, pendingBlockHash);
+    const actualResponse = await bananojs.receiveCamoDepositsForSeed(seed0, 0, camoAccount0, 0, pendingBlockHash);
     expect(actualResponse).to.deep.equal(expectedResponse);
   });
 

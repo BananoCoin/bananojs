@@ -297,7 +297,7 @@ const camoSend = async (fromPrivateKey, toPublicKey, amountBananos) => {
  * @return {string_array} the sent hashes in an array.
  */
 const camoSendWithdrawalFromSeed = async (seed, seedIx, toAccount, amountBananos) => {
-  const accountValid = camoUtil.isCamoAccountValid(toAccount);
+  const accountValid = await getCamoAccountValidationInfo(toAccount);
   if (!accountValid.isValid) {
     throw Error(accountValid.message);
   }
@@ -315,7 +315,7 @@ const camoSendWithdrawalFromSeed = async (seed, seedIx, toAccount, amountBananos
  * @return {string_array} the pending hashes in an array.
  */
 const camoGetAccountsPending = async (seed, seedIx, fromAccount, sharedSeedIx, count) => {
-  const accountValid = camoUtil.isCamoAccountValid(fromAccount);
+  const accountValid = await getCamoAccountValidationInfo(fromAccount);
   if (!accountValid.isValid) {
     throw Error(accountValid.message);
   }
@@ -323,6 +323,16 @@ const camoGetAccountsPending = async (seed, seedIx, fromAccount, sharedSeedIx, c
   const fromPublicKey = bananoUtil.getAccountPublicKey(fromAccount);
   return await camoUtil.getAccountsPending(bananodeApi, toPrivateKey, fromPublicKey, sharedSeedIx, count);
 };
+
+/**
+ * returns data on whether a camo account is valid or not, and why.
+ * @param {string} account the account to check.
+ * @return {object} the account validity data.
+ */
+ const getCamoAccountValidationInfo = async (account) => {
+   const accountValid = await camoUtil.isCamoAccountValid(account);
+   return accountValid;
+}
 
 /**
  * get the shared account, used as an intermediary to send finds between the seed and the camo account.
@@ -333,7 +343,7 @@ const camoGetAccountsPending = async (seed, seedIx, fromAccount, sharedSeedIx, c
  * @return {string} the shared account.
  */
 const getCamoSharedAccountData = async (seed, seedIx, account, sharedSeedIx) => {
-  const accountValid = camoUtil.isCamoAccountValid(account);
+  const accountValid = await getCamoAccountValidationInfo(account);
   if (!accountValid.isValid) {
     throw Error(accountValid.message);
   }
@@ -442,3 +452,4 @@ module.exports.camoGetNextPrivateKeyForReceive = camoGetNextPrivateKeyForReceive
 module.exports.camoGetAccountsPending = camoGetAccountsPending;
 module.exports.getCamoSharedAccountData = getCamoSharedAccountData;
 module.exports.receiveCamoDepositsForSeed = receiveCamoDepositsForSeed;
+module.exports.getCamoAccountValidationInfo = getCamoAccountValidationInfo;

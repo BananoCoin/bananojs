@@ -667,11 +667,16 @@ const getCamoAccount = (camoPublicKey) => {
  */
 const isCamoAccountValid = (camoAccount) => {
   if (((!camoAccount.startsWith('camo_1')) &&
-        (!camoAccount.startsWith('camo_3'))) ||
-        (camoAccount.length !== 65)) {
+        (!camoAccount.startsWith('camo_3')))) {
     const retval = {};
     retval.isValid = false;
     retval.message = `Invalid CAMO BANANO Account prefix '${camoAccount}'`;
+    return retval;
+  }
+  if (camoAccount.length !== 65) {
+    const retval = {};
+    retval.isValid = false;
+    retval.message = `Invalid CAMO BANANO Account length ${camoAccount.length} of '${camoAccount}'`;
     return retval;
   }
   const accountSuffix = camoAccount.substring(5, 65);

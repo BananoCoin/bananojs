@@ -124,7 +124,7 @@ describe('camo', () => {
     const invalidCamoAccount = 'camo_21111111111111111111111111111111111111111111111111111111111';
     const message = `Invalid CAMO BANANO Account prefix \'${invalidCamoAccount}\'`;
     await testUtil.expectErrorMessage(message, bananojs.camoSendWithdrawalFromSeed,
-      seed0, 0, invalidCamoAccount, amountBananos);
+        seed0, 0, invalidCamoAccount, amountBananos);
   });
   it('camo camoGetAccountsPending valid account matches expected', async () => {
     const bananojs = testUtil.getBananojsWithCamoApi();
@@ -157,7 +157,7 @@ describe('camo', () => {
     const invalidCamoAccount = 'camo_21111111111111111111111111111111111111111111111111111111111';
     const message = `Invalid CAMO BANANO Account prefix \'${invalidCamoAccount}\'`;
     await testUtil.expectErrorMessage(message, bananojs.camoGetAccountsPending,
-      seed0, 0, invalidCamoAccount, count);
+        seed0, 0, invalidCamoAccount, count);
   });
   it('camoGetAccountsPending camo error', async () => {
     const bananojs = testUtil.getBananojsWithCamoApi();
@@ -165,7 +165,7 @@ describe('camo', () => {
     const invalidCamoAccount = 'camo_123456789012345678901234567890123456789012345678901234567890';
     const message = `Invalid CAMO BANANO Account \'${invalidCamoAccount}\', does not match regex '^[13456789abcdefghijkmnopqrstuwxyz]+$'`;
     await testUtil.expectErrorMessage(message, bananojs.camoGetAccountsPending,
-      seed0, 0, invalidCamoAccount, count);
+        seed0, 0, invalidCamoAccount, count);
   });
   it('camo getCamoSharedAccountData valid account matches expected', async () => {
     const bananojs = testUtil.getBananojsWithCamoApi();
@@ -175,7 +175,7 @@ describe('camo', () => {
       'sharedAccount': 'ban_1jzp4mwnx9htxrycg9dbsgo4psk4yd1u4z1twsngz5ei6fk3gf395w8ponjs',
       'sharedPrivateKey': 'EEB5604BC2C6F5E39100F380F21B8AD61FB9F4BAC96E56AB74DFABE8348891F8',
       'sharedPublicKey': '47F614F94E9DFAEE3CA71D69CBAA2B6642F2C1B17C1AE668EF8D902364173427',
-      'sharedSeed': '34542F611FD696AC83EE2FD797EDE8E624C37475BABBD3E60E6834E8A502162B'
+      'sharedSeed': '34542F611FD696AC83EE2FD797EDE8E624C37475BABBD3E60E6834E8A502162B',
     };
     const actualResponse = await bananojs.getCamoSharedAccountData(seed0, 0, camoAccount0, 0);
     expect(actualResponse).to.deep.equal(expectedResponse);
@@ -185,7 +185,14 @@ describe('camo', () => {
     const invalidCamoAccount = 'camo_123456789012345678901234567890123456789012345678901234567890';
     const message = `Invalid CAMO BANANO Account \'${invalidCamoAccount}\', does not match regex '^[13456789abcdefghijkmnopqrstuwxyz]+$'`;
     await testUtil.expectErrorMessage(message, bananojs.getCamoSharedAccountData,
-      seed0, 0, invalidCamoAccount);
+        seed0, 0, invalidCamoAccount);
+  });
+  it('getCamoSharedAccountData camo length error', async () => {
+    const bananojs = testUtil.getBananojsWithCamoApi();
+    const invalidCamoAccount = 'camo_1234567890123456789012345678901234567890123456789012345678901';
+    const message = `Invalid CAMO BANANO Account length 66 of \'${invalidCamoAccount}\'`;
+    await testUtil.expectErrorMessage(message, bananojs.getCamoSharedAccountData,
+        seed0, 0, invalidCamoAccount);
   });
   it('getCamoSharedAccountData no rep error', async () => {
     const bananojs = testUtil.getBananojsWithAccountRepresentativeUndefinedApi();

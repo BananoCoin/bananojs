@@ -297,7 +297,7 @@ const camoSend = async (fromPrivateKey, toPublicKey, amountBananos) => {
  * @return {string_array} the sent hashes in an array.
  */
 const camoSendWithdrawalFromSeed = async (seed, seedIx, toAccount, amountBananos) => {
-  const accountValid = await getCamoAccountValidationInfo(toAccount);
+  const accountValid = getCamoAccountValidationInfo(toAccount);
   if (!accountValid.isValid) {
     throw Error(accountValid.message);
   }
@@ -315,7 +315,7 @@ const camoSendWithdrawalFromSeed = async (seed, seedIx, toAccount, amountBananos
  * @return {string_array} the pending hashes in an array.
  */
 const camoGetAccountsPending = async (seed, seedIx, fromAccount, sharedSeedIx, count) => {
-  const accountValid = await getCamoAccountValidationInfo(fromAccount);
+  const accountValid = getCamoAccountValidationInfo(fromAccount);
   if (!accountValid.isValid) {
     throw Error(accountValid.message);
   }
@@ -329,8 +329,8 @@ const camoGetAccountsPending = async (seed, seedIx, fromAccount, sharedSeedIx, c
  * @param {string} account the account to check.
  * @return {object} the account validity data.
  */
- const getCamoAccountValidationInfo = async (account) => {
-   const accountValid = await camoUtil.isCamoAccountValid(account);
+ const getCamoAccountValidationInfo = (account) => {
+   const accountValid = camoUtil.isCamoAccountValid(account);
    return accountValid;
 }
 
@@ -343,7 +343,7 @@ const camoGetAccountsPending = async (seed, seedIx, fromAccount, sharedSeedIx, c
  * @return {string} the shared account.
  */
 const getCamoSharedAccountData = async (seed, seedIx, account, sharedSeedIx) => {
-  const accountValid = await getCamoAccountValidationInfo(account);
+  const accountValid = getCamoAccountValidationInfo(account);
   if (!accountValid.isValid) {
     throw Error(accountValid.message);
   }

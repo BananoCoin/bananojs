@@ -661,7 +661,7 @@ const sendFromPrivateKeyWithRepresentativeAndPrevious = async (bananodeApi, priv
 
   /* istanbul ignore if */
   if (LOG_SEND) {
-    console.log(`SUCCESS getAccountInfo ${accountAddress} ${accountInfo}`);
+    console.log(`SUCCESS getAccountInfo ${accountAddress} ${JSON.stringify(accountInfo)}`);
   }
 
   const balanceRaw = accountInfo.balance;

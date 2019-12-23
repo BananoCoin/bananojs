@@ -20,6 +20,7 @@ JavaScript utilities for the banano cryptocurrency.
 ```
   npm i;
   npm test;
+  npm start;
 ```
 
 # complete documentation of camo CLI functions

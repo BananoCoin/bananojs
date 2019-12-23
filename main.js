@@ -99,6 +99,11 @@ commands['breceive'] = async (privateKey, specificPendingBlockHash) => {
   console.log('banano receive response', response);
 };
 
+commands['baccountinfo'] = async (account) => {
+  const response = await bananodeApi.getAccountInfo(account, true);
+  console.log('banano accountinfo response', response);
+};
+
 const run = async () => {
   console.log('bananojs');
   if (process.argv.length < 4) {

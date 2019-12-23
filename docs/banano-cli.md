@@ -49,3 +49,20 @@
     bananojs
     banano sendbanano response BF3BA5C6F91D52E88658E6AB800237C4023AD59392B4AB203EBA1E5BF706E535
 ```
+6) check account info
+```
+    npm start baccountinfo ban_1coranoshiqdentfbwkfo7fxzgg1jhz6m33pt9aa8497xxfageuskroocdxa
+
+    bananojs
+    banano accountinfo response {
+      frontier: 'A9A8AED92C5B6C2CFF7A6954690C0763CFF1ADC906B8CF056BA1B20678A101C7',
+      open_block: 'B6BD40F6F400BF0D81F2A28218039EBB1E6B9EE2764A0EFF344F7B9A123D5067',
+      representative_block: 'A9A8AED92C5B6C2CFF7A6954690C0763CFF1ADC906B8CF056BA1B20678A101C7',
+      balance: '344319743000000000000000000000000594',
+      modified_timestamp: '1577058733',
+      block_count: '630',
+      account_version: '0',
+      confirmation_height: '630',
+      representative: 'ban_1bananobh5rat99qfgt1ptpieie5swmoth87thi74qgbfrij7dcgjiij94xr'
+    }
+```

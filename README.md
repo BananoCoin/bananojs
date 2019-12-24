@@ -19,7 +19,13 @@ JavaScript utilities for the banano cryptocurrency.
   please remember to install and test before running the CLI.
 ```
   npm i;
+
+  #test on osx/linux
   npm test;
+
+  # test on windows.
+  npm run win-test;
+  
   npm start;
 ```
 

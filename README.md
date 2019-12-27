@@ -2,6 +2,8 @@
 
 JavaScript utilities for the banano cryptocurrency.
 
+make sure to use `npm i @bananocoin/bananojs@latest` to get the latest version.
+
 # simple banano functions
 
     const bananojs = require('bananojs');
@@ -25,7 +27,7 @@ JavaScript utilities for the banano cryptocurrency.
 
   # test on windows.
   npm run win-test;
-  
+
   npm start;
 ```
 

@@ -276,18 +276,21 @@ const camoGetNextPrivateKeyForReceive = async (seed) => {
  * sends funds to a camo address.
  *
  * @memberof CamoUtil
- * @param {string} fromPrivateKey the private key that sends the funds.
- * @param {string} toPublicKey the public key that receiveds the funds.
+ * @param {string} fundingPrivateKey the private key that sends the funds.
+ * @param {string} fromCamoPrivateKey the private key used to generate the shared seed.
+ * @param {string} toCamoPublicKey the public key that receives the funds.
  * @param {string} amountBananos the amount of bananos.
  * @return {string_array} the sent hashes in an array.
  */
-const camoSend = async (fromPrivateKey, toPublicKey, amountBananos) => {
+const camoSend = async (fundingPrivateKey, fromCamoPrivateKey, toCamoPublicKey, amountBananos) => {
   const amountRaw = bananoUtil.getRawStrFromBananoStr(amountBananos);
-  return await camoUtil.send( bananodeApi, fromPrivateKey, fromPrivateKey, toPublicKey, amountRaw);
+  return await camoUtil.send( bananodeApi, fundingPrivateKey, fromCamoPrivateKey, toCamoPublicKey, amountRaw);
 };
 
 /**
  * sends funds to a camo account.
+ * This function uses seed index 0 to generate the shared secret,
+ * and seed index "seedIx" to get the private key that contains funds to send.
  *
  * @memberof CamoUtil
  * @param {string} seed the seed to use to find the account.
@@ -301,9 +304,10 @@ const camoSendWithdrawalFromSeed = async (seed, seedIx, toAccount, amountBananos
   if (!accountValid.isValid) {
     throw Error(accountValid.message);
   }
-  const fromPrivateKey = bananoUtil.getPrivateKey(seed, seedIx);
-  const toPublicKey = bananoUtil.getAccountPublicKey(toAccount);
-  return await camoSend( fromPrivateKey, toPublicKey, amountBananos);
+  const fundingPrivateKey = bananoUtil.getPrivateKey(seed, seedIx);
+  const fromCamoPrivateKey = bananoUtil.getPrivateKey(seed, 0);
+  const toCamoPublicKey = bananoUtil.getAccountPublicKey(toAccount);
+  return await camoSend( fundingPrivateKey, fromCamoPrivateKey, toCamoPublicKey, amountBananos);
 };
 
 /**
@@ -329,10 +333,10 @@ const camoGetAccountsPending = async (seed, seedIx, fromAccount, sharedSeedIx, c
  * @param {string} account the account to check.
  * @return {object} the account validity data.
  */
- const getCamoAccountValidationInfo = (account) => {
-   const accountValid = camoUtil.isCamoAccountValid(account);
-   return accountValid;
-}
+const getCamoAccountValidationInfo = (account) => {
+  const accountValid = camoUtil.isCamoAccountValid(account);
+  return accountValid;
+};
 
 /**
  * get the shared account, used as an intermediary to send finds between the seed and the camo account.

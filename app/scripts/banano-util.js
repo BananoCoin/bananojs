@@ -37,6 +37,10 @@ const LOG_GET_HASH_CPU_WORKER = false;
  */
 const getRawStrFromBananoStr = (bananoStr) => {
   /* istanbul ignore if */
+  if (bananoStr == undefined) {
+    throw Error( 'bananoStr is a required parameter.' );
+  }
+  /* istanbul ignore if */
   if (typeof bananoStr !== 'string') {
     throw Error(`'${bananoStr}' is not a string.`);
   }

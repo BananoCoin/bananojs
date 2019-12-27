@@ -63,7 +63,7 @@ describe('camo', () => {
     expectedResponse.push('000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F');
     expectedResponse.push('000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F');
     expectedResponse.push('000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F');
-    const actualResponse = await bananojs.camoSend(privateKey0, publicKey0, amountBananos);
+    const actualResponse = await bananojs.camoSend(privateKey0, privateKey0, publicKey0, amountBananos);
     expect(actualResponse).to.deep.equal(expectedResponse);
   });
   it('receive account matches expected', async () => {
@@ -86,7 +86,7 @@ describe('camo', () => {
     const expectedResponse = [];
     expectedResponse.push('000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F');
     expectedResponse.push('000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F');
-    const actualResponse = await bananojs.camoSend(privateKey0, publicKey0, amountBananos);
+    const actualResponse = await bananojs.camoSend(privateKey0, privateKey0, publicKey0, amountBananos);
     expect(actualResponse).to.deep.equal(expectedResponse);
   });
   it('camo sendWithdrawalFromSeed 1 valid account matches expected', async () => {
@@ -95,7 +95,7 @@ describe('camo', () => {
     const publicKey0 = await bananojs.getCamoPublicKey(privateKey0);
     const expectedResponse = [];
     expectedResponse.push('000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F');
-    const actualResponse = await bananojs.camoSend(privateKey0, publicKey0, amountBananos);
+    const actualResponse = await bananojs.camoSend(privateKey0, privateKey0, publicKey0, amountBananos);
     expect(actualResponse).to.deep.equal(expectedResponse);
   });
   it('camo sendWithdrawalFromSeed 5 valid account matches expected', async () => {
@@ -105,7 +105,7 @@ describe('camo', () => {
     const expectedResponse = [];
     expectedResponse.push('000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F');
     expectedResponse.push('000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F');
-    const actualResponse = await bananojs.camoSend(privateKey0, publicKey0, amountBananos);
+    const actualResponse = await bananojs.camoSend(privateKey0, privateKey0, publicKey0, amountBananos);
     expect(actualResponse).to.deep.equal(expectedResponse);
   });
   it('camo camoSendWithdrawalFromSeed 1 valid account matches expected', async () => {

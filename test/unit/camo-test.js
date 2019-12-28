@@ -32,8 +32,8 @@ describe('camo', () => {
     const bananojs = testUtil.getBananojsWithCamoApi();
     const publicKey0 = await bananojs.getCamoPublicKey(privateKey0);
     const expectedResponse = [];
-    expectedResponse.push('000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F');
-    expectedResponse.push('000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F');
+    expectedResponse.push('DB0C46B3A823D545E189A8C40C17CB65A0A7F40671C41BB8E6567C1965DB730D');
+    expectedResponse.push('B9A4133E415DE4E136A1BFE20E2ADEA8B23D4FAFF7349812DB92834DDAFC2642');
     const actualResponse = await bananojs.camoReceive(privateKey0, publicKey0);
     expect(expectedResponse).to.deep.equal(actualResponse);
   });
@@ -41,10 +41,10 @@ describe('camo', () => {
     const bananojs = testUtil.getBananojsWithCamoApi();
     const publicKey1 = await bananojs.getCamoPublicKey(privateKey1);
     const expectedResponse = [];
-    expectedResponse.push('000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F');
-    expectedResponse.push('000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F');
-    expectedResponse.push('000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F');
-    expectedResponse.push('000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F');
+    expectedResponse.push('C239042917BBE0725E31029911F99A66525409A04B2EFB80B29A6A38755BA3A8');
+    expectedResponse.push('98A4831A04AE621D5AAAA004858DDB44EF98C4F520CF702BEAC942C5EB54530F');
+    expectedResponse.push('08EFF77F9D9D2EA1F3DAAC1844B353E9E760ACB1B7F48D07F0C0DD8BC8108C7C');
+    expectedResponse.push('B11C530C40985A30383D44A7B08A86CCEBBFE6EF6079805E28809BECF8C184EE');
     const actualResponse = await bananojs.camoReceive(privateKey1, publicKey1);
     expect(expectedResponse).to.deep.equal(actualResponse);
   });
@@ -60,9 +60,9 @@ describe('camo', () => {
     const amountBananos = '1.011';
     const publicKey0 = await bananojs.getCamoPublicKey(privateKey0);
     const expectedResponse = [];
-    expectedResponse.push('000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F');
-    expectedResponse.push('000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F');
-    expectedResponse.push('000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F');
+    expectedResponse.push('6C22D9056710A1EC9D61D9A0BCB45CA77B1757D651D0113A845A0E53C10F4E4F');
+    expectedResponse.push('C7771A83A9BABFF0E8555D2EA241DE79959C8C520519AB806ECA610B2AD2B748');
+    expectedResponse.push('6B1D491C0A93CF509CC13F9964F4B2C6273FCD96469E3189873AB529EF0D7FAB');
     const actualResponse = await bananojs.camoSend(privateKey0, privateKey0, publicKey0, amountBananos);
     expect(actualResponse).to.deep.equal(expectedResponse);
   });
@@ -84,8 +84,8 @@ describe('camo', () => {
     const amountBananos = '1.01';
     const publicKey0 = await bananojs.getCamoPublicKey(privateKey0);
     const expectedResponse = [];
-    expectedResponse.push('000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F');
-    expectedResponse.push('000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F');
+    expectedResponse.push('6C22D9056710A1EC9D61D9A0BCB45CA77B1757D651D0113A845A0E53C10F4E4F');
+    expectedResponse.push('825CE38C924FC857EE9D49282CCB7F18132549BB5F0DE56914812FB216FAFD1A');
     const actualResponse = await bananojs.camoSend(privateKey0, privateKey0, publicKey0, amountBananos);
     expect(actualResponse).to.deep.equal(expectedResponse);
   });
@@ -94,7 +94,7 @@ describe('camo', () => {
     const amountBananos = '1';
     const publicKey0 = await bananojs.getCamoPublicKey(privateKey0);
     const expectedResponse = [];
-    expectedResponse.push('000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F');
+    expectedResponse.push('08ADFBD2D47434DCEA55C903395B2C4219C16D860A630518EBAEBD79C8E295E0');
     const actualResponse = await bananojs.camoSend(privateKey0, privateKey0, publicKey0, amountBananos);
     expect(actualResponse).to.deep.equal(expectedResponse);
   });
@@ -103,8 +103,8 @@ describe('camo', () => {
     const amountBananos = '5';
     const publicKey0 = await bananojs.getCamoPublicKey(privateKey0);
     const expectedResponse = [];
-    expectedResponse.push('000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F');
-    expectedResponse.push('000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F');
+    expectedResponse.push('08ADFBD2D47434DCEA55C903395B2C4219C16D860A630518EBAEBD79C8E295E0');
+    expectedResponse.push('EE77AC5D02D350289E62885D861664046D38EA729EFA3EDABB6D0FD6012609DE');
     const actualResponse = await bananojs.camoSend(privateKey0, privateKey0, publicKey0, amountBananos);
     expect(actualResponse).to.deep.equal(expectedResponse);
   });
@@ -114,7 +114,7 @@ describe('camo', () => {
     const publicKey0 = await bananojs.getCamoPublicKey(privateKey0);
     const camoAccount0 = await bananojs.getCamoAccount(publicKey0);
     const expectedResponse = [];
-    expectedResponse.push('000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F');
+    expectedResponse.push('718CC9BEFC3D88A45837537E53870DEDD45BA91A6BF650A0809A48493B9E4F4C');
     const actualResponse = await bananojs.camoSendWithdrawalFromSeed(seed0, 0, camoAccount0, amountBananos);
     expect(actualResponse).to.deep.equal(expectedResponse);
   });
@@ -210,8 +210,15 @@ describe('camo', () => {
     const expectedResponse = {
       'pendingCount': 2,
       'pendingMessage': 'pending 2 blocks, of max 10.',
+      'pendingBlocks': [
+        '142A538F36833D1CC78B94E11C766F75818F8B940771335C6C1B8AB880C5BB1D',
+        '242A538F36833D1CC78B94E11C766F75818F8B940771335C6C1B8AB880C5BB1D',
+      ],
       'receiveCount': 1,
       'receiveMessage': 'received 1 blocks.',
+      'receiveBlocks': [
+        '4F7E6D8601FBB46724961EC20ADAC95C79828A5BFB5EF61E31688F4488D75516',
+      ],
     };
     const actualResponse = await bananojs.receiveCamoDepositsForSeed(seed0, 0, camoAccount0, 0, pendingBlockHash);
     expect(actualResponse).to.deep.equal(expectedResponse);

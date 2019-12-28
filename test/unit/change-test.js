@@ -15,10 +15,10 @@ const seed0 = bananoTest.seed0;
 const seedIx = bananoTest.seedIx;
 const representative1 = bananoTest.representative1;
 
-describe('recieve', () => {
+describe('change', () => {
   it('changeRepresentativeForSeed valid account matches expected', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
-    const expectedResponse= '000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F';
+    const expectedResponse= '329E20904109CAB232624D68D568F2C2DC9675EA1C7151280E61D7E1AD397E41';
     const actualResponse = await bananojs.changeRepresentativeForSeed(seed0, seedIx, representative1);
     expect(actualResponse).to.deep.equal(expectedResponse);
   });

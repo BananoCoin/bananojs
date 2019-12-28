@@ -19,7 +19,7 @@ const amountBananos = '1';
 describe('withdraw', () => {
   it('sendWithdrawalFromSeed valid account matches expected', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
-    const expectedResponse= '000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F';
+    const expectedResponse= '5631DAB5FAF51C8163E054E332951E6BE765BFEFA1AE609A8E942D5B090FCE09';
     const actualResponse = await bananojs.sendWithdrawalFromSeed(seed0, seedIx, toAccount, amountBananos);
     expect(actualResponse).to.deep.equal(expectedResponse);
   });

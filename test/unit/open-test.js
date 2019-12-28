@@ -20,7 +20,7 @@ const pendingValueRaw = bananoTest.pendingValueRaw;
 describe('open', () => {
   it('openAccountFromSeed valid account matches expected', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
-    const expectedResponse= '000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F';
+    const expectedResponse= '32ECFCF11DF3B6331A52B456CDC7252282C04230759776FA734CF13432207BE8';
     const actualResponse = await bananojs.openAccountFromSeed(seed0, seedIx, representative1, pendingBlockHash, pendingValueRaw);
     expect(actualResponse).to.deep.equal(expectedResponse);
   });

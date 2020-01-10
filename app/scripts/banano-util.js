@@ -239,7 +239,7 @@ const isAccountSuffixValid = (accountSuffix) => {
   const regex = new RegExp(ACCOUNT_ALPHABET_REGEX_STR);
   const isValid = regex.test(accountSuffix);
   const retval = {};
-  retval.isValid = isValid;
+  retval.valid = isValid;
   if (isValid) {
     retval.message = '';
   } else {
@@ -276,7 +276,7 @@ const getAccountPublicKey = (account) => {
     account_crop = account.substring(4, 64);
   }
   const isAccountValid = isAccountSuffixValid(account_crop);
-  if (!isAccountValid.isValid) {
+  if (!isAccountValid.valid) {
     throw Error(`Invalid BANANO Account '${account}', ${isAccountValid.message}`);
   }
 

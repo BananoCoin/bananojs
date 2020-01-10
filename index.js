@@ -301,7 +301,7 @@ const camoSend = async (fundingPrivateKey, fromCamoPrivateKey, toCamoPublicKey, 
  */
 const camoSendWithdrawalFromSeed = async (seed, seedIx, toAccount, amountBananos) => {
   const accountValid = getCamoAccountValidationInfo(toAccount);
-  if (!accountValid.isValid) {
+  if (!accountValid.valid) {
     throw Error(accountValid.message);
   }
   const fundingPrivateKey = bananoUtil.getPrivateKey(seed, seedIx);
@@ -320,7 +320,7 @@ const camoSendWithdrawalFromSeed = async (seed, seedIx, toAccount, amountBananos
  */
 const camoGetAccountsPending = async (seed, seedIx, fromAccount, sharedSeedIx, count) => {
   const accountValid = getCamoAccountValidationInfo(fromAccount);
-  if (!accountValid.isValid) {
+  if (!accountValid.valid) {
     throw Error(accountValid.message);
   }
   const toPrivateKey = bananoUtil.getPrivateKey(seed, seedIx);
@@ -348,7 +348,7 @@ const getCamoAccountValidationInfo = (account) => {
  */
 const getCamoSharedAccountData = async (seed, seedIx, account, sharedSeedIx) => {
   const accountValid = getCamoAccountValidationInfo(account);
-  if (!accountValid.isValid) {
+  if (!accountValid.valid) {
     throw Error(accountValid.message);
   }
   const privateKey = bananoUtil.getPrivateKey(seed, seedIx);

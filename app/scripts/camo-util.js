@@ -669,26 +669,26 @@ const isCamoAccountValid = (camoAccount) => {
   if (((!camoAccount.startsWith('camo_1')) &&
         (!camoAccount.startsWith('camo_3')))) {
     const retval = {};
-    retval.isValid = false;
+    retval.valid = false;
     retval.message = `Invalid CAMO BANANO Account prefix '${camoAccount}'`;
     return retval;
   }
   if (camoAccount.length !== 65) {
     const retval = {};
-    retval.isValid = false;
+    retval.valid = false;
     retval.message = `Invalid CAMO BANANO Account length ${camoAccount.length} of '${camoAccount}'`;
     return retval;
   }
   const accountSuffix = camoAccount.substring(5, 65);
   const isSuffixValid = bananoUtil.isAccountSuffixValid(accountSuffix);
-  if (!isSuffixValid.isValid) {
+  if (!isSuffixValid.valid) {
     const retval = {};
-    retval.isValid = false;
+    retval.valid = false;
     retval.message = `Invalid CAMO BANANO Account '${camoAccount}', ${isSuffixValid.message}`;
     return retval;
   }
   const retval = {};
-  retval.isValid = true;
+  retval.valid = true;
   retval.message = '';
   return retval;
 };

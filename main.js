@@ -101,6 +101,7 @@ commands['breceive'] = async (privateKey, specificPendingBlockHash) => {
 
 commands['baccountinfo'] = async (account) => {
   const response = await bananodeApi.getAccountInfo(account, true);
+  response.balanceParts = await bananoUtil.getBananoPartsFromRaw(response.balance);
   console.log('banano accountinfo response', response);
 };
 

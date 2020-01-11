@@ -404,10 +404,11 @@ const getCamoAccountBalanceRaw = async (toPrivateKey, fromPublicKey) => {
  * @memberof BananodeApi
  * @param {string_array} accounts the array of pending accounts.
  * @param {number} count the max count to get.
+ * @param {string} source if true, get source.
  * @return {object} the account's pending blocks.
  */
-const getAccountsPending = async (accounts, count) => {
-  return await bananodeApi.getAccountsPending(accounts, count);
+const getAccountsPending = async (accounts, count, source) => {
+  return await bananodeApi.getAccountsPending(accounts, count, source);
 };
 
 module.exports.sendWithdrawalFromSeed = sendWithdrawalFromSeed;

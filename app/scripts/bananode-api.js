@@ -254,7 +254,7 @@ const getGeneratedWork = async (hash) => {
   });
 };
 
-const getAccountsPending = async (accounts, count) => {
+const getAccountsPending = async (accounts, count, source) => {
   if (accounts === undefined) {
     throw Error('accounts is a required parameter.');
   }
@@ -268,6 +268,14 @@ const getAccountsPending = async (accounts, count) => {
     count: count,
     threshold: 1,
   };
+
+  if (source !== undefined) {
+    if (source) {
+      formData.source = 'true';
+    } else {
+      formData.source = 'false';
+    }
+  }
   //    console.log( `accounts_pending request ${JSON.stringify( formData )}` );
   return new Promise((resolve) => {
     sendRequest(formData).then((json) => {

@@ -30,6 +30,12 @@ const getBananojsWithProcessErrorApi = () => {
   return bananojs;
 };
 
+const getBananojsWithProcessForkApi = () => {
+  const bananodeApi = require('./process-fork-bananode-api.js');
+  bananojs.setBananodeApi(bananodeApi);
+  return bananojs;
+};
+
 const getBananojsWithPendingErrorApi = () => {
   const bananodeApi = require('./pending-error-bananode-api.js');
   bananojs.setBananodeApi(bananodeApi);
@@ -65,6 +71,7 @@ const expectErrorMessage = async (errorMessage, fn, arg1, arg2, arg3, arg4, arg5
     await fn(arg1, arg2, arg3, arg4, arg5, arg6);
   } catch (err) {
     assert.isDefined(err);
+    // console.trace('expectErrorMessage', errorMessage, fn, err.message);
     expect(errorMessage).to.deep.equal(err.message);
     if (err.message != errorMessage) {
       // console.trace('expectErrorMessage', errorMessage, fn, err);
@@ -88,5 +95,6 @@ exports.getBananojsWithAccountInfoErrorApi = getBananojsWithAccountInfoErrorApi;
 exports.getBananojsWithCamoApi = getBananojsWithCamoApi;
 exports.getBananojsWithPendingErrorApi = getBananojsWithPendingErrorApi;
 exports.getBananojsWithAccountRepresentativeUndefinedApi = getBananojsWithAccountRepresentativeUndefinedApi;
+exports.getBananojsWithProcessForkApi = getBananojsWithProcessForkApi;
 exports.expectErrorMessage = expectErrorMessage;
 exports.deactivate = deactivate;

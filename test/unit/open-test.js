@@ -31,7 +31,7 @@ describe('open', () => {
   });
   it('openAccountFromSeed processing error', async () => {
     const bananojs = testUtil.getBananojsWithProcessErrorApi();
-    const message = 'process block:32ECFCF11DF3B6331A52B456CDC7252282C04230759776FA734CF13432207BE8';
+    const message = '"process block:32ECFCF11DF3B6331A52B456CDC7252282C04230759776FA734CF13432207BE8"';
     await testUtil.expectErrorMessage(message, bananojs.openAccountFromSeed, seed0, seedIx, representative1, pendingBlockHash, pendingValueRaw);
   });
 

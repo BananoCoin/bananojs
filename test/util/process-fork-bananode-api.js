@@ -7,10 +7,11 @@ const bananojs = require('../../index.js');
 const process = async (block) => {
   const hash = bananojs.getBlockHash(block);
   return new Promise((resolve, reject) => {
-    reject(`process block:${hash}`);
+    const json = {};
+    json.error = 'Fork';
+    reject(json);
   });
 };
-
 
 exports.getAccountBalanceRaw = bananodeApi.getAccountBalanceRaw;
 exports.getAccountRepresentative = bananodeApi.getAccountRepresentative;

@@ -54,7 +54,7 @@ describe('send', () => {
     const failureCallback = (error) => {
       throw error;
     };
-    const message = 'Error: process block:9B4B70A4BE903A07C549D3AD16EDA268D61F572210B1E63B93F6827CB4944CF6';
+    const message = 'process block:9B4B70A4BE903A07C549D3AD16EDA268D61F572210B1E63B93F6827CB4944CF6';
     await testUtil.expectErrorMessage(message, bananojs.sendAmountToAccount, seed0, seedIx, bananoAccount, 1, successCallback, failureCallback);
   });
   it('sendAmountToAccount low balance error', async () => {

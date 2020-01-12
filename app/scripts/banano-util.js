@@ -22,6 +22,8 @@ const LOG_SEND_PROCESS = false;
 
 const LOG_RECEIVE = false;
 
+const LOG_OPEN = false;
+
 const LOG_CHANGE = false;
 
 const LOG_IS_WORK_VALID = false;
@@ -779,8 +781,20 @@ const open = async (bananodeApi, privateKey, publicKey, representative, pending,
 
   // console.log( 'open', block );
 
-  const processResponse = await bananodeApi.process(block);
-  return processResponse;
+  try {
+    const processResponse = await bananodeApi.process(block);
+    /* istanbul ignore if */
+    if (LOG_OPEN) {
+      console.log('SUCCESS open', processResponse);
+    }
+    return processResponse;
+  } catch (e) {
+    /* istanbul ignore if */
+    if (LOG_OPEN) {
+      console.log('FAILURE open', JSON.stringify(e));
+    }
+    throw Error(JSON.stringify(e));
+  }
 };
 
 const change = async (bananodeApi, privateKey, representative) => {
@@ -840,11 +854,11 @@ const change = async (bananodeApi, privateKey, representative) => {
     }
     return processResponse;
   } catch (e) {
-  /* istanbul ignore if */
-    if (LOG_CHANGE) {
-      console.log('FAILURE change', e);
+    /* istanbul ignore if */
+    if (LOG_RECEIVE) {
+      console.log('FAILURE receive', JSON.stringify(e));
     }
-    throw e;
+    throw Error(JSON.stringify(e));
   }
 };
 
@@ -904,9 +918,9 @@ const receive = async (bananodeApi, privateKey, publicKey, representative, previ
   } catch (e) {
     /* istanbul ignore if */
     if (LOG_RECEIVE) {
-      console.log('FAILURE receive', e);
+      console.log('FAILURE receive', JSON.stringify(e));
     }
-    throw e;
+    throw Error(JSON.stringify(e));
   }
 };
 

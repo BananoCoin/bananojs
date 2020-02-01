@@ -1,8 +1,8 @@
-1) get private key from seed:
+# get private key from seed:
 ```
     npm start bgetprivatekey ${seed} ${seedIx}
 ```
-2) get the account for the private key:
+# get the account for the private key:
 ```
     npm start bgetaccount ${privateKey}
 
@@ -11,7 +11,7 @@
     banano getaccount publicKey ACA68A2D52FE17BAB36D48456569FE7F91F23CB57B971B13FAF236EBBCC7FA94
     banano getaccount account ban_3d78japo7ziqqcsptk47eonzwzwjyaydcywq5ebzowjpxgyehynnjc9pd5zj
 ```
-3) check pending using private key:
+# check pending using private key:
 ```
     npm start bcheckpending ${account} ${maxAccountsPending}
 
@@ -26,7 +26,7 @@
       }
     }
 ```
-3) recieve pending using private key:
+# recieve pending using private key:
 ```
     npm start breceive ${privateKey} ${hash}
 
@@ -40,7 +40,7 @@
       receiveMessage: 'received 1 blocks.'
     }
 ```
-5) send using private key:
+# send using private key:
 ```
     npm start bsendraw ${privateKey} ${destAccount} ${amountRaw}
 
@@ -49,7 +49,7 @@
     bananojs
     banano sendbanano response BF3BA5C6F91D52E88658E6AB800237C4023AD59392B4AB203EBA1E5BF706E535
 ```
-6) check account info
+# check account info
 ```
     npm start baccountinfo ban_1coranoshiqdentfbwkfo7fxzgg1jhz6m33pt9aa8497xxfageuskroocdxa
 

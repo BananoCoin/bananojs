@@ -418,6 +418,7 @@ Calls [https://docs.nano.org/commands/rpc-protocol/#accounts_pending][102]
 
 -   `accounts` **string_array** the array of pending accounts.
 -   `count` **[number][103]** the max count to get.
+-   `source` **[string][91]** if true, get source.
 
 Returns **[object][97]** the account's pending blocks.
 

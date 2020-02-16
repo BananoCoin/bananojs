@@ -16,6 +16,8 @@ const bananoDivisor = BigInt('100000000000000000000000000000');
 
 const ACCOUNT_ALPHABET_REGEX_STR = '^[13456789abcdefghijkmnopqrstuwxyz]+$';
 
+const SEED_ALPHABET_REGEX_STR = '^[0123456789abcdefABCDEF]{64}$';
+
 const LOG_SEND = false;
 
 const LOG_SEND_PROCESS = false;
@@ -534,6 +536,27 @@ const getPublicKey = (privateKey) => {
 };
 
 /**
+ * validates a seed.
+ *
+ * @memberof BananoUtil
+ * @param {string} seed the seed to use to validate.
+ * @param {string} seedIx the index to use with the seed.
+ * @return {object} {valid:[true/false] message:[if false, why]}.
+ */
+const isSeedValid = (seed) => {
+  const regex = new RegExp(SEED_ALPHABET_REGEX_STR);
+  const isValid = regex.test(seed);
+  const retval = {};
+  retval.valid = isValid;
+  if (isValid) {
+    retval.message = '';
+  } else {
+    retval.message = `does not match regex '${SEED_ALPHABET_REGEX_STR}'`;
+  }
+  return retval;
+};
+
+/**
  * Get the private key for a given seed.
  *
  * @memberof BananoUtil
@@ -549,6 +572,10 @@ const getPrivateKey = (seed, seedIx) => {
   /* istanbul ignore if */
   if (seedIx === undefined) {
     throw Error('seedIx is a required parameter.');
+  }
+  const isValid = isSeedValid(seed);
+  if (!isValid.valid) {
+    throw Error(`Invalid BANANO seed '${seed}', ${isValid.message}`);
   }
   const seedBytes = hexToBytes(seed);
   const accountBytes = generateAccountSecretKeyBytes(seedBytes, seedIx);
@@ -1023,3 +1050,4 @@ exports.sendFromPrivateKeyWithRepresentativeAndPrevious = sendFromPrivateKeyWith
 exports.getAccountSuffix = getAccountSuffix;
 exports.isAccountSuffixValid = isAccountSuffixValid;
 exports.isAccountOpen = isAccountOpen;
+exports.isSeedValid = isSeedValid;

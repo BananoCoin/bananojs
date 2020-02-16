@@ -5,6 +5,10 @@
 
 ## to publish a new version
 
+  (change version)
+
+  npm i (to udpate version in package-lock.json)
+
   npm publish --access public;
 
 ## to publish documentation

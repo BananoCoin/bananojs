@@ -1,6 +1,6 @@
 {
   "name": "@bananocoin/bananojs",
-  "version": "1.0.52",
+  "version": "1.0.53",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -23,7 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "blakejs": "^1.1.0",
-    "request": "^2.88.0"
+    "request": "^2.88.2"
   },
   "devDependencies": {
     "chai": "^4.2.0",

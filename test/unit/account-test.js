@@ -13,7 +13,7 @@ const testUtil = require('../util/test-util.js');
 
 const seed0 = bananoTest.seed0;
 const seedIx = bananoTest.seedIx;
-const expectedAccount = bananoTest.seed;
+const expectedAccount = bananoTest.seed0account;
 
 describe('account', () => {
   it('getAccountFromSeed valid account matches expected', () => {

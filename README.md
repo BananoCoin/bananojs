@@ -6,7 +6,7 @@ make sure to use `npm i @bananocoin/bananojs@latest` to get the latest version.
 
 # simple banano functions
 
-    const bananojs = require('bananojs');
+    const bananojs = require('@bananocoin/bananojs');
     bananojs.setBananodeApiUrl('https://kaliumapi.appditto.com/api');
 
     const crypto = require('crypto');

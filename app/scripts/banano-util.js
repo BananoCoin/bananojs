@@ -123,7 +123,7 @@
   };
 
   const bytesToHex = (bytes) => {
-    return Buffer.from(bytes).toString('hex').toUpperCase();
+    return Array.prototype.map.call(bytes, (x) => ('00' + x.toString(16)).slice(-2)).join('').toUpperCase();
   };
 
   const hash = (block) => {

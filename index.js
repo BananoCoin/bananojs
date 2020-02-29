@@ -416,65 +416,65 @@
   };
 
   // STARTED BOTTOM nodejs/browser hack
-  const bananocoinBananojs = (() => {
-    const BananocoinBananojs = {};
+  const exports = (() => {
+    const exports = {};
 
-    BananocoinBananojs.sendWithdrawalFromSeed = sendWithdrawalFromSeed;
-    BananocoinBananojs.getAccountsPending = getAccountsPending;
-    BananocoinBananojs.getAccountFromSeed = getAccountFromSeed;
-    BananocoinBananojs.getAccountInfo = getAccountInfo;
-    BananocoinBananojs.getBlockCount = getBlockCount;
+    exports.sendWithdrawalFromSeed = sendWithdrawalFromSeed;
+    exports.getAccountsPending = getAccountsPending;
+    exports.getAccountFromSeed = getAccountFromSeed;
+    exports.getAccountInfo = getAccountInfo;
+    exports.getBlockCount = getBlockCount;
 
-    BananocoinBananojs.bananoUtil = bananoUtil;
-    BananocoinBananojs.bananodeApi = bananodeApi;
-    BananocoinBananojs.camoUtil = camoUtil;
-    BananocoinBananojs.depositUtil = depositUtil;
-    BananocoinBananojs.withdrawUtil = withdrawUtil;
-    BananocoinBananojs.loggingUtil = loggingUtil;
+    exports.bananoUtil = bananoUtil;
+    exports.bananodeApi = bananodeApi;
+    exports.camoUtil = camoUtil;
+    exports.depositUtil = depositUtil;
+    exports.withdrawUtil = withdrawUtil;
+    exports.loggingUtil = loggingUtil;
 
-    BananocoinBananojs.setBananodeApi = setBananodeApi;
-    BananocoinBananojs.getAccountHistory = getAccountHistory;
-    BananocoinBananojs.openAccountFromSeed = openAccountFromSeed;
-    BananocoinBananojs.getBlockHash = getBlockHash;
-    BananocoinBananojs.getAccountBalanceRaw = getAccountBalanceRaw;
-    BananocoinBananojs.getBananoPartsFromRaw = bananoUtil.getBananoPartsFromRaw;
-    BananocoinBananojs.getPrivateKey = bananoUtil.getPrivateKey;
-    BananocoinBananojs.getPublicKey = bananoUtil.getPublicKey;
-    BananocoinBananojs.getAccount = bananoUtil.getAccount;
-    BananocoinBananojs.getAccountPublicKey = bananoUtil.getAccountPublicKey;
-    BananocoinBananojs.sendAmountToAccount = sendAmountToAccount;
-    BananocoinBananojs.sendAmountToAccountWithRepresentativeAndPrevious = sendAmountToAccountWithRepresentativeAndPrevious;
-    BananocoinBananojs.changeRepresentativeForSeed = changeRepresentativeForSeed;
-    BananocoinBananojs.getSignature = getSignature;
-    BananocoinBananojs.getBytesFromHex = getBytesFromHex;
-    BananocoinBananojs.getWorkUsingCpu = getWorkUsingCpu;
-    BananocoinBananojs.getZeroedWorkBytes = bananoUtil.getZeroedWorkBytes;
-    BananocoinBananojs.isWorkValid = bananoUtil.isWorkValid;
-    BananocoinBananojs.getAccountValidationInfo = bananoUtil.getAccountValidationInfo;
-    BananocoinBananojs.receiveDepositsForSeed = receiveDepositsForSeed;
-    BananocoinBananojs.getRawStrFromBananoStr = bananoUtil.getRawStrFromBananoStr;
-    BananocoinBananojs.getRawStrFromBanoshiStr = bananoUtil.getRawStrFromBanoshiStr;
-    BananocoinBananojs.setBananodeApiUrl = setBananodeApiUrl;
-    BananocoinBananojs.getCamoPublicKey = camoUtil.getCamoPublicKey;
-    BananocoinBananojs.getSharedSecret = camoUtil.getSharedSecret;
-    BananocoinBananojs.camoReceive = camoReceive;
-    BananocoinBananojs.camoSend = camoSend;
-    BananocoinBananojs.camoSendWithdrawalFromSeed = camoSendWithdrawalFromSeed;
-    BananocoinBananojs.getCamoAccount = camoUtil.getCamoAccount;
-    BananocoinBananojs.getCamoAccountBalanceRaw = getCamoAccountBalanceRaw;
-    BananocoinBananojs.camoGetNextPrivateKeyForReceive = camoGetNextPrivateKeyForReceive;
-    BananocoinBananojs.camoGetAccountsPending = camoGetAccountsPending;
-    BananocoinBananojs.getCamoSharedAccountData = getCamoSharedAccountData;
-    BananocoinBananojs.receiveCamoDepositsForSeed = receiveCamoDepositsForSeed;
-    BananocoinBananojs.getCamoAccountValidationInfo = getCamoAccountValidationInfo;
+    exports.setBananodeApi = setBananodeApi;
+    exports.getAccountHistory = getAccountHistory;
+    exports.openAccountFromSeed = openAccountFromSeed;
+    exports.getBlockHash = getBlockHash;
+    exports.getAccountBalanceRaw = getAccountBalanceRaw;
+    exports.getBananoPartsFromRaw = bananoUtil.getBananoPartsFromRaw;
+    exports.getPrivateKey = bananoUtil.getPrivateKey;
+    exports.getPublicKey = bananoUtil.getPublicKey;
+    exports.getAccount = bananoUtil.getAccount;
+    exports.getAccountPublicKey = bananoUtil.getAccountPublicKey;
+    exports.sendAmountToAccount = sendAmountToAccount;
+    exports.sendAmountToAccountWithRepresentativeAndPrevious = sendAmountToAccountWithRepresentativeAndPrevious;
+    exports.changeRepresentativeForSeed = changeRepresentativeForSeed;
+    exports.getSignature = getSignature;
+    exports.getBytesFromHex = getBytesFromHex;
+    exports.getWorkUsingCpu = getWorkUsingCpu;
+    exports.getZeroedWorkBytes = bananoUtil.getZeroedWorkBytes;
+    exports.isWorkValid = bananoUtil.isWorkValid;
+    exports.getAccountValidationInfo = bananoUtil.getAccountValidationInfo;
+    exports.receiveDepositsForSeed = receiveDepositsForSeed;
+    exports.getRawStrFromBananoStr = bananoUtil.getRawStrFromBananoStr;
+    exports.getRawStrFromBanoshiStr = bananoUtil.getRawStrFromBanoshiStr;
+    exports.setBananodeApiUrl = setBananodeApiUrl;
+    exports.getCamoPublicKey = camoUtil.getCamoPublicKey;
+    exports.getSharedSecret = camoUtil.getSharedSecret;
+    exports.camoReceive = camoReceive;
+    exports.camoSend = camoSend;
+    exports.camoSendWithdrawalFromSeed = camoSendWithdrawalFromSeed;
+    exports.getCamoAccount = camoUtil.getCamoAccount;
+    exports.getCamoAccountBalanceRaw = getCamoAccountBalanceRaw;
+    exports.camoGetNextPrivateKeyForReceive = camoGetNextPrivateKeyForReceive;
+    exports.camoGetAccountsPending = camoGetAccountsPending;
+    exports.getCamoSharedAccountData = getCamoSharedAccountData;
+    exports.receiveCamoDepositsForSeed = receiveCamoDepositsForSeed;
+    exports.getCamoAccountValidationInfo = getCamoAccountValidationInfo;
 
-    return BananocoinBananojs;
+    return exports;
   })();
 
   if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-    module.exports = bananocoinBananojs;
+    module.exports = exports;
   } else {
-    window.bananocoinBananojs = bananocoinBananojs;
+    window.bananocoinBananojs = exports;
   }
 })();
 // FINISHED BOTTOM nodejs/browser hack

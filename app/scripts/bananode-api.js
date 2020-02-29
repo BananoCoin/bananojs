@@ -1,5 +1,9 @@
 'use strict';
 
+
+// STARTED TOP nodejs/browser hack
+(function() {
+// FINISHED TOP nodejs/browser hack
 const https = require('https');
 
 let url;
@@ -349,18 +353,34 @@ const setUrl = (newUrl) => {
   url = newUrl;
 };
 
-exports.setUrl = setUrl;
-exports.getFrontiers = getFrontiers;
-exports.getBlockAccount = getBlockAccount;
-exports.getAccountsPending = getAccountsPending;
-exports.getAccountBalanceRaw = getAccountBalanceRaw;
-exports.getAccountRepresentative = getAccountRepresentative;
-exports.getPrevious = getPrevious;
-exports.process = process;
-exports.getGeneratedWork = getGeneratedWork;
-exports.getAccountHistory = getAccountHistory;
-exports.getAccountInfo = getAccountInfo;
-exports.getBlocks = getBlocks;
-exports.getBlockCount = getBlockCount;
-exports.log = console.log;
-exports.trace = console.trace;
+
+// STARTED BOTTOM nodejs/browser hack
+const exports = (() => {
+  const exports = {};
+
+  exports.setUrl = setUrl;
+  exports.getFrontiers = getFrontiers;
+  exports.getBlockAccount = getBlockAccount;
+  exports.getAccountsPending = getAccountsPending;
+  exports.getAccountBalanceRaw = getAccountBalanceRaw;
+  exports.getAccountRepresentative = getAccountRepresentative;
+  exports.getPrevious = getPrevious;
+  exports.process = process;
+  exports.getGeneratedWork = getGeneratedWork;
+  exports.getAccountHistory = getAccountHistory;
+  exports.getAccountInfo = getAccountInfo;
+  exports.getBlocks = getBlocks;
+  exports.getBlockCount = getBlockCount;
+  exports.log = console.log;
+  exports.trace = console.trace;
+
+  return exports;
+})();
+
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  module.exports = exports;
+} else {
+  window.bananodeApi = exports;
+}
+})();
+// FINISHED BOTTOM nodejs/browser hack

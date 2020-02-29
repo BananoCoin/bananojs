@@ -1,5 +1,9 @@
 'use strict';
 
+
+// STARTED TOP nodejs/browser hack
+(function() {
+// FINISHED TOP nodejs/browser hack
 const nacl = require( '../../libraries/tweetnacl/nacl.js' );
 
 const bananoUtil = require( './banano-util.js' );
@@ -755,22 +759,37 @@ const getAccountsPending = async (bananodeApi, toPrivateKey, fromPublicKey, shar
   }
 };
 
-exports.receiveSeed = receiveSeed;
-exports.receive = receive;
-exports.send = send;
-exports.getBalanceRaw = getBalanceRaw;
-// exports.isHashInPendingOfPrivateKey = isHashInPendingOfPrivateKey;
-// exports.sweepSeedToIndex = sweepSeedToIndex;
-exports.getSharedSecret = getSharedSecret;
-exports.getSharedSecretBytes = getSharedSecretBytes;
-exports.getCamoPublicKey = getCamoPublicKey;
-exports.getCamoPublicKeyBytes = getCamoPublicKeyBytes;
-// exports.getSharedSeed = getSharedSeed;
-exports.getFirstUnopenedPrivateKey = getFirstUnopenedPrivateKey;
-// exports.openAccountWithPrivateKey = openAccountWithPrivateKey;
-exports.getCamoAccount = getCamoAccount;
-exports.isCamoAccountValid = isCamoAccountValid;
-exports.getAccountsPending = getAccountsPending;
-exports.getSharedAccountData = getSharedAccountData;
-exports.receiveBlock = receiveBlock;
-exports.getSharedSecretFromRepresentative = getSharedSecretFromRepresentative;
+// STARTED BOTTOM nodejs/browser hack
+const exports = (() => {
+  const exports = {};
+
+  exports.receiveSeed = receiveSeed;
+  exports.receive = receive;
+  exports.send = send;
+  exports.getBalanceRaw = getBalanceRaw;
+  // exports.isHashInPendingOfPrivateKey = isHashInPendingOfPrivateKey;
+  // exports.sweepSeedToIndex = sweepSeedToIndex;
+  exports.getSharedSecret = getSharedSecret;
+  exports.getSharedSecretBytes = getSharedSecretBytes;
+  exports.getCamoPublicKey = getCamoPublicKey;
+  exports.getCamoPublicKeyBytes = getCamoPublicKeyBytes;
+  // exports.getSharedSeed = getSharedSeed;
+  exports.getFirstUnopenedPrivateKey = getFirstUnopenedPrivateKey;
+  // exports.openAccountWithPrivateKey = openAccountWithPrivateKey;
+  exports.getCamoAccount = getCamoAccount;
+  exports.isCamoAccountValid = isCamoAccountValid;
+  exports.getAccountsPending = getAccountsPending;
+  exports.getSharedAccountData = getSharedAccountData;
+  exports.receiveBlock = receiveBlock;
+  exports.getSharedSecretFromRepresentative = getSharedSecretFromRepresentative;
+
+  return exports;
+})();
+
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  module.exports = exports;
+} else {
+  window.bananodeApi = exports;
+}
+})();
+// FINISHED BOTTOM nodejs/browser hack

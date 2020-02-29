@@ -1,5 +1,9 @@
 'use strict';
 
+
+// STARTED TOP nodejs/browser hack
+(function() {
+// FINISHED TOP nodejs/browser hack
 const bananoUtil = require('./banano-util.js');
 
 const MAX_ACCOUNTS_PENDING = 10;
@@ -162,4 +166,21 @@ const sweep = async (loggingUtil, bananodeApi, privateKey, representative, speci
   return accountOpenAndReceiveBlocks;
 };
 
-exports.receive = receive;
+
+
+// STARTED BOTTOM nodejs/browser hack
+const exports = (() => {
+  const exports = {};
+
+  exports.receive = receive;
+
+  return exports;
+})();
+
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  module.exports = exports;
+} else {
+  window.bananodeApi = exports;
+}
+})();
+// FINISHED BOTTOM nodejs/browser hack

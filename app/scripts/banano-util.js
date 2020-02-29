@@ -2,8 +2,6 @@
 
 const blake = require('blakejs');
 
-const crypto = require('crypto');
-
 const nacl = require('../../libraries/tweetnacl/nacl.js');
 
 const workMin = BigInt('0xfffffe0000000000');

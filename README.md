@@ -19,8 +19,6 @@ make sure to use `npm i @bananocoin/bananojs@latest` to get the latest version.
 
   https://coranos.github.io/bananos/bananojs/index.html
 
-  https://github.com/BananoCoin/bananojs/blob/master/dist/bundle.js
-
 # complete documentation of all functions
 
   <https://github.com/BananoCoin/bananojs/blob/master/docs/documentation.md>

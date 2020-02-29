@@ -789,7 +789,7 @@ const exports = (() => {
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
   module.exports = exports;
 } else {
-  window.bananodeApi = exports;
+  window.camoUtil = exports;
 }
 })();
 // FINISHED BOTTOM nodejs/browser hack

@@ -18,7 +18,7 @@
   if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     module.exports = exports;
   } else {
-    window.bananodeApi = exports;
+    window.sleepUtil = exports;
   }
 })();
 // FINISHED BOTTOM nodejs/browser hack

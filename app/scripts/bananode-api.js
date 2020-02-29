@@ -1,6 +1,6 @@
 'use strict';
 
-const request = require('request');
+const https = require('https');
 
 let url;
 
@@ -16,28 +16,34 @@ const sendRequest = async (formData) => {
     const body = JSON.stringify(formData);
     //        console.log( 'sendRequest request', body );
 
-    request({
+    const options = {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Content-Length': body.length,
       },
-      uri: url,
-      body: body,
-      method: 'POST',
       timeout: 30000,
-    }, (err, httpResponse, body) => {
-      //            console.log( 'sendRequest response', err, body );
+    };
 
-      if (err !== null) {
-        console.log('sendRequest response', err, body);
-      }
+    const req = https.request(url, options, (res) => {
+      console.log(`statusCode: ${res.statusCode}`);
 
-      if (body === undefined) {
-        resolve(undefined);
-      } else {
-        const json = JSON.parse(body);
-        resolve(json);
-      }
+      res.on('data', (body) => {
+        if (body === undefined) {
+          resolve(undefined);
+        } else {
+          const json = JSON.parse(body);
+          resolve(json);
+        }
+      });
     });
+
+    req.on('error', (error) => {
+      console.log('sendRequest response', error, body);
+    });
+
+    req.write(body);
+    req.end();
   });
 };
 

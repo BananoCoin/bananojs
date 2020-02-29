@@ -7,7 +7,6 @@
     "url": "git+https://github.com/bananocoin/bananojs.git"
   },
   "scripts": {
-    "webpack": "npx webpack --display-modules --config webpack.config.js",
     "eslint": "eslint 'scripts/**/*.js'",
     "eslint-test": "eslint 'test/**/*.js'",
     "test": "./node_modules/mocha/bin/mocha -t 100000 test/unit",
@@ -26,15 +25,15 @@
     "blakejs": "^1.1.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.8.6",
+    "@babel/preset-env": "^7.8.6",
+    "babel-loader": "^8.0.6",
     "chai": "^4.2.0",
     "documentation": "^12.1.4",
     "eslint": "^6.8.0",
     "eslint-config-google": "^0.14.0",
     "mocha": "^7.1.0",
-    "nyc": "^15.0.0",
-    "webpack": "^4.41.6",
-    "webpack-cli": "^3.3.11",
-    "webpack-node-externals": "^1.7.2"
+    "nyc": "^15.0.0"
   },
   "description": "JavaScript utilities for the banano cryptocurrency.",
   "bugs": {

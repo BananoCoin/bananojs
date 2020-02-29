@@ -7,7 +7,7 @@
     "url": "git+https://github.com/bananocoin/bananojs.git"
   },
   "scripts": {
-    "webpack": "npx webpack --config webpack.config.js",
+    "webpack": "npx webpack --display-modules --config webpack.config.js",
     "eslint": "eslint 'scripts/**/*.js'",
     "eslint-test": "eslint 'test/**/*.js'",
     "test": "./node_modules/mocha/bin/mocha -t 100000 test/unit",

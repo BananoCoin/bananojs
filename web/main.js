@@ -13,7 +13,7 @@ const getHistory = async () => {
   // window.bananocoinBananojs.setBananodeApiUrl('https://kaliumapi.appditto.com/api');
   window.bananocoinBananojs.setBananodeApiUrl('https://jungle.coranos.cc/api');
   const history = await window.bananocoinBananojs.getAccountHistory(account, 1);
-  document.getElementById('history').innerText = history;
+  document.getElementById('history').innerText = JSON.stringify(history);
 };
 
 getHistory();

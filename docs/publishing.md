@@ -12,6 +12,8 @@
 
   npm run docs;
 
+### good to commit here, so published code is same as NPm code.
+
   npm publish --access public;
 
 ## to publish documentation

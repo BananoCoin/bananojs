@@ -30,7 +30,7 @@ const sendRequest = async (formData) => {
     };
 
     const req = https.request(url, options, (res) => {
-      console.log(`statusCode: ${res.statusCode}`);
+      // console.log(`statusCode: ${res.statusCode}`);
 
       res.on('data', (body) => {
         if (body === undefined) {

@@ -12,7 +12,7 @@
 
   npm run docs;
 
-### good to commit here, so published code is same as NPm code.
+### good to commit here, so published code is same as NPM code.
 
   npm publish --access public;
 

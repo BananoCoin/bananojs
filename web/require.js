@@ -45,3 +45,52 @@ const requireRaw = (modname) => {
   }
 };
 window.https = {};
+window.https.request = (url, options, requestWriterCallback) => {
+  const xmlhttp = new XMLHttpRequest();
+
+  // xmlhttp.open('POST', url, true);
+  xmlhttp.open(options.method, url, true);
+  Object.keys(options.headers).forEach((headerName) => {
+    if (headerName == 'Content-Length') {
+      // skip unsafe header warning
+    } else {
+      const headerValue = options.headers[headerName];
+      xmlhttp.setRequestHeader(headerName, headerValue);
+    }
+  });
+  // xmlhttp.setRequestHeader('Accept', '*/*');
+  // xmlhttp.setRequestHeader('Access-Control-Allow-Origin', '*');
+  // xmlhttp.setRequestHeader('Allow-Control-Allow-Methods', 'GET, POST');
+  // xmlhttp.setRequestHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Access-Control-Allow-Headers, Content-Type, Authorization');
+  xmlhttp.timeout = options.timeout;
+
+  const requestWriter = {};
+  requestWriter.listeners = {};
+  requestWriter.write = (body) => {
+    xmlhttp.send(body);
+  };
+  requestWriter.end = () => {
+
+  };
+  requestWriter.listeners['data'] = () => {
+  };
+  requestWriter.listeners['error'] = () => {
+  };
+  requestWriter.on = (key, fn) => {
+    requestWriter.listeners[key] = fn;
+  };
+
+  requestWriterCallback(requestWriter);
+
+  xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      const fn = requestWriter.listeners['data'];
+      fn(this.responseText);
+    } else {
+      const fn = requestWriter.listeners['error'];
+      fn(this.responseText);
+    }
+  };
+
+  return requestWriter;
+};

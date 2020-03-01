@@ -8,3 +8,11 @@ const privateKey = window.bananocoinBananojs.getPrivateKey(seed, 0);
 const publicKey = window.bananocoinBananojs.getPublicKey(privateKey);
 const account = window.bananocoinBananojs.getAccount(publicKey);
 document.getElementById('account').innerText = account;
+
+const getHistory = async () => {
+  window.bananocoinBananojs.setBananodeApiUrl('https://kaliumapi.appditto.com/api');
+  const history = await window.bananocoinBananojs.getAccountHistory(account, 1);
+  document.getElementById('history').innerText = history;
+};
+
+getHistory();

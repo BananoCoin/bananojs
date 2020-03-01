@@ -7,11 +7,10 @@
 
   (change version)
 
-  npm i (to update version in package-lock.json)
+### update version in package-lock.json
+  npm i;
 
   npm run docs;
-
-  npm run browserify;
 
   npm publish --access public;
 

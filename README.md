@@ -17,7 +17,7 @@ make sure to use `npm i @bananocoin/bananojs@latest` to get the latest version.
 
 # simple browser integration
 
-  https://coranos.github.io/bananos/bananojs/index.html
+  https://bananocoin.github.io/bananojs/
 
 # complete documentation of all functions
 

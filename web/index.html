@@ -9,13 +9,13 @@
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
-<body>
+<body onLoad=onLoad()>
   <h1>Bananojs</h1>
   <table class="w100pct">
     <tr>
       <td class="w50pct border_black">
         <h2>Seed 1</h2>
-        <input id="seed1" class="monospace" type="text" size="66" max_length="64" value="0000000000000000000000000000000000000000000000000000000000000000"></input><br>
+        <input id="seed1" class="monospace" type="text" size="66" max_length="64" value=""></input><br>
         <button onclick='return getNewSeed(1);'>New Seed</button>
         <h2>Account</h2>
         <div id="account1"></div>
@@ -29,7 +29,7 @@
       </td>
       <td class="w50pct border_black">
         <h2>Seed 2</h2>
-        <input id="seed2" class="monospace" type="text" size="66" max_length="64" value="FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"></input><br>
+        <input id="seed2" class="monospace" type="text" size="66" max_length="64" value=""></input><br>
         <button onclick='return getNewSeed(2);'>New Seed</button>
         <h2>Account</h2>
         <div id="account2"></div>
@@ -55,6 +55,7 @@
   <script src="../app/scripts/withdraw-util.js"></script>
   <script src="../app/scripts/camo-util.js"></script>
   <script src="../index.js"></script>
+  <script src="seed.js"></script>
   <script src="main.js"></script>
 </body>
 

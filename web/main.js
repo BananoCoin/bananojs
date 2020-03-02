@@ -40,5 +40,8 @@ const getAccountsPending = async (ix, account) => {
   document.getElementById('pending' + ix).innerText = JSON.stringify(pending);
 };
 
-getAccountHistoryAndPending(1);
-getAccountHistoryAndPending(2);
+const onLoad = () => {
+  loadSeeds();
+  getAccountHistoryAndPending(1);
+  getAccountHistoryAndPending(2);
+}

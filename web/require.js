@@ -47,7 +47,6 @@ const requireRaw = (modname) => {
 window.https = {};
 window.https.request = (url, options, requestWriterCallback) => {
   const xmlhttp = new XMLHttpRequest();
-
   // xmlhttp.open('POST', url, true);
   xmlhttp.open(options.method, url, true);
   Object.keys(options.headers).forEach((headerName) => {
@@ -67,6 +66,7 @@ window.https.request = (url, options, requestWriterCallback) => {
   const requestWriter = {};
   requestWriter.listeners = {};
   requestWriter.write = (body) => {
+    console.log('https send', body);
     xmlhttp.send(body);
   };
   requestWriter.end = () => {
@@ -83,12 +83,19 @@ window.https.request = (url, options, requestWriterCallback) => {
   requestWriterCallback(requestWriter);
 
   xmlhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      const fn = requestWriter.listeners['data'];
-      fn(this.responseText);
-    } else {
-      const fn = requestWriter.listeners['error'];
-      fn(this.responseText);
+    if (this.readyState == 4) {
+      console.log('https end', this.responseText);
+      if (this.status == 200) {
+        const fn = requestWriter.listeners['data'];
+        fn(this.responseText);
+      } else {
+        const fn = requestWriter.listeners['error'];
+        const error = {};
+        error.responseText = this.responseText;
+        error.readyState = this.readyState;
+        error.status = this.status;
+        fn(error);
+      }
     }
   };
 

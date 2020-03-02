@@ -3,17 +3,46 @@
 <html>
 
 <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
   <title>Bananojs</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 <body>
   <h1>Bananojs</h1>
-  <h2>Seed</h2>
-  <div id="seed"></div>
-  <h2>Account</h2>
-  <div id="account"></div>
-  <h2>History</h2>
-  <div id="history"></div>
+  <table class="w100pct">
+    <tr>
+      <td class="w50pct border_black">
+        <h2>Seed 1</h2>
+        <input id="seed1" class="monospace" type="text" size="66" max_length="64" value="0000000000000000000000000000000000000000000000000000000000000000"></input><br>
+        <button onclick='return getNewSeed(1);'>New Seed</button>
+        <h2>Account</h2>
+        <div id="account1"></div>
+        <button onclick='return getAccountHistoryAndPending(1);'>Refresh Account History And Pending</button>
+        <h2>Account Info</h2>
+        <div id="accountInfo1"></div>
+        <h2>History</h2>
+        <div id="history1" class="break_all"></div>
+        <h2>Pending</h2>
+        <div id="pending1" class="break_all"></div>
+      </td>
+      <td class="w50pct border_black">
+        <h2>Seed 2</h2>
+        <input id="seed2" class="monospace" type="text" size="66" max_length="64" value="FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"></input><br>
+        <button onclick='return getNewSeed(2);'>New Seed</button>
+        <h2>Account</h2>
+        <div id="account2"></div>
+        <button onclick='return getAccountHistoryAndPending(2);'>Refresh Account History And Pending</button>
+        <h2>Account Info</h2>
+        <div id="accountInfo2"></div>
+        <h2>History</h2>
+        <div id="history2" class="break_all"></div>
+        <h2>Pending</h2>
+        <div id="pending2" class="break_all"></div>
+      </td>
+    </tr>
+  </table>
   <script src="require.js"></script>
   <script src="../libraries/blake2b/blake2b-util.js"></script>
   <script src="../libraries/blake2b/blake2b.js"></script>

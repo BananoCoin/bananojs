@@ -43,7 +43,7 @@ const sendRequest = async (formData) => {
     });
 
     req.on('error', (error) => {
-      console.log('sendRequest response', error, body);
+      console.log('sendRequest error', error, body);
     });
 
     req.write(body);

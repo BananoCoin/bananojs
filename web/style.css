@@ -1,0 +1,29 @@
+.monospace {
+  font-family: monospace;
+}
+
+.border_black {
+  border: solid;
+  border-width: 1px;
+  border-color: #000;
+}
+
+.w20pct {
+  width: 20%;
+}
+
+.w50pct {
+  width: 50%;
+}
+
+.w80pct {
+  width: 80%;
+}
+
+.w100pct {
+  width: 100%;
+}
+
+.break_all {
+  word-break: break-all;
+}

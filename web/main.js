@@ -26,22 +26,37 @@ const getAccountInfo = async (ix, account) => {
   window.bananocoinBananojs.setBananodeApiUrl(url);
   const accountInfo = await window.bananocoinBananojs.getAccountInfo(account, true);
   document.getElementById('accountInfo' + ix).innerText = JSON.stringify(accountInfo);
+  if (accountInfo.error) {
+    setTimeout(async () => {
+      getAccountInfo(ix, account);
+    }, 1000);
+  }
 };
 
 const getAccountHistory = async (ix, account) => {
   window.bananocoinBananojs.setBananodeApiUrl(url);
   const history = await window.bananocoinBananojs.getAccountHistory(account, maxHistory);
   document.getElementById('history' + ix).innerText = JSON.stringify(history);
+  if (history.error) {
+    setTimeout(async () => {
+      getAccountHistory(ix, account);
+    }, 1000);
+  }
 };
 
 const getAccountsPending = async (ix, account) => {
   window.bananocoinBananojs.setBananodeApiUrl(url);
   const pending = await window.bananocoinBananojs.getAccountsPending([account], maxPending, true);
   document.getElementById('pending' + ix).innerText = JSON.stringify(pending);
+  if (pending.error) {
+    setTimeout(async () => {
+      getAccountsPending(ix, account);
+    }, 1000);
+  }
 };
 
 const onLoad = () => {
   loadSeeds();
   getAccountHistoryAndPending(1);
   getAccountHistoryAndPending(2);
-}
+};

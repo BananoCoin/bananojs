@@ -27,3 +27,7 @@
 .break_all {
   word-break: break-all;
 }
+
+.align_top {
+  vertical-align: top;
+}

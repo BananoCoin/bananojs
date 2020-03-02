@@ -13,12 +13,15 @@
   <h1>Bananojs</h1>
   <table class="w100pct">
     <tr>
-      <td class="w50pct border_black align_top">
+      <td class="w30pct border_black align_top">
         <h2>Seed 1</h2>
         <input id="seed1" class="monospace" type="text" size="66" max_length="64" value=""></input><br>
         <button onclick='return getNewSeed(1);'>New Seed</button>
         <h2>Account</h2>
-        <div id="account1"></div>
+        <div id="account1" class="break_all"></div>
+        <h2>Camo Representative</h2>
+        <div id="camoRepresentative1" class="break_all"></div>
+        <hr>
         <button onclick='return getAccountHistoryAndPending(1);'>Refresh Account History And Pending</button>
         <h2>Account Info</h2>
         <div id="accountInfo1" class="break_all"></div>
@@ -26,13 +29,18 @@
         <div id="history1" class="break_all"></div>
         <h2>Pending</h2>
         <div id="pending1" class="break_all"></div>
+        <hr>
+        <div id="accountDeposits1" class="break_all"></div>
       </td>
-      <td class="w50pct border_black align_top">
+      <td class="w30pct border_black align_top">
         <h2>Seed 2</h2>
         <input id="seed2" class="monospace" type="text" size="66" max_length="64" value=""></input><br>
         <button onclick='return getNewSeed(2);'>New Seed</button>
         <h2>Account</h2>
-        <div id="account2"></div>
+        <div id="account2" class="break_all"></div>
+        <h2>Camo Representative</h2>
+        <div id="camoRepresentative2" class="break_all"></div>
+        <hr>
         <button onclick='return getAccountHistoryAndPending(2);'>Refresh Account History And Pending</button>
         <h2>Account Info</h2>
         <div id="accountInfo2" class="break_all"></div>
@@ -40,6 +48,27 @@
         <div id="history2" class="break_all"></div>
         <h2>Pending</h2>
         <div id="pending2" class="break_all"></div>
+        <hr>
+        <div id="accountDeposits2" class="break_all"></div>
+      </td>
+      <td class="w50pct border_black align_top">
+        <h2>Shared Seed</h2>
+        <input id="seed3" class="monospace" type="text" size="66" max_length="64" value=""></input><br>
+        <button onclick='return getNewSeed(3);'>New Seed</button>
+        <h2>Account</h2>
+        <div id="account3" class="break_all"></div>
+        <h2>Camo Representative</h2>
+        <div id="camoRepresentative3" class="break_all"></div>
+        <hr>
+        <button onclick='return getAccountHistoryAndPending(2);'>Refresh Account History And Pending</button>
+        <h2>Account Info</h2>
+        <div id="accountInfo3" class="break_all"></div>
+        <h2>History</h2>
+        <div id="history3" class="break_all"></div>
+        <h2>Pending</h2>
+        <div id="pending3" class="break_all"></div>
+        <hr>
+        <div id="accountDeposits3" class="break_all"></div>
       </td>
     </tr>
   </table>

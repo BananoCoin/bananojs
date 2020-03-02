@@ -46,8 +46,8 @@ const requireRaw = (modname) => {
 };
 window.https = {};
 window.https.request = (url, options, requestWriterCallback) => {
+  const LOG_HTTP = false;
   const xmlhttp = new XMLHttpRequest();
-  // xmlhttp.open('POST', url, true);
   xmlhttp.open(options.method, url, true);
   Object.keys(options.headers).forEach((headerName) => {
     if (headerName == 'Content-Length') {
@@ -57,16 +57,14 @@ window.https.request = (url, options, requestWriterCallback) => {
       xmlhttp.setRequestHeader(headerName, headerValue);
     }
   });
-  // xmlhttp.setRequestHeader('Accept', '*/*');
-  // xmlhttp.setRequestHeader('Access-Control-Allow-Origin', '*');
-  // xmlhttp.setRequestHeader('Allow-Control-Allow-Methods', 'GET, POST');
-  // xmlhttp.setRequestHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Access-Control-Allow-Headers, Content-Type, Authorization');
   xmlhttp.timeout = options.timeout;
 
   const requestWriter = {};
   requestWriter.listeners = {};
   requestWriter.write = (body) => {
-    console.log('https send', body);
+    if (LOG_HTTP) {
+      console.log('https send', body);
+    }
     xmlhttp.send(body);
   };
   requestWriter.end = () => {
@@ -84,7 +82,9 @@ window.https.request = (url, options, requestWriterCallback) => {
 
   xmlhttp.onreadystatechange = function() {
     if (this.readyState == 4) {
-      console.log('https end', this.responseText);
+      if (LOG_HTTP) {
+        console.log('https end', this.responseText);
+      }
       if (this.status == 200) {
         const fn = requestWriter.listeners['data'];
         fn(this.responseText);

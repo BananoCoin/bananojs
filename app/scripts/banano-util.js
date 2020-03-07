@@ -186,13 +186,13 @@
     return uint4;
   };
 
-  const array_crop = (array) => {
+  const arrayCrop = (array) => {
     const length = array.length - 1;
-    const cropped_array = new Uint8Array(length);
+    const croppedArray = new Uint8Array(length);
     for (let i = 0; i < length; i++) {
-      cropped_array[i] = array[i + 1];
+      croppedArray[i] = array[i + 1];
     }
-    return cropped_array;
+    return croppedArray;
   };
 
   const uint4ToHex = (uint4) => {
@@ -213,7 +213,7 @@
     return uint4;
   };
 
-  const equal_arrays = (array1, array2) => {
+  const equalArrays = (array1, array2) => {
     for (let i = 0; i < array1.length; i++) {
       if (array1[i] != array2[i]) return false;
     }
@@ -231,12 +231,12 @@
   };
 
   const stringToUint5 = (string) => {
-    const letter_list = '13456789abcdefghijkmnopqrstuwxyz'.split('');
+    const letterList = '13456789abcdefghijkmnopqrstuwxyz'.split('');
     const length = string.length;
-    const string_array = string.split('');
+    const stringArray = string.split('');
     const uint5 = new Uint8Array(length);
     for (let i = 0; i < length; i++) {
-      uint5[i] = letter_list.indexOf(string_array[i]);
+      uint5[i] = letterList.indexOf(stringArray[i]);
     }
     return uint5;
   };
@@ -265,42 +265,42 @@
     if (account === undefined) {
       throw Error(`Undefined BANANO Account`);
     }
-    let account_crop;
+    let accountCrop;
     if (account.startsWith('camo')) {
       if (((!account.startsWith('camo_1')) &&
         (!account.startsWith('camo_3'))) ||
         (account.length !== 65)) {
         throw Error(`Invalid CAMO BANANO Account prefix '${account}'`);
       }
-      account_crop = account.substring(5, 65);
+      accountCrop = account.substring(5, 65);
     } else {
       if (((!account.startsWith('ban_1')) &&
         (!account.startsWith('ban_3'))) ||
         (account.length !== 64)) {
         throw Error(`Invalid BANANO Account prefix '${account}'`);
       }
-      account_crop = account.substring(4, 64);
+      accountCrop = account.substring(4, 64);
     }
-    const isAccountValid = isAccountSuffixValid(account_crop);
+    const isAccountValid = isAccountSuffixValid(accountCrop);
     if (!isAccountValid.valid) {
       throw Error(`Invalid BANANO Account '${account}', ${isAccountValid.message}`);
     }
 
-    const key_uint4 = array_crop(uint5ToUint4(stringToUint5(account_crop.substring(0, 52))));
-    const hash_uint4 = uint5ToUint4(stringToUint5(account_crop.substring(52, 60)));
-    const key_array = uint4ToUint8(key_uint4);
-    const blake_hash = blake.blake2b(key_array, null, 5).reverse();
+    const keyUint4 = arrayCrop(uint5ToUint4(stringToUint5(accountCrop.substring(0, 52))));
+    const hashUint4 = uint5ToUint4(stringToUint5(accountCrop.substring(52, 60)));
+    const keyArray = uint4ToUint8(keyUint4);
+    const blakeHash = blake.blake2b(keyArray, null, 5).reverse();
 
-    const left = hash_uint4;
-    const right = uint8ToUint4(blake_hash);
-    if (!equal_arrays(left, right)) {
+    const left = hashUint4;
+    const right = uint8ToUint4(blakeHash);
+    if (!equalArrays(left, right)) {
       const leftStr = uint5ToString(uint4ToUint5(left));
       const rightStr = uint5ToString(uint4ToUint5(right));
 
       throw Error(`Incorrect checksum ${leftStr} <> ${rightStr}`);
     }
 
-    return uint4ToHex(key_uint4);
+    return uint4ToHex(keyUint4);
   };
 
   const hexToUint8 = (hexValue) => {
@@ -403,10 +403,10 @@
   };
 
   const uint5ToString = (uint5) => {
-    const letter_list = '13456789abcdefghijkmnopqrstuwxyz'.split('');
+    const letterList = '13456789abcdefghijkmnopqrstuwxyz'.split('');
     let string = '';
     for (let i = 0; i < uint5.length; i++) {
-      string += letter_list[uint5[i]];
+      string += letterList[uint5[i]];
     }
 
     return string;
@@ -501,20 +501,20 @@
     }
     const hashBytes = hexToBytes(hash);
 
-    const startTime = process.hrtime.bigint();
+    // const startTime = process.hrtime.bigint();
     let isWorkValidFlag = isWorkValid(hashBytes, workBytes);
 
-    let isWorkValidNanos = process.hrtime.bigint() - startTime;
-    let incrementBytesNanos = BigInt(0);
+    // let isWorkValidNanos = process.hrtime.bigint() - startTime;
+    // let incrementBytesNanos = BigInt(0);
 
     while (!isWorkValidFlag) {
-      const startTime0 = process.hrtime.bigint();
+      // const startTime0 = process.hrtime.bigint();
       incrementBytes(workBytes);
-      incrementBytesNanos += process.hrtime.bigint() - startTime0;
+      // incrementBytesNanos += process.hrtime.bigint() - startTime0;
 
-      const startTime1 = process.hrtime.bigint();
+      // const startTime1 = process.hrtime.bigint();
       isWorkValidFlag = isWorkValid(hashBytes, workBytes);
-      isWorkValidNanos += process.hrtime.bigint() - startTime1;
+      // isWorkValidNanos += process.hrtime.bigint() - startTime1;
     }
     const retval = bytesToHex(workBytes.reverse());
     /* istanbul ignore if */
@@ -754,7 +754,7 @@
       }
       return undefined;
     } else {
-      const hashBytes = hexToBytes(previous);
+      // const hashBytes = hexToBytes(previous);
 
       const block = {};
       block.type = 'state';
@@ -995,8 +995,8 @@
         valid: false,
       };
     }
-    const account_crop = account.substring(4, 64);
-    const isValid = /^[13456789abcdefghijkmnopqrstuwxyz]+$/.test(account_crop);
+    const accountCrop = account.substring(4, 64);
+    const isValid = /^[13456789abcdefghijkmnopqrstuwxyz]+$/.test(accountCrop);
     if (!isValid) {
       return {
         message: `Invalid BANANO account (characters after ban_ must be one of:13456789abcdefghijkmnopqrstuwxyz)`,
@@ -1020,9 +1020,9 @@
 
   const isAccountOpen = async (bananodeApi, account) => {
     const history = await bananodeApi.getAccountHistory( account, 1 );
-    const history_history = history.history;
-    const history_history_length = history_history.length;
-    return history_history_length !== 0;
+    const historyHistory = history.history;
+    const historyHistoryLength = historyHistory.length;
+    return historyHistoryLength !== 0;
   };
 
 

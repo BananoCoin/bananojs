@@ -1,4 +1,3 @@
-
 const require = (modname) => {
   const module = requireRaw(modname);
   if (module) {

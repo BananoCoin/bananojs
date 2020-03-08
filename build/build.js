@@ -4,7 +4,6 @@ const fs = require('fs');
 const path = require('path');
 
 // modules
-const pjson = require('../package.json');
 
 // constants
 const inputFiles = [
@@ -36,7 +35,7 @@ const build = () => {
     return fs.readFileSync(fAbs).toString();
   }).join('');
 
-  const file = `bananocoin-bananojs-${pjson.version}.js`;
+  const file = `bananocoin-bananojs.js`;
   fs.writeFileSync(path.join(directory, file), output);
 };
 

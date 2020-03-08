@@ -9,8 +9,8 @@ const pjson = require('../package.json');
 // constants
 const inputFiles = [
   '../web/require.js',
-  '../libraries/blake2b/blake2b-util.js',
   '../libraries/blake2b/blake2b.js',
+  '../libraries/blake2b/blake2b-util.js',
   '../libraries/tweetnacl/nacl.js',
   '../app/scripts/bananode-api.js',
   '../app/scripts/logging-util.js',

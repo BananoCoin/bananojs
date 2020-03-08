@@ -35,7 +35,7 @@ const requireRaw = (modname) => {
     return window.blakejs;
   }
   if (modname == './blake2b-util.js') {
-    return window.blakejs.blake2bUtil;
+    return window.blakejsUtil;
   }
   if (window.bananocoin.bananojs[modname]) {
     return window.bananocoin.bananojs[modname];

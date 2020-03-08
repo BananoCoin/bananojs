@@ -1,3 +1,6 @@
+//bananocoin-bananojs.js
+//version 1.1.5
+//license MIT
 const require = (modname) => {
   const module = requireRaw(modname);
   if (module) {

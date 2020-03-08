@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 // modules
+const pjson = require('../package.json');
 
 // constants
 const inputFiles = [
@@ -30,7 +31,11 @@ const build = () => {
   for (const file of files) {
     fs.unlinkSync(path.join(directory, file));
   }
-  const output = inputFiles.map((f)=>{
+  let output = '';
+  output += `//bananocoin-bananojs.js\n`;
+  output += `//version ${pjson.version}\n`;
+  output += `//license ${pjson.license}\n`;
+  output += inputFiles.map((f)=>{
     const fAbs = path.join(__dirname, f);
     return fs.readFileSync(fAbs).toString();
   }).join('');

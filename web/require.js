@@ -31,14 +31,11 @@ const requireRaw = (modname) => {
   if (modname == '../../libraries/tweetnacl/nacl.js') {
     return window.bananocoin.bananojs.nacl;
   }
-  if (modname == 'blakejs') {
-    return window.bananocoin.bananojs.blakejs;
-  }
   if (modname == '../../libraries/blake2b/blake2b.js') {
-    return window.bananocoin.bananojs.blakejs;
+    return window.blakejs;
   }
   if (modname == './blake2b-util.js') {
-    return window.bananocoin.bananojs.blake2bUtil;
+    return window.blakejs.blake2bUtil;
   }
   if (window.bananocoin.bananojs[modname]) {
     return window.bananocoin.bananojs[modname];

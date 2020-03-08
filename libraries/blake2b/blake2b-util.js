@@ -91,7 +91,7 @@
   if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     module.exports = exports;
   } else {
-    window.blake2bUtil = exports;
+    window.blakejs.blake2bUtil = exports;
   }
 })();
 // FINISHED BOTTOM nodejs/browser hack

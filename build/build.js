@@ -1,10 +1,13 @@
 'use strict';
 // libraries
+const fs = require('fs');
+const path = require('path');
 
 // modules
+const pjson = require('../package.json');
 
 // constants
-const files = [
+const inputFiles = [
   '../web/require.js',
   '../libraries/blake2b/blake2b-util.js',
   '../libraries/blake2b/blake2b.js',
@@ -23,11 +26,18 @@ const files = [
 
 // functions
 const build = () => {
-  const output = files.map((f)=>{
-    return fs.readFileSync(f).toString();
+  const directory = path.join(__dirname, '..', 'dist');
+  const files = fs.readdirSync(directory);
+  for (const file of files) {
+    fs.unlinkSync(path.join(directory, file));
+  }
+  const output = inputFiles.map((f)=>{
+    const fAbs = path.join(__dirname, f);
+    return fs.readFileSync(fAbs).toString();
   }).join('');
 
-  fs.writeFileSync('../dist/bananocoin-bananojs.js', output);
+  const file = `bananocoin-bananojs-${pjson.version}.js`;
+  fs.writeFileSync(path.join(directory, file), output);
 };
 
 build();

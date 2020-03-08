@@ -556,8 +556,7 @@ Get the camo account for a given camo public key.
 
 ### Parameters
 
--   `camoPublicKey`  
--   `publicKey` **[string][93]** the camo public key.
+-   `camoPublicKey` **[string][93]** the camo public key.
 
 Returns **[string][93]** the camo account.
 
@@ -621,8 +620,7 @@ Type: [Object][98]
 
 ### Parameters
 
--   `camoAccount`  
--   `publicKey` **[string][93]** the camo public key.
+-   `camoAccount` **[string][93]** the camo account.
 
 Returns **[boolean][97]** true if the camo account is valid.
 

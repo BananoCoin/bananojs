@@ -29,7 +29,7 @@ const requireRaw = (modname) => {
     return window.bananocoin.bananojs.loggingUtil;
   }
   if (modname == '../../libraries/tweetnacl/nacl.js') {
-    return window.bananocoin.bananojs.nacl;
+    return window.nacl;
   }
   if (modname == '../../libraries/blake2b/blake2b.js') {
     return window.blakejs;

@@ -8,7 +8,7 @@
   // Adapted from the reference implementation in RFC7693
   // Ported to Javascript by DC - https://github.com/dcposch
 
-  const util = require('./blake2bUtil');
+  const util = require('./blake2b-util.js');
 
   // 64-bit unsigned addition
   // Sets v[a,a+1] += v[b,b+1]

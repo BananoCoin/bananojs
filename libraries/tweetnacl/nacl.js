@@ -6,7 +6,7 @@
   const exports = (() => {
     const exports = {};
     // FINISHED TOP nodejs/browser hack
-    const blake = require( 'blakejs' );
+    const blake = require('../../libraries/blake2b/blake2b.js');
 
     // Ported in 2014 by Dmitry Chestnykh and Devi Mandiri.
     // Public domain.

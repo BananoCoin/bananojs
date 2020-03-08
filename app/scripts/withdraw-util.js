@@ -53,10 +53,11 @@
     return exports;
   })();
 
+  // istanbul ignore else
   if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     module.exports = exports;
   } else {
-    window.withdrawUtil = exports;
+    window.bananocoin.bananojs.withdrawUtil = exports;
   }
 })();
 // FINISHED BOTTOM nodejs/browser hack

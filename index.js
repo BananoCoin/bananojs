@@ -471,6 +471,7 @@
     return exports;
   })();
 
+  // istanbul ignore else 
   if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     module.exports = exports;
   } else {

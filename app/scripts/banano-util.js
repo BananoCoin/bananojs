@@ -4,7 +4,7 @@
 (function() {
 // FINISHED TOP nodejs/browser hack
 
-  const blake = require('blakejs');
+  const blake = require('../../libraries/blake2b/blake2b.js');
 
   const nacl = require('../../libraries/tweetnacl/nacl.js');
 
@@ -1060,10 +1060,11 @@
     return exports;
   })();
 
+  // istanbul ignore else
   if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     module.exports = exports;
   } else {
-    window.bananoUtil = exports;
+    window.bananocoin.bananojs.bananoUtil = exports;
   }
 })();
 // FINISHED BOTTOM nodejs/browser hack

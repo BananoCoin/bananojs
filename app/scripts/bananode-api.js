@@ -377,10 +377,11 @@
     return exports;
   })();
 
+  // istanbul ignore else
   if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     module.exports = exports;
   } else {
-    window.bananodeApi = exports;
+    window.bananocoin.bananojs.bananodeApi = exports;
   }
 })();
 // FINISHED BOTTOM nodejs/browser hack

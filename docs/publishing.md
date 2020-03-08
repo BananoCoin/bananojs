@@ -12,6 +12,8 @@
 
   npm run eslint;
 
+  npm run coverage;
+
   npm run docs;
 
   npm run build;

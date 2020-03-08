@@ -8,7 +8,7 @@
 
   const bananoUtil = require( './banano-util.js' );
 
-  const blake = require( 'blakejs' );
+  const blake = require('../../libraries/blake2b/blake2b.js');
 
   const LOG_SWEEP_SEED_TO_INDEX = false;
 
@@ -649,10 +649,11 @@
     return exports;
   })();
 
+  // istanbul ignore else
   if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     module.exports = exports;
   } else {
-    window.camoUtil = exports;
+    window.bananocoin.bananojs.camoUtil = exports;
   }
 })();
 // FINISHED BOTTOM nodejs/browser hack

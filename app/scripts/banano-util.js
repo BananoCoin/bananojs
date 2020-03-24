@@ -3,7 +3,10 @@
 // STARTED TOP nodejs/browser hack
 (function() {
 // FINISHED TOP nodejs/browser hack
-
+// istanbul ignore if
+  if (typeof BigInt === 'undefined') {
+    return;
+  }
   const blake = require('../../libraries/blake2b/blake2b.js');
 
   const nacl = require('../../libraries/tweetnacl/nacl.js');

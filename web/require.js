@@ -1,4 +1,7 @@
 const require = (modname) => {
+  if (typeof BigInt === 'undefined') {
+    return;
+  }
   const module = requireRaw(modname);
   if (module) {
     return module;

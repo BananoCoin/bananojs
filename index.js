@@ -417,6 +417,10 @@
 
   // STARTED BOTTOM nodejs/browser hack
   const exports = (() => {
+    // istanbul ignore if
+    if (typeof BigInt === 'undefined') {
+      return;
+    }
     const exports = {};
 
     exports.sendWithdrawalFromSeed = sendWithdrawalFromSeed;
@@ -471,7 +475,7 @@
     return exports;
   })();
 
-  // istanbul ignore else 
+  // istanbul ignore else
   if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     module.exports = exports;
   } else {

@@ -2,6 +2,9 @@
 //version 1.1.5
 //license MIT
 const require = (modname) => {
+  if (typeof BigInt === 'undefined') {
+    return;
+  }
   const module = requireRaw(modname);
   if (module) {
     return module;
@@ -2391,7 +2394,9 @@ window.bananocoin.bananojs.https.request = (url, options, requestWriterCallback)
 // STARTED TOP nodejs/browser hack
 (function() {
 // FINISHED TOP nodejs/browser hack
-
+  if (typeof BigInt === 'undefined') {
+    return;
+  }
   const blake = require('../../libraries/blake2b/blake2b.js');
 
   const nacl = require('../../libraries/tweetnacl/nacl.js');
@@ -4783,6 +4788,9 @@ window.bananocoin.bananojs.https.request = (url, options, requestWriterCallback)
 
   // STARTED BOTTOM nodejs/browser hack
   const exports = (() => {
+    if (typeof BigInt === 'undefined') {
+      return;
+    }
     const exports = {};
 
     exports.sendWithdrawalFromSeed = sendWithdrawalFromSeed;
@@ -4837,7 +4845,7 @@ window.bananocoin.bananojs.https.request = (url, options, requestWriterCallback)
     return exports;
   })();
 
-  // istanbul ignore else 
+  // istanbul ignore else
   if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     module.exports = exports;
   } else {

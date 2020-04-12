@@ -17,7 +17,7 @@
     return new Promise((resolve) => {
     // https://docs.nano.org/commands/rpc-protocol#accounts-balances
 
-      const apiUrl = new URL(url)
+      const apiUrl = new URL(url);
       const body = JSON.stringify(formData);
       //        console.log( 'sendRequest request', body );
 

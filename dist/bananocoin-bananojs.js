@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 1.1.7
+//version 1.1.8
 //license MIT
 const require = (modname) => {
   if (typeof BigInt === 'undefined') {
@@ -1972,11 +1972,15 @@ window.bananocoin.bananojs.https.request = (url, options, requestWriterCallback)
     return new Promise((resolve) => {
     // https://docs.nano.org/commands/rpc-protocol#accounts-balances
 
+      const apiUrl = new URL(url);
       const body = JSON.stringify(formData);
       //        console.log( 'sendRequest request', body );
 
       const options = {
         method: 'POST',
+        hostname: apiUrl.hostname,
+        path: apiUrl.pathname,
+        port: 443,
         headers: {
           'Content-Type': 'application/json',
           'Content-Length': body.length,
@@ -1984,7 +1988,7 @@ window.bananocoin.bananojs.https.request = (url, options, requestWriterCallback)
         timeout: 30000,
       };
 
-      const req = https.request(url, options, (res) => {
+      const req = https.request(options, (res) => {
       // console.log(`statusCode: ${res.statusCode}`);
 
         res.on('data', (body) => {

@@ -17,11 +17,15 @@
     return new Promise((resolve) => {
     // https://docs.nano.org/commands/rpc-protocol#accounts-balances
 
+      const apiUrl = new URL(url)
       const body = JSON.stringify(formData);
       //        console.log( 'sendRequest request', body );
 
       const options = {
         method: 'POST',
+        hostname: apiUrl.hostname,
+        path: apiUrl.pathname,
+        port: 443,
         headers: {
           'Content-Type': 'application/json',
           'Content-Length': body.length,
@@ -29,7 +33,7 @@
         timeout: 30000,
       };
 
-      const req = https.request(url, options, (res) => {
+      const req = https.request(options, (res) => {
       // console.log(`statusCode: ${res.statusCode}`);
 
         res.on('data', (body) => {

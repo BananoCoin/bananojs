@@ -56,6 +56,9 @@ const getCoinDatas = (bananoTest) => {
       getCamoGetNextPrivateKeyForReceiveFn: (bananojs) => {
         return bananojs.getCamoBananoNextPrivateKeyForReceive;
       },
+      getCamoSendWithdrawalFromSeedFn: (bananojs) => {
+        return bananojs.camoBananoSendWithdrawalFromSeed;
+      },
       representative1: bananoTest.bananoRepresentative1,
       toAccount: bananoTest.bananoAccount,
       bad: {
@@ -100,6 +103,9 @@ const getCoinDatas = (bananoTest) => {
       },
       getCamoGetNextPrivateKeyForReceiveFn: (bananojs) => {
         return bananojs.getCamoNanoNextPrivateKeyForReceive;
+      },
+      getCamoSendWithdrawalFromSeedFn: (bananojs) => {
+        return bananojs.camoNanoSendWithdrawalFromSeed;
       },
       representative1: bananoTest.nanoRepresentative1,
       toAccount: bananoTest.nanoAccount,

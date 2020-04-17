@@ -596,7 +596,7 @@
     return retval;
   };
 
-  const getSharedAccountData = async (bananodeApi, privateKey, publicKey, sharedSeedIx) => {
+  const getSharedAccountData = async (bananodeApi, privateKey, publicKey, sharedSeedIx, amountPrefix) => {
   /* istanbul ignore if */
     if ( bananodeApi === undefined ) {
       throw Error( 'bananodeApi is a required parameter.' );

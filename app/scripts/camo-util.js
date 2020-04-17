@@ -622,7 +622,7 @@
       const sharedSeed = sharedSecret;
       const sharedPrivateKey = bananoUtil.getPrivateKey( sharedSeed, sharedSeedIx );
       const sharedPublicKey = bananoUtil.getPublicKey( sharedPrivateKey );
-      const sharedAccount = bananoUtil.getAccount( sharedPublicKey );
+      const sharedAccount = bananoUtil.getAccount( sharedPublicKey, amountPrefix );
       const data = {};
       data.sharedSeed = sharedSeed;
       data.sharedPrivateKey = sharedPrivateKey;
@@ -634,7 +634,7 @@
     }
   };
 
-  const getAccountsPending = async (bananodeApi, toPrivateKey, fromPublicKey, sharedSeedIx, count) => {
+  const getAccountsPending = async (bananodeApi, toPrivateKey, fromPublicKey, sharedSeedIx, count, amountPrefix) => {
   /* istanbul ignore if */
     if ( bananodeApi === undefined ) {
       throw Error( 'bananodeApi is a required parameter.' );
@@ -655,7 +655,11 @@
     if ( count === undefined ) {
       throw Error( 'count is a required parameter.' );
     }
-    const accountData = await getSharedAccountData(bananodeApi, toPrivateKey, fromPublicKey, sharedSeedIx);
+    /* istanbul ignore if */
+    if (amountPrefix == undefined) {
+      throw Error( 'amountPrefix is a required parameter.' );
+    }
+    const accountData = await getSharedAccountData(bananodeApi, toPrivateKey, fromPublicKey, sharedSeedIx, amountPrefix);
     if (accountData) {
       const accounts = [accountData.sharedAccount];
       return bananodeApi.getAccountsPending(accounts, count);

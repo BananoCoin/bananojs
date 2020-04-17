@@ -23,8 +23,8 @@
       minorName: 'banoshi',
     },
     'nano_': {
-      minorDivisor: BigInt('1000000000000000000000000000'),
-      majorDivisor: BigInt('100000000000000000000000000000'),
+      minorDivisor: BigInt('1000000000000000000000000'),
+      majorDivisor: BigInt('1000000000000000000000000000000'),
       majorName: 'nano',
       minorName: 'nanoshi',
     },
@@ -444,6 +444,7 @@
    * @return {string} the account.
    */
   const getAccount = (publicKey, accountPrefix) => {
+    /* istanbul ignore if */
     if (accountPrefix == undefined) {
       throw Error('accountPrefix is a required parameter.');
     }
@@ -805,8 +806,8 @@
     if (BigInt(balanceRaw) < BigInt(amountRaw)) {
       const balance = getAmountPartsFromRaw(balanceRaw, accountPrefix);
       const amount = getAmountPartsFromRaw(amountRaw, accountPrefix);
-      const balanceMajorAmount = balance[balance.majorName]
-      const amountMajorAmount = amount[amount.majorName]
+      const balanceMajorAmount = balance[balance.majorName];
+      const amountMajorAmount = amount[amount.majorName];
       //        console.log( `balance:${JSON.stringify( balance )}` );
       throw Error(`The server's account balance of ${balanceMajorAmount} ${balance.majorName}s is too small, cannot withdraw ${amountMajorAmount} ${balance.majorName}s.`);
     }

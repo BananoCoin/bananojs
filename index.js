@@ -431,7 +431,7 @@
  * @return {string_array} the sent hashes in an array.
  */
   const camoBananoSend = async (fundingPrivateKey, fromCamoPrivateKey, toCamoPublicKey, amountBananos) => {
-    const amountRaw = bananoUtil.getRawStrFromMajorAmountStr(amountBananos, BANANO_PREFIX);
+    const amountRaw = getRawStrFromBananoStr(amountBananos);
     return await camoUtil.send( bananodeApi, fundingPrivateKey, fromCamoPrivateKey, toCamoPublicKey, amountRaw, BANANO_PREFIX);
   };
 
@@ -446,7 +446,7 @@
  * @return {string_array} the sent hashes in an array.
  */
   const camoNanoSend = async (fundingPrivateKey, fromCamoPrivateKey, toCamoPublicKey, amountBananos) => {
-    const amountRaw = bananoUtil.getRawStrFromMajorAmountStr(amountBananos, NANO_PREFIX);
+    const amountRaw = getRawStrFromNanoStr(amountBananos);
     return await camoUtil.send( bananodeApi, fundingPrivateKey, fromCamoPrivateKey, toCamoPublicKey, amountRaw, NANO_PREFIX);
   };
 
@@ -497,21 +497,39 @@
   };
 
   /**
- * get the pending blocks for the camo account.
- * @param {string} seed the seed to use to find the account.
- * @param {string} seedIx the index to use with the seed.
- * @param {string} fromAccount the account to recieve from.
- * @param {number} count the max count to get.
- * @return {string_array} the pending hashes in an array.
- */
-  const camoGetAccountsPending = async (seed, seedIx, fromAccount, sharedSeedIx, count) => {
+   * get the pending blocks for the camo banano account.
+   * @param {string} seed the seed to use to find the account.
+   * @param {string} seedIx the index to use with the seed.
+   * @param {string} fromAccount the account to recieve from.
+   * @param {number} count the max count to get.
+   * @return {string_array} the pending hashes in an array.
+   */
+  const camoBananoGetAccountsPending = async (seed, seedIx, fromAccount, sharedSeedIx, count) => {
     const accountValid = getCamoAccountValidationInfo(fromAccount);
     if (!accountValid.valid) {
       throw Error(accountValid.message);
     }
     const toPrivateKey = bananoUtil.getPrivateKey(seed, seedIx);
     const fromPublicKey = bananoUtil.getAccountPublicKey(fromAccount);
-    return await camoUtil.getAccountsPending(bananodeApi, toPrivateKey, fromPublicKey, sharedSeedIx, count);
+    return await camoUtil.getAccountsPending(bananodeApi, toPrivateKey, fromPublicKey, sharedSeedIx, count, BANANO_PREFIX);
+  };
+
+  /**
+   * get the pending blocks for the camo nano account.
+   * @param {string} seed the seed to use to find the account.
+   * @param {string} seedIx the index to use with the seed.
+   * @param {string} fromAccount the account to recieve from.
+   * @param {number} count the max count to get.
+   * @return {string_array} the pending hashes in an array.
+   */
+  const camoNanoGetAccountsPending = async (seed, seedIx, fromAccount, sharedSeedIx, count) => {
+    const accountValid = getCamoAccountValidationInfo(fromAccount);
+    if (!accountValid.valid) {
+      throw Error(accountValid.message);
+    }
+    const toPrivateKey = bananoUtil.getPrivateKey(seed, seedIx);
+    const fromPublicKey = bananoUtil.getAccountPublicKey(fromAccount);
+    return await camoUtil.getAccountsPending(bananodeApi, toPrivateKey, fromPublicKey, sharedSeedIx, count, NANO_PREFIX);
   };
 
   /**
@@ -525,21 +543,39 @@
   };
 
   /**
- * get the shared account, used as an intermediary to send finds between the seed and the camo account.
- * @param {string} seed the seed to use to find the account.
- * @param {string} seedIx the index to use with the seed.
- * @param {string} account the camo account to send or recieve from.
- * @param {string} sharedSeedIx the index to use with the shared seed.
- * @return {string} the shared account.
- */
-  const getCamoSharedAccountData = async (seed, seedIx, account, sharedSeedIx) => {
+   * get the banano shared account, used as an intermediary to send finds between the seed and the camo account.
+   * @param {string} seed the seed to use to find the account.
+   * @param {string} seedIx the index to use with the seed.
+   * @param {string} account the camo account to send or recieve from.
+   * @param {string} sharedSeedIx the index to use with the shared seed.
+   * @return {string} the shared account.
+   */
+  const getCamoBananoSharedAccountData = async (seed, seedIx, account, sharedSeedIx) => {
     const accountValid = getCamoAccountValidationInfo(account);
     if (!accountValid.valid) {
       throw Error(accountValid.message);
     }
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
     const publicKey = bananoUtil.getAccountPublicKey(account);
-    return await camoUtil.getSharedAccountData(bananodeApi, privateKey, publicKey, sharedSeedIx);
+    return await camoUtil.getSharedAccountData(bananodeApi, privateKey, publicKey, sharedSeedIx, BANANO_PREFIX);
+  };
+
+  /**
+   * get the nano shared account, used as an intermediary to send finds between the seed and the camo account.
+   * @param {string} seed the seed to use to find the account.
+   * @param {string} seedIx the index to use with the seed.
+   * @param {string} account the camo account to send or recieve from.
+   * @param {string} sharedSeedIx the index to use with the shared seed.
+   * @return {string} the shared account.
+   */
+  const getCamoNanoSharedAccountData = async (seed, seedIx, account, sharedSeedIx) => {
+    const accountValid = getCamoAccountValidationInfo(account);
+    if (!accountValid.valid) {
+      throw Error(accountValid.message);
+    }
+    const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
+    const publicKey = bananoUtil.getAccountPublicKey(account);
+    return await camoUtil.getSharedAccountData(bananodeApi, privateKey, publicKey, sharedSeedIx, NANO_PREFIX);
   };
 
   /**
@@ -555,14 +591,14 @@
   const receiveCamoBananoDepositsForSeed = async (seed, seedIx, account, sharedSeedIx, specificPendingBlockHash) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
     const publicKey = bananoUtil.getAccountPublicKey(account);
-    const sharedSecret = await camoUtil.getSharedSecretFromRepresentative( bananodeApi, privateKey, publicKey );
+    const sharedSecret = await camoUtil.getSharedSecretFromRepresentative( bananodeApi, privateKey, publicKey, BANANO_PREFIX);
     if (sharedSecret) {
       const sharedSeed = sharedSecret;
       const privateKey = bananoUtil.getPrivateKey(sharedSeed, sharedSeedIx);
       const camoPublicKey = await camoUtil.getCamoPublicKey(privateKey);
       const camoRepresentative = await camoUtil.getCamoAccount(camoPublicKey);
       const repPublicKey = await bananoUtil.getAccountPublicKey(camoRepresentative);
-      const representative = await bananoUtil.getAccount(repPublicKey);
+      const representative = await bananoUtil.getAccount(repPublicKey, BANANO_PREFIX);
       const response = await receiveBananoDepositsForSeed(sharedSeed, sharedSeedIx, representative, specificPendingBlockHash);
       return response;
     } else {
@@ -583,14 +619,14 @@
   const receiveCamoNanoDepositsForSeed = async (seed, seedIx, account, sharedSeedIx, specificPendingBlockHash) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
     const publicKey = bananoUtil.getAccountPublicKey(account);
-    const sharedSecret = await camoUtil.getSharedSecretFromRepresentative( bananodeApi, privateKey, publicKey );
+    const sharedSecret = await camoUtil.getSharedSecretFromRepresentative( bananodeApi, privateKey, publicKey, NANO_PREFIX );
     if (sharedSecret) {
       const sharedSeed = sharedSecret;
       const privateKey = bananoUtil.getPrivateKey(sharedSeed, sharedSeedIx);
       const camoPublicKey = await camoUtil.getCamoPublicKey(privateKey);
       const camoRepresentative = await camoUtil.getCamoAccount(camoPublicKey);
       const repPublicKey = await bananoUtil.getAccountPublicKey(camoRepresentative);
-      const representative = await bananoUtil.getAccount(repPublicKey);
+      const representative = await bananoUtil.getAccount(repPublicKey, NANO_PREFIX);
       const response = await receiveNanoDepositsForSeed(sharedSeed, sharedSeedIx, representative, specificPendingBlockHash);
       return response;
     } else {
@@ -690,7 +726,8 @@
       return;
     }
     const exports = {};
-
+    exports.BANANO_PREFIX = BANANO_PREFIX;
+    exports.NANO_PREFIX = NANO_PREFIX;
     exports.sendNanoWithdrawalFromSeed = sendNanoWithdrawalFromSeed;
     exports.sendBananoWithdrawalFromSeed = sendBananoWithdrawalFromSeed;
     exports.getAccountsPending = getAccountsPending;
@@ -749,8 +786,10 @@
     exports.getCamoNanoAccountBalanceRaw = getCamoNanoAccountBalanceRaw;
     exports.getCamoBananoNextPrivateKeyForReceive = getCamoBananoNextPrivateKeyForReceive;
     exports.getCamoNanoNextPrivateKeyForReceive = getCamoNanoNextPrivateKeyForReceive;
-    exports.camoGetAccountsPending = camoGetAccountsPending;
-    exports.getCamoSharedAccountData = getCamoSharedAccountData;
+    exports.camoBananoGetAccountsPending = camoBananoGetAccountsPending;
+    exports.camoNanoGetAccountsPending = camoNanoGetAccountsPending;
+    exports.getCamoBananoSharedAccountData = getCamoBananoSharedAccountData;
+    exports.getCamoNanoSharedAccountData = getCamoNanoSharedAccountData;
     exports.receiveCamoBananoDepositsForSeed = receiveCamoBananoDepositsForSeed;
     exports.receiveCamoNanoDepositsForSeed = receiveCamoNanoDepositsForSeed;
     exports.getCamoAccountValidationInfo = getCamoAccountValidationInfo;

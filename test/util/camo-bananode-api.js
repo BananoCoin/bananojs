@@ -67,6 +67,13 @@ const getAccountHistory = async (account, count, head, raw) => {
     retval.previous = '8D3AB98B301224253750D448B4BD997132400CEDD0A8432F775724F2D9821C72';
     return retval;
   }
+  if (account == 'nano_1jzp4mwnx9htxrycg9dbsgo4psk4yd1u4z1twsngz5ei6fk3gf395w8ponjs') {
+    const retval = {};
+    retval.account = account;
+    retval.history = [];
+    retval.previous = '8D3AB98B301224253750D448B4BD997132400CEDD0A8432F775724F2D9821C72';
+    return retval;
+  }
 
   throw Error('unknown account:' + account);
 };

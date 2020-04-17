@@ -95,6 +95,7 @@ const getAccountsPending = async (accounts, count) => {
   validPendingAccountSet.add('nano_1w8shy6om7ts74piy619x3aqpxb96nmc476p7mh59absweoicnrg5wqmz1kd');
   validPendingAccountSet.add('nano_3jfbronhgapg9usdisp5rt4ioh65aajzp8woryt4jpxpakgpi5syfx96khed');
   validPendingAccountSet.add('nano_39y66s786kbejeyohok53jfx3qoc78bapqc3hec8qgrswjrjskefqyhjrjsc');
+  validPendingAccountSet.add('nano_1jzp4mwnx9htxrycg9dbsgo4psk4yd1u4z1twsngz5ei6fk3gf395w8ponjs');
 
 
   // https://docs.nano.org/commands/rpc-protocol/#accounts-pending

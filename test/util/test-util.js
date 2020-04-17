@@ -20,6 +20,7 @@ const getCoinDatas = (bananoTest) => {
   return [
     {
       coin: 'banano',
+      coinPrefix: 'ban',
       getChangeRepresentativeForSeedFn: (bananojs) => {
         return bananojs.changeBananoRepresentativeForSeed;
       },
@@ -59,6 +60,12 @@ const getCoinDatas = (bananoTest) => {
       getCamoSendWithdrawalFromSeedFn: (bananojs) => {
         return bananojs.camoBananoSendWithdrawalFromSeed;
       },
+      getCamoSharedAccountDataFn: (bananojs) => {
+        return bananojs.getCamoBananoSharedAccountData;
+      },
+      getCamoGetAccountsPendingFn: (bananojs) => {
+        return bananojs.camoBananoGetAccountsPending;
+      },
       representative1: bananoTest.bananoRepresentative1,
       toAccount: bananoTest.bananoAccount,
       bad: {
@@ -68,6 +75,7 @@ const getCoinDatas = (bananoTest) => {
     },
     {
       coin: 'nano',
+      coinPrefix: 'nano',
       getChangeRepresentativeForSeedFn: (bananojs) => {
         return bananojs.changeNanoRepresentativeForSeed;
       },
@@ -106,6 +114,12 @@ const getCoinDatas = (bananoTest) => {
       },
       getCamoSendWithdrawalFromSeedFn: (bananojs) => {
         return bananojs.camoNanoSendWithdrawalFromSeed;
+      },
+      getCamoSharedAccountDataFn: (bananojs) => {
+        return bananojs.getCamoNanoSharedAccountData;
+      },
+      getCamoGetAccountsPendingFn: (bananojs) => {
+        return bananojs.camoNanoGetAccountsPending;
       },
       representative1: bananoTest.nanoRepresentative1,
       toAccount: bananoTest.nanoAccount,

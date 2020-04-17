@@ -12,6 +12,8 @@
 
   npm run eslint;
 
+  npm run eslint-unit-test;
+
   npm run coverage;
 
   npm run docs;

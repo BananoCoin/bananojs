@@ -39,8 +39,12 @@ make sure to use `npm i @bananocoin/bananojs@latest` to get the latest version.
 
 # complete documentation of camo CLI functions
 
-  <https://github.com/BananoCoin/bananojs/blob/master/docs/camo-cli.md>
+  <https://github.com/BananoCoin/bananojs/blob/master/docs/camo-banano-cli.md>
 
 # complete documentation of banano CLI functions
 
   <https://github.com/BananoCoin/bananojs/blob/master/docs/banano-cli.md>
+
+# complete documentation of nano CLI functions
+
+  <https://github.com/BananoCoin/bananojs/blob/master/docs/nano-cli.md>

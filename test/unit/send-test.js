@@ -4,7 +4,6 @@
 const chai = require('chai');
 
 // modules
-const assert = chai.assert;
 const expect = chai.expect;
 
 const bananoTest = require('./banano-test.json');

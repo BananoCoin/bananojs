@@ -399,14 +399,25 @@
   };
 
   /**
- * finds a new private key to recieve more funds. the key would have no history.
- *
- * @memberof CamoUtil
- * @param {string} seed the seed to use to find the account.
- * @return {string} the private key to use.
- */
-  const camoGetNextPrivateKeyForReceive = async (seed) => {
-    return await camoUtil.getFirstUnopenedPrivateKey( bananodeApi, seed );
+   * finds a new private key to recieve more banano funds. the key would have no history.
+   *
+   * @memberof CamoUtil
+   * @param {string} seed the seed to use to find the account.
+   * @return {string} the private key to use.
+   */
+  const getCamoBananoNextPrivateKeyForReceive = async (seed) => {
+    return await camoUtil.getFirstUnopenedPrivateKey( bananodeApi, seed, BANANO_PREFIX );
+  };
+
+  /**
+   * finds a new private key to recieve more banano funds. the key would have no history.
+   *
+   * @memberof CamoUtil
+   * @param {string} seed the seed to use to find the account.
+   * @return {string} the private key to use.
+   */
+  const getCamoNanoNextPrivateKeyForReceive = async (seed) => {
+    return await camoUtil.getFirstUnopenedPrivateKey( bananodeApi, seed, NANO_PREFIX );
   };
 
   /**
@@ -588,15 +599,27 @@
   };
 
   /**
- * gets the total account balance, in raw.
- *
- * @memberof CamoUtil
- * @param {string} toPrivateKey the private key that receives the funds.
- * @param {string} fromPublicKey the public key that sent the funds.
- * @return {string} the account balance, in raw.
- */
-  const getCamoAccountBalanceRaw = async (toPrivateKey, fromPublicKey) => {
-    return await camoUtil.getBalanceRaw( bananodeApi, toPrivateKey, fromPublicKey);
+   * gets the total banano account balance, in raw.
+   *
+   * @memberof CamoUtil
+   * @param {string} toPrivateKey the private key that receives the funds.
+   * @param {string} fromPublicKey the public key that sent the funds.
+   * @return {string} the account balance, in raw.
+   */
+  const getCamoBananoAccountBalanceRaw = async (toPrivateKey, fromPublicKey) => {
+    return await camoUtil.getBalanceRaw( bananodeApi, toPrivateKey, fromPublicKey, BANANO_PREFIX);
+  };
+
+  /**
+   * gets the total nano account balance, in raw.
+   *
+   * @memberof CamoUtil
+   * @param {string} toPrivateKey the private key that receives the funds.
+   * @param {string} fromPublicKey the public key that sent the funds.
+   * @return {string} the account balance, in raw.
+   */
+  const getCamoNanoAccountBalanceRaw = async (toPrivateKey, fromPublicKey) => {
+    return await camoUtil.getBalanceRaw( bananodeApi, toPrivateKey, fromPublicKey, NANO_PREFIX);
   };
 
   /**
@@ -722,8 +745,10 @@
     exports.camoBananoSendWithdrawalFromSeed = camoBananoSendWithdrawalFromSeed;
     exports.camoNanoSendWithdrawalFromSeed = camoNanoSendWithdrawalFromSeed;
     exports.getCamoAccount = camoUtil.getCamoAccount;
-    exports.getCamoAccountBalanceRaw = getCamoAccountBalanceRaw;
-    exports.camoGetNextPrivateKeyForReceive = camoGetNextPrivateKeyForReceive;
+    exports.getCamoBananoAccountBalanceRaw = getCamoBananoAccountBalanceRaw;
+    exports.getCamoNanoAccountBalanceRaw = getCamoNanoAccountBalanceRaw;
+    exports.getCamoBananoNextPrivateKeyForReceive = getCamoBananoNextPrivateKeyForReceive;
+    exports.getCamoNanoNextPrivateKeyForReceive = getCamoNanoNextPrivateKeyForReceive;
     exports.camoGetAccountsPending = camoGetAccountsPending;
     exports.getCamoSharedAccountData = getCamoSharedAccountData;
     exports.receiveCamoBananoDepositsForSeed = receiveCamoBananoDepositsForSeed;

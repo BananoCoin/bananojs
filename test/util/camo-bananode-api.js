@@ -43,7 +43,17 @@ const getAccountHistory = async (account, count, head, raw) => {
   if (account == 'ban_3i1aq1cchnmbn9x5rsbap8b15akfh7wj7pwskuzi7ahz8oq6cobd99d4r3b7') {
     return await bananodeApi.getAccountHistory(account, count, head, raw);
   }
+  if (account == 'nano_3i1aq1cchnmbn9x5rsbap8b15akfh7wj7pwskuzi7ahz8oq6cobd99d4r3b7') {
+    return await bananodeApi.getAccountHistory(account, count, head, raw);
+  }
   if (account == 'ban_3rrf6cus8pye6o1kzi5n6wwjof8bjb7ff4xcgesi3njxid6x64pms6onw1f9') {
+    const retval = {};
+    retval.account = account;
+    retval.history = [];
+    retval.previous = '8D3AB98B301224253750D448B4BD997132400CEDD0A8432F775724F2D9821C72';
+    return retval;
+  }
+  if (account == 'nano_3rrf6cus8pye6o1kzi5n6wwjof8bjb7ff4xcgesi3njxid6x64pms6onw1f9') {
     const retval = {};
     retval.account = account;
     retval.history = [];
@@ -102,9 +112,19 @@ const getAccountBalanceRaw = (account) => {
     const balance = json.balances[account].balance;
 
     return balance;
-  } else {
-    return bananodeApi.getAccountBalanceRaw(account);
   }
+  if (account == 'nano_13pg5mmpp718zzypyxsmfni8td7fknspnzjanhd7crccmpnd36po7njq7m18') {
+    const json = {};
+    json.balances = {};
+    json.balances[account] = {};
+    json.balances[account].balance = '000000000000000000000000000000';
+    json.balances[account].pending = '000000000000000000000000000000';
+
+    const balance = json.balances[account].balance;
+
+    return balance;
+  }
+  return bananodeApi.getAccountBalanceRaw(account);
 };
 
 exports.getAccountBalanceRaw = getAccountBalanceRaw;

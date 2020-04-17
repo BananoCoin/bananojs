@@ -102,7 +102,7 @@
     return historyHistoryLengthIsZero;
   };
 
-  const getFirstUnopenedPrivateKey = async ( bananodeApi, seed ) => {
+  const getFirstUnopenedPrivateKey = async ( bananodeApi, seed, amountPrefix ) => {
   /* istanbul ignore if */
     if ( bananodeApi === undefined ) {
       throw Error( 'bananodeApi is a required parameter.' );
@@ -111,11 +111,15 @@
     if ( seed === undefined ) {
       throw Error( 'seed is a required parameter.' );
     }
+    /* istanbul ignore if */
+    if (amountPrefix == undefined) {
+      throw Error( 'amountPrefix is a required parameter.' );
+    }
     let seedIx = 0;
-    let isUnopenedPrivateKeyFlag = await isUnopenedPrivateKeyInSeed( bananodeApi, seed, seedIx );
+    let isUnopenedPrivateKeyFlag = await isUnopenedPrivateKeyInSeed( bananodeApi, seed, seedIx, amountPrefix );
     while ( !isUnopenedPrivateKeyFlag ) {
       seedIx++;
-      isUnopenedPrivateKeyFlag = await isUnopenedPrivateKeyInSeed( bananodeApi, seed, seedIx );
+      isUnopenedPrivateKeyFlag = await isUnopenedPrivateKeyInSeed( bananodeApi, seed, seedIx, amountPrefix );
     }
     //    console.log( 'getFirstUnopenedPrivateKey', seed, seedIx );
     return bananoUtil.getPrivateKey( seed, seedIx );
@@ -311,7 +315,7 @@
     while ( accountHasBalance ) {
       const privateKey = bananoUtil.getPrivateKey( seed, seedIx );
       const publicKey = bananoUtil.getPublicKey( privateKey );
-      const account = bananoUtil.getAccount( publicKey );
+      const account = bananoUtil.getAccount( publicKey, amountPrefix );
       const accountBalanceRaw = await bananodeApi.getAccountBalanceRaw( account );
 
       const accountBalanceRawBigInt = BigInt( accountBalanceRaw );

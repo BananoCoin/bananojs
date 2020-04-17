@@ -89,6 +89,13 @@ const getAccountsPending = async (accounts, count) => {
   validPendingAccountSet.add('ban_1w8shy6om7ts74piy619x3aqpxb96nmc476p7mh59absweoicnrg5wqmz1kd');
   validPendingAccountSet.add('ban_1dzcca9ycmtx3q79mocmu95zdduxptp3gp5fqkmb1ownscpweggzah8cb4rb');
   validPendingAccountSet.add('ban_1jzp4mwnx9htxrycg9dbsgo4psk4yd1u4z1twsngz5ei6fk3gf395w8ponjs');
+  validPendingAccountSet.add('nano_3i1aq1cchnmbn9x5rsbap8b15akfh7wj7pwskuzi7ahz8oq6cobd99d4r3b7');
+  validPendingAccountSet.add('nano_1dzcca9ycmtx3q79mocmu95zdduxptp3gp5fqkmb1ownscpweggzah8cb4rb');
+  validPendingAccountSet.add('nano_3rrf6cus8pye6o1kzi5n6wwjof8bjb7ff4xcgesi3njxid6x64pms6onw1f9');
+  validPendingAccountSet.add('nano_1w8shy6om7ts74piy619x3aqpxb96nmc476p7mh59absweoicnrg5wqmz1kd');
+  validPendingAccountSet.add('nano_3jfbronhgapg9usdisp5rt4ioh65aajzp8woryt4jpxpakgpi5syfx96khed');
+  validPendingAccountSet.add('nano_39y66s786kbejeyohok53jfx3qoc78bapqc3hec8qgrswjrjskefqyhjrjsc');
+
 
   // https://docs.nano.org/commands/rpc-protocol/#accounts-pending
   const retval = {};
@@ -99,7 +106,10 @@ const getAccountsPending = async (accounts, count) => {
     }
     retval.blocks[account] = {};
 
-    if (account == 'ban_1dzcca9ycmtx3q79mocmu95zdduxptp3gp5fqkmb1ownscpweggzah8cb4rb') {
+    if (
+      (account == 'ban_1dzcca9ycmtx3q79mocmu95zdduxptp3gp5fqkmb1ownscpweggzah8cb4rb') ||
+        (account == 'nano_1dzcca9ycmtx3q79mocmu95zdduxptp3gp5fqkmb1ownscpweggzah8cb4rb')
+    ) {
     } else {
       retval.blocks[account]['142A538F36833D1CC78B94E11C766F75818F8B940771335C6C1B8AB880C5BB1D'] = 1;
       retval.blocks[account]['242A538F36833D1CC78B94E11C766F75818F8B940771335C6C1B8AB880C5BB1D'] = 2;

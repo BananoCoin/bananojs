@@ -72,14 +72,22 @@
     return secret;
   };
 
-  const isUnopenedPrivateKeyInSeed = async ( bananodeApi, seed, seedIx ) => {
+  const isUnopenedPrivateKeyInSeed = async ( bananodeApi, seed, seedIx, amountPrefix ) => {
+    /* istanbul ignore if */
+    if (amountPrefix == undefined) {
+      throw Error( 'amountPrefix is a required parameter.' );
+    }
     const privateKey = bananoUtil.getPrivateKey( seed, seedIx );
-    return await isUnopenedPrivateKey( bananodeApi, privateKey );
+    return await isUnopenedPrivateKey( bananodeApi, privateKey, amountPrefix );
   };
 
-  const isUnopenedPrivateKey = async ( bananodeApi, privateKey ) => {
+  const isUnopenedPrivateKey = async ( bananodeApi, privateKey, amountPrefix) => {
+    /* istanbul ignore if */
+    if (amountPrefix == undefined) {
+      throw Error( 'amountPrefix is a required parameter.' );
+    }
     const publicKey = bananoUtil.getPublicKey( privateKey );
-    const account = bananoUtil.getAccount( publicKey );
+    const account = bananoUtil.getAccount( publicKey, amountPrefix );
     // console.log( 'account', account );
     const history = await bananodeApi.getAccountHistory( account, 1 );
     // console.log( 'history', JSON.stringify( history, undefined, '  ' ) );
@@ -113,8 +121,12 @@
     return bananoUtil.getPrivateKey( seed, seedIx );
   };
 
-  const receiveSeed = async ( bananodeApi, seed ) => {
-  /* istanbul ignore if */
+  const receiveSeed = async ( bananodeApi, seed, amountPrefix ) => {
+    /* istanbul ignore if */
+    if (amountPrefix == undefined) {
+      throw Error( 'amountPrefix is a required parameter.' );
+    }
+    /* istanbul ignore if */
     if ( bananodeApi === undefined ) {
       throw Error( 'bananodeApi is a required parameter.' );
     }
@@ -130,9 +142,9 @@
     const getAccount = ( seed, seedIx ) => {
       const privateKey = bananoUtil.getPrivateKey( seed, seedIx );
       const publicKey = bananoUtil.getPublicKey( privateKey );
-      const account = bananoUtil.getAccount( publicKey );
+      const account = bananoUtil.getAccount( publicKey, amountPrefix );
       const camoPublicKey = getCamoPublicKey( privateKey );
-      const camoAccount = bananoUtil.getAccount( camoPublicKey );
+      const camoAccount = bananoUtil.getAccount( camoPublicKey, amountPrefix );
 
       privateKeyByAccount[account] = privateKey;
       publicKeyByAccount[account] = publicKey;
@@ -142,8 +154,8 @@
     };
 
     let seedIx = 0;
-    let isUnopenedPrivateKeyFlag = await isUnopenedPrivateKeyInSeed( bananodeApi, seed, seedIx );
-    unopenedAccounts.push( getAccount( seed, seedIx ) );
+    let isUnopenedPrivateKeyFlag = await isUnopenedPrivateKeyInSeed( bananodeApi, seed, seedIx, amountPrefix);
+    unopenedAccounts.push( getAccount( seed, seedIx, amountPrefix ) );
     while ( !isUnopenedPrivateKeyFlag ) {
     /* istanbul ignore if */
       if (LOG_RECEIVE) {
@@ -152,7 +164,7 @@
 
       seedIx++;
       unopenedAccounts.push( getAccount( seed, seedIx ) );
-      isUnopenedPrivateKeyFlag = await isUnopenedPrivateKeyInSeed( bananodeApi, seed, seedIx );
+      isUnopenedPrivateKeyFlag = await isUnopenedPrivateKeyInSeed( bananodeApi, seed, seedIx, amountPrefix );
     }
     /* istanbul ignore if */
     if (LOG_RECEIVE) {
@@ -183,7 +195,7 @@
           isAccountOpenFlag = false;
         }
 
-        const blockHash = await receiveBlock(bananodeApi, isAccountOpenFlag, account, privateKey, publicKey, representative, pendingBlockHash, pendingValueRaw);
+        const blockHash = await receiveBlock(bananodeApi, isAccountOpenFlag, account, privateKey, publicKey, representative, pendingBlockHash, pendingValueRaw, amountPrefix);
 
         accountOpenAndReceiveBlocks.push( blockHash );
       }
@@ -192,7 +204,7 @@
     return accountOpenAndReceiveBlocks;
   };
 
-  const receiveBlock = async (bananodeApi, isAccountOpenFlag, account, privateKey, publicKey, representative, pendingBlockHash, pendingValueRaw) => {
+  const receiveBlock = async (bananodeApi, isAccountOpenFlag, account, privateKey, publicKey, representative, pendingBlockHash, pendingValueRaw, amountPrefix) => {
   /* istanbul ignore if */
     if ( bananodeApi === undefined ) {
       throw Error( 'bananodeApi is a required parameter.' );
@@ -225,12 +237,16 @@
     if ( pendingValueRaw === undefined ) {
       throw Error( 'pendingValueRaw is a required parameter.' );
     }
+    /* istanbul ignore if */
+    if (amountPrefix == undefined) {
+      throw Error( 'amountPrefix is a required parameter.' );
+    }
     const frontiers = await bananodeApi.getFrontiers( account, 1 );
     if (isAccountOpenFlag) {
       const previous = frontiers.frontiers[account];
       const hash = pendingBlockHash;
       const valueRaw = pendingValueRaw;
-      const receiveBlockHash = await bananoUtil.receive( bananodeApi, privateKey, publicKey, representative, previous, hash, valueRaw );
+      const receiveBlockHash = await bananoUtil.receive( bananodeApi, privateKey, publicKey, representative, previous, hash, valueRaw, amountPrefix );
 
       /* istanbul ignore if */
       if ( LOG_SWEEP_SEED_TO_INDEX ) {
@@ -239,7 +255,7 @@
       return receiveBlockHash;
     } else {
       const pending = pendingBlockHash;
-      const openBlockHash = await bananoUtil.open( bananodeApi, privateKey, publicKey, representative, pending, pendingValueRaw );
+      const openBlockHash = await bananoUtil.open( bananodeApi, privateKey, publicKey, representative, pending, pendingValueRaw, amountPrefix );
 
       /* istanbul ignore if */
       if ( LOG_SWEEP_SEED_TO_INDEX ) {
@@ -249,7 +265,7 @@
     }
   };
 
-  const getSharedSecretFromRepresentative = async ( bananodeApi, toPrivateKey, fromPublicKey ) => {
+  const getSharedSecretFromRepresentative = async ( bananodeApi, toPrivateKey, fromPublicKey, amountPrefix ) => {
   /* istanbul ignore if */
     if ( bananodeApi === undefined ) {
       throw Error( 'bananodeApi is a required parameter.' );
@@ -262,7 +278,11 @@
     if ( fromPublicKey === undefined ) {
       throw Error( 'fromPublicKey is a required parameter.' );
     }
-    const fromAccount = bananoUtil.getAccount( fromPublicKey );
+    /* istanbul ignore if */
+    if (amountPrefix == undefined) {
+      throw Error( 'amountPrefix is a required parameter.' );
+    }
+    const fromAccount = bananoUtil.getAccount( fromPublicKey, amountPrefix );
     const fromRepresentative = await bananodeApi.getAccountRepresentative( fromAccount );
     if (fromRepresentative) {
       const fromCamoPublicKey = bananoUtil.getAccountPublicKey( fromRepresentative );
@@ -273,8 +293,12 @@
     }
   };
 
-  const getBalanceRaw = async ( bananodeApi, toPrivateKey, fromPublicKey ) => {
-    const sharedSecret = await getSharedSecretFromRepresentative( bananodeApi, toPrivateKey, fromPublicKey );
+  const getBalanceRaw = async ( bananodeApi, toPrivateKey, fromPublicKey, amountPrefix ) => {
+    /* istanbul ignore if */
+    if (amountPrefix == undefined) {
+      throw Error( 'amountPrefix is a required parameter.' );
+    }
+    const sharedSecret = await getSharedSecretFromRepresentative( bananodeApi, toPrivateKey, fromPublicKey, amountPrefix );
 
     const seed = sharedSecret;
 
@@ -371,7 +395,7 @@
     return powersOfTwo;
   };
 
-  const send = async ( bananodeApi, fundingPrivateKey, fromPrivateKey, toPublicKey, amountRaw ) => {
+  const send = async ( bananodeApi, fundingPrivateKey, fromPrivateKey, toPublicKey, amountRaw, amountPrefix ) => {
   /* istanbul ignore if */
     if ( bananodeApi === undefined ) {
       throw Error( 'bananodeApi is a required parameter.' );
@@ -392,20 +416,24 @@
     if ( amountRaw === undefined ) {
       throw Error( 'amountRaw is a required parameter.' );
     }
+    /* istanbul ignore if */
+    if (amountPrefix == undefined) {
+      throw Error( 'amountPrefix is a required parameter.' );
+    }
 
     /* istanbul ignore if */
     if ( LOG_SEND ) {
       console.log( 'camo.send.amountRaw', amountRaw );
     }
 
-    const bananoParts = bananoUtil.getBananoPartsFromRaw( amountRaw );
+    const bananoParts = bananoUtil.getAmountPartsFromRaw( amountRaw, amountPrefix );
 
     /* istanbul ignore if */
     if ( LOG_SEND ) {
       console.log( 'camo.send.bananoParts', bananoParts );
     }
 
-    const powersOfTwoBigInts = splitBigIntIntoPowersOfTwo( BigInt( bananoParts.banano ) );
+    const powersOfTwoBigInts = splitBigIntIntoPowersOfTwo( BigInt( bananoParts[bananoParts.majorName] ) );
 
     /* istanbul ignore if */
     if ( LOG_SEND ) {
@@ -414,12 +442,12 @@
 
     const amounts = [];
 
-    if ( bananoParts.banoshi !== '0' ) {
+    if ( bananoParts[bananoParts.minorName] !== '0' ) {
     /* istanbul ignore if */
       if ( LOG_SEND ) {
-        console.log( 'camo.send.bananoParts.banoshi', bananoParts.banoshi );
+        console.log( 'camo.send.bananoParts[bananoParts.minorName]', bananoParts[bananoParts.minorName] );
       }
-      const banoshiRaw = bananoUtil.getRawStrFromBanoshiStr( bananoParts.banoshi );
+      const banoshiRaw = bananoUtil.getRawStrFromMinorAmountStr( bananoParts[bananoParts.minorName], amountPrefix);
       /* istanbul ignore if */
       if ( LOG_SEND ) {
         console.log( 'camo.send.banoshiRaw', banoshiRaw );
@@ -436,7 +464,7 @@
 
     for ( let powersOfTwoBigIntIx = 0; powersOfTwoBigIntIx < powersOfTwoBigInts.length; powersOfTwoBigIntIx++ ) {
       const powersOfTwoBigInt = powersOfTwoBigInts[powersOfTwoBigIntIx];
-      const powersOfTwoRaw = bananoUtil.getRawStrFromBananoStr( powersOfTwoBigInt.toString() );
+      const powersOfTwoRaw = bananoUtil.getRawStrFromMajorAmountStr( powersOfTwoBigInt.toString(), amountPrefix);
       /* istanbul ignore if */
       if ( LOG_SEND ) {
         console.log( `camo.send.powersOfTwoRaw[${powersOfTwoBigIntIx}]`, powersOfTwoRaw );
@@ -444,7 +472,7 @@
       amounts.push( powersOfTwoRaw );
     }
 
-    const sharedSecret = await getSharedSecretFromRepresentative( bananodeApi, fromPrivateKey, toPublicKey );
+    const sharedSecret = await getSharedSecretFromRepresentative( bananodeApi, fromPrivateKey, toPublicKey, amountPrefix);
     /* istanbul ignore if */
     if ( LOG_SEND ) {
       console.log( 'camo.send.sharedSecret', sharedSecret );
@@ -462,12 +490,12 @@
       const destSeedIx = amountIx;
       const destPrivateKey = bananoUtil.getPrivateKey( destSeed, destSeedIx );
       const destPublicKey = bananoUtil.getPublicKey( destPrivateKey );
-      const destAccount = bananoUtil.getAccount( destPublicKey );
+      const destAccount = bananoUtil.getAccount( destPublicKey, amountPrefix );
       /* istanbul ignore if */
       if ( LOG_SEND ) {
         console.log( `STARTED camo.send[${destSeedIx}]`, fundingPrivateKey, destAccount, amountRaw );
       }
-      const hash = await bananoUtil.sendFromPrivateKeyWithRepresentativeAndPrevious( bananodeApi, fundingPrivateKey, destAccount, amountRaw, undefined, previous );
+      const hash = await bananoUtil.sendFromPrivateKeyWithRepresentativeAndPrevious( bananodeApi, fundingPrivateKey, destAccount, amountRaw, undefined, previous, amountPrefix );
       /* istanbul ignore if */
       if ( LOG_SEND ) {
         console.log( `SUCCESS camo.send[${destSeedIx}]`, 'destPrivateKey', destPrivateKey, 'hash', hash );
@@ -479,7 +507,7 @@
     return hashes;
   };
 
-  const receive = async ( bananodeApi, toPrivateKey, fromPublicKey ) => {
+  const receive = async (bananodeApi, toPrivateKey, fromPublicKey, amountPrefix) => {
   /* istanbul ignore if */
     if ( bananodeApi === undefined ) {
       throw Error( 'bananodeApi is a required parameter.' );
@@ -492,20 +520,24 @@
     if ( fromPublicKey === undefined ) {
       throw Error( 'fromPublicKey is a required parameter.' );
     }
+    /* istanbul ignore if */
+    if (amountPrefix == undefined) {
+      throw Error( 'amountPrefix is a required parameter.' );
+    }
 
     /* istanbul ignore if */
     if (LOG_RECEIVE) {
       console.log( 'STARTED camo.receive', toPrivateKey, fromPublicKey );
     }
 
-    const sharedSecret = await getSharedSecretFromRepresentative( bananodeApi, toPrivateKey, fromPublicKey );
+    const sharedSecret = await getSharedSecretFromRepresentative( bananodeApi, toPrivateKey, fromPublicKey, amountPrefix);
     /* istanbul ignore if */
     if (LOG_RECEIVE) {
       console.log( 'INTERIM camo.receive', 'sharedSecret', sharedSecret );
     }
     const seed = sharedSecret;
 
-    const returnValue = await receiveSeed( bananodeApi, seed );
+    const returnValue = await receiveSeed( bananodeApi, seed, amountPrefix);
     /* istanbul ignore if */
     if (LOG_RECEIVE) {
       console.log( 'SUCCESS camo.receive', returnValue );
@@ -577,7 +609,11 @@
     if ( sharedSeedIx === undefined ) {
       throw Error( 'sharedSeedIx is a required parameter.' );
     }
-    const sharedSecret = await getSharedSecretFromRepresentative( bananodeApi, privateKey, publicKey );
+    /* istanbul ignore if */
+    if (amountPrefix == undefined) {
+      throw Error( 'amountPrefix is a required parameter.' );
+    }
+    const sharedSecret = await getSharedSecretFromRepresentative( bananodeApi, privateKey, publicKey, amountPrefix );
     if (sharedSecret) {
       const sharedSeed = sharedSecret;
       const sharedPrivateKey = bananoUtil.getPrivateKey( sharedSeed, sharedSeedIx );

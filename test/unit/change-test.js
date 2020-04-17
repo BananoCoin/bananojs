@@ -13,24 +13,33 @@ const testUtil = require('../util/test-util.js');
 
 const seed0 = bananoTest.seed0;
 const seedIx = bananoTest.seedIx;
-const representative1 = bananoTest.representative1;
+const coinDatas = testUtil.getCoinDatas(bananoTest);
 
 describe('change', () => {
-  it('changeRepresentativeForSeed valid account matches expected', async () => {
-    const bananojs = testUtil.getBananojsWithMockApi();
-    const expectedResponse= '329E20904109CAB232624D68D568F2C2DC9675EA1C7151280E61D7E1AD397E41';
-    const actualResponse = await bananojs.changeRepresentativeForSeed(seed0, seedIx, representative1);
-    expect(actualResponse).to.deep.equal(expectedResponse);
-  });
-  it('changeRepresentativeForSeed error', async () => {
-    const bananojs = testUtil.getBananojsWithErrorApi();
-    const message = 'getAccountInfo account:ban_3i1aq1cchnmbn9x5rsbap8b15akfh7wj7pwskuzi7ahz8oq6cobd99d4r3b7';
-    await testUtil.expectErrorMessage(message, bananojs.changeRepresentativeForSeed, seed0, seedIx, representative1);
-  });
-  it('changeRepresentativeForSeed processing error', async () => {
-    const bananojs = testUtil.getBananojsWithProcessErrorApi();
-    const message = '"process block:329E20904109CAB232624D68D568F2C2DC9675EA1C7151280E61D7E1AD397E41"';
-    await testUtil.expectErrorMessage(message, bananojs.changeRepresentativeForSeed, seed0, seedIx, representative1);
+  coinDatas.forEach((coinData) => {
+    it(coinData.coin + ' changeRepresentativeForSeed valid account matches expected', async () => {
+      const bananojs = testUtil.getBananojsWithMockApi();
+      const expectedResponse= '329E20904109CAB232624D68D568F2C2DC9675EA1C7151280E61D7E1AD397E41';
+      const changeRepresentativeForSeed = coinData.getChangeRepresentativeForSeedFn(bananojs);
+      const actualResponse = await changeRepresentativeForSeed(seed0, seedIx, coinData.representative1);
+      expect(actualResponse).to.deep.equal(expectedResponse);
+    });
+    it(coinData.coin + ' changeRepresentativeForSeed error', async () => {
+      const bananojs = testUtil.getBananojsWithErrorApi();
+      const messages = {
+        banano: 'getAccountInfo account:ban_3i1aq1cchnmbn9x5rsbap8b15akfh7wj7pwskuzi7ahz8oq6cobd99d4r3b7',
+        nano: 'getAccountInfo account:nano_3i1aq1cchnmbn9x5rsbap8b15akfh7wj7pwskuzi7ahz8oq6cobd99d4r3b7',
+      };
+      const message = messages[coinData.coin];
+      const changeRepresentativeForSeed = coinData.getChangeRepresentativeForSeedFn(bananojs);
+      await testUtil.expectErrorMessage(message, changeRepresentativeForSeed, seed0, seedIx, coinData.representative1);
+    });
+    it(coinData.coin + ' changeRepresentativeForSeed processing error', async () => {
+      const bananojs = testUtil.getBananojsWithProcessErrorApi();
+      const message = '"process block:329E20904109CAB232624D68D568F2C2DC9675EA1C7151280E61D7E1AD397E41"';
+      const changeRepresentativeForSeed = coinData.getChangeRepresentativeForSeedFn(bananojs);
+      await testUtil.expectErrorMessage(message, changeRepresentativeForSeed, seed0, seedIx, coinData.representative1);
+    });
   });
 
   beforeEach(async () => {

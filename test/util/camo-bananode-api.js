@@ -11,11 +11,29 @@ const getAccountHistory = async (account, count, head, raw) => {
     retval.previous = '8D3AB98B301224253750D448B4BD997132400CEDD0A8432F775724F2D9821C72';
     return retval;
   }
+  if (account == 'nano_1w8shy6om7ts74piy619x3aqpxb96nmc476p7mh59absweoicnrg5wqmz1kd') {
+    const retval = {};
+    retval.account = account;
+    retval.history = [];
+    retval.previous = '8D3AB98B301224253750D448B4BD997132400CEDD0A8432F775724F2D9821C72';
+    return retval;
+  }
 
   if (account == 'ban_3jfbronhgapg9usdisp5rt4ioh65aajzp8woryt4jpxpakgpi5syfx96khed') {
     return await bananodeApi.getAccountHistory(account, count, head, raw);
   }
+
+  if (account == 'nano_3jfbronhgapg9usdisp5rt4ioh65aajzp8woryt4jpxpakgpi5syfx96khed') {
+    return await bananodeApi.getAccountHistory(account, count, head, raw);
+  }
   if (account == 'ban_39y66s786kbejeyohok53jfx3qoc78bapqc3hec8qgrswjrjskefqyhjrjsc') {
+    const retval = {};
+    retval.account = account;
+    retval.history = [];
+    retval.previous = '8D3AB98B301224253750D448B4BD997132400CEDD0A8432F775724F2D9821C72';
+    return retval;
+  }
+  if (account == 'nano_39y66s786kbejeyohok53jfx3qoc78bapqc3hec8qgrswjrjskefqyhjrjsc') {
     const retval = {};
     retval.account = account;
     retval.history = [];

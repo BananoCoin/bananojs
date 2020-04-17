@@ -10,7 +10,7 @@
 
   const LOG_SWEEP = false;
 
-  const receive = async (loggingUtil, bananodeApi, account, privateKey, representative, specificPendingBlockHash) => {
+  const receive = async (loggingUtil, bananodeApi, account, privateKey, representative, specificPendingBlockHash, accountPrefix) => {
   /* istanbul ignore if */
     if (loggingUtil === undefined) {
       throw Error('loggingUtil is required.');
@@ -30,6 +30,10 @@
     /* istanbul ignore if */
     if (representative === undefined) {
       throw Error('representative is required.');
+    }
+    /* istanbul ignore if */
+    if (accountPrefix === undefined) {
+      throw Error('accountPrefix is required.');
     }
     /* istanbul ignore if */
     if (LOG_SWEEP) {
@@ -53,7 +57,7 @@
         loggingUtil.log('INTERIM receive pendingHashes', pendingHashes);
       }
       if (pendingHashes.length > 0) {
-        const sweepBlocks = await sweep(loggingUtil, bananodeApi, privateKey, representative, specificPendingBlockHash);
+        const sweepBlocks = await sweep(loggingUtil, bananodeApi, privateKey, representative, specificPendingBlockHash, accountPrefix);
         response.receiveMessage = `received ${sweepBlocks.length} blocks.`;
         response.receiveCount = sweepBlocks.length;
         response.receiveBlocks = sweepBlocks;
@@ -69,13 +73,13 @@
   };
 
 
-  const sweep = async (loggingUtil, bananodeApi, privateKey, representative, specificPendingBlockHash) => {
+  const sweep = async (loggingUtil, bananodeApi, privateKey, representative, specificPendingBlockHash, accountPrefix) => {
   /* istanbul ignore if */
     if (LOG_SWEEP) {
       loggingUtil.log('STARTED sweep');
     }
     const publicKey = bananoUtil.getPublicKey(privateKey);
-    const account = bananoUtil.getAccount(publicKey);
+    const account = bananoUtil.getAccount(publicKey, accountPrefix);
     const accountsPending = await bananodeApi.getAccountsPending([account], MAX_ACCOUNTS_PENDING);
     const history = await bananodeApi.getAccountHistory(account, 1);
     const historyHistory = history.history;
@@ -108,7 +112,7 @@
             if (LOG_SWEEP) {
               loggingUtil.log(`INTERIM STARTED sweep openBlockHash pending`, pending);
             }
-            const openBlockHash = await bananoUtil.open(bananodeApi, privateKey, publicKey, account, pending, pendingValueRaw);
+            const openBlockHash = await bananoUtil.open(bananodeApi, privateKey, publicKey, account, pending, pendingValueRaw, accountPrefix);
             /* istanbul ignore if */
             if (LOG_SWEEP) {
               loggingUtil.log(`INTERIM SUCCESS sweep openBlockHash`, account, openBlockHash);
@@ -120,7 +124,7 @@
             const previous = frontiers.frontiers[account];
             const hash = pendingBlockHash;
             const valueRaw = pendingValueRaw;
-            const receiveBlockHash = await bananoUtil.receive(bananodeApi, privateKey, publicKey, representative, previous, hash, valueRaw);
+            const receiveBlockHash = await bananoUtil.receive(bananodeApi, privateKey, publicKey, representative, previous, hash, valueRaw, accountPrefix);
             /* istanbul ignore if */
             if (LOG_SWEEP) {
               loggingUtil.log(`INTERIM sweep receiveBlockHash`, account, receiveBlockHash);
@@ -140,12 +144,12 @@
           if (LOG_SWEEP) {
             loggingUtil.log(`INTERIM sweep hasHistory frontiers`, frontiers);
           }
-          const accountBalanceRaw = await bananodeApi.getAccountBalanceRaw(account);
+          const accountBalanceRaw = await bananodeApi.getAccountBalanceRaw(account, accountPrefix);
 
           const previous = frontiers.frontiers[account];
           const hash = pendingBlockHash;
           const valueRaw = (BigInt(pendingValueRaw) + BigInt(accountBalanceRaw)).toString();
-          const receiveBlockHash = await bananoUtil.receive(bananodeApi, privateKey, publicKey, representative, previous, hash, valueRaw);
+          const receiveBlockHash = await bananoUtil.receive(bananodeApi, privateKey, publicKey, representative, previous, hash, valueRaw, accountPrefix);
           /* istanbul ignore if */
           if (LOG_SWEEP) {
             loggingUtil.log(`INTERIM sweep hasHistory receiveBlockHash`, account, receiveBlockHash);

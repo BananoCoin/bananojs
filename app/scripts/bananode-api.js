@@ -35,17 +35,6 @@
 
       let chunks = '';
 
-      res.on('data', function(chunk) {
-        console.log(chunk.length);
-        chunks += chunk;
-      });
-
-      res.on('end', function() {
-        const object = JSON.parse(chunks);
-        console.log(object.length);
-        console.log(Buffer.byteLength(chunks, 'utf8') / 1024 + ' kbytes');
-      });
-
       const req = https.request(options, (res) => {
       // console.log(`statusCode: ${res.statusCode}`);
         const chunks = '';

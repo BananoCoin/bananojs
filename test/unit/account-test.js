@@ -37,7 +37,7 @@ describe('account', () => {
     const bananojs = testUtil.getBananojsWithMockApi();
     const account = bananojs.getNanoAccountFromSeed(seed0, seedIx);
     const actualBalance = await bananojs.getAccountBalanceRaw(account);
-    const expectedBalance = '1000000000000000000000000000000';
+    const expectedBalance = '10000000000000000000000000000000';
     expect(actualBalance).to.equal(expectedBalance);
   });
   it('banano getAccountHistory valid account matches expected', async () => {
@@ -100,7 +100,7 @@ describe('account', () => {
     const actualAccountInfo = await bananojs.getAccountInfo(account);
     const expectedAccountInfo = {
       'account_version': '1',
-      'balance': '1000000000000000000000000000000',
+      'balance': '10000000000000000000000000000000',
       'block_count': '33',
       'confirmation_height': '28',
       'frontier': '000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F',

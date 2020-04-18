@@ -9,7 +9,9 @@
   "scripts": {
     "build": "node build/build.js",
     "eslint": "eslint --fix 'app/scripts/**/*.js'",
-    "eslint-unit-test": "eslint 'test/unit/**/*.js'",
+    "eslint-main": "eslint --fix 'main.js'",
+    "eslint-index": "eslint --fix 'index.js'",
+    "eslint-unit-test": "eslint --fix 'test/unit/**/*.js'",
     "test": "./node_modules/mocha/bin/mocha -t 100000 test/unit",
     "test-win": ".\\node_modules\\mocha\\bin\\mocha -t 100000 test\\unit",
     "coverage": "nyc -x 'test/util/**' -x 'test/unit/**' -x 'libraries/**' -x '**/mock-bananode-api.js' -x '**/bananode-api.js' ./node_modules/mocha/bin/mocha -t 100000 test/unit",

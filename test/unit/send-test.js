@@ -62,7 +62,13 @@ describe('send', () => {
       const failureCallback = (error) => {
         throw error;
       };
-      const message = 'process block:9B4B70A4BE903A07C549D3AD16EDA268D61F572210B1E63B93F6827CB4944CF6';
+      let message;
+      if (coinData.coin == 'banano') {
+        message = 'process block:9B4B70A4BE903A07C549D3AD16EDA268D61F572210B1E63B93F6827CB4944CF6';
+      }
+      if (coinData.coin == 'nano') {
+        message = 'process block:6FCC35455754EB4A5C39A64A97312A29257064397E817A332C83D1C8687C1AFC';
+      }
       const sendAmountToAccount = coinData.getSendAmountToAccountFn(bananojs);
       await testUtil.expectErrorMessage(message, sendAmountToAccount, seed0, seedIx, bananoAccount, 1, successCallback, failureCallback);
     });
@@ -74,8 +80,16 @@ describe('send', () => {
       const failureCallback = (error) => {
         throw error;
       };
-      const message = 'Error: The server\'s account balance of 10 ' + coinData.coin + 's is too small, cannot withdraw 11 ' + coinData.coin + 's.';
-      const amountRaw = bananojs.getRawStrFromBananoStr('11');
+      let message;
+      let amountRaw;
+      if (coinData.coin == 'banano') {
+        amountRaw = bananojs.getRawStrFromBananoStr('11');
+        message = 'Error: The server\'s account balance of 10 ' + coinData.coin + 's is too small, cannot withdraw 11 ' + coinData.coin + 's.';
+      }
+      if (coinData.coin == 'nano') {
+        amountRaw = bananojs.getRawStrFromNanoStr('11');
+        message = 'Error: The server\'s account balance of 10 ' + coinData.coin + 's is too small, cannot withdraw 11 ' + coinData.coin + 's.';
+      }
       const sendAmountToAccount = coinData.getSendAmountToAccountFn(bananojs);
       await testUtil.expectErrorMessage(message, sendAmountToAccount, seed0, seedIx, bananoAccount, amountRaw, successCallback, failureCallback);
     });

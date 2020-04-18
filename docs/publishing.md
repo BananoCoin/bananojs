@@ -11,7 +11,8 @@
   npm i;
 
   npm run eslint;
-
+  npm run eslint-main;
+  npm run eslint-index;
   npm run eslint-unit-test;
 
   npm run coverage;

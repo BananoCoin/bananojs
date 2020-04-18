@@ -740,8 +740,7 @@ Recieve banano deposits for a camo account with a given seed.
 -   `seedIx` **[string][131]** the index to use with the seed.
 -   `account` **[string][131]** the camo account to send or recieve from.
 -   `sharedSeedIx` **[string][131]** the index to use with the shared seed.
--   `specificPendingBlockHash`  
--   `pendingBlockHash` **[string][131]** the pending block to recieve.
+-   `specificPendingBlockHash` **[string][131]** the pending block to recieve.
 
 Returns **[string][131]** the response from receiving the block.
 
@@ -755,8 +754,7 @@ Recieve nano deposits for a camo account with a given seed.
 -   `seedIx` **[string][131]** the index to use with the seed.
 -   `account` **[string][131]** the camo account to send or recieve from.
 -   `sharedSeedIx` **[string][131]** the index to use with the shared seed.
--   `specificPendingBlockHash`  
--   `pendingBlockHash` **[string][131]** the pending block to recieve.
+-   `specificPendingBlockHash` **[string][131]** the pending block to recieve.
 
 Returns **[string][131]** the response from receiving the block.
 
@@ -828,7 +826,7 @@ get the pending blocks for the camo banano account.
 -   `seed` **[string][131]** the seed to use to find the account.
 -   `seedIx` **[string][131]** the index to use with the seed.
 -   `fromAccount` **[string][131]** the account to recieve from.
--   `sharedSeedIx`  
+-   `sharedSeedIx` **[number][143]** the index to use with the shared seed.
 -   `count` **[number][143]** the max count to get.
 
 Returns **string_array** the pending hashes in an array.
@@ -842,7 +840,7 @@ get the pending blocks for the camo nano account.
 -   `seed` **[string][131]** the seed to use to find the account.
 -   `seedIx` **[string][131]** the index to use with the seed.
 -   `fromAccount` **[string][131]** the account to recieve from.
--   `sharedSeedIx`  
+-   `sharedSeedIx` **[number][143]** the index to use with the shared seed.
 -   `count` **[number][143]** the max count to get.
 
 Returns **string_array** the pending hashes in an array.

@@ -501,6 +501,7 @@
    * @param {string} seed the seed to use to find the account.
    * @param {string} seedIx the index to use with the seed.
    * @param {string} fromAccount the account to recieve from.
+   * @param {number} sharedSeedIx the index to use with the shared seed.
    * @param {number} count the max count to get.
    * @return {string_array} the pending hashes in an array.
    */
@@ -519,6 +520,7 @@
    * @param {string} seed the seed to use to find the account.
    * @param {string} seedIx the index to use with the seed.
    * @param {string} fromAccount the account to recieve from.
+   * @param {number} sharedSeedIx the index to use with the shared seed.
    * @param {number} count the max count to get.
    * @return {string_array} the pending hashes in an array.
    */
@@ -585,7 +587,7 @@
    * @param {string} seedIx the index to use with the seed.
    * @param {string} account the camo account to send or recieve from.
    * @param {string} sharedSeedIx the index to use with the shared seed.
-   * @param {string} pendingBlockHash the pending block to recieve.
+   * @param {string} specificPendingBlockHash the pending block to recieve.
    * @return {string} the response from receiving the block.
    */
   const receiveCamoBananoDepositsForSeed = async (seed, seedIx, account, sharedSeedIx, specificPendingBlockHash) => {
@@ -613,7 +615,7 @@
    * @param {string} seedIx the index to use with the seed.
    * @param {string} account the camo account to send or recieve from.
    * @param {string} sharedSeedIx the index to use with the shared seed.
-   * @param {string} pendingBlockHash the pending block to recieve.
+   * @param {string} specificPendingBlockHash the pending block to recieve.
    * @return {string} the response from receiving the block.
    */
   const receiveCamoNanoDepositsForSeed = async (seed, seedIx, account, sharedSeedIx, specificPendingBlockHash) => {
@@ -728,6 +730,7 @@
     const exports = {};
     exports.BANANO_PREFIX = BANANO_PREFIX;
     exports.NANO_PREFIX = NANO_PREFIX;
+    exports.PREFIXES = [BANANO_PREFIX, NANO_PREFIX];
     exports.sendNanoWithdrawalFromSeed = sendNanoWithdrawalFromSeed;
     exports.sendBananoWithdrawalFromSeed = sendBananoWithdrawalFromSeed;
     exports.getAccountsPending = getAccountsPending;

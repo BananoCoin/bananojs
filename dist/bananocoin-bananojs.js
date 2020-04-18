@@ -2418,8 +2418,8 @@ window.bananocoin.bananojs.https.request = (url, options, requestWriterCallback)
       minorName: 'banoshi',
     },
     'nano_': {
-      minorDivisor: BigInt('1000000000000000000000000000'),
-      majorDivisor: BigInt('100000000000000000000000000000'),
+      minorDivisor: BigInt('1000000000000000000000000'),
+      majorDivisor: BigInt('1000000000000000000000000000000'),
       majorName: 'nano',
       minorName: 'nanoshi',
     },
@@ -2477,6 +2477,11 @@ window.bananocoin.bananojs.https.request = (url, options, requestWriterCallback)
     const amountBi = BigInt(amountStr);
     // console.log('INTERIM getRawStrFromAmountStr banano   ', banano);
     // console.log('INTERIM getRawStrFromAmountStr bananoDiv', majorDivisor);
+
+    /* istanbul ignore if */
+    if (prefixDivisors[amountPrefix] == undefined) {
+      throw Error(`'${amountPrefix}' is not an amountPrefix. (${[...Object.keys(prefixDivisors)]})`);
+    }
     const majorDivisor = prefixDivisors[amountPrefix].majorDivisor;
 
     const amountRaw = (amountBi * majorDivisor) / divisor;
@@ -5026,6 +5031,7 @@ window.bananocoin.bananojs.https.request = (url, options, requestWriterCallback)
    * @param {string} seed the seed to use to find the account.
    * @param {string} seedIx the index to use with the seed.
    * @param {string} fromAccount the account to recieve from.
+   * @param {number} sharedSeedIx the index to use with the shared seed.
    * @param {number} count the max count to get.
    * @return {string_array} the pending hashes in an array.
    */
@@ -5044,6 +5050,7 @@ window.bananocoin.bananojs.https.request = (url, options, requestWriterCallback)
    * @param {string} seed the seed to use to find the account.
    * @param {string} seedIx the index to use with the seed.
    * @param {string} fromAccount the account to recieve from.
+   * @param {number} sharedSeedIx the index to use with the shared seed.
    * @param {number} count the max count to get.
    * @return {string_array} the pending hashes in an array.
    */
@@ -5110,7 +5117,7 @@ window.bananocoin.bananojs.https.request = (url, options, requestWriterCallback)
    * @param {string} seedIx the index to use with the seed.
    * @param {string} account the camo account to send or recieve from.
    * @param {string} sharedSeedIx the index to use with the shared seed.
-   * @param {string} pendingBlockHash the pending block to recieve.
+   * @param {string} specificPendingBlockHash the pending block to recieve.
    * @return {string} the response from receiving the block.
    */
   const receiveCamoBananoDepositsForSeed = async (seed, seedIx, account, sharedSeedIx, specificPendingBlockHash) => {
@@ -5138,7 +5145,7 @@ window.bananocoin.bananojs.https.request = (url, options, requestWriterCallback)
    * @param {string} seedIx the index to use with the seed.
    * @param {string} account the camo account to send or recieve from.
    * @param {string} sharedSeedIx the index to use with the shared seed.
-   * @param {string} pendingBlockHash the pending block to recieve.
+   * @param {string} specificPendingBlockHash the pending block to recieve.
    * @return {string} the response from receiving the block.
    */
   const receiveCamoNanoDepositsForSeed = async (seed, seedIx, account, sharedSeedIx, specificPendingBlockHash) => {
@@ -5251,7 +5258,9 @@ window.bananocoin.bananojs.https.request = (url, options, requestWriterCallback)
       return;
     }
     const exports = {};
-
+    exports.BANANO_PREFIX = BANANO_PREFIX;
+    exports.NANO_PREFIX = NANO_PREFIX;
+    exports.PREFIXES = [BANANO_PREFIX, NANO_PREFIX];
     exports.sendNanoWithdrawalFromSeed = sendNanoWithdrawalFromSeed;
     exports.sendBananoWithdrawalFromSeed = sendBananoWithdrawalFromSeed;
     exports.getAccountsPending = getAccountsPending;

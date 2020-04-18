@@ -30,10 +30,19 @@ describe('recieve', () => {
       expectedResponse.receiveCount = 1;
       expectedResponse.receiveCount = 2;
       expectedResponse.receiveMessage = 'received 2 blocks.';
-      expectedResponse.receiveBlocks = [
-        'F275F2D9D82EF524C4AAA0FC53F44B01704A8C8C65112B994346B20540B60642',
-        'D0E578256728EBD0E1F09AD21D1116641D24B80B4308705831D82AC571DD5AFD',
-      ];
+
+      const receiveBlocks = {
+        banano: [
+          'F275F2D9D82EF524C4AAA0FC53F44B01704A8C8C65112B994346B20540B60642',
+          'D0E578256728EBD0E1F09AD21D1116641D24B80B4308705831D82AC571DD5AFD',
+        ],
+        nano: [
+          'D04C5FC29529792683B0883E4F1C87436D3C49F2C1E6E66FE5A374E55C18B500',
+          'AE1C223E8F06F859800443254CD51B2BDDE9B05C0295CAC51AC5C56BB780FEED',
+        ],
+      };
+      expectedResponse.receiveBlocks = receiveBlocks[coinData.coin];
+
       const receiveDepositsForSeed = coinData.getReceiveDepositsForSeedFn(bananojs);
       const actualResponse = await receiveDepositsForSeed(seed0, seedIx, representative1);
       expect(actualResponse).to.deep.equal(expectedResponse);
@@ -57,8 +66,8 @@ describe('recieve', () => {
           '7E71895E58F9966477DE64DE292A9A4145A33414953CFB242F2D1C625F7621DC',
         ],
         nano: [
-          'FF3C7140192141665DB81316C37E2D48AE4813FB372761E24E061EDEF20036CD',
-          'BD14E84252B8DCF188F6DB8D2ECD3C02F3BA31E0F6A373213A181C706C64CA34',
+          'B323FE40F155D024F8EFA1C6C28784040F88B4C7EE3293813D8DCB2CD1ECD9FE',
+          '17219C8D22A1D350BFEC02D3A1187048BC2DF39102870329F3725662786F41CD',
         ],
       };
       expectedResponse.receiveBlocks = receiveBlocks[coinData.coin];
@@ -81,9 +90,15 @@ describe('recieve', () => {
       expectedResponse.receiveCount = 1;
       expectedResponse.receiveCount = 1;
       expectedResponse.receiveMessage = 'received 1 blocks.';
-      expectedResponse.receiveBlocks = [
-        'D0E578256728EBD0E1F09AD21D1116641D24B80B4308705831D82AC571DD5AFD',
-      ];
+      const receiveBlocks = {
+        banano: [
+          'D0E578256728EBD0E1F09AD21D1116641D24B80B4308705831D82AC571DD5AFD',
+        ],
+        nano: [
+          'AE1C223E8F06F859800443254CD51B2BDDE9B05C0295CAC51AC5C56BB780FEED',
+        ],
+      };
+      expectedResponse.receiveBlocks = receiveBlocks[coinData.coin];
 
       const receiveDepositsForSeed = coinData.getReceiveDepositsForSeedFn(bananojs);
       const actualResponse = await receiveDepositsForSeed(seed0, seedIx, representative1, specificPendingHash);
@@ -108,7 +123,7 @@ describe('recieve', () => {
           'CA8EC3E77834034E51332AA43EAF14B2D5A2D3A9CF127F1B99BF2AF84BFAF4C0',
         ],
         nano: [
-          'BD14E84252B8DCF188F6DB8D2ECD3C02F3BA31E0F6A373213A181C706C64CA34',
+          '17219C8D22A1D350BFEC02D3A1187048BC2DF39102870329F3725662786F41CD',
         ],
       };
       expectedResponse.receiveBlocks = receiveBlocks[coinData.coin];
@@ -130,7 +145,13 @@ describe('recieve', () => {
     });
     it(coinData.coin + ' receiveDepositsForSeed processing error', async () => {
       const bananojs = testUtil.getBananojsWithProcessErrorApi();
-      const message = '"process block:F275F2D9D82EF524C4AAA0FC53F44B01704A8C8C65112B994346B20540B60642"';
+      let message;
+      if (coinData.coin == 'banano') {
+        message = '"process block:F275F2D9D82EF524C4AAA0FC53F44B01704A8C8C65112B994346B20540B60642"';
+      }
+      if (coinData.coin == 'nano') {
+        message = '"process block:D04C5FC29529792683B0883E4F1C87436D3C49F2C1E6E66FE5A374E55C18B500"';
+      }
       const receiveDepositsForSeed = coinData.getReceiveDepositsForSeedFn(bananojs);
       await testUtil.expectErrorMessage(message, receiveDepositsForSeed, seed0, seedIx, representative1);
     });

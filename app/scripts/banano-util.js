@@ -82,6 +82,11 @@
     const amountBi = BigInt(amountStr);
     // console.log('INTERIM getRawStrFromAmountStr banano   ', banano);
     // console.log('INTERIM getRawStrFromAmountStr bananoDiv', majorDivisor);
+
+    /* istanbul ignore if */
+    if (prefixDivisors[amountPrefix] == undefined) {
+      throw Error(`'${amountPrefix}' is not an amountPrefix. (${[...Object.keys(prefixDivisors)]})`);
+    }
     const majorDivisor = prefixDivisors[amountPrefix].majorDivisor;
 
     const amountRaw = (amountBi * majorDivisor) / divisor;

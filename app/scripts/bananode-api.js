@@ -33,12 +33,10 @@
         timeout: 30000,
       };
 
-      const chunks = '';
-
       const req = https.request(options, (res) => {
       // console.log(`statusCode: ${res.statusCode}`);
-        const chunks = '';
-        res.on('data', (chunks) => {
+        let chunks = '';
+        res.on('data', (chunk) => {
           chunks += chunk;
         });
 

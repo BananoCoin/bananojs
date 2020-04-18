@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.0.3
+//version 2.0.4
 //license MIT
 const require = (modname) => {
   if (typeof BigInt === 'undefined') {
@@ -1988,12 +1988,10 @@ window.bananocoin.bananojs.https.request = (url, options, requestWriterCallback)
         timeout: 30000,
       };
 
-      const chunks = '';
-
       const req = https.request(options, (res) => {
       // console.log(`statusCode: ${res.statusCode}`);
-        const chunks = '';
-        res.on('data', (chunks) => {
+        let chunks = '';
+        res.on('data', (chunk) => {
           chunks += chunk;
         });
 

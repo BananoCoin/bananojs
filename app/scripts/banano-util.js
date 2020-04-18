@@ -124,13 +124,13 @@
  */
 
   /**
- * Get the banano parts (banano, banoshi, raw) for a given raw value.
- *
- * @memberof BananoUtil
- * @param {string} amountRawStr the raw amount, as a string.
- * @param {string} amountPrefix the amount prefix, as a string.
- * @return {BananoParts} the banano parts.
- */
+   * Get the banano parts (banano, banoshi, raw) for a given raw value.
+   *
+   * @memberof BananoUtil
+   * @param {string} amountRawStr the raw amount, as a string.
+   * @param {string} amountPrefix the amount prefix, as a string.
+   * @return {BananoParts} the banano parts.
+   */
   const getAmountPartsFromRaw = (amountRawStr, amountPrefix) => {
     /* istanbul ignore if */
     if (amountPrefix == undefined) {

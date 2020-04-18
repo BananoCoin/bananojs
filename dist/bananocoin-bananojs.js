@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.0.4
+//version 2.0.5
 //license MIT
 const require = (modname) => {
   if (typeof BigInt === 'undefined') {
@@ -2523,13 +2523,13 @@ window.bananocoin.bananojs.https.request = (url, options, requestWriterCallback)
  */
 
   /**
- * Get the banano parts (banano, banoshi, raw) for a given raw value.
- *
- * @memberof BananoUtil
- * @param {string} amountRawStr the raw amount, as a string.
- * @param {string} amountPrefix the amount prefix, as a string.
- * @return {BananoParts} the banano parts.
- */
+   * Get the banano parts (banano, banoshi, raw) for a given raw value.
+   *
+   * @memberof BananoUtil
+   * @param {string} amountRawStr the raw amount, as a string.
+   * @param {string} amountPrefix the amount prefix, as a string.
+   * @return {BananoParts} the banano parts.
+   */
   const getAmountPartsFromRaw = (amountRawStr, amountPrefix) => {
     /* istanbul ignore if */
     if (amountPrefix == undefined) {
@@ -5277,6 +5277,29 @@ window.bananocoin.bananojs.https.request = (url, options, requestWriterCallback)
     return bananoUtil.getAccount(publicKey, NANO_PREFIX);
   };
 
+  /**
+   * Get the banano parts (banano, banoshi, raw) for a given raw value.
+   *
+   * @memberof BananoUtil
+   * @param {string} amountRawStr the raw amount, as a string.
+   * @return {BananoParts} the banano parts.
+   */
+  const getBananoPartsFromRaw = (amountRawStr) => {
+    return bananoUtil.getAmountPartsFromRaw(amountRawStr, BANANO_PREFIX);
+  };
+
+  /**
+    * Get the nano parts nano, nanoshi, raw) for a given raw value.
+    *
+    * @memberof BananoUtil
+    * @param {string} amountRawStr the raw amount, as a string.
+    * @return {BananoParts} the banano parts.
+    */
+  const getNanoPartsFromRaw = (amountRawStr) => {
+    return bananoUtil.getAmountPartsFromRaw(amountRawStr, NANO_PREFIX);
+  };
+
+
   // STARTED BOTTOM nodejs/browser hack
   const exports = (() => {
     // istanbul ignore if
@@ -5308,7 +5331,8 @@ window.bananocoin.bananojs.https.request = (url, options, requestWriterCallback)
     exports.openNanoAccountFromSeed = openNanoAccountFromSeed;
     exports.getBlockHash = getBlockHash;
     exports.getAccountBalanceRaw = getAccountBalanceRaw;
-    exports.getBananoPartsFromRaw = bananoUtil.getBananoPartsFromRaw;
+    exports.getBananoPartsFromRaw = getBananoPartsFromRaw;
+    exports.getNanoPartsFromRaw = getNanoPartsFromRaw;
     exports.getPrivateKey = bananoUtil.getPrivateKey;
     exports.getPublicKey = bananoUtil.getPublicKey;
     exports.getAccount = bananoUtil.getAccount;

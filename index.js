@@ -743,6 +743,29 @@
     return bananoUtil.getAccount(publicKey, NANO_PREFIX);
   };
 
+  /**
+   * Get the banano parts (banano, banoshi, raw) for a given raw value.
+   *
+   * @memberof BananoUtil
+   * @param {string} amountRawStr the raw amount, as a string.
+   * @return {BananoParts} the banano parts.
+   */
+  const getBananoPartsFromRaw = (amountRawStr) => {
+    return bananoUtil.getAmountPartsFromRaw(amountRawStr, BANANO_PREFIX);
+  };
+
+  /**
+    * Get the nano parts nano, nanoshi, raw) for a given raw value.
+    *
+    * @memberof BananoUtil
+    * @param {string} amountRawStr the raw amount, as a string.
+    * @return {BananoParts} the banano parts.
+    */
+  const getNanoPartsFromRaw = (amountRawStr) => {
+    return bananoUtil.getAmountPartsFromRaw(amountRawStr, NANO_PREFIX);
+  };
+
+
   // STARTED BOTTOM nodejs/browser hack
   const exports = (() => {
     // istanbul ignore if
@@ -774,7 +797,8 @@
     exports.openNanoAccountFromSeed = openNanoAccountFromSeed;
     exports.getBlockHash = getBlockHash;
     exports.getAccountBalanceRaw = getAccountBalanceRaw;
-    exports.getBananoPartsFromRaw = bananoUtil.getBananoPartsFromRaw;
+    exports.getBananoPartsFromRaw = getBananoPartsFromRaw;
+    exports.getNanoPartsFromRaw = getNanoPartsFromRaw;
     exports.getPrivateKey = bananoUtil.getPrivateKey;
     exports.getPublicKey = bananoUtil.getPublicKey;
     exports.getAccount = bananoUtil.getAccount;

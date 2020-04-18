@@ -144,6 +144,34 @@ describe('account', () => {
     bananojs.setBananodeApiUrl('test');
   });
 
+
+  it('banano getBananoPartsFromRaw', async () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    const raw = '1203000000000000000000000000004';
+    const actual = bananojs.getBananoPartsFromRaw(raw);
+    const expected = {
+      'majorName': 'banano',
+      'minorName': 'banoshi',
+      'banano': '12',
+      'banoshi': '3',
+      'raw': '4',
+    };
+    expect(actual).to.deep.equal(expected);
+  });
+  it('nano getNanoPartsFromRaw', async () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    const raw = '12000003000000000000000000000004';
+    const actual = bananojs.getNanoPartsFromRaw(raw);
+    const expected = {
+      'majorName': 'nano',
+      'minorName': 'nanoshi',
+      'nano': '12',
+      'nanoshi': '3',
+      'raw': '4',
+    };
+    expect(actual).to.deep.equal(expected);
+  });
+
   beforeEach(async () => {
   });
 

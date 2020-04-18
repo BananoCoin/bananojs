@@ -69,6 +69,18 @@ describe('corner-cases', () => {
     const actual = bananojs.getRawStrFromNanoshiStr(1);
     expect(expected).to.deep.equal(actual);
   });
+  it('getBananoAccount matches expected', async () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    const expected = 'ban_7rmwcs5x';
+    const actual = bananojs.getBananoAccount('');
+    expect(expected).to.deep.equal(actual);
+  });
+  it('getNanoAccount matches expected', async () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    const expected = 'nano_7rmwcs5x';
+    const actual = bananojs.getNanoAccount('');
+    expect(expected).to.deep.equal(actual);
+  });
   it('getBlockCount matches expected', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
     const expected = {'count': '1000', 'unchecked': '10'};

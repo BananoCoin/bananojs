@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.0.0
+//version 2.0.1
 //license MIT
 const require = (modname) => {
   if (typeof BigInt === 'undefined') {
@@ -5251,6 +5251,28 @@ window.bananocoin.bananojs.https.request = (url, options, requestWriterCallback)
     return bananoUtil.getRawStrFromMinorAmountStr(amountStr, NANO_PREFIX);
   };
 
+  /**
+   * Get the banano account for a given public key.
+   *
+   * @memberof BananoUtil
+   * @param {string} publicKey the public key.
+   * @return {string} the account.
+   */
+  const getBananoAccount = (publicKey) => {
+    return bananoUtil.getAccount(publicKey, BANANO_PREFIX);
+  };
+
+  /**
+    * Get the banano account for a given public key.
+    *
+    * @memberof BananoUtil
+    * @param {string} publicKey the public key.
+    * @return {string} the account.
+    */
+  const getNanoAccount = (publicKey) => {
+    return bananoUtil.getAccount(publicKey, NANO_PREFIX);
+  };
+
   // STARTED BOTTOM nodejs/browser hack
   const exports = (() => {
     // istanbul ignore if
@@ -5286,6 +5308,8 @@ window.bananocoin.bananojs.https.request = (url, options, requestWriterCallback)
     exports.getPrivateKey = bananoUtil.getPrivateKey;
     exports.getPublicKey = bananoUtil.getPublicKey;
     exports.getAccount = bananoUtil.getAccount;
+    exports.getNanoAccount = getNanoAccount;
+    exports.getBananoAccount = getBananoAccount;
     exports.getAccountPublicKey = bananoUtil.getAccountPublicKey;
     exports.sendAmountToNanoAccount = sendAmountToNanoAccount;
     exports.sendAmountToBananoAccount = sendAmountToBananoAccount;

@@ -1066,7 +1066,7 @@
  */
 
   /**
-  * Returns an object saying if the account is valid or not.
+  * Returns an object saying if the banano account is valid or not.
 
   * If the account is not valid, the message describes why it is not valid.
   *
@@ -1074,7 +1074,7 @@
   * @param {string} account the account.
   * @return {AccountValidationInfo} an object saying if the account is valid, and why.
   */
-  const getAccountValidationInfo = (account) => {
+  const getBananoAccountValidationInfo = (account) => {
     if (account === null) {
       return {
         message: 'Invalid BANANO Account (null)',
@@ -1123,6 +1123,64 @@
     };
   };
 
+  /**
+    * Returns an object saying if the nano account is valid or not.
+    * If the account is not valid, the message describes why it is not valid.
+    *
+    * @memberof BananoUtil
+    * @param {string} account the account.
+    * @return {AccountValidationInfo} an object saying if the account is valid, and why.
+    */
+  const getNanoAccountValidationInfo = (account) => {
+    if (account === null) {
+      return {
+        message: 'Invalid NANO Account (null)',
+        valid: false,
+      };
+    }
+    if (account === undefined) {
+      return {
+        message: 'Invalid NANO Account (undefined)',
+        valid: false,
+      };
+    }
+    if (account.length == 65) {
+      if (!account.startsWith('nano_1') && !account.startsWith('nano_3')) {
+        return {
+          message: 'Invalid NANO Account (does not start with nano_1 or nano_3)',
+          valid: false,
+        };
+      }
+    } else {
+      return {
+        message: 'Invalid NANO Account (not 65 characters)',
+        valid: false,
+      };
+    }
+    const accountCrop = account.substring(5, 65);
+    const isValid = /^[13456789abcdefghijkmnopqrstuwxyz]+$/.test(accountCrop);
+    if (!isValid) {
+      return {
+        message: `Invalid NANO account (characters after nano_ must be one of:13456789abcdefghijkmnopqrstuwxyz)`,
+        valid: false,
+      };
+    };
+
+    try {
+      getAccountPublicKey(account);
+    } catch (error) {
+      return {
+        message: `Invalid NANO account (${error.message})`,
+        valid: false,
+      };
+    }
+    return {
+      message: 'valid',
+      valid: true,
+    };
+  };
+
+
   const isAccountOpen = async (bananodeApi, account) => {
     const history = await bananodeApi.getAccountHistory( account, 1 );
     const historyHistory = history.history;
@@ -1136,7 +1194,8 @@
     const exports = {};
     exports.decToHex = decToHex;
     exports.incrementBytes = incrementBytes;
-    exports.getAccountValidationInfo = getAccountValidationInfo;
+    exports.getNanoAccountValidationInfo = getNanoAccountValidationInfo;
+    exports.getBananoAccountValidationInfo = getBananoAccountValidationInfo;
     exports.receive = receive;
     exports.open = open;
     exports.change = change;

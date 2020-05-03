@@ -73,73 +73,75 @@
         -   [Parameters][69]
     -   [getPrivateKey][70]
         -   [Parameters][71]
-    -   [getAccountValidationInfo][72]
+    -   [getBananoAccountValidationInfo][72]
         -   [Parameters][73]
--   [DepositUtil][74]
-    -   [receiveNanoDepositsForSeed][75]
-        -   [Parameters][76]
-    -   [receiveBananoDepositsForSeed][77]
+    -   [getNanoAccountValidationInfo][74]
+        -   [Parameters][75]
+-   [DepositUtil][76]
+    -   [receiveNanoDepositsForSeed][77]
         -   [Parameters][78]
--   [BananodeApi][79]
-    -   [getAccountBalanceRaw][80]
-        -   [Parameters][81]
-    -   [getAccountHistory][82]
+    -   [receiveBananoDepositsForSeed][79]
+        -   [Parameters][80]
+-   [BananodeApi][81]
+    -   [getAccountBalanceRaw][82]
         -   [Parameters][83]
-    -   [getAccountInfo][84]
+    -   [getAccountHistory][84]
         -   [Parameters][85]
-    -   [getBlockCount][86]
-    -   [getAccountsPending][87]
-        -   [Parameters][88]
--   [sendBananoWithdrawalFromSeed][89]
-    -   [Parameters][90]
--   [sendNanoWithdrawalFromSeed][91]
+    -   [getAccountInfo][86]
+        -   [Parameters][87]
+    -   [getBlockCount][88]
+    -   [getAccountsPending][89]
+        -   [Parameters][90]
+-   [sendBananoWithdrawalFromSeed][91]
     -   [Parameters][92]
--   [camoBananoReceive][93]
+-   [sendNanoWithdrawalFromSeed][93]
     -   [Parameters][94]
--   [camoNanoReceive][95]
+-   [camoBananoReceive][95]
     -   [Parameters][96]
--   [getCamoBananoNextPrivateKeyForReceive][97]
+-   [camoNanoReceive][97]
     -   [Parameters][98]
--   [getCamoNanoNextPrivateKeyForReceive][99]
+-   [getCamoBananoNextPrivateKeyForReceive][99]
     -   [Parameters][100]
--   [camoBananoSend][101]
+-   [getCamoNanoNextPrivateKeyForReceive][101]
     -   [Parameters][102]
--   [camoNanoSend][103]
+-   [camoBananoSend][103]
     -   [Parameters][104]
--   [camoBananoSendWithdrawalFromSeed][105]
+-   [camoNanoSend][105]
     -   [Parameters][106]
--   [camoNanoSendWithdrawalFromSeed][107]
+-   [camoBananoSendWithdrawalFromSeed][107]
     -   [Parameters][108]
--   [receiveCamoBananoDepositsForSeed][109]
+-   [camoNanoSendWithdrawalFromSeed][109]
     -   [Parameters][110]
--   [receiveCamoNanoDepositsForSeed][111]
+-   [receiveCamoBananoDepositsForSeed][111]
     -   [Parameters][112]
--   [getCamoBananoAccountBalanceRaw][113]
+-   [receiveCamoNanoDepositsForSeed][113]
     -   [Parameters][114]
--   [getCamoNanoAccountBalanceRaw][115]
+-   [getCamoBananoAccountBalanceRaw][115]
     -   [Parameters][116]
--   [getCamoPublicKey][117]
+-   [getCamoNanoAccountBalanceRaw][117]
     -   [Parameters][118]
--   [getSharedSecret][119]
+-   [getCamoPublicKey][119]
     -   [Parameters][120]
--   [getCamoAccount][121]
+-   [getSharedSecret][121]
     -   [Parameters][122]
--   [camoBananoGetAccountsPending][123]
+-   [getCamoAccount][123]
     -   [Parameters][124]
--   [camoNanoGetAccountsPending][125]
+-   [camoBananoGetAccountsPending][125]
     -   [Parameters][126]
--   [getCamoAccountValidationInfo][127]
+-   [camoNanoGetAccountsPending][127]
     -   [Parameters][128]
--   [getCamoBananoSharedAccountData][129]
+-   [getCamoAccountValidationInfo][129]
     -   [Parameters][130]
--   [getCamoNanoSharedAccountData][131]
+-   [getCamoBananoSharedAccountData][131]
     -   [Parameters][132]
--   [BananoParts][133]
-    -   [Properties][134]
--   [AccountValidationInfo][135]
+-   [getCamoNanoSharedAccountData][133]
+    -   [Parameters][134]
+-   [BananoParts][135]
     -   [Properties][136]
--   [isCamoAccountValid][137]
-    -   [Parameters][138]
+-   [AccountValidationInfo][137]
+    -   [Properties][138]
+-   [isCamoAccountValid][139]
+    -   [Parameters][140]
 
 ## Main
 
@@ -149,9 +151,9 @@ Sets the Bananode Api (useful for overriding some methods)
 
 #### Parameters
 
--   `_bananodeApi` **[string][139]** the new bananodeApi
+-   `_bananodeApi` **[string][141]** the new bananodeApi
 
-Returns **[undefined][140]** returns nothing.
+Returns **[undefined][142]** returns nothing.
 
 ### setBananodeApiUrl
 
@@ -159,9 +161,9 @@ Sets the URL to use for the node behind the Bananode Api
 
 #### Parameters
 
--   `url` **[string][139]** the new url
+-   `url` **[string][141]** the new url
 
-Returns **[undefined][140]** returns nothing.
+Returns **[undefined][142]** returns nothing.
 
 ## BananoUtil
 
@@ -176,14 +178,14 @@ can cause an incorrect amount of funds to be sent.
 
 #### Parameters
 
--   `seed` **[string][139]** the seed to use to find the account.
--   `seedIx` **[string][139]** the index to use with the seed.
--   `destAccount` **[string][139]** the destination account.
--   `amountRaw` **[string][139]** the amount to send, in raw.
--   `representative` **[string][139]** the representative (optional).
--   `previousHash` **[string][139]** the previous hash (optional).
+-   `seed` **[string][141]** the seed to use to find the account.
+-   `seedIx` **[string][141]** the index to use with the seed.
+-   `destAccount` **[string][141]** the destination account.
+-   `amountRaw` **[string][141]** the amount to send, in raw.
+-   `representative` **[string][141]** the representative (optional).
+-   `previousHash` **[string][141]** the previous hash (optional).
 
-Returns **[string][139]** returns the hash returned by the send.
+Returns **[string][141]** returns the hash returned by the send.
 
 ### sendAmountToNanoAccountWithRepresentativeAndPrevious
 
@@ -196,14 +198,14 @@ can cause an incorrect amount of funds to be sent.
 
 #### Parameters
 
--   `seed` **[string][139]** the seed to use to find the account.
--   `seedIx` **[string][139]** the index to use with the seed.
--   `destAccount` **[string][139]** the destination account.
--   `amountRaw` **[string][139]** the amount to send, in raw.
--   `representative` **[string][139]** the representative (optional).
--   `previousHash` **[string][139]** the previous hash (optional).
+-   `seed` **[string][141]** the seed to use to find the account.
+-   `seedIx` **[string][141]** the index to use with the seed.
+-   `destAccount` **[string][141]** the destination account.
+-   `amountRaw` **[string][141]** the amount to send, in raw.
+-   `representative` **[string][141]** the representative (optional).
+-   `previousHash` **[string][141]** the previous hash (optional).
 
-Returns **[string][139]** returns the hash returned by the send.
+Returns **[string][141]** returns the hash returned by the send.
 
 ### sendAmountToBananoAccount
 
@@ -211,14 +213,14 @@ Sends the amount to the banano account with a callback for success and failure.
 
 #### Parameters
 
--   `seed` **[string][139]** the seed to use to find the account.
--   `seedIx` **[string][139]** the index to use with the seed.
--   `destAccount` **[string][139]** the destination account.
--   `amountRaw` **[string][139]** the amount to send, in raw.
--   `successCallback` **[string][139]** the callback to call upon success.
--   `failureCallback` **[string][139]** the callback to call upon failure.
+-   `seed` **[string][141]** the seed to use to find the account.
+-   `seedIx` **[string][141]** the index to use with the seed.
+-   `destAccount` **[string][141]** the destination account.
+-   `amountRaw` **[string][141]** the amount to send, in raw.
+-   `successCallback` **[string][141]** the callback to call upon success.
+-   `failureCallback` **[string][141]** the callback to call upon failure.
 
-Returns **[string][139]** returns the hash returned by the send.
+Returns **[string][141]** returns the hash returned by the send.
 
 ### sendAmountToNanoAccount
 
@@ -226,14 +228,14 @@ Sends the amount to the nano account with a callback for success and failure.
 
 #### Parameters
 
--   `seed` **[string][139]** the seed to use to find the account.
--   `seedIx` **[string][139]** the index to use with the seed.
--   `destAccount` **[string][139]** the destination account.
--   `amountRaw` **[string][139]** the amount to send, in raw.
--   `successCallback` **[string][139]** the callback to call upon success.
--   `failureCallback` **[string][139]** the callback to call upon failure.
+-   `seed` **[string][141]** the seed to use to find the account.
+-   `seedIx` **[string][141]** the index to use with the seed.
+-   `destAccount` **[string][141]** the destination account.
+-   `amountRaw` **[string][141]** the amount to send, in raw.
+-   `successCallback` **[string][141]** the callback to call upon success.
+-   `failureCallback` **[string][141]** the callback to call upon failure.
 
-Returns **[string][139]** returns the hash returned by the send.
+Returns **[string][141]** returns the hash returned by the send.
 
 ### changeBananoRepresentativeForSeed
 
@@ -241,11 +243,11 @@ Sets the rep for an account with a given seed.
 
 #### Parameters
 
--   `seed` **[string][139]** the seed to use to find the account.
--   `seedIx` **[string][139]** the index to use with the seed.
--   `representative` **[string][139]** the representative.
+-   `seed` **[string][141]** the seed to use to find the account.
+-   `seedIx` **[string][141]** the index to use with the seed.
+-   `representative` **[string][141]** the representative.
 
-Returns **[string][139]** returns the hash returned by the change.
+Returns **[string][141]** returns the hash returned by the change.
 
 ### changeNanoRepresentativeForSeed
 
@@ -253,11 +255,11 @@ Sets the rep for an account with a given seed.
 
 #### Parameters
 
--   `seed` **[string][139]** the seed to use to find the account.
--   `seedIx` **[string][139]** the index to use with the seed.
--   `representative` **[string][139]** the representative.
+-   `seed` **[string][141]** the seed to use to find the account.
+-   `seedIx` **[string][141]** the index to use with the seed.
+-   `representative` **[string][141]** the representative.
 
-Returns **[string][139]** returns the hash returned by the change.
+Returns **[string][141]** returns the hash returned by the change.
 
 ### getBananoAccountFromSeed
 
@@ -265,10 +267,10 @@ Get the banano account with a given seed and index.
 
 #### Parameters
 
--   `seed` **[string][139]** the seed to use to find the account.
--   `seedIx` **[string][139]** the index to use with the seed.
+-   `seed` **[string][141]** the seed to use to find the account.
+-   `seedIx` **[string][141]** the index to use with the seed.
 
-Returns **[string][139]** the account.
+Returns **[string][141]** the account.
 
 ### getNanoAccountFromSeed
 
@@ -276,10 +278,10 @@ Get the banano account with a given seed and index.
 
 #### Parameters
 
--   `seed` **[string][139]** the seed to use to find the account.
--   `seedIx` **[string][139]** the index to use with the seed.
+-   `seed` **[string][141]** the seed to use to find the account.
+-   `seedIx` **[string][141]** the index to use with the seed.
 
-Returns **[string][139]** the account.
+Returns **[string][141]** the account.
 
 ### openBananoAccountFromSeed
 
@@ -287,13 +289,13 @@ Open a banano account with a given seed.
 
 #### Parameters
 
--   `seed` **[string][139]** the seed to use to find the account.
--   `seedIx` **[string][139]** the index to use with the seed.
--   `representative` **[string][139]** the representative.
--   `pendingBlockHash` **[string][139]** the pending block hash.
--   `pendingValueRaw` **[string][139]** the pending block hash.
+-   `seed` **[string][141]** the seed to use to find the account.
+-   `seedIx` **[string][141]** the index to use with the seed.
+-   `representative` **[string][141]** the representative.
+-   `pendingBlockHash` **[string][141]** the pending block hash.
+-   `pendingValueRaw` **[string][141]** the pending block hash.
 
-Returns **[string][139]** returns the hash returned by the open.
+Returns **[string][141]** returns the hash returned by the open.
 
 ### openNanoAccountFromSeed
 
@@ -301,13 +303,13 @@ Open a nano account with a given seed.
 
 #### Parameters
 
--   `seed` **[string][139]** the seed to use to find the account.
--   `seedIx` **[string][139]** the index to use with the seed.
--   `representative` **[string][139]** the representative.
--   `pendingBlockHash` **[string][139]** the pending block hash.
--   `pendingValueRaw` **[string][139]** the pending block hash.
+-   `seed` **[string][141]** the seed to use to find the account.
+-   `seedIx` **[string][141]** the index to use with the seed.
+-   `representative` **[string][141]** the representative.
+-   `pendingBlockHash` **[string][141]** the pending block hash.
+-   `pendingValueRaw` **[string][141]** the pending block hash.
 
-Returns **[string][139]** returns the hash returned by the open.
+Returns **[string][141]** returns the hash returned by the open.
 
 ### getBlockHash
 
@@ -315,9 +317,9 @@ Get the hash for a given block.
 
 #### Parameters
 
--   `block` **[string][139]** the seed to use to find the account.
+-   `block` **[string][141]** the seed to use to find the account.
 
-Returns **[string][139]** the block's hash.
+Returns **[string][141]** the block's hash.
 
 ### getSignature
 
@@ -325,10 +327,10 @@ Get the signature for a given block (gets the hash of the block, and signs the h
 
 #### Parameters
 
--   `privateKey` **[string][139]** the private key used to sign the block.
--   `block` **[string][139]** the block to sign.
+-   `privateKey` **[string][141]** the private key used to sign the block.
+-   `block` **[string][141]** the block to sign.
 
-Returns **[string][139]** the block's signature.
+Returns **[string][141]** the block's signature.
 
 ### getBytesFromHex
 
@@ -336,9 +338,9 @@ Converts a hex string to bytes in a Uint8Array.
 
 #### Parameters
 
--   `hex` **[string][139]** the hex string to use.
+-   `hex` **[string][141]** the hex string to use.
 
-Returns **[Uint8Array][141]** the bytes in a Uint8Array.
+Returns **[Uint8Array][143]** the bytes in a Uint8Array.
 
 ### getWorkUsingCpu
 
@@ -346,10 +348,10 @@ gets work bytes using the CPU.
 
 #### Parameters
 
--   `hash` **[string][139]** the hash to use to calculate work bytes.
--   `workBytes` **[Uint8Array][141]** the Uint8Array(8) used to store temporary calculations.
+-   `hash` **[string][141]** the hash to use to calculate work bytes.
+-   `workBytes` **[Uint8Array][143]** the Uint8Array(8) used to store temporary calculations.
 
-Returns **[string][139]** the work bytes as a hex string.
+Returns **[string][141]** the work bytes as a hex string.
 
 ### getRawStrFromBananoStr
 
@@ -357,10 +359,10 @@ Converts an amount into a raw amount.
 
 #### Parameters
 
--   `amountStr` **[string][139]** the amount, as a string.
--   `amountPrefix` **[string][139]** the amount, as a string.
+-   `amountStr` **[string][141]** the amount, as a string.
+-   `amountPrefix` **[string][141]** the amount, as a string.
 
-Returns **[string][139]** the banano as a raw value.
+Returns **[string][141]** the banano as a raw value.
 
 ### getRawStrFromBanoshiStr
 
@@ -368,10 +370,10 @@ Converts an amount into a raw amount.
 
 #### Parameters
 
--   `amountStr` **[string][139]** the amount, as a string.
--   `amountPrefix` **[string][139]** the amount, as a string.
+-   `amountStr` **[string][141]** the amount, as a string.
+-   `amountPrefix` **[string][141]** the amount, as a string.
 
-Returns **[string][139]** the banano as a raw value.
+Returns **[string][141]** the banano as a raw value.
 
 ### getRawStrFromNanoStr
 
@@ -379,10 +381,10 @@ Converts an amount into a raw amount.
 
 #### Parameters
 
--   `amountStr` **[string][139]** the amount, as a string.
--   `amountPrefix` **[string][139]** the amount, as a string.
+-   `amountStr` **[string][141]** the amount, as a string.
+-   `amountPrefix` **[string][141]** the amount, as a string.
 
-Returns **[string][139]** the banano as a raw value.
+Returns **[string][141]** the banano as a raw value.
 
 ### getRawStrFromNanoshiStr
 
@@ -390,10 +392,10 @@ Converts an amount into a raw amount.
 
 #### Parameters
 
--   `amountStr` **[string][139]** the amount, as a string.
--   `amountPrefix` **[string][139]** the amount, as a string.
+-   `amountStr` **[string][141]** the amount, as a string.
+-   `amountPrefix` **[string][141]** the amount, as a string.
 
-Returns **[string][139]** the banano as a raw value.
+Returns **[string][141]** the banano as a raw value.
 
 ### getBananoAccount
 
@@ -401,9 +403,9 @@ Get the banano account for a given public key.
 
 #### Parameters
 
--   `publicKey` **[string][139]** the public key.
+-   `publicKey` **[string][141]** the public key.
 
-Returns **[string][139]** the account.
+Returns **[string][141]** the account.
 
 ### getNanoAccount
 
@@ -411,9 +413,9 @@ Get the banano account for a given public key.
 
 #### Parameters
 
--   `publicKey` **[string][139]** the public key.
+-   `publicKey` **[string][141]** the public key.
 
-Returns **[string][139]** the account.
+Returns **[string][141]** the account.
 
 ### getBananoPartsFromRaw
 
@@ -421,9 +423,9 @@ Get the banano parts (banano, banoshi, raw) for a given raw value.
 
 #### Parameters
 
--   `amountRawStr` **[string][139]** the raw amount, as a string.
+-   `amountRawStr` **[string][141]** the raw amount, as a string.
 
-Returns **[BananoParts][142]** the banano parts.
+Returns **[BananoParts][144]** the banano parts.
 
 ### getNanoPartsFromRaw
 
@@ -431,9 +433,9 @@ Get the nano parts nano, nanoshi, raw) for a given raw value.
 
 #### Parameters
 
--   `amountRawStr` **[string][139]** the raw amount, as a string.
+-   `amountRawStr` **[string][141]** the raw amount, as a string.
 
-Returns **[BananoParts][142]** the banano parts.
+Returns **[BananoParts][144]** the banano parts.
 
 ### getRawStrFromMajorAmountStr
 
@@ -441,10 +443,10 @@ Converts an amount into a raw amount.
 
 #### Parameters
 
--   `amountStr` **[string][139]** the amount, as a string.
--   `amountPrefix` **[string][139]** the amount, as a string.
+-   `amountStr` **[string][141]** the amount, as a string.
+-   `amountPrefix` **[string][141]** the amount, as a string.
 
-Returns **[string][139]** the banano as a raw value.
+Returns **[string][141]** the banano as a raw value.
 
 ### getRawStrFromMinorAmountStr
 
@@ -452,10 +454,10 @@ Converts a banoshi amount into a raw amount.
 
 #### Parameters
 
--   `amountStr` **[string][139]** the banoshi, as a string.
--   `amountPrefix` **[string][139]** the amount prefix, as a string.
+-   `amountStr` **[string][141]** the banoshi, as a string.
+-   `amountPrefix` **[string][141]** the amount prefix, as a string.
 
-Returns **[string][139]** the banano as a raw value.
+Returns **[string][141]** the banano as a raw value.
 
 ### getAmountPartsFromRaw
 
@@ -463,10 +465,10 @@ Get the banano parts (banano, banoshi, raw) for a given raw value.
 
 #### Parameters
 
--   `amountRawStr` **[string][139]** the raw amount, as a string.
--   `amountPrefix` **[string][139]** the amount prefix, as a string.
+-   `amountRawStr` **[string][141]** the raw amount, as a string.
+-   `amountPrefix` **[string][141]** the amount prefix, as a string.
 
-Returns **[BananoParts][142]** the banano parts.
+Returns **[BananoParts][144]** the banano parts.
 
 ### getAccountPublicKey
 
@@ -474,9 +476,9 @@ Get the public key for a given account.
 
 #### Parameters
 
--   `account` **[string][139]** the account.
+-   `account` **[string][141]** the account.
 
-Returns **[string][139]** the public key.
+Returns **[string][141]** the public key.
 
 ### getAccountSuffix
 
@@ -484,9 +486,9 @@ Get the account suffix for a given public key (everything but ban_ or camo_ or n
 
 #### Parameters
 
--   `publicKey` **[string][139]** the public key.
+-   `publicKey` **[string][141]** the public key.
 
-Returns **[string][139]** the account suffix.
+Returns **[string][141]** the account suffix.
 
 ### getAccount
 
@@ -494,10 +496,10 @@ Get the account for a given public key.
 
 #### Parameters
 
--   `publicKey` **[string][139]** the public key.
--   `accountPrefix` **[string][139]** the prefix. ban_ or nano_.
+-   `publicKey` **[string][141]** the public key.
+-   `accountPrefix` **[string][141]** the prefix. ban_ or nano_.
 
-Returns **[string][139]** the account.
+Returns **[string][141]** the account.
 
 ### isWorkValid
 
@@ -505,16 +507,16 @@ returns true if the work (in bytes) for the hash (in bytes) is valid.
 
 #### Parameters
 
--   `hashBytes` **[string][139]** the hash bytes to check.
--   `workBytes` **[string][139]** the work bytes to check.
+-   `hashBytes` **[string][141]** the hash bytes to check.
+-   `workBytes` **[string][141]** the work bytes to check.
 
-Returns **[boolean][143]** true if the work is valid for the hash.
+Returns **[boolean][145]** true if the work is valid for the hash.
 
 ### getZeroedWorkBytes
 
 creates a new Uint8Array(8) to calculate work bytes.
 
-Returns **[Uint8Array][141]** the bytes in a Uint8Array.
+Returns **[Uint8Array][143]** the bytes in a Uint8Array.
 
 ### getPublicKey
 
@@ -522,9 +524,9 @@ Get the public key for a given private key.
 
 #### Parameters
 
--   `privateKey` **[string][139]** the private key.
+-   `privateKey` **[string][141]** the private key.
 
-Returns **[string][139]** the public key.
+Returns **[string][141]** the public key.
 
 ### isSeedValid
 
@@ -532,10 +534,10 @@ validates a seed.
 
 #### Parameters
 
--   `seed` **[string][139]** the seed to use to validate.
--   `seedIx` **[string][139]** the index to use with the seed.
+-   `seed` **[string][141]** the seed to use to validate.
+-   `seedIx` **[string][141]** the index to use with the seed.
 
-Returns **[object][144]** {valid:[true/false] message:[if false, why]}.
+Returns **[object][146]** {valid:[true/false] message:[if false, why]}.
 
 ### getPrivateKey
 
@@ -543,22 +545,33 @@ Get the private key for a given seed.
 
 #### Parameters
 
--   `seed` **[string][139]** the seed to use to find the account.
--   `seedIx` **[string][139]** the index to use with the seed.
+-   `seed` **[string][141]** the seed to use to find the account.
+-   `seedIx` **[string][141]** the index to use with the seed.
 
-Returns **[string][139]** the private key.
+Returns **[string][141]** the private key.
 
-### getAccountValidationInfo
+### getBananoAccountValidationInfo
 
-Returns an object saying if the account is valid or not.
+Returns an object saying if the banano account is valid or not.
 
 If the account is not valid, the message describes why it is not valid.
 
 #### Parameters
 
--   `account` **[string][139]** the account.
+-   `account` **[string][141]** the account.
 
-Returns **[AccountValidationInfo][145]** an object saying if the account is valid, and why.
+Returns **[AccountValidationInfo][147]** an object saying if the account is valid, and why.
+
+### getNanoAccountValidationInfo
+
+Returns an object saying if the nano account is valid or not.
+If the account is not valid, the message describes why it is not valid.
+
+#### Parameters
+
+-   `account` **[string][141]** the account.
+
+Returns **[AccountValidationInfo][147]** an object saying if the account is valid, and why.
 
 ## DepositUtil
 
@@ -568,12 +581,12 @@ Recieve deposits for a nano account with a given seed.
 
 #### Parameters
 
--   `seed` **[string][139]** the seed to use to find the account.
--   `seedIx` **[string][139]** the index to use with the seed.
--   `representative` **[string][139]** the representative.
--   `specificPendingBlockHash` **[string][139]** a specific block hash to receive (optional).
+-   `seed` **[string][141]** the seed to use to find the account.
+-   `seedIx` **[string][141]** the index to use with the seed.
+-   `representative` **[string][141]** the representative.
+-   `specificPendingBlockHash` **[string][141]** a specific block hash to receive (optional).
 
-Returns **[object][144]** returns the response returned by the receive.
+Returns **[object][146]** returns the response returned by the receive.
 
 ### receiveBananoDepositsForSeed
 
@@ -581,12 +594,12 @@ Recieve deposits for a nano account with a given seed.
 
 #### Parameters
 
--   `seed` **[string][139]** the seed to use to find the account.
--   `seedIx` **[string][139]** the index to use with the seed.
--   `representative` **[string][139]** the representative.
--   `specificPendingBlockHash` **[string][139]** a specific block hash to receive (optional).
+-   `seed` **[string][141]** the seed to use to find the account.
+-   `seedIx` **[string][141]** the index to use with the seed.
+-   `representative` **[string][141]** the representative.
+-   `specificPendingBlockHash` **[string][141]** a specific block hash to receive (optional).
 
-Returns **[object][144]** returns the response returned by the receive.
+Returns **[object][146]** returns the response returned by the receive.
 
 ## BananodeApi
 
@@ -596,63 +609,63 @@ Get the balance, in raw, for an account.
 
 (use other methods like getBananoPartsFromRaw to convert to banano or banoshi)
 
-Calls [https://docs.nano.org/commands/rpc-protocol/#accounts_balances][146]
+Calls [https://docs.nano.org/commands/rpc-protocol/#accounts_balances][148]
 
 #### Parameters
 
--   `account` **[string][139]** the account to use.
+-   `account` **[string][141]** the account to use.
 
-Returns **[string][139]** the account's balance, in raw.
+Returns **[string][141]** the account's balance, in raw.
 
 ### getAccountHistory
 
 Get the history for an account.
 
-Calls [https://docs.nano.org/commands/rpc-protocol/#account_history][147]
+Calls [https://docs.nano.org/commands/rpc-protocol/#account_history][149]
 
 #### Parameters
 
--   `account` **[string][139]** the account to use.
--   `count` **[string][139]** the count to use (use -1 for all).
--   `head` **[string][139]** the head to start at (optional).
--   `raw` **[string][139]** if true, return raw history (optional).
+-   `account` **[string][141]** the account to use.
+-   `count` **[string][141]** the count to use (use -1 for all).
+-   `head` **[string][141]** the head to start at (optional).
+-   `raw` **[string][141]** if true, return raw history (optional).
 
-Returns **[object][144]** the account's history.
+Returns **[object][146]** the account's history.
 
 ### getAccountInfo
 
 Get the account info for an account.
 
-Calls [https://docs.nano.org/commands/rpc-protocol/#account_info][148]
+Calls [https://docs.nano.org/commands/rpc-protocol/#account_info][150]
 
 #### Parameters
 
--   `account` **[string][139]** the account to use.
--   `representativeFlag` **[boolean][143]** the representativeFlag to use (optional).
+-   `account` **[string][141]** the account to use.
+-   `representativeFlag` **[boolean][145]** the representativeFlag to use (optional).
 
-Returns **[object][144]** the account's info.
+Returns **[object][146]** the account's info.
 
 ### getBlockCount
 
 Get the network block count.
 
-Calls [https://docs.nano.org/commands/rpc-protocol/#block_count][149]
+Calls [https://docs.nano.org/commands/rpc-protocol/#block_count][151]
 
-Returns **[object][144]** the block count.
+Returns **[object][146]** the block count.
 
 ### getAccountsPending
 
 Get the network block count.
 
-Calls [https://docs.nano.org/commands/rpc-protocol/#accounts_pending][150]
+Calls [https://docs.nano.org/commands/rpc-protocol/#accounts_pending][152]
 
 #### Parameters
 
 -   `accounts` **string_array** the array of pending accounts.
--   `count` **[number][151]** the max count to get.
--   `source` **[string][139]** if true, get source.
+-   `count` **[number][153]** the max count to get.
+-   `source` **[string][141]** if true, get source.
 
-Returns **[object][144]** the account's pending blocks.
+Returns **[object][146]** the account's pending blocks.
 
 ## sendBananoWithdrawalFromSeed
 
@@ -660,12 +673,12 @@ Send a withdrawal from a banano account with a given seed.
 
 ### Parameters
 
--   `seed` **[string][139]** the seed to use to find the account.
--   `seedIx` **[string][139]** the index to use with the seed.
--   `toAccount` **[string][139]** the account to send to.
--   `amountBananos` **[string][139]** the amount of bananos.
+-   `seed` **[string][141]** the seed to use to find the account.
+-   `seedIx` **[string][141]** the index to use with the seed.
+-   `toAccount` **[string][141]** the account to send to.
+-   `amountBananos` **[string][141]** the amount of bananos.
 
-Returns **[object][144]** returns the response returned by the withdraw.
+Returns **[object][146]** returns the response returned by the withdraw.
 
 ## sendNanoWithdrawalFromSeed
 
@@ -673,12 +686,12 @@ Send a withdrawal from a nano account with a given seed.
 
 ### Parameters
 
--   `seed` **[string][139]** the seed to use to find the account.
--   `seedIx` **[string][139]** the index to use with the seed.
--   `toAccount` **[string][139]** the account to send to.
--   `amountBananos` **[string][139]** the amount of bananos.
+-   `seed` **[string][141]** the seed to use to find the account.
+-   `seedIx` **[string][141]** the index to use with the seed.
+-   `toAccount` **[string][141]** the account to send to.
+-   `amountBananos` **[string][141]** the amount of bananos.
 
-Returns **[object][144]** returns the response returned by the withdraw.
+Returns **[object][146]** returns the response returned by the withdraw.
 
 ## camoBananoReceive
 
@@ -686,8 +699,8 @@ receives banano funds at a camo address.
 
 ### Parameters
 
--   `toPrivateKey` **[string][139]** the private key that receives the funds.
--   `fromPublicKey` **[string][139]** the public key that sent the funds.
+-   `toPrivateKey` **[string][141]** the private key that receives the funds.
+-   `fromPublicKey` **[string][141]** the public key that sent the funds.
 
 Returns **string_array** the received hashes in an array.
 
@@ -697,8 +710,8 @@ receives nano funds at a camo address.
 
 ### Parameters
 
--   `toPrivateKey` **[string][139]** the private key that receives the funds.
--   `fromPublicKey` **[string][139]** the public key that sent the funds.
+-   `toPrivateKey` **[string][141]** the private key that receives the funds.
+-   `fromPublicKey` **[string][141]** the public key that sent the funds.
 
 Returns **string_array** the received hashes in an array.
 
@@ -708,9 +721,9 @@ finds a new private key to recieve more banano funds. the key would have no hist
 
 ### Parameters
 
--   `seed` **[string][139]** the seed to use to find the account.
+-   `seed` **[string][141]** the seed to use to find the account.
 
-Returns **[string][139]** the private key to use.
+Returns **[string][141]** the private key to use.
 
 ## getCamoNanoNextPrivateKeyForReceive
 
@@ -718,9 +731,9 @@ finds a new private key to recieve more banano funds. the key would have no hist
 
 ### Parameters
 
--   `seed` **[string][139]** the seed to use to find the account.
+-   `seed` **[string][141]** the seed to use to find the account.
 
-Returns **[string][139]** the private key to use.
+Returns **[string][141]** the private key to use.
 
 ## camoBananoSend
 
@@ -728,10 +741,10 @@ sends banano funds to a camo address.
 
 ### Parameters
 
--   `fundingPrivateKey` **[string][139]** the private key that sends the funds.
--   `fromCamoPrivateKey` **[string][139]** the private key used to generate the shared seed.
--   `toCamoPublicKey` **[string][139]** the public key that receives the funds.
--   `amountBananos` **[string][139]** the amount of bananos.
+-   `fundingPrivateKey` **[string][141]** the private key that sends the funds.
+-   `fromCamoPrivateKey` **[string][141]** the private key used to generate the shared seed.
+-   `toCamoPublicKey` **[string][141]** the public key that receives the funds.
+-   `amountBananos` **[string][141]** the amount of bananos.
 
 Returns **string_array** the sent hashes in an array.
 
@@ -741,10 +754,10 @@ sends camo funds to a camo address.
 
 ### Parameters
 
--   `fundingPrivateKey` **[string][139]** the private key that sends the funds.
--   `fromCamoPrivateKey` **[string][139]** the private key used to generate the shared seed.
--   `toCamoPublicKey` **[string][139]** the public key that receives the funds.
--   `amountBananos` **[string][139]** the amount of bananos.
+-   `fundingPrivateKey` **[string][141]** the private key that sends the funds.
+-   `fromCamoPrivateKey` **[string][141]** the private key used to generate the shared seed.
+-   `toCamoPublicKey` **[string][141]** the public key that receives the funds.
+-   `amountBananos` **[string][141]** the amount of bananos.
 
 Returns **string_array** the sent hashes in an array.
 
@@ -756,10 +769,10 @@ and seed index "seedIx" to get the private key that contains funds to send.
 
 ### Parameters
 
--   `seed` **[string][139]** the seed to use to find the account.
--   `seedIx` **[string][139]** the index to use with the seed.
--   `toAccount` **[string][139]** the account to send to.
--   `amountBananos` **[string][139]** the amount of bananos.
+-   `seed` **[string][141]** the seed to use to find the account.
+-   `seedIx` **[string][141]** the index to use with the seed.
+-   `toAccount` **[string][141]** the account to send to.
+-   `amountBananos` **[string][141]** the amount of bananos.
 
 Returns **string_array** the sent hashes in an array.
 
@@ -771,10 +784,10 @@ and seed index "seedIx" to get the private key that contains funds to send.
 
 ### Parameters
 
--   `seed` **[string][139]** the seed to use to find the account.
--   `seedIx` **[string][139]** the index to use with the seed.
--   `toAccount` **[string][139]** the account to send to.
--   `amountBananos` **[string][139]** the amount of bananos.
+-   `seed` **[string][141]** the seed to use to find the account.
+-   `seedIx` **[string][141]** the index to use with the seed.
+-   `toAccount` **[string][141]** the account to send to.
+-   `amountBananos` **[string][141]** the amount of bananos.
 
 Returns **string_array** the sent hashes in an array.
 
@@ -784,13 +797,13 @@ Recieve banano deposits for a camo account with a given seed.
 
 ### Parameters
 
--   `seed` **[string][139]** the seed to use to find the account.
--   `seedIx` **[string][139]** the index to use with the seed.
--   `account` **[string][139]** the camo account to send or recieve from.
--   `sharedSeedIx` **[string][139]** the index to use with the shared seed.
--   `specificPendingBlockHash` **[string][139]** the pending block to recieve.
+-   `seed` **[string][141]** the seed to use to find the account.
+-   `seedIx` **[string][141]** the index to use with the seed.
+-   `account` **[string][141]** the camo account to send or recieve from.
+-   `sharedSeedIx` **[string][141]** the index to use with the shared seed.
+-   `specificPendingBlockHash` **[string][141]** the pending block to recieve.
 
-Returns **[string][139]** the response from receiving the block.
+Returns **[string][141]** the response from receiving the block.
 
 ## receiveCamoNanoDepositsForSeed
 
@@ -798,13 +811,13 @@ Recieve nano deposits for a camo account with a given seed.
 
 ### Parameters
 
--   `seed` **[string][139]** the seed to use to find the account.
--   `seedIx` **[string][139]** the index to use with the seed.
--   `account` **[string][139]** the camo account to send or recieve from.
--   `sharedSeedIx` **[string][139]** the index to use with the shared seed.
--   `specificPendingBlockHash` **[string][139]** the pending block to recieve.
+-   `seed` **[string][141]** the seed to use to find the account.
+-   `seedIx` **[string][141]** the index to use with the seed.
+-   `account` **[string][141]** the camo account to send or recieve from.
+-   `sharedSeedIx` **[string][141]** the index to use with the shared seed.
+-   `specificPendingBlockHash` **[string][141]** the pending block to recieve.
 
-Returns **[string][139]** the response from receiving the block.
+Returns **[string][141]** the response from receiving the block.
 
 ## getCamoBananoAccountBalanceRaw
 
@@ -812,10 +825,10 @@ gets the total banano account balance, in raw.
 
 ### Parameters
 
--   `toPrivateKey` **[string][139]** the private key that receives the funds.
--   `fromPublicKey` **[string][139]** the public key that sent the funds.
+-   `toPrivateKey` **[string][141]** the private key that receives the funds.
+-   `fromPublicKey` **[string][141]** the public key that sent the funds.
 
-Returns **[string][139]** the account balance, in raw.
+Returns **[string][141]** the account balance, in raw.
 
 ## getCamoNanoAccountBalanceRaw
 
@@ -823,10 +836,10 @@ gets the total nano account balance, in raw.
 
 ### Parameters
 
--   `toPrivateKey` **[string][139]** the private key that receives the funds.
--   `fromPublicKey` **[string][139]** the public key that sent the funds.
+-   `toPrivateKey` **[string][141]** the private key that receives the funds.
+-   `fromPublicKey` **[string][141]** the public key that sent the funds.
 
-Returns **[string][139]** the account balance, in raw.
+Returns **[string][141]** the account balance, in raw.
 
 ## getCamoPublicKey
 
@@ -840,9 +853,9 @@ this is why the derivation is different for the two keys.
 
 ### Parameters
 
--   `privateKey` **[string][139]** the private key.
+-   `privateKey` **[string][141]** the private key.
 
-Returns **[string][139]** the camo public key.
+Returns **[string][141]** the camo public key.
 
 ## getSharedSecret
 
@@ -850,10 +863,10 @@ Gets the shared secret from a camo public key and a private key.
 
 ### Parameters
 
--   `privateKey` **[string][139]** the private key.
--   `publicKey` **[string][139]** the public key.
+-   `privateKey` **[string][141]** the private key.
+-   `publicKey` **[string][141]** the public key.
 
-Returns **[string][139]** the shared secret.
+Returns **[string][141]** the shared secret.
 
 ## getCamoAccount
 
@@ -861,9 +874,9 @@ Get the camo account for a given camo public key.
 
 ### Parameters
 
--   `camoPublicKey` **[string][139]** the camo public key.
+-   `camoPublicKey` **[string][141]** the camo public key.
 
-Returns **[string][139]** the camo account.
+Returns **[string][141]** the camo account.
 
 ## camoBananoGetAccountsPending
 
@@ -871,11 +884,11 @@ get the pending blocks for the camo banano account.
 
 ### Parameters
 
--   `seed` **[string][139]** the seed to use to find the account.
--   `seedIx` **[string][139]** the index to use with the seed.
--   `fromAccount` **[string][139]** the account to recieve from.
--   `sharedSeedIx` **[number][151]** the index to use with the shared seed.
--   `count` **[number][151]** the max count to get.
+-   `seed` **[string][141]** the seed to use to find the account.
+-   `seedIx` **[string][141]** the index to use with the seed.
+-   `fromAccount` **[string][141]** the account to recieve from.
+-   `sharedSeedIx` **[number][153]** the index to use with the shared seed.
+-   `count` **[number][153]** the max count to get.
 
 Returns **string_array** the pending hashes in an array.
 
@@ -885,11 +898,11 @@ get the pending blocks for the camo nano account.
 
 ### Parameters
 
--   `seed` **[string][139]** the seed to use to find the account.
--   `seedIx` **[string][139]** the index to use with the seed.
--   `fromAccount` **[string][139]** the account to recieve from.
--   `sharedSeedIx` **[number][151]** the index to use with the shared seed.
--   `count` **[number][151]** the max count to get.
+-   `seed` **[string][141]** the seed to use to find the account.
+-   `seedIx` **[string][141]** the index to use with the seed.
+-   `fromAccount` **[string][141]** the account to recieve from.
+-   `sharedSeedIx` **[number][153]** the index to use with the shared seed.
+-   `count` **[number][153]** the max count to get.
 
 Returns **string_array** the pending hashes in an array.
 
@@ -899,9 +912,9 @@ returns data on whether a camo account is valid or not, and why.
 
 ### Parameters
 
--   `account` **[string][139]** the account to check.
+-   `account` **[string][141]** the account to check.
 
-Returns **[object][144]** the account validity data.
+Returns **[object][146]** the account validity data.
 
 ## getCamoBananoSharedAccountData
 
@@ -909,12 +922,12 @@ get the banano shared account, used as an intermediary to send finds between the
 
 ### Parameters
 
--   `seed` **[string][139]** the seed to use to find the account.
--   `seedIx` **[string][139]** the index to use with the seed.
--   `account` **[string][139]** the camo account to send or recieve from.
--   `sharedSeedIx` **[string][139]** the index to use with the shared seed.
+-   `seed` **[string][141]** the seed to use to find the account.
+-   `seedIx` **[string][141]** the index to use with the seed.
+-   `account` **[string][141]** the camo account to send or recieve from.
+-   `sharedSeedIx` **[string][141]** the index to use with the shared seed.
 
-Returns **[string][139]** the shared account.
+Returns **[string][141]** the shared account.
 
 ## getCamoNanoSharedAccountData
 
@@ -922,39 +935,39 @@ get the nano shared account, used as an intermediary to send finds between the s
 
 ### Parameters
 
--   `seed` **[string][139]** the seed to use to find the account.
--   `seedIx` **[string][139]** the index to use with the seed.
--   `account` **[string][139]** the camo account to send or recieve from.
--   `sharedSeedIx` **[string][139]** the index to use with the shared seed.
+-   `seed` **[string][141]** the seed to use to find the account.
+-   `seedIx` **[string][141]** the index to use with the seed.
+-   `account` **[string][141]** the camo account to send or recieve from.
+-   `sharedSeedIx` **[string][141]** the index to use with the shared seed.
 
-Returns **[string][139]** the shared account.
+Returns **[string][141]** the shared account.
 
 ## BananoParts
 
-Type: [Object][144]
+Type: [Object][146]
 
 ### Properties
 
--   `banano` **[string][139]** The amount of banano.
--   `banoshi` **[string][139]** The amount of banoshi (not counting whole banano).
--   `raw` **[string][139]** The amount of raw (not counting whole banano and whole banoshi).
+-   `banano` **[string][141]** The amount of banano.
+-   `banoshi` **[string][141]** The amount of banoshi (not counting whole banano).
+-   `raw` **[string][141]** The amount of raw (not counting whole banano and whole banoshi).
 
 ## AccountValidationInfo
 
-Type: [Object][144]
+Type: [Object][146]
 
 ### Properties
 
--   `message` **[string][139]** The message describing why the account is valid or not.
--   `valid` **[boolean][143]** True if account is valid.
+-   `message` **[string][141]** The message describing why the account is valid or not.
+-   `valid` **[boolean][145]** True if account is valid.
 
 ## isCamoAccountValid
 
 ### Parameters
 
--   `camoAccount` **[string][139]** the camo account.
+-   `camoAccount` **[string][141]** the camo account.
 
-Returns **[boolean][143]** true if the camo account is valid.
+Returns **[boolean][145]** true if the camo account is valid.
 
 [1]: #main
 
@@ -1098,162 +1111,166 @@ Returns **[boolean][143]** true if the camo account is valid.
 
 [71]: #parameters-33
 
-[72]: #getaccountvalidationinfo
+[72]: #getbananoaccountvalidationinfo
 
 [73]: #parameters-34
 
-[74]: #depositutil
+[74]: #getnanoaccountvalidationinfo
 
-[75]: #receivenanodepositsforseed
+[75]: #parameters-35
 
-[76]: #parameters-35
+[76]: #depositutil
 
-[77]: #receivebananodepositsforseed
+[77]: #receivenanodepositsforseed
 
 [78]: #parameters-36
 
-[79]: #bananodeapi
+[79]: #receivebananodepositsforseed
 
-[80]: #getaccountbalanceraw
+[80]: #parameters-37
 
-[81]: #parameters-37
+[81]: #bananodeapi
 
-[82]: #getaccounthistory
+[82]: #getaccountbalanceraw
 
 [83]: #parameters-38
 
-[84]: #getaccountinfo
+[84]: #getaccounthistory
 
 [85]: #parameters-39
 
-[86]: #getblockcount
+[86]: #getaccountinfo
 
-[87]: #getaccountspending
+[87]: #parameters-40
 
-[88]: #parameters-40
+[88]: #getblockcount
 
-[89]: #sendbananowithdrawalfromseed
+[89]: #getaccountspending
 
 [90]: #parameters-41
 
-[91]: #sendnanowithdrawalfromseed
+[91]: #sendbananowithdrawalfromseed
 
 [92]: #parameters-42
 
-[93]: #camobananoreceive
+[93]: #sendnanowithdrawalfromseed
 
 [94]: #parameters-43
 
-[95]: #camonanoreceive
+[95]: #camobananoreceive
 
 [96]: #parameters-44
 
-[97]: #getcamobananonextprivatekeyforreceive
+[97]: #camonanoreceive
 
 [98]: #parameters-45
 
-[99]: #getcamonanonextprivatekeyforreceive
+[99]: #getcamobananonextprivatekeyforreceive
 
 [100]: #parameters-46
 
-[101]: #camobananosend
+[101]: #getcamonanonextprivatekeyforreceive
 
 [102]: #parameters-47
 
-[103]: #camonanosend
+[103]: #camobananosend
 
 [104]: #parameters-48
 
-[105]: #camobananosendwithdrawalfromseed
+[105]: #camonanosend
 
 [106]: #parameters-49
 
-[107]: #camonanosendwithdrawalfromseed
+[107]: #camobananosendwithdrawalfromseed
 
 [108]: #parameters-50
 
-[109]: #receivecamobananodepositsforseed
+[109]: #camonanosendwithdrawalfromseed
 
 [110]: #parameters-51
 
-[111]: #receivecamonanodepositsforseed
+[111]: #receivecamobananodepositsforseed
 
 [112]: #parameters-52
 
-[113]: #getcamobananoaccountbalanceraw
+[113]: #receivecamonanodepositsforseed
 
 [114]: #parameters-53
 
-[115]: #getcamonanoaccountbalanceraw
+[115]: #getcamobananoaccountbalanceraw
 
 [116]: #parameters-54
 
-[117]: #getcamopublickey
+[117]: #getcamonanoaccountbalanceraw
 
 [118]: #parameters-55
 
-[119]: #getsharedsecret
+[119]: #getcamopublickey
 
 [120]: #parameters-56
 
-[121]: #getcamoaccount
+[121]: #getsharedsecret
 
 [122]: #parameters-57
 
-[123]: #camobananogetaccountspending
+[123]: #getcamoaccount
 
 [124]: #parameters-58
 
-[125]: #camonanogetaccountspending
+[125]: #camobananogetaccountspending
 
 [126]: #parameters-59
 
-[127]: #getcamoaccountvalidationinfo
+[127]: #camonanogetaccountspending
 
 [128]: #parameters-60
 
-[129]: #getcamobananosharedaccountdata
+[129]: #getcamoaccountvalidationinfo
 
 [130]: #parameters-61
 
-[131]: #getcamonanosharedaccountdata
+[131]: #getcamobananosharedaccountdata
 
 [132]: #parameters-62
 
-[133]: #bananoparts
+[133]: #getcamonanosharedaccountdata
 
-[134]: #properties
+[134]: #parameters-63
 
-[135]: #accountvalidationinfo
+[135]: #bananoparts
 
-[136]: #properties-1
+[136]: #properties
 
-[137]: #iscamoaccountvalid
+[137]: #accountvalidationinfo
 
-[138]: #parameters-63
+[138]: #properties-1
 
-[139]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[139]: #iscamoaccountvalid
 
-[140]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined
+[140]: #parameters-64
 
-[141]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array
+[141]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
 
-[142]: #bananoparts
+[142]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined
 
-[143]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
+[143]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array
 
-[144]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+[144]: #bananoparts
 
-[145]: #accountvalidationinfo
+[145]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
 
-[146]: https://docs.nano.org/commands/rpc-protocol/#accounts_balances
+[146]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
 
-[147]: https://docs.nano.org/commands/rpc-protocol/#account_history
+[147]: #accountvalidationinfo
 
-[148]: https://docs.nano.org/commands/rpc-protocol/#account_info
+[148]: https://docs.nano.org/commands/rpc-protocol/#accounts_balances
 
-[149]: https://docs.nano.org/commands/rpc-protocol/#block_count
+[149]: https://docs.nano.org/commands/rpc-protocol/#account_history
 
-[150]: https://docs.nano.org/commands/rpc-protocol/#accounts_pending
+[150]: https://docs.nano.org/commands/rpc-protocol/#account_info
 
-[151]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
+[151]: https://docs.nano.org/commands/rpc-protocol/#block_count
+
+[152]: https://docs.nano.org/commands/rpc-protocol/#accounts_pending
+
+[153]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number

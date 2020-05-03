@@ -816,7 +816,8 @@
     exports.getWorkUsingCpu = getWorkUsingCpu;
     exports.getZeroedWorkBytes = bananoUtil.getZeroedWorkBytes;
     exports.isWorkValid = bananoUtil.isWorkValid;
-    exports.getAccountValidationInfo = bananoUtil.getAccountValidationInfo;
+    exports.getNanoAccountValidationInfo = bananoUtil.getNanoAccountValidationInfo;
+    exports.getBananoAccountValidationInfo = bananoUtil.getBananoAccountValidationInfo;
     exports.receiveBananoDepositsForSeed = receiveBananoDepositsForSeed;
     exports.receiveNanoDepositsForSeed = receiveNanoDepositsForSeed;
     exports.getRawStrFromBananoStr = getRawStrFromBananoStr;

@@ -79,6 +79,8 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
     }
     xmlhttp.send(body);
   };
+  requestWriter.end = () => {
+  };
   requestWriter.listeners['end'] = () => {
   };
   requestWriter.listeners['data'] = () => {

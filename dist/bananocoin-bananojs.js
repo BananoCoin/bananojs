@@ -100,6 +100,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
       if (this.status == 200) {
         const fn = requestWriter.listeners['data'];
         fn(this.responseText);
+        requestWriter.end();
       } else {
         const fn = requestWriter.listeners['error'];
         const error = {};
@@ -107,6 +108,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
         error.readyState = this.readyState;
         error.status = this.status;
         fn(error);
+        requestWriter.end();
       }
     }
   };

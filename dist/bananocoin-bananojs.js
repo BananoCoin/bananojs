@@ -57,7 +57,7 @@ if (!window.bananocoin.bananojs) {
 }
 window.bananocoin.bananojs.https = {};
 window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallback) => {
-  const LOG_HTTP = true;
+  const LOG_HTTP = false;
   const xmlhttp = new XMLHttpRequest();
   const url = 'https://' + requestOptions.hostname + requestOptions.path;
   xmlhttp.open(requestOptions.method, url, true);

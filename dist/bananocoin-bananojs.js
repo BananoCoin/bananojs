@@ -56,19 +56,19 @@ if (!window.bananocoin.bananojs) {
   window.bananocoin.bananojs = {};
 }
 window.bananocoin.bananojs.https = {};
-window.bananocoin.bananojs.https.request = (url, options, requestWriterCallback) => {
+window.bananocoin.bananojs.https.request = (url, requestOptions, requestWriterCallback) => {
   const LOG_HTTP = false;
   const xmlhttp = new XMLHttpRequest();
-  xmlhttp.open(options.method, url, true);
-  Object.keys(options.headers).forEach((headerName) => {
+  xmlhttp.open(requestOptions.method, url, true);
+  Object.keys(requestOptions.headers).forEach((headerName) => {
     if (headerName == 'Content-Length') {
       // skip unsafe header warning
     } else {
-      const headerValue = options.headers[headerName];
+      const headerValue = requestOptions.headers[headerName];
       xmlhttp.setRequestHeader(headerName, headerValue);
     }
   });
-  xmlhttp.timeout = options.timeout;
+  xmlhttp.timeout = requestOptions.timeout;
 
   const requestWriter = {};
   requestWriter.listeners = {};
@@ -1976,7 +1976,7 @@ window.bananocoin.bananojs.https.request = (url, options, requestWriterCallback)
       const body = JSON.stringify(formData);
       //        console.log( 'sendRequest request', body );
 
-      const options = {
+      const requestOptions = {
         method: 'POST',
         hostname: apiUrl.hostname,
         path: apiUrl.pathname,
@@ -1988,7 +1988,7 @@ window.bananocoin.bananojs.https.request = (url, options, requestWriterCallback)
         timeout: 30000,
       };
 
-      const req = https.request(options, (res) => {
+      const req = https.request(requestOptions, (res) => {
       // console.log(`statusCode: ${res.statusCode}`);
         let chunks = '';
         res.on('data', (chunk) => {

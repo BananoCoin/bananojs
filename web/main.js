@@ -117,7 +117,7 @@ const changeRepresentativeToCamo = async (ix, seed) => {
 const getBanAsCamo = (banAccount) => {
   if (banAccount) {
     // console.log('STARTED getBanAsCamo', banAccount);
-    const publicKey = window.bananocoinBananojs.getBananoAccountPublicKey(banAccount);
+    const publicKey = window.bananocoinBananojs.getAccountPublicKey(banAccount);
     const camoAccount = window.bananocoinBananojs.getCamoAccount(publicKey);
     // console.log('SUCCESS getBanAsCamo', banAccount, camoAccount);
     return camoAccount;

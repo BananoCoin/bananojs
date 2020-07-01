@@ -170,8 +170,8 @@ const setSharedSeed = async () => {
   const account1AsCamo = getBanAsCamo(account1);
   const account2AsCamo = getBanAsCamo(account2);
 
-  const sharedData12 = await window.bananocoinBananojs.getCamoSharedAccountData(seed1, 0, account2AsCamo, 0);
-  const sharedData21 = await window.bananocoinBananojs.getCamoSharedAccountData(seed2, 0, account1AsCamo, 0);
+  const sharedData12 = await window.bananocoinBananojs.getCamoBananoSharedAccountData(seed1, 0, account2AsCamo, 0);
+  const sharedData21 = await window.bananocoinBananojs.getCamoBananoSharedAccountData(seed2, 0, account1AsCamo, 0);
 
   if (sharedData12.sharedSeed == sharedData21.sharedSeed) {
     const seed3Elt = document.getElementById('seed3');

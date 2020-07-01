@@ -1,6 +1,6 @@
-//bananocoin-bananojs.js
-//version 2.0.8
-//license MIT
+// bananocoin-bananojs.js
+// version 2.0.8
+// license MIT
 const require = (modname) => {
   if (typeof BigInt === 'undefined') {
     return;
@@ -59,7 +59,7 @@ window.bananocoin.bananojs.https = {};
 window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallback) => {
   const LOG_HTTP = false;
   const xmlhttp = new XMLHttpRequest();
-  const url = apiUrl.hostname + ':' + apiUrl.port + apiUrl.pathname;
+  const url = 'https://' + requestOptions.hostname + ':' + requestOptions.port + requestOptions.path;
   xmlhttp.open(requestOptions.method, url, true);
   Object.keys(requestOptions.headers).forEach((headerName) => {
     if (headerName == 'Content-Length') {

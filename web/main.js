@@ -1,12 +1,12 @@
-// const url = 'https://kaliumapi.appditto.com/api';
-const url = 'https://jungle.coranos.cc/api';
+const url = 'https://kaliumapi.appditto.com/api';
+// const url = 'https://jungle.coranos.cc/api';
 const maxHistory = 2;
 const maxPending = 2;
 
 const getNewSeed = async (ix) => {
   const seedBytes = new Uint8Array(32);
   window.crypto.getRandomValues(seedBytes);
-  const seed = window.bananoUtil.bytesToHex(seedBytes);
+  const seed = window.bananocoinBananojs.bananoUtil.bytesToHex(seedBytes);
   document.getElementById('seed' + ix).value = seed;
   getAccountHistoryAndPending(ix);
   return false;

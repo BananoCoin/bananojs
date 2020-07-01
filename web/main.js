@@ -1,5 +1,5 @@
-const url = 'https://kaliumapi.appditto.com/api';
-// const url = 'https://jungle.coranos.cc/api';
+// const url = 'https://kaliumapi.appditto.com/api';
+const url = 'https://jungle.coranos.cc/api';
 const maxHistory = 2;
 const maxPending = 2;
 

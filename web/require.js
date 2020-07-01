@@ -53,19 +53,20 @@ if (!window.bananocoin.bananojs) {
   window.bananocoin.bananojs = {};
 }
 window.bananocoin.bananojs.https = {};
-window.bananocoin.bananojs.https.request = (url, options, requestWriterCallback) => {
+window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallback) => {
   const LOG_HTTP = false;
   const xmlhttp = new XMLHttpRequest();
-  xmlhttp.open(options.method, url, true);
-  Object.keys(options.headers).forEach((headerName) => {
+  const url = 'https://' + requestOptions.hostname + requestOptions.path;
+  xmlhttp.open(requestOptions.method, url, true);
+  Object.keys(requestOptions.headers).forEach((headerName) => {
     if (headerName == 'Content-Length') {
       // skip unsafe header warning
     } else {
-      const headerValue = options.headers[headerName];
+      const headerValue = requestOptions.headers[headerName];
       xmlhttp.setRequestHeader(headerName, headerValue);
     }
   });
-  xmlhttp.timeout = options.timeout;
+  xmlhttp.timeout = requestOptions.timeout;
 
   const requestWriter = {};
   requestWriter.listeners = {};
@@ -76,7 +77,8 @@ window.bananocoin.bananojs.https.request = (url, options, requestWriterCallback)
     xmlhttp.send(body);
   };
   requestWriter.end = () => {
-
+  };
+  requestWriter.listeners['end'] = () => {
   };
   requestWriter.listeners['data'] = () => {
   };
@@ -88,6 +90,11 @@ window.bananocoin.bananojs.https.request = (url, options, requestWriterCallback)
 
   requestWriterCallback(requestWriter);
 
+  const end = () => {
+    const endFn = requestWriter.listeners['end'];
+    endFn();
+  };
+
   xmlhttp.onreadystatechange = function() {
     if (this.readyState == 4) {
       if (LOG_HTTP) {
@@ -96,6 +103,7 @@ window.bananocoin.bananojs.https.request = (url, options, requestWriterCallback)
       if (this.status == 200) {
         const fn = requestWriter.listeners['data'];
         fn(this.responseText);
+        end();
       } else {
         const fn = requestWriter.listeners['error'];
         const error = {};
@@ -103,6 +111,7 @@ window.bananocoin.bananojs.https.request = (url, options, requestWriterCallback)
         error.readyState = this.readyState;
         error.status = this.status;
         fn(error);
+        end();
       }
     }
   };

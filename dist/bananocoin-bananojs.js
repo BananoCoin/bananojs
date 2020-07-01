@@ -1,6 +1,6 @@
-// bananocoin-bananojs.js
-// version 2.0.8
-// license MIT
+//bananocoin-bananojs.js
+//version 2.0.9
+//license MIT
 const require = (modname) => {
   if (typeof BigInt === 'undefined') {
     return;
@@ -96,7 +96,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
   const end = () => {
     const endFn = requestWriter.listeners['end'];
     endFn();
-  }
+  };
 
   xmlhttp.onreadystatechange = function() {
     if (this.readyState == 4) {
@@ -1985,7 +1985,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
       const body = JSON.stringify(formData);
       //        console.log( 'sendRequest request', body );
 
-      const requestOptions = {
+      const options = {
         method: 'POST',
         hostname: apiUrl.hostname,
         path: apiUrl.pathname,
@@ -1997,7 +1997,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
         timeout: 30000,
       };
 
-      const req = https.request(requestOptions, (res) => {
+      const req = https.request(options, (res) => {
       // console.log(`statusCode: ${res.statusCode}`);
         let chunks = '';
         res.on('data', (chunk) => {

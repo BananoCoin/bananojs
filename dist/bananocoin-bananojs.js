@@ -59,7 +59,7 @@ window.bananocoin.bananojs.https = {};
 window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallback) => {
   const LOG_HTTP = false;
   const xmlhttp = new XMLHttpRequest();
-  const url = 'https://' + requestOptions.hostname + ':' + requestOptions.port + requestOptions.path;
+  const url = 'https://' + requestOptions.hostname + requestOptions.path;
   xmlhttp.open(requestOptions.method, url, true);
   Object.keys(requestOptions.headers).forEach((headerName) => {
     if (headerName == 'Content-Length') {

@@ -79,8 +79,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
     }
     xmlhttp.send(body);
   };
-  requestWriter.end = () => {
-
+  requestWriter.listeners['end'] = () => {
   };
   requestWriter.listeners['data'] = () => {
   };
@@ -92,6 +91,11 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
 
   requestWriterCallback(requestWriter);
 
+  const end = () => {
+    const endFn = requestWriter.listeners['end'];
+    endFn();
+  }
+
   xmlhttp.onreadystatechange = function() {
     if (this.readyState == 4) {
       if (LOG_HTTP) {
@@ -100,7 +104,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
       if (this.status == 200) {
         const fn = requestWriter.listeners['data'];
         fn(this.responseText);
-        requestWriter.end();
+        end();
       } else {
         const fn = requestWriter.listeners['error'];
         const error = {};
@@ -108,7 +112,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
         error.readyState = this.readyState;
         error.status = this.status;
         fn(error);
-        requestWriter.end();
+        end();
       }
     }
   };

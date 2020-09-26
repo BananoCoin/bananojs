@@ -9,8 +9,7 @@ const expect = chai.expect;
 
 const ed25519_pkcs8_der_prefix = '302e020100300506032b657004220420';
 
-const ed25519_spki_der_prefix = '302a300506032b6570032100';
-
+const ed25519_SubjectPublicKeyInfo_der_prefix = '302a300506032b6570032100';
 
 const signAndVerify = (privateKeyObj, publicKeyObj, hash) => {
   const signature = crypto.sign(undefined, hash, privateKeyObj);
@@ -22,6 +21,16 @@ const signAndVerify = (privateKeyObj, publicKeyObj, hash) => {
 const privateToDer = (privateKeyHex) => {
   const derHex = `${ed25519_pkcs8_der_prefix}${privateKeyHex}`;
   return Buffer.from(derHex, 'hex');
+};
+
+const publicToDer = (publicKeyHex) => {
+  const derHex = `${ed25519_SubjectPublicKeyInfo_der_prefix}${publicKeyHex}`;
+  return Buffer.from(derHex, 'hex');
+};
+
+const publicKeyHexToObject = (publicKeyHex) => {
+  const publicKeyObject = crypto.createPublicKey( {key: publicToDer(publicKeyHex), format: 'der', type: 'spki'} );
+  return publicKeyObject;
 };
 
 const privateKeyHexToObject = (privateKeyHex) => {
@@ -41,7 +50,34 @@ const privateKeyObjecToHex = (privateKeyObj) => {
 
 const publicKeyObjecToHex = (publicKeyObj) => {
   const publicKey = publicKeyObj.export({type: 'spki', format: 'der'}).toString('hex');
-  return publicKey;
+  expect(publicKey.length).to.equal(88);
+  const publicKeyPrefix = publicKey.slice(0, ed25519_SubjectPublicKeyInfo_der_prefix.length);
+  expect(publicKeyPrefix).to.equal(ed25519_SubjectPublicKeyInfo_der_prefix);
+  const publicKeyHex = publicKey.slice(ed25519_SubjectPublicKeyInfo_der_prefix.length);
+  expect(publicKeyHex.length).to.equal(64);
+  return publicKeyHex;
+};
+
+const sumPoints = (hex0, hex1) => {
+  const r0 = hex0.slice(0, 32);
+  const s0 = hex0.slice(32);
+  const r1 = hex1.slice(0, 32);
+  const s1 = hex1.slice(32);
+  const sumr = sumScalars(r0, r1);
+  const sums = sumScalars(s0, s1);
+  return sumr + sums;
+};
+
+const sumScalars = (hex0, hex1) => {
+  const size = Math.max(hex0.length, hex1.length);
+  const bi0 = BigInt('0x' + hex0);
+  const bi1 = BigInt('0x' + hex1);
+  const biSum = bi0 + bi1;
+  let sumHex = biSum.toString(16);
+  while (sumHex.length < size) {
+    sumHex = '0' + sumHex;
+  }
+  return sumHex;
 };
 
 describe('split-key', () => {
@@ -55,7 +91,7 @@ describe('split-key', () => {
     expect(privateKeyHex.length).to.equal(64);
   }),
   it.only('test split key', () => {
-    const privateKey0 = '0000000000000000000000000000000000000000000000000000000000000000';
+    const privateKey0 = '2222222222222222222222222222222222222222222222222222222222222222';
     const privateKey1 = '1111111111111111111111111111111111111111111111111111111111111111';
 
     const privateKeyObj0 = privateKeyHexToObject(privateKey0);
@@ -64,15 +100,35 @@ describe('split-key', () => {
     console.log('privateKeyObj1', privateKeyObjecToHex(privateKeyObj1));
 
     const publicKeyObj0 = crypto.createPublicKey(privateKeyObj0);
-    console.log('publicKeyObj0', publicKeyObjecToHex(publicKeyObj0));
+    const publicKeyObjHex0 = publicKeyObjecToHex(publicKeyObj0);
+    console.log('publicKeyObj0', publicKeyObjHex0.length, publicKeyObjHex0);
+
     const publicKeyObj1 = crypto.createPublicKey(privateKeyObj1);
-    console.log('publicKeyObj1', publicKeyObjecToHex(publicKeyObj1));
+    const publicKeyObjHex1 = publicKeyObjecToHex(publicKeyObj1);
+    console.log('publicKeyObj1', publicKeyObjHex1.length, publicKeyObjHex1);
 
     const message = Buffer.from('00', 'hex');
     const verify0 = signAndVerify(privateKeyObj0, publicKeyObj0, message);
     console.log('verify0', verify0);
     const verify1 = signAndVerify(privateKeyObj1, publicKeyObj1, message);
     console.log('verify1', verify1);
+
+    const privateKey2 = sumScalars(privateKey0, privateKey1);
+    console.log('privateKey2', privateKey2.length, privateKey2);
+    const privateKeyObj2 = privateKeyHexToObject(privateKey2);
+    console.log('privateKeyObj2', privateKeyObjecToHex(privateKeyObj2));
+    const privateKeyObj2Public = crypto.createPublicKey(privateKeyObj2);
+    const privateKeyObj2PublicHex = publicKeyObjecToHex(privateKeyObj2Public);
+    console.log('privateKeyObj2Public', privateKeyObj2PublicHex.length, privateKeyObj2PublicHex);
+
+    const publicKey2 = sumPoints(publicKeyObjHex0, publicKeyObjHex1);
+    console.log('publicKey2----------', publicKey2.length, publicKey2);
+    const publicKeyObj2 = publicKeyHexToObject(publicKey2);
+    const publicKeyObjHex2 = publicKeyObjecToHex(publicKeyObj2);
+    console.log('publicKeyObj2-------', publicKeyObjHex2.length, publicKeyObjHex2);
+
+    const verify2 = signAndVerify(privateKeyObj2, publicKeyObj2, message);
+    console.log('verify2', verify2);
   });
 
   beforeEach(async () => {
@@ -81,47 +137,29 @@ describe('split-key', () => {
   afterEach(async () => {
   });
 });
+// based on https://bitcointalk.org/index.php?topic=81865.msg901491#msg901491
+/*
+It works like this:
 
+1) You generate a random 256-bit integer less than the SECP256k1 generator. You keep this secret. (Effectively, an ECDSA private key.)
 
-// > secret = scalar(rand())
-// scalar(0xfffa1da85206e1b977e4eaa21460bdf220856254607513409f3734d10d7c030d)
-//
-// > point(secret)
-// point(0xc79a62c82a5b5eb42f44b907a00a6a3223b906ec5fb27a7e0cbf582a5d9b3439)
-//
-// # in PlasmaPower/nano-vanity now
-// $ cargo run 1abcd --public-offset c79a62c82a5b5eb42f44b907a00a6a3223b906ec5fb27a7e0cbf582a5d9b3439
-// Found matching account!
-// Extended private key: 2473C0360A3BAEDDB3154BE54BDC34C0D0AB6D1EC2DAF31E17BF7441B7EE3491
-// Account:              xrb_1abcdgy8p64nj6fcretqe4ej1fuz46qqp4cj8cdqcoxinofjs1z7j77fmtrt
-//
-// # back to this REPL
-// > skey = secret + scalar(0x2473C0360A3BAEDDB3154BE54BDC34C0D0AB6D1EC2DAF31E17BF7441B7EE3491)
-// scalar(0xcefa399a6fc5e97ea27681cd8c731bf7f030d0722250075fb6f6a812c56a380e)
-//
-// > pk = point(scalar(skey))
-// point(0x212a5bbc6b1054891aac3357609910377f112f7b095132977557b0a55b1c83e5)
-//
-// > nano_account_encode(pk)
-// "xrb_1abcdgy8p64nj6fcretqe4ej1fuz46qqp4cj8cdqcoxinofjs1z7j77fmtrt"
-//
-// > r = scalar(rand())
-// scalar(0xfe697ea299ff1e7e4eb2e1f940c9a41b93ebc9301c9b561e2c9fc7a75bea4300)
-//
-// > R = point(r)
-// point(0xeefb043ab48d6765b565a6fb97b7026a9e3fd4e9aaa71bc55ab96c410002136a)
-//
-// > hash = nano_block_hash!({"type":"open","source":"B0311EA55708D6A53C75CDBF88300259C6D018522FE3D4D0A242E431F9E8B6D0","representative":"xrb_3e3j5tkog48pnny9dmfzj1r16pg8t1e76dz5tmac6iq689wyjfpiij4txtdo","account":"xrb_3e3j5tkog48pnny9dmfzj1r16pg8t1e76dz5tmac6iq689wyjfpiij4txtdo"})
-// 0x04270d7f11c4b2b472f2854c5a59f2a7e84226ce9ed799de75744bd7d85fc9d9
-//
-// > hram = scalar(blake2b(bytes(R) + bytes(pk) + hash))
-// scalar(0x8c37f7ed8dda106eacedb273cb4c4be74a56ec33a8b16b268f4bfb36152e1407)
-//
-// > s = r + hram * skey
-// scalar(0x5089b75958e37a21e18f8f995fb30c50c491f71a1805b8d208aa6cb90809b103)
-//
-// > sig = bytes(R) + bytes(s)
-// 0xeefb043ab48d6765b565a6fb97b7026a9e3fd4e9aaa71bc55ab96c410002136a5089b75958e37a21e18f8f995fb30c50c491f71a1805b8d208aa6cb90809b103
-//
-// > ed25519_validate(pk, hash, sig, "blake2b")
-// true
+2) You compute the corresponding EC point on the SECP256k1 curve. You share this with whoever is finding the vanity address for you. (This is the ECDSA public key that corresponds to the private key you generated in step one.)
+
+3) The person working out the vanity address for you tries various 256-bit integers also less than the SECP256k1 generator. They compute the corresponding EC point and add it to the EC point you sent them (from step two). They then hash this and see if it produces the desired vanity address. They repeat this over and over until they find a 256-bit integer that works. They give this integer to you. (And the world, it need not be kept secret.)
+
+4) You add the 256-bit integer they found to the 256-bit integer you generated in step 1 and reduce it modulo the SECP256k1 generator.
+
+5) You now have the private key, and they don't. (And you can prove that they cannot generate the private key from just the information you gave them unless ECDSA is fundamentally broken.)
+
+In ECDSA, you convert a private key to a public key by multiplying by the generator. Division is impossible.
+
+The vanity address generation scheme above works because: (A+B)*G = AG + BG
+
+You generate A and AG, but give them only AG.
+
+They try various different B's, calculating the AG+BG for each one to find the right one for the vanity address.
+
+They give you B. You can now compute A+B (the secret key corresponding to the public key AG+BG) but nobody else can since they do not know A.
+
+Computing A from AG would mean breaking ECDSA fundamentally. All you gave them is AG, an ECDSA public key. If they could figure out the private key to your new account (A+B), they could also figure out A. So if they could figure out the private key to your vanity account, they could also figure out the private key you created in step 1. But all you gave them was the corresponding public key. So any compromise of the vanity account would mean they could compromise a private key given only its corresponding public key.
+*/

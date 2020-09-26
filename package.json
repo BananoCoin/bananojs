@@ -28,6 +28,7 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "documentation": "^13.0.2",
+    "elliptic": "^6.5.3",
     "eslint": "^7.8.1",
     "eslint-config-google": "^0.14.0",
     "mocha": "^8.1.3",

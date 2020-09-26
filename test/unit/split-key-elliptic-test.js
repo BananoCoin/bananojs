@@ -2,7 +2,8 @@
 
 // libraries
 const chai = require('chai');
-const crypto = require('crypto');
+const EdDSA = require('elliptic').eddsa;
+const ed25519 = new EdDSA('ed25519');
 
 // modules
 const expect = chai.expect;
@@ -12,66 +13,51 @@ const ed25519_pkcs8_der_prefix = '302e020100300506032b657004220420';
 const ed25519_SubjectPublicKeyInfo_der_prefix = '302a300506032b6570032100';
 
 const signAndVerify = (privateKeyObj, publicKeyObj, hash) => {
-  const signature = crypto.sign(undefined, hash, privateKeyObj);
+  const signature = privateKeyObj.sign(hash);
   const signatureHex = signature.toString('hex');
-  const verified = crypto.verify(undefined, hash, publicKeyObj, Buffer.from(signatureHex, 'hex'));
+  const verified = publicKeyObj.verify(hash, signature);
   return verified;
 };
 
-const privateToDer = (privateKeyHex) => {
-  const derHex = `${ed25519_pkcs8_der_prefix}${privateKeyHex}`;
-  return Buffer.from(derHex, 'hex');
-};
-
-const publicToDer = (publicKeyHex) => {
-  const derHex = `${ed25519_SubjectPublicKeyInfo_der_prefix}${publicKeyHex}`;
-  return Buffer.from(derHex, 'hex');
-};
 
 const publicKeyHexToObject = (publicKeyHex) => {
-  const publicKeyObject = crypto.createPublicKey( {key: publicToDer(publicKeyHex), format: 'der', type: 'spki'} );
+  const publicKeyObject = ed25519.keyFromPublic(publicKeyHex, 'hex');
   return publicKeyObject;
 };
 
 const privateKeyHexToObject = (privateKeyHex) => {
-  const privateKeyObject = crypto.createPrivateKey( {key: privateToDer(privateKeyHex), format: 'der', type: 'pkcs8'} );
+  const privateKeyObject = ed25519.keyFromSecret(privateKeyHex, 'hex');
   return privateKeyObject;
 };
 
 const privateKeyObjecToHex = (privateKeyObj) => {
-  const privateKey = privateKeyObj.export({type: 'pkcs8', format: 'der'}).toString('hex');
-  expect(privateKey.length).to.equal(96);
-  const privateKeyPrefix = privateKey.slice(0, ed25519_pkcs8_der_prefix.length);
-  expect(privateKeyPrefix).to.equal(ed25519_pkcs8_der_prefix);
-  const privateKeyHex = privateKey.slice(ed25519_pkcs8_der_prefix.length);
-  expect(privateKeyHex.length).to.equal(64);
-  return privateKeyHex;
+  const privateKey = Buffer.from(privateKeyObj.privBytes()).toString('hex');
+  expect(privateKey.length).to.equal(64);
+  return privateKey;
 };
 
 const publicKeyObjecToHex = (publicKeyObj) => {
-  const publicKey = publicKeyObj.export({type: 'spki', format: 'der'}).toString('hex');
-  expect(publicKey.length).to.equal(88);
-  const publicKeyPrefix = publicKey.slice(0, ed25519_SubjectPublicKeyInfo_der_prefix.length);
-  expect(publicKeyPrefix).to.equal(ed25519_SubjectPublicKeyInfo_der_prefix);
-  const publicKeyHex = publicKey.slice(ed25519_SubjectPublicKeyInfo_der_prefix.length);
-  expect(publicKeyHex.length).to.equal(64);
-  return publicKeyHex;
+  const publicKey = Buffer.from(publicKeyObj.pubBytes()).toString('hex');
+  expect(publicKey.length).to.equal(64);
+  return publicKey;
 };
 
 const sumPoints = (hex0, hex1) => {
-  const r0 = hex0.slice(0, 32);
-  const s0 = hex0.slice(32);
-  const r1 = hex1.slice(0, 32);
-  const s1 = hex1.slice(32);
-  const sumr = sumScalars(r0, r1);
-  const sums = sumScalars(s0, s1);
-  return sumr + sums;
+  const publicKeyObj0 = ed25519.decodePoint(publicKeyHexToObject(hex0).pubBytes());
+  const publicKeyObj1 = ed25519.decodePoint(publicKeyHexToObject(hex1).pubBytes());
+  const publicKeyObjSum = publicKeyObj0.add(publicKeyObj1);
+  const publicKeySum = ed25519.keyFromPublic(publicKeyObjSum);
+  const hexsum = publicKeyObjecToHex(publicKeySum);
+  return hexsum;
 };
 
 const sumScalars = (hex0, hex1) => {
   const size = Math.max(hex0.length, hex1.length);
-  const bi0 = BigInt('0x' + hex0);
-  const bi1 = BigInt('0x' + hex1);
+  const privateKeyObject0 = privateKeyHexToObject(hex0);
+  const privateKeyObject1 = privateKeyHexToObject(hex1);
+
+  const bi0 = BigInt('0x' + privateKeyObjecToHex(privateKeyObject0));
+  const bi1 = BigInt('0x' + privateKeyObjecToHex(privateKeyObject1));
   const biSum = bi0 + bi1;
   let sumHex = biSum.toString(16);
   while (sumHex.length < size) {
@@ -80,18 +66,13 @@ const sumScalars = (hex0, hex1) => {
   return sumHex;
 };
 
+const publicKeyHexFromPrivateKeyObj = (privateKeyObj) => {
+  return Buffer.from(privateKeyObj.pubBytes()).toString('hex');
+};
+
 describe('split-key', () => {
-  it.only('test ed25519 key', () => {
-    const keyObject = crypto.generateKeyPairSync('ed25519', {privateKeyEncoding: {type: 'pkcs8', format: 'der'}, namedCurve: 'ed25519'});
-    const privateKey = keyObject.privateKey.toString('hex');
-    expect(privateKey.length).to.equal(96);
-    const privateKeyPrefix = privateKey.slice(0, ed25519_pkcs8_der_prefix.length);
-    expect(privateKeyPrefix).to.equal(ed25519_pkcs8_der_prefix);
-    const privateKeyHex = privateKey.slice(ed25519_pkcs8_der_prefix.length);
-    expect(privateKeyHex.length).to.equal(64);
-  }),
   it.only('test split key', () => {
-    const privateKey0 = '2222222222222222222222222222222222222222222222222222222222222222';
+    const privateKey0 = '1111111111111111111111111111111111111111111111111111111111111112';
     const privateKey1 = '1111111111111111111111111111111111111111111111111111111111111111';
 
     const privateKeyObj0 = privateKeyHexToObject(privateKey0);
@@ -99,11 +80,11 @@ describe('split-key', () => {
     const privateKeyObj1 = privateKeyHexToObject(privateKey1);
     console.log('privateKeyObj1', privateKeyObjecToHex(privateKeyObj1));
 
-    const publicKeyObj0 = crypto.createPublicKey(privateKeyObj0);
+    const publicKeyObj0 = publicKeyHexToObject(publicKeyHexFromPrivateKeyObj(privateKeyObj0));
     const publicKeyObjHex0 = publicKeyObjecToHex(publicKeyObj0);
     console.log('publicKeyObj0', publicKeyObjHex0.length, publicKeyObjHex0);
 
-    const publicKeyObj1 = crypto.createPublicKey(privateKeyObj1);
+    const publicKeyObj1 = publicKeyHexToObject(publicKeyHexFromPrivateKeyObj(privateKeyObj1));
     const publicKeyObjHex1 = publicKeyObjecToHex(publicKeyObj1);
     console.log('publicKeyObj1', publicKeyObjHex1.length, publicKeyObjHex1);
 
@@ -117,7 +98,7 @@ describe('split-key', () => {
     console.log('privateKey2', privateKey2.length, privateKey2);
     const privateKeyObj2 = privateKeyHexToObject(privateKey2);
     console.log('privateKeyObj2', privateKeyObjecToHex(privateKeyObj2));
-    const privateKeyObj2Public = crypto.createPublicKey(privateKeyObj2);
+    const privateKeyObj2Public = publicKeyHexToObject(publicKeyHexFromPrivateKeyObj(privateKeyObj2));
     const privateKeyObj2PublicHex = publicKeyObjecToHex(privateKeyObj2Public);
     console.log('privateKeyObj2Public', privateKeyObj2PublicHex.length, privateKeyObj2PublicHex);
 

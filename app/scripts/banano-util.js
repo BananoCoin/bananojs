@@ -487,14 +487,14 @@
     const signed = nacl.sign.detached(hashBytes, privateKeyBytes);
     const signature = bytesToHex(signed);
     return signature;
-  }
+  };
 
   const verify = (hash, signature, publicKey) => {
     const hashBytes = hexToBytes(hash);
     const signatureBytes = hexToBytes(signature);
     const publicKeyBytes = hexToBytes(publicKey);
     return nacl.sign.detached.verify(hashBytes, signatureBytes, publicKeyBytes);
-  }
+  };
 
   const sign = (privateKey, block) => {
     return signHash(privateKey, hash(block));

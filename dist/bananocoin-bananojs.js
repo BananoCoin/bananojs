@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.0.11
+//version 2.0.12
 //license MIT
 const require = (modname) => {
   if (typeof BigInt === 'undefined') {
@@ -2884,9 +2884,9 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
     return uint4;
   };
 
-  const sign = (privateKey, block) => {
+  const signHash = (privateKey, hash) => {
   //    console.log( `sign ${JSON.stringify( block )}` );
-    const hashBytes = hexToBytes(hash(block));
+    const hashBytes = hexToBytes(hash);
     //    console.log( `hashBytes[${hashBytes.length}]:${hashBytes}` );
 
     const privateKeyBytes = hexToBytes(privateKey);
@@ -2895,6 +2895,17 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
     const signed = nacl.sign.detached(hashBytes, privateKeyBytes);
     const signature = bytesToHex(signed);
     return signature;
+  };
+
+  const verify = (hash, signature, publicKey) => {
+    const hashBytes = hexToBytes(hash);
+    const signatureBytes = hexToBytes(signature);
+    const publicKeyBytes = hexToBytes(publicKey);
+    return nacl.sign.detached.verify(hashBytes, signatureBytes, publicKeyBytes);
+  };
+
+  const sign = (privateKey, block) => {
+    return signHash(privateKey, hash(block));
   };
 
   const generateAccountKeyPair = (accountSecretKeyBytes) => {
@@ -3614,6 +3625,8 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
     exports.getPrivateKey = getPrivateKey;
     exports.hash = hash;
     exports.sign = sign;
+    exports.signHash = signHash;
+    exports.verify = verify;
     exports.getAccountPublicKey = getAccountPublicKey;
     exports.send = send;
     exports.getHashCPUWorker = getHashCPUWorker;
@@ -4942,6 +4955,32 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
 
 
   /**
+ * signs a hash.
+ *
+ * @memberof BananoUtil
+ * @param {string} privateKey the private key to use to sign.
+ * @param {string} hash the hash to sign.
+ * @return {string} the block's hash.
+ */
+  const signHash = (privateKey, hash) => {
+    return bananoUtil.signHash(privateKey, hash);
+  };
+
+
+  /**
+ * verifys a hash.
+ *
+ * @memberof BananoUtil
+ * @param {string} hash the hash to verify.
+ * @param {string} signature the signature to verify.
+ * @param {string} publicKey the public key to use to sign.
+ * @return {string} true if verification passed.
+ */
+  const verify = (hash, signature, publicKey) => {
+    return bananoUtil.verify(hash, signature, publicKey);
+  };
+
+  /**
  * Get the signature for a given block (gets the hash of the block, and signs the hash).
  *
  * @memberof BananoUtil
@@ -5414,6 +5453,8 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
     exports.changeBananoRepresentativeForSeed = changeBananoRepresentativeForSeed;
     exports.changeNanoRepresentativeForSeed = changeNanoRepresentativeForSeed;
     exports.getSignature = getSignature;
+    exports.signHash = signHash;
+    exports.verify = verify;
     exports.getBytesFromHex = getBytesFromHex;
     exports.getWorkUsingCpu = getWorkUsingCpu;
     exports.getZeroedWorkBytes = bananoUtil.getZeroedWorkBytes;

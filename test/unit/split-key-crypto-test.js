@@ -7,9 +7,9 @@ const crypto = require('crypto');
 // modules
 const expect = chai.expect;
 
-const ed25519_pkcs8_der_prefix = '302e020100300506032b657004220420';
+const ed25519Pkcs8DerPrefix = '302e020100300506032b657004220420';
 
-const ed25519_SubjectPublicKeyInfo_der_prefix = '302a300506032b6570032100';
+const ed25519SubjectPublicKeyInfoDerPrefix = '302a300506032b6570032100';
 
 const signAndVerify = (privateKeyObj, publicKeyObj, hash) => {
   const signature = crypto.sign(undefined, hash, privateKeyObj);
@@ -19,12 +19,12 @@ const signAndVerify = (privateKeyObj, publicKeyObj, hash) => {
 };
 
 const privateToDer = (privateKeyHex) => {
-  const derHex = `${ed25519_pkcs8_der_prefix}${privateKeyHex}`;
+  const derHex = `${ed25519Pkcs8DerPrefix}${privateKeyHex}`;
   return Buffer.from(derHex, 'hex');
 };
 
 const publicToDer = (publicKeyHex) => {
-  const derHex = `${ed25519_SubjectPublicKeyInfo_der_prefix}${publicKeyHex}`;
+  const derHex = `${ed25519SubjectPublicKeyInfoDerPrefix}${publicKeyHex}`;
   return Buffer.from(derHex, 'hex');
 };
 
@@ -41,9 +41,9 @@ const privateKeyHexToObject = (privateKeyHex) => {
 const privateKeyObjecToHex = (privateKeyObj) => {
   const privateKey = privateKeyObj.export({type: 'pkcs8', format: 'der'}).toString('hex');
   expect(privateKey.length).to.equal(96);
-  const privateKeyPrefix = privateKey.slice(0, ed25519_pkcs8_der_prefix.length);
-  expect(privateKeyPrefix).to.equal(ed25519_pkcs8_der_prefix);
-  const privateKeyHex = privateKey.slice(ed25519_pkcs8_der_prefix.length);
+  const privateKeyPrefix = privateKey.slice(0, ed25519Pkcs8DerPrefix.length);
+  expect(privateKeyPrefix).to.equal(ed25519Pkcs8DerPrefix);
+  const privateKeyHex = privateKey.slice(ed25519Pkcs8DerPrefix.length);
   expect(privateKeyHex.length).to.equal(64);
   return privateKeyHex;
 };
@@ -51,9 +51,9 @@ const privateKeyObjecToHex = (privateKeyObj) => {
 const publicKeyObjecToHex = (publicKeyObj) => {
   const publicKey = publicKeyObj.export({type: 'spki', format: 'der'}).toString('hex');
   expect(publicKey.length).to.equal(88);
-  const publicKeyPrefix = publicKey.slice(0, ed25519_SubjectPublicKeyInfo_der_prefix.length);
-  expect(publicKeyPrefix).to.equal(ed25519_SubjectPublicKeyInfo_der_prefix);
-  const publicKeyHex = publicKey.slice(ed25519_SubjectPublicKeyInfo_der_prefix.length);
+  const publicKeyPrefix = publicKey.slice(0, ed25519SubjectPublicKeyInfoDerPrefix.length);
+  expect(publicKeyPrefix).to.equal(ed25519SubjectPublicKeyInfoDerPrefix);
+  const publicKeyHex = publicKey.slice(ed25519SubjectPublicKeyInfoDerPrefix.length);
   expect(publicKeyHex.length).to.equal(64);
   return publicKeyHex;
 };
@@ -85,9 +85,9 @@ describe('split-key-crypto', () => {
     const keyObject = crypto.generateKeyPairSync('ed25519', {privateKeyEncoding: {type: 'pkcs8', format: 'der'}, namedCurve: 'ed25519'});
     const privateKey = keyObject.privateKey.toString('hex');
     expect(privateKey.length).to.equal(96);
-    const privateKeyPrefix = privateKey.slice(0, ed25519_pkcs8_der_prefix.length);
-    expect(privateKeyPrefix).to.equal(ed25519_pkcs8_der_prefix);
-    const privateKeyHex = privateKey.slice(ed25519_pkcs8_der_prefix.length);
+    const privateKeyPrefix = privateKey.slice(0, ed25519Pkcs8DerPrefix.length);
+    expect(privateKeyPrefix).to.equal(ed25519Pkcs8DerPrefix);
+    const privateKeyHex = privateKey.slice(ed25519Pkcs8DerPrefix.length);
     expect(privateKeyHex.length).to.equal(64);
   }),
   it('test split key', () => {
@@ -95,8 +95,10 @@ describe('split-key-crypto', () => {
     const privateKey1 = '1111111111111111111111111111111111111111111111111111111111111111';
 
     const privateKeyObj0 = privateKeyHexToObject(privateKey0);
+    expect(privateKey0).to.deep.equal(privateKeyObjecToHex(privateKeyObj0));
     // console.log('privateKeyObj0', privateKeyObjecToHex(privateKeyObj0));
     const privateKeyObj1 = privateKeyHexToObject(privateKey1);
+    expect(privateKey1).to.deep.equal(privateKeyObjecToHex(privateKeyObj1));
     // console.log('privateKeyObj1', privateKeyObjecToHex(privateKeyObj1));
 
     const publicKeyObj0 = crypto.createPublicKey(privateKeyObj0);
@@ -109,8 +111,10 @@ describe('split-key-crypto', () => {
 
     const message = Buffer.from('00', 'hex');
     const verify0 = signAndVerify(privateKeyObj0, publicKeyObj0, message);
+    expect(true).to.deep.equal(verify0);
     // console.log('verify0', verify0);
     const verify1 = signAndVerify(privateKeyObj1, publicKeyObj1, message);
+    expect(true).to.deep.equal(verify1);
     // console.log('verify1', verify1);
 
     const privateKey2 = sumScalars(privateKey0, privateKey1);
@@ -119,15 +123,18 @@ describe('split-key-crypto', () => {
     // console.log('privateKeyObj2', privateKeyObjecToHex(privateKeyObj2));
     const privateKeyObj2Public = crypto.createPublicKey(privateKeyObj2);
     const privateKeyObj2PublicHex = publicKeyObjecToHex(privateKeyObj2Public);
+    expect('a1375ca1346cb026f69d635bed64cabb95feda5469fe6a6d0465d12e1bf48e8f').to.deep.equal(privateKeyObj2PublicHex);
     // console.log('privateKeyObj2Public', privateKeyObj2PublicHex.length, privateKeyObj2PublicHex);
 
     const publicKey2 = sumPoints(publicKeyObjHex0, publicKeyObjHex1);
     // console.log('publicKey2----------', publicKey2.length, publicKey2);
     const publicKeyObj2 = publicKeyHexToObject(publicKey2);
     const publicKeyObjHex2 = publicKeyObjecToHex(publicKeyObj2);
+    expect('10b243c2250019d79adf298654d696aaf1603e806a386cf2ec2014f2e2ee877b').to.deep.equal(publicKeyObjHex2);
     // console.log('publicKeyObj2-------', publicKeyObjHex2.length, publicKeyObjHex2);
 
     const verify2 = signAndVerify(privateKeyObj2, publicKeyObj2, message);
+    expect(false).to.deep.equal(verify2);
     // console.log('verify2', verify2);
   });
 
@@ -138,28 +145,3 @@ describe('split-key-crypto', () => {
   });
 });
 // based on https://bitcointalk.org/index.php?topic=81865.msg901491#msg901491
-/*
-It works like this:
-
-1) You generate a random 256-bit integer less than the SECP256k1 generator. You keep this secret. (Effectively, an ECDSA private key.)
-
-2) You compute the corresponding EC point on the SECP256k1 curve. You share this with whoever is finding the vanity address for you. (This is the ECDSA public key that corresponds to the private key you generated in step one.)
-
-3) The person working out the vanity address for you tries various 256-bit integers also less than the SECP256k1 generator. They compute the corresponding EC point and add it to the EC point you sent them (from step two). They then hash this and see if it produces the desired vanity address. They repeat this over and over until they find a 256-bit integer that works. They give this integer to you. (And the world, it need not be kept secret.)
-
-4) You add the 256-bit integer they found to the 256-bit integer you generated in step 1 and reduce it modulo the SECP256k1 generator.
-
-5) You now have the private key, and they don't. (And you can prove that they cannot generate the private key from just the information you gave them unless ECDSA is fundamentally broken.)
-
-In ECDSA, you convert a private key to a public key by multiplying by the generator. Division is impossible.
-
-The vanity address generation scheme above works because: (A+B)*G = AG + BG
-
-You generate A and AG, but give them only AG.
-
-They try various different B's, calculating the AG+BG for each one to find the right one for the vanity address.
-
-They give you B. You can now compute A+B (the secret key corresponding to the public key AG+BG) but nobody else can since they do not know A.
-
-Computing A from AG would mean breaking ECDSA fundamentally. All you gave them is AG, an ECDSA public key. If they could figure out the private key to your new account (A+B), they could also figure out A. So if they could figure out the private key to your vanity account, they could also figure out the private key you created in step 1. But all you gave them was the corresponding public key. So any compromise of the vanity account would mean they could compromise a private key given only its corresponding public key.
-*/

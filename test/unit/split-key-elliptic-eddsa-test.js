@@ -70,46 +70,46 @@ const publicKeyHexFromPrivateKeyObj = (privateKeyObj) => {
   return Buffer.from(privateKeyObj.pubBytes()).toString('hex');
 };
 
-describe('split-key', () => {
-  it.only('test split key', () => {
+describe('split-key-eddsa', () => {
+  it('test split key', () => {
     const privateKey0 = '1111111111111111111111111111111111111111111111111111111111111112';
     const privateKey1 = '1111111111111111111111111111111111111111111111111111111111111111';
 
     const privateKeyObj0 = privateKeyHexToObject(privateKey0);
-    console.log('privateKeyObj0', privateKeyObjecToHex(privateKeyObj0));
+    // console.log('privateKeyObj0', privateKeyObjecToHex(privateKeyObj0));
     const privateKeyObj1 = privateKeyHexToObject(privateKey1);
-    console.log('privateKeyObj1', privateKeyObjecToHex(privateKeyObj1));
+    // console.log('privateKeyObj1', privateKeyObjecToHex(privateKeyObj1));
 
     const publicKeyObj0 = publicKeyHexToObject(publicKeyHexFromPrivateKeyObj(privateKeyObj0));
     const publicKeyObjHex0 = publicKeyObjecToHex(publicKeyObj0);
-    console.log('publicKeyObj0', publicKeyObjHex0.length, publicKeyObjHex0);
+    // console.log('publicKeyObj0', publicKeyObjHex0.length, publicKeyObjHex0);
 
     const publicKeyObj1 = publicKeyHexToObject(publicKeyHexFromPrivateKeyObj(privateKeyObj1));
     const publicKeyObjHex1 = publicKeyObjecToHex(publicKeyObj1);
-    console.log('publicKeyObj1', publicKeyObjHex1.length, publicKeyObjHex1);
+    // console.log('publicKeyObj1', publicKeyObjHex1.length, publicKeyObjHex1);
 
     const message = Buffer.from('00', 'hex');
     const verify0 = signAndVerify(privateKeyObj0, publicKeyObj0, message);
-    console.log('verify0', verify0);
+    // console.log('verify0', verify0);
     const verify1 = signAndVerify(privateKeyObj1, publicKeyObj1, message);
-    console.log('verify1', verify1);
+    // console.log('verify1', verify1);
 
     const privateKey2 = sumScalars(privateKey0, privateKey1);
-    console.log('privateKey2', privateKey2.length, privateKey2);
+    // console.log('privateKey2', privateKey2.length, privateKey2);
     const privateKeyObj2 = privateKeyHexToObject(privateKey2);
-    console.log('privateKeyObj2', privateKeyObjecToHex(privateKeyObj2));
+    // console.log('privateKeyObj2', privateKeyObjecToHex(privateKeyObj2));
     const privateKeyObj2Public = publicKeyHexToObject(publicKeyHexFromPrivateKeyObj(privateKeyObj2));
     const privateKeyObj2PublicHex = publicKeyObjecToHex(privateKeyObj2Public);
-    console.log('privateKeyObj2Public', privateKeyObj2PublicHex.length, privateKeyObj2PublicHex);
+    // console.log('privateKeyObj2Public', privateKeyObj2PublicHex.length, privateKeyObj2PublicHex);
 
     const publicKey2 = sumPoints(publicKeyObjHex0, publicKeyObjHex1);
-    console.log('publicKey2----------', publicKey2.length, publicKey2);
+    // console.log('publicKey2----------', publicKey2.length, publicKey2);
     const publicKeyObj2 = publicKeyHexToObject(publicKey2);
     const publicKeyObjHex2 = publicKeyObjecToHex(publicKeyObj2);
-    console.log('publicKeyObj2-------', publicKeyObjHex2.length, publicKeyObjHex2);
+    // console.log('publicKeyObj2-------', publicKeyObjHex2.length, publicKeyObjHex2);
 
     const verify2 = signAndVerify(privateKeyObj2, publicKeyObj2, message);
-    console.log('verify2', verify2);
+    // console.log('verify2', verify2);
   });
 
   beforeEach(async () => {

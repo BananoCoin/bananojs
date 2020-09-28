@@ -476,9 +476,9 @@
     return uint4;
   };
 
-  const sign = (privateKey, block) => {
+  const signHash = (privateKey, hash) => {
   //    console.log( `sign ${JSON.stringify( block )}` );
-    const hashBytes = hexToBytes(hash(block));
+    const hashBytes = hexToBytes(hash);
     //    console.log( `hashBytes[${hashBytes.length}]:${hashBytes}` );
 
     const privateKeyBytes = hexToBytes(privateKey);
@@ -487,6 +487,17 @@
     const signed = nacl.sign.detached(hashBytes, privateKeyBytes);
     const signature = bytesToHex(signed);
     return signature;
+  }
+
+  const verify = (hash, signature, publicKey) => {
+    const hashBytes = hexToBytes(hash);
+    const signatureBytes = hexToBytes(signature);
+    const publicKeyBytes = hexToBytes(publicKey);
+    return nacl.sign.detached.verify(hashBytes, signatureBytes, publicKeyBytes);
+  }
+
+  const sign = (privateKey, block) => {
+    return signHash(privateKey, hash(block));
   };
 
   const generateAccountKeyPair = (accountSecretKeyBytes) => {
@@ -1206,6 +1217,8 @@
     exports.getPrivateKey = getPrivateKey;
     exports.hash = hash;
     exports.sign = sign;
+    exports.signHash = signHash;
+    exports.verify = verify;
     exports.getAccountPublicKey = getAccountPublicKey;
     exports.send = send;
     exports.getHashCPUWorker = getHashCPUWorker;

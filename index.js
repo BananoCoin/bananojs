@@ -340,6 +340,32 @@
 
 
   /**
+ * signs a hash.
+ *
+ * @memberof BananoUtil
+ * @param {string} privateKey the private key to use to sign.
+ * @param {string} hash the hash to sign.
+ * @return {string} the block's hash.
+ */
+  const signHash = (privateKey, hash) => {
+    return bananoUtil.signHash(privateKey, hash);
+  };
+
+
+  /**
+ * verifys a hash.
+ *
+ * @memberof BananoUtil
+ * @param {string} hash the hash to verify.
+ * @param {string} signature the signature to verify.
+ * @param {string} publicKey the public key to use to sign.
+ * @return {string} true if verification passed.
+ */
+  const verify = (hash, signature, publicKey) => {
+    return bananoUtil.verify(hash, signature, publicKey);
+  };
+
+  /**
  * Get the signature for a given block (gets the hash of the block, and signs the hash).
  *
  * @memberof BananoUtil
@@ -812,6 +838,8 @@
     exports.changeBananoRepresentativeForSeed = changeBananoRepresentativeForSeed;
     exports.changeNanoRepresentativeForSeed = changeNanoRepresentativeForSeed;
     exports.getSignature = getSignature;
+    exports.signHash = signHash;
+    exports.verify = verify;
     exports.getBytesFromHex = getBytesFromHex;
     exports.getWorkUsingCpu = getWorkUsingCpu;
     exports.getZeroedWorkBytes = bananoUtil.getZeroedWorkBytes;

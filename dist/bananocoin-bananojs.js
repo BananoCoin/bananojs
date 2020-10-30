@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.0.12
+//version 2.0.13
 //license MIT
 const require = (modname) => {
   if (typeof BigInt === 'undefined') {
@@ -3233,7 +3233,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
       const balanceMajorAmount = balance[balance.majorName];
       const amountMajorAmount = amount[amount.majorName];
       //        console.log( `balance:${JSON.stringify( balance )}` );
-      throw Error(`The server's account balance of ${balanceMajorAmount} ${balance.majorName}s is too small, cannot withdraw ${amountMajorAmount} ${balance.majorName}s.`);
+      throw Error(`The server's account balance of ${balanceMajorAmount} ${balance.majorName}s is too small, cannot withdraw ${amountMajorAmount} ${balance.majorName}s. In raw ${balanceRaw} < ${amountRaw}.`);
     }
 
     const remaining = BigInt(balanceRaw) - BigInt(amountRaw);

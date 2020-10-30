@@ -84,11 +84,11 @@ describe('send', () => {
       let amountRaw;
       if (coinData.coin == 'banano') {
         amountRaw = bananojs.getRawStrFromBananoStr('11');
-        message = 'Error: The server\'s account balance of 10 ' + coinData.coin + 's is too small, cannot withdraw 11 ' + coinData.coin + 's.';
+        message = 'Error: The server\'s account balance of 10 ' + coinData.coin + 's is too small, cannot withdraw 11 ' + coinData.coin + 's. In raw 1000000000000000000000000000000 < 1100000000000000000000000000000.';
       }
       if (coinData.coin == 'nano') {
         amountRaw = bananojs.getRawStrFromNanoStr('11');
-        message = 'Error: The server\'s account balance of 10 ' + coinData.coin + 's is too small, cannot withdraw 11 ' + coinData.coin + 's.';
+        message = 'Error: The server\'s account balance of 10 ' + coinData.coin + 's is too small, cannot withdraw 11 ' + coinData.coin + 's. In raw 10000000000000000000000000000000 < 11000000000000000000000000000000.';
       }
       const sendAmountToAccount = coinData.getSendAmountToAccountFn(bananojs);
       await testUtil.expectErrorMessage(message, sendAmountToAccount, seed0, seedIx, bananoAccount, amountRaw, successCallback, failureCallback);

@@ -241,8 +241,13 @@
           resolve('');
         } else {
           if (json.hash === undefined) {
-            console.log(`process reject ${JSON.stringify( json )}`);
-            reject(json);
+            if (json.error === undefined) {
+              const jsonStr = JSON.stringify( json );
+              console.log(`process reject ${jsonStr}`);
+              reject(Error(jsonStr));
+            } else {
+              reject(Error(json.error));
+            }
           } else {
             const hash = json.hash;
             resolve(hash);

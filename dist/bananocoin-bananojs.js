@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.1.0
+//version 2.1.1
 //license MIT
 const require = (modname) => {
   if (typeof BigInt === 'undefined') {
@@ -2205,8 +2205,13 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
           resolve('');
         } else {
           if (json.hash === undefined) {
-            console.log(`process reject ${JSON.stringify( json )}`);
-            reject(json);
+            if (json.error === undefined) {
+              const jsonStr = JSON.stringify( json );
+              console.log(`process reject ${jsonStr}`);
+              reject(Error(jsonStr));
+            } else {
+              reject(Error(json.error));
+            }
           } else {
             const hash = json.hash;
             resolve(hash);

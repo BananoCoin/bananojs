@@ -137,8 +137,12 @@ commands['naccountinfo'] = async (account) => {
 commands['bsendraw'] = async (privateKey, destAccount, amountRaw) => {
   const config = configs.banano;
   bananodeApi.setUrl(config.bananodeUrl);
-  const response = await bananoUtil.sendFromPrivateKey(bananodeApi, privateKey, destAccount, amountRaw, config.prefix);
-  console.log('banano sendbanano response', response);
+  try {
+    const response = await bananoUtil.sendFromPrivateKey(bananodeApi, privateKey, destAccount, amountRaw, config.prefix);
+    console.log('banano sendbanano response', response);
+  } catch (error) {
+    console.log('banano sendbanano error', error.message);
+  }
 };
 
 commands['bcheckpending'] = async (account, maxAccountsPending) => {

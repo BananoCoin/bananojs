@@ -87,6 +87,68 @@ describe('corner-cases', () => {
     const actual = await bananojs.getBlockCount();
     expect(expected).to.deep.equal(actual);
   });
+  it('getBananoDecimalAmountAsRaw matches expected, full decimal', async () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    const decimalAmount = '1.23456789012345678901234567890';
+    const expectedRaw = '123456789012345678901234567890';
+    const actualRaw = await bananojs.getBananoDecimalAmountAsRaw(decimalAmount);
+    expect(actualRaw).to.deep.equal(expectedRaw);
+    const bananoParts = await bananojs.getBananoPartsFromRaw(actualRaw);
+    const actualDesc = await bananojs.getBananoPartsDescription(bananoParts);
+    const expectedDesc = '1 banano 23 banoshi 456,789,012,345,678,901,234,567,890 raw';
+    expect(actualDesc).to.deep.equal(expectedDesc);
+  });
+  it('getBananoDecimalAmountAsRaw matches expected, whole number', async () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    const decimalAmount = '1234';
+    const expectedRaw = '123400000000000000000000000000000';
+    const actualRaw = await bananojs.getBananoDecimalAmountAsRaw(decimalAmount);
+    expect(actualRaw).to.deep.equal(expectedRaw);
+    const bananoParts = await bananojs.getBananoPartsFromRaw(actualRaw);
+    const actualDesc = await bananojs.getBananoPartsDescription(bananoParts);
+    const expectedDesc = '1,234 banano';
+    expect(actualDesc).to.deep.equal(expectedDesc);
+  });
+  it('getBananoDecimalAmountAsRaw matches expected, banoshi only', async () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    const decimalAmount = '0.12';
+    const expectedRaw = '12000000000000000000000000000';
+    const actualRaw = await bananojs.getBananoDecimalAmountAsRaw(decimalAmount);
+    expect(actualRaw).to.deep.equal(expectedRaw);
+    const bananoParts = await bananojs.getBananoPartsFromRaw(actualRaw);
+    const actualDesc = await bananojs.getBananoPartsDescription(bananoParts);
+    const expectedDesc = '12 banoshi';
+    expect(actualDesc).to.deep.equal(expectedDesc);
+  });
+  it('getBananoDecimalAmountAsRaw matches expected, raw only', async () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    const decimalAmount = '0.0012';
+    const expectedRaw = '120000000000000000000000000';
+    const actualRaw = await bananojs.getBananoDecimalAmountAsRaw(decimalAmount);
+    expect(actualRaw).to.deep.equal(expectedRaw);
+    const bananoParts = await bananojs.getBananoPartsFromRaw(actualRaw);
+    const actualDesc = await bananojs.getBananoPartsDescription(bananoParts);
+    const expectedDesc = '120,000,000,000,000,000,000,000,000 raw';
+    expect(actualDesc).to.deep.equal(expectedDesc);
+  });
+  it('getBananoDecimalAmountAsRaw matches expected, zero', async () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    const decimalAmount = '0';
+    const expectedRaw = '0';
+    const actualRaw = await bananojs.getBananoDecimalAmountAsRaw(decimalAmount);
+    expect(actualRaw).to.deep.equal(expectedRaw);
+    const bananoParts = await bananojs.getBananoPartsFromRaw(actualRaw);
+    const actualDesc = await bananojs.getBananoPartsDescription(bananoParts);
+    const expectedDesc = '0 banano';
+    expect(actualDesc).to.deep.equal(expectedDesc);
+  });
+  it('getBananoDecimalAmountAsRaw matches expected error', async () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    const decimalAmount = '1.234567890123456789012345678901';
+    const message = 'too many numbers past the decimal in \'1.234567890123456789012345678901\', remove 1 of them.';
+    await testUtil.expectErrorMessage(message, bananojs.getBananoDecimalAmountAsRaw,
+        decimalAmount);
+  });
 
   beforeEach(async () => {
   });

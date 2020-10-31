@@ -902,7 +902,7 @@
       if (LOG_SEND || LOG_SEND_PROCESS) {
         console.log(`STARTED process`, block);
       }
-      const processResponse = await bananodeApi.process(block);
+      const processResponse = await bananodeApi.process(block, 'send');
       /* istanbul ignore if */
       if (LOG_SEND || LOG_SEND_PROCESS) {
         console.log(`SUCCESS process`, processResponse);
@@ -927,7 +927,7 @@
     // console.log( 'open', block );
 
     try {
-      const processResponse = await bananodeApi.process(block);
+      const processResponse = await bananodeApi.process(block, 'open');
       /* istanbul ignore if */
       if (LOG_OPEN) {
         console.log('SUCCESS open', processResponse);
@@ -992,7 +992,7 @@
       console.log('STARTED change', block);
     }
     try {
-      const processResponse = await bananodeApi.process(block);
+      const processResponse = await bananodeApi.process(block, 'change');
       /* istanbul ignore if */
       if (LOG_CHANGE) {
         console.log('SUCCESS change', processResponse);
@@ -1054,7 +1054,7 @@
       console.log('STARTED receive', block);
     }
     try {
-      const processResponse = await bananodeApi.process(block);
+      const processResponse = await bananodeApi.process(block, 'receive');
       /* istanbul ignore if */
       if (LOG_RECEIVE) {
         console.log('SUCCESS receive', processResponse);

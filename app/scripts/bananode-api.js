@@ -51,6 +51,7 @@
       });
 
       req.on('error', (error) => {
+        throw Error(error);
         console.log('sendRequest error', error, body);
       });
 
@@ -214,15 +215,20 @@
     });
   };
 
-  const process = async (block) => {
+  const process = async (block, subtype) => {
     if (block == undefined) {
       throw Error(`'block' is a required parameter.'`);
     }
+    if (subtype == undefined) {
+      throw Error(`'subtype' is a required parameter.'`);
+    }
 
-    // https://docs.nano.org/commands/rpc-protocol#process-block
+    // https://docs.nano.org/commands/rpc-protocol/#process
     const formData = {
-      action: 'process',
-      block: JSON.stringify(block),
+      'action': 'process',
+      'json_block': 'true',
+      'subtype': subtype,
+      'block': block,
     };
     if (block.work === undefined) {
       formData.do_work = true;

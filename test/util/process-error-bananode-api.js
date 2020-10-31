@@ -4,7 +4,13 @@ const bananodeApi = require('./mock-bananode-api.js');
 
 const bananojs = require('../../index.js');
 
-const process = async (block) => {
+const process = async (block, subtype) => {
+  if (block == undefined) {
+    throw Error(`'block' is a required parameter.'`);
+  }
+  if (subtype == undefined) {
+    throw Error(`'subtype' is a required parameter.'`);
+  }  
   const hash = bananojs.getBlockHash(block);
   return new Promise((resolve, reject) => {
     reject(`process block:${hash}`);

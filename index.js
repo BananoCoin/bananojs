@@ -28,6 +28,86 @@
   };
 
   /**
+   * converts amount from decimal to raw.
+   * @memberof BananoUtil
+   * @param {string} amount the decimal amount.
+   * @return {string} returns amount in raw.
+   */
+  const getBananoDecimalAmountAsRaw = (amountRaw) => {
+    const amount = amountRaw.toString();
+    const decimal = amount.indexOf('.');
+    let bananoBigInt;
+    if (decimal < 0) {
+      bananoBigInt = BigInt(getRawStrFromBananoStr(amount));
+    } else {
+      bananoBigInt = BigInt(getRawStrFromBananoStr(amount.substring(0, decimal)));
+    }
+    let banoshiBigInt;
+    if (decimal < 0) {
+      banoshiBigInt = BigInt(0);
+    } else {
+      let banoshiRaw = amount.substring(decimal+1);
+      // console.log('banoshiRaw', banoshiRaw);
+      // console.log('banoshiRaw.length', banoshiRaw.length);
+      const count = 29-banoshiRaw.length;
+      if (count < 0) {
+        throw Error(`too many numbers past the decimal in '${amount}', remove ${-count} of them.`);
+      }
+      banoshiRaw += '0'.repeat(count);
+      banoshiBigInt = BigInt(banoshiRaw);
+    }
+    const rawBigInt = banoshiBigInt + bananoBigInt;
+    const rawStr = rawBigInt.toString(10);
+    return rawStr;
+  };
+
+  /**
+   * Sends the amount to the account with an optional representative and
+   * previous block hash.
+   * If the representative is not sent, it will be pulled from the api.
+   * If the previous is not sent, it will be pulled from the api.
+   * Be very careful with previous, as setting it incorrectly
+   * can cause an incorrect amount of funds to be sent.
+   * @memberof BananoUtil
+   * @param {BananoParts} bananoParts the banano parts to describe.
+   * @return {string} returns the description of the banano parts.
+   */
+  const getBananoPartsDescription = (bananoParts) => {
+    const numberWithCommas = (x) => {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    };
+
+    let bananoAmountDesc = '';
+    if (bananoParts[bananoParts.majorName] !== '0') {
+      bananoAmountDesc += numberWithCommas(bananoParts[bananoParts.majorName]);
+      bananoAmountDesc += ' ';
+      bananoAmountDesc += bananoParts.majorName;
+    }
+    if (bananoParts[bananoParts.minorName] !== '0') {
+      if (bananoAmountDesc.length > 0) {
+        bananoAmountDesc += ' ';
+      }
+      bananoAmountDesc += bananoParts[bananoParts.minorName];
+      bananoAmountDesc += ' ';
+      bananoAmountDesc += bananoParts.minorName;
+    }
+    if (bananoParts.raw !== '0') {
+      if (bananoAmountDesc.length > 0) {
+        bananoAmountDesc += ' ';
+      }
+      bananoAmountDesc += numberWithCommas(bananoParts.raw);
+      bananoAmountDesc += ' raw';
+    }
+
+    if (bananoAmountDesc.length === 0) {
+      bananoAmountDesc = '0 ';
+      bananoAmountDesc += bananoParts.majorName;
+    }
+
+    return bananoAmountDesc;
+  };
+
+  /**
    * Sends the amount to the account with an optional representative and
    * previous block hash.
    * If the representative is not sent, it will be pulled from the api.
@@ -818,6 +898,8 @@
     exports.loggingUtil = loggingUtil;
 
     exports.setBananodeApi = setBananodeApi;
+    exports.getBananoDecimalAmountAsRaw = getBananoDecimalAmountAsRaw;
+    exports.getBananoPartsDescription = getBananoPartsDescription;
     exports.getAccountHistory = getAccountHistory;
     exports.openBananoAccountFromSeed = openBananoAccountFromSeed;
     exports.openNanoAccountFromSeed = openNanoAccountFromSeed;

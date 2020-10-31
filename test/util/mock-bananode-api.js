@@ -47,7 +47,13 @@ const getPrevious = (account) => {
 };
 
 
-const process = async (block) => {
+const process = async (block, subtype) => {
+  if (block == undefined) {
+    throw Error(`'block' is a required parameter.'`);
+  }
+  if (subtype == undefined) {
+    throw Error(`'subtype' is a required parameter.'`);
+  }  
   // https://docs.nano.org/commands/rpc-protocol/#process-block
   const retval = {};
   const blockHash = bananoUtil.hash(block);

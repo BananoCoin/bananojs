@@ -6,6 +6,7 @@ const bananodeApi = require('./app/scripts/bananode-api.js');
 const camoUtil = require('./app/scripts/camo-util.js');
 const loggingUtil = require('./app/scripts/logging-util.js');
 const depositUtil = require('./app/scripts/deposit-util.js');
+const crypto = require('crypto');
 
 const configs = {};
 configs.banano = {};
@@ -152,7 +153,7 @@ commands['bgetaccount'] = async (privateKey) => {
   bananodeApi.setUrl(config.bananodeUrl);
   const publicKey = bananoUtil.getPublicKey(privateKey);
   console.log('banano getaccount publicKey', publicKey);
-  const account = bananoUtil.getAccount(publicKey);
+  const account = bananoUtil.getAccount(publicKey, index.BANANO_PREFIX);
   console.log('banano getaccount account', account);
 };
 
@@ -167,7 +168,7 @@ commands['breceive'] = async (privateKey, specificPendingBlockHash) => {
   const config = configs.banano;
   bananodeApi.setUrl(config.bananodeUrl);
   const publicKey = bananoUtil.getPublicKey(privateKey);
-  const account = bananoUtil.getAccount(publicKey);
+  const account = bananoUtil.getAccount(publicKey, index.BANANO_PREFIX);
   let representative = await bananodeApi.getAccountRepresentative(account);
   if (!(representative)) {
     representative = account;
@@ -181,12 +182,23 @@ commands['baccountinfo'] = async (account) => {
   bananodeApi.setUrl(config.bananodeUrl);
   const response = await bananodeApi.getAccountInfo(account, true);
   response.balanceParts = await bananoUtil.getAmountPartsFromRaw(response.balance, config.prefix);
+  response.balanceDescription = await index.getBananoPartsDescription(response.balanceParts);
   console.log('banano accountinfo response', response);
+};
+
+commands['bamountraw'] = async (amount) => {
+  const response = index.getBananoDecimalAmountAsRaw(amount);
+  console.log('bamountraw response', response);
+};
+
+commands['getseed'] = async () => {
+  const response = crypto.randomBytes(32).toString('hex').toUpperCase();
+  console.log('getseed response', response);
 };
 
 const run = async () => {
   console.log('bananojs');
-  if (process.argv.length < 4) {
+  if (process.argv.length < 3) {
     console.log('#usage:');
     console.log('https://github.com/BananoCoin/bananojs/blob/master/docs/camo-cli.md');
     console.log('https://github.com/BananoCoin/bananojs/blob/master/docs/banano-cli.md');

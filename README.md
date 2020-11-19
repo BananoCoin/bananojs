@@ -13,7 +13,10 @@ make sure to use `npm i @bananocoin/bananojs@latest` to get the latest version.
     const seed = crypto.randomBytes(32).toString('hex');
     const privateKey = bananojs.getPrivateKey(seed, 0);
     const publicKey = bananojs.getPublicKey(privateKey);
-    const account = bananojs.getAccount(publicKey);
+    const account = bananojs.getBananoAccount(publicKey);
+
+    bananojs.getAccountInfo(account).then((res) => console.log(res));
+
 
 # simple browser integration
 

@@ -17,6 +17,9 @@ make sure to use `npm i @bananocoin/bananojs@latest` to get the latest version.
 
     bananojs.getAccountInfo(account).then((res) => console.log(res));
 
+# examples of most functions as part of the cli
+
+  <https://github.com/BananoCoin/bananojs/blob/master/main.js>
 
 # simple browser integration
 

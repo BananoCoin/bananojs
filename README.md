@@ -54,3 +54,5 @@ make sure to use `npm i @bananocoin/bananojs@latest` to get the latest version.
 # complete documentation of nano CLI functions
 
   <https://github.com/BananoCoin/bananojs/blob/master/docs/nano-cli.md>
+
+add a new method that converts BananoParts to decimal string.

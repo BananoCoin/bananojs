@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.1.1
+//version 2.1.2
 //license MIT
 const require = (modname) => {
   if (typeof BigInt === 'undefined') {
@@ -4654,30 +4654,84 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
   };
 
   /**
+   * converts amount from decimal to bananoParts.
+   * @memberof BananoUtil
+   * @param {string} decimalAmount the decimal amount of bananos.
+   * @return {BananoParts} returns the banano parts of the decimal amount.
+   */
+  const getBananoPartsFromDecimal = (decimalAmount) => {
+    const raw = getBananoDecimalAmountAsRaw(decimalAmount);
+    const bananoParts = getBananoPartsFromRaw(raw);
+    return bananoParts;
+  };
+
+  /**
+   * converts amount from bananoParts to decimal.
+   * @memberof BananoUtil
+   * @param {BananoParts} bananoParts the banano parts to describe.
+   * @return {string} returns the decimal amount of bananos.
+   */
+  const getBananoPartsAsDecimal = (bananoParts) => {
+    let bananoDecimal = '';
+    const banano = bananoParts[bananoParts.majorName];
+    if (banano !== undefined) {
+      bananoDecimal += banano;
+    } else {
+      bananoDecimal += '0';
+    }
+
+    const banoshi = bananoParts[bananoParts.minorName];
+    if ((banoshi !== undefined) || (bananoParts.raw !== undefined)) {
+      bananoDecimal += '.';
+    }
+
+    if (banoshi !== undefined) {
+      if (banoshi.length == 1) {
+        bananoDecimal += '0';
+      }
+      bananoDecimal += banoshi;
+    }
+
+    if (bananoParts.raw !== undefined) {
+      if (banoshi === undefined) {
+        bananoDecimal += '00';
+      }
+      const count = 27-bananoParts.raw.length;
+      if (count < 0) {
+        throw Error(`too many numbers in bananoParts.raw '${bananoParts.raw}', remove ${-count} of them.`);
+      }
+      bananoDecimal += '0'.repeat(count);
+      bananoDecimal += bananoParts.raw;
+    }
+
+    return bananoDecimal;
+  };
+
+  /**
    * converts amount from decimal to raw.
    * @memberof BananoUtil
    * @param {string} amount the decimal amount.
    * @return {string} returns amount in raw.
    */
-  const getBananoDecimalAmountAsRaw = (amountRaw) => {
-    const amount = amountRaw.toString();
-    const decimal = amount.indexOf('.');
+  const getBananoDecimalAmountAsRaw = (amount) => {
+    const amountStr = amount.toString();
+    const decimal = amountStr.indexOf('.');
     let bananoBigInt;
     if (decimal < 0) {
-      bananoBigInt = BigInt(getRawStrFromBananoStr(amount));
+      bananoBigInt = BigInt(getRawStrFromBananoStr(amountStr));
     } else {
-      bananoBigInt = BigInt(getRawStrFromBananoStr(amount.substring(0, decimal)));
+      bananoBigInt = BigInt(getRawStrFromBananoStr(amountStr.substring(0, decimal)));
     }
     let banoshiBigInt;
     if (decimal < 0) {
       banoshiBigInt = BigInt(0);
     } else {
-      let banoshiRaw = amount.substring(decimal+1);
+      let banoshiRaw = amountStr.substring(decimal+1);
       // console.log('banoshiRaw', banoshiRaw);
       // console.log('banoshiRaw.length', banoshiRaw.length);
       const count = 29-banoshiRaw.length;
       if (count < 0) {
-        throw Error(`too many numbers past the decimal in '${amount}', remove ${-count} of them.`);
+        throw Error(`too many numbers past the decimal in '${amountStr}', remove ${-count} of them.`);
       }
       banoshiRaw += '0'.repeat(count);
       banoshiBigInt = BigInt(banoshiRaw);
@@ -4688,12 +4742,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
   };
 
   /**
-   * Sends the amount to the account with an optional representative and
-   * previous block hash.
-   * If the representative is not sent, it will be pulled from the api.
-   * If the previous is not sent, it will be pulled from the api.
-   * Be very careful with previous, as setting it incorrectly
-   * can cause an incorrect amount of funds to be sent.
+   * describes the banano parts in an english description.
    * @memberof BananoUtil
    * @param {BananoParts} bananoParts the banano parts to describe.
    * @return {string} returns the description of the banano parts.
@@ -5524,6 +5573,8 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
     exports.loggingUtil = loggingUtil;
 
     exports.setBananodeApi = setBananodeApi;
+    exports.getBananoPartsFromDecimal = getBananoPartsFromDecimal;
+    exports.getBananoPartsAsDecimal = getBananoPartsAsDecimal;
     exports.getBananoDecimalAmountAsRaw = getBananoDecimalAmountAsRaw;
     exports.getBananoPartsDescription = getBananoPartsDescription;
     exports.getAccountHistory = getAccountHistory;

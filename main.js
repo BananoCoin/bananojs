@@ -187,6 +187,7 @@ commands['baccountinfo'] = async (account) => {
   const response = await bananodeApi.getAccountInfo(account, true);
   response.balanceParts = await bananoUtil.getAmountPartsFromRaw(response.balance, config.prefix);
   response.balanceDescription = await index.getBananoPartsDescription(response.balanceParts);
+  response.balanceDecimal = await index.getBananoPartsAsDecimal(response.balanceParts);
   console.log('banano accountinfo response', response);
 };
 

@@ -63,13 +63,22 @@
 
         bananojs
         banano accountinfo response {
-          frontier: 'A9A8AED92C5B6C2CFF7A6954690C0763CFF1ADC906B8CF056BA1B20678A101C7',
+          frontier: '41E7FF66C785F3DE2F192BA05C8DEBDC2B33D89B85C5BB49B4F219C8112A5BC8',
           open_block: 'B6BD40F6F400BF0D81F2A28218039EBB1E6B9EE2764A0EFF344F7B9A123D5067',
-          representative_block: 'A9A8AED92C5B6C2CFF7A6954690C0763CFF1ADC906B8CF056BA1B20678A101C7',
-          balance: '344319743000000000000000000000000594',
-          modified_timestamp: '1577058733',
-          block_count: '630',
+          representative_block: '41E7FF66C785F3DE2F192BA05C8DEBDC2B33D89B85C5BB49B4F219C8112A5BC8',
+          balance: '100000000000000000000000000000000000',
+          modified_timestamp: '1604070386',
+          block_count: '704',
           account_version: '0',
-          confirmation_height: '630',
-          representative: 'ban_1bananobh5rat99qfgt1ptpieie5swmoth87thi74qgbfrij7dcgjiij94xr'
+          confirmation_height: '704',
+          representative: 'ban_1fomoz167m7o38gw4rzt7hz67oq6itejpt4yocrfywujbpatd711cjew8gjj',
+          balanceParts: {
+            majorName: 'banano',
+            minorName: 'banoshi',
+            banano: '1000000',
+            banoshi: '0',
+            raw: '0'
+          },
+          balanceDescription: '1,000,000 banano',
+          balanceDecimal: '1000000.0000000000000000000000000000000'
         }

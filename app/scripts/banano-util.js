@@ -496,7 +496,16 @@
     return nacl.sign.detached.verify(hashBytes, signatureBytes, publicKeyBytes);
   };
 
-  const sign = (privateKey, block) => {
+  const sign = async (privateKey, block) => {
+    if (typeof privateKey == 'object') {
+      try {
+        const hwResponse = await privateKey.signBlock(block);
+        return hwResponse.signature;
+      } catch (error) {
+        console.log('sign', error.message);
+        return;
+      }
+    }
     return signHash(privateKey, hash(block));
   };
 
@@ -598,7 +607,10 @@
  * @param {string} privateKey the private key.
  * @return {string} the public key.
  */
-  const getPublicKey = (privateKey) => {
+  const getPublicKey = async (privateKey) => {
+    if (typeof privateKey == 'object') {
+      return await privateKey.getPublicKey();
+    }
     const accountKeyPair = generateAccountKeyPair(hexToBytes(privateKey));
     return bytesToHex(accountKeyPair.publicKey);
   };
@@ -790,7 +802,7 @@
     if (LOG_SEND) {
       console.log(`STARTED getPublicKey ${privateKey}`);
     }
-    const publicKey = getPublicKey(privateKey);
+    const publicKey = await getPublicKey(privateKey);
 
     /* istanbul ignore if */
     if (LOG_SEND) {
@@ -892,7 +904,7 @@
       if (LOG_SEND) {
         console.log('STARTED sign');
       }
-      block.signature = sign(privateKey, block);
+      block.signature = await sign(privateKey, block);
       /* istanbul ignore if */
       if (LOG_SEND) {
         console.log('SUCCESS sign');
@@ -922,7 +934,7 @@
     block.balance = pendingValueRaw;
     block.link = pending;
     block.work = work;
-    block.signature = sign(privateKey, block);
+    block.signature = await sign(privateKey, block);
 
     // console.log( 'open', block );
 
@@ -938,7 +950,7 @@
       if (LOG_OPEN) {
         console.log('FAILURE open', JSON.stringify(e));
       }
-      throw Error(JSON.stringify(e));
+      throw Error(e.message);
     }
   };
 
@@ -955,7 +967,7 @@
     if (representative === undefined) {
       throw Error('representative is a required parameter.');
     }
-    const publicKey = getPublicKey(privateKey);
+    const publicKey = await getPublicKey(privateKey);
     const accountAddress = getAccount(publicKey, accountPrefix);
     const accountInfo = await bananodeApi.getAccountInfo(accountAddress);
     /* istanbul ignore if */
@@ -984,7 +996,7 @@
     block.balance = remainingDecimal;
     block.link = '0000000000000000000000000000000000000000000000000000000000000000';
     block.work = work;
-    block.signature = sign(privateKey, block);
+    block.signature = await sign(privateKey, block);
 
 
     /* istanbul ignore if */
@@ -1047,7 +1059,7 @@
     block.balance = valueRaw;
     block.link = hash;
     block.work = work;
-    block.signature = sign(privateKey, block);
+    block.signature = await sign(privateKey, block);
 
     /* istanbul ignore if */
     if (LOG_RECEIVE) {
@@ -1065,6 +1077,8 @@
       if (LOG_RECEIVE) {
         console.log('FAILURE receive', JSON.stringify(e));
       }
+      console.log('FAILURE receive', JSON.stringify(e));
+      console.log('FAILURE receive', e.message);
       throw Error(JSON.stringify(e));
     }
   };

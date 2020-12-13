@@ -7,14 +7,71 @@ const camoUtil = require('./app/scripts/camo-util.js');
 const loggingUtil = require('./app/scripts/logging-util.js');
 const depositUtil = require('./app/scripts/deposit-util.js');
 const crypto = require('crypto');
+const BananoHwApp = require('hw-app-nano').Banano;
+const transportNodeHid = require('@ledgerhq/hw-transport-node-hid');
 
 const configs = {};
 configs.banano = {};
+configs.banano.walletPrefix = `44'/198'/`;
 configs.banano.prefix = index.BANANO_PREFIX;
 configs.banano.bananodeUrl = 'https://kaliumapi.appditto.com/api';
 configs.nano = {};
 configs.nano.prefix = index.NANO_PREFIX;
 configs.nano.bananodeUrl = 'https://app.natrium.io/api';
+
+const getLedgerPath = (config, accountIndex) => {
+  return `${config.walletPrefix}${accountIndex}'`;
+};
+
+const getLedgerAccountData = async (config, index) => {
+  // https://github.com/BananoCoin/bananovault/blob/master/src/app/services/ledger.service.ts#L128
+  try {
+    const paths = await transportNodeHid.default.list();
+    const path = paths[0];
+    const transport = await transportNodeHid.default.open(path);
+    const banHwAppInst = new BananoHwApp(transport);
+    const accountData = await banHwAppInst.getAddress(getLedgerPath(config, index));
+    accountData.account = accountData.address;
+    delete accountData.address;
+    return accountData;
+  } catch (error) {
+    console.trace('banano getaccount error', error.message);
+  }
+};
+
+const getLedgerAccountSigner = async (config, accountIx) => {
+  // https://github.com/BananoCoin/bananovault/blob/master/src/app/services/ledger.service.ts#L379
+  const paths = await transportNodeHid.default.list();
+  const path = paths[0];
+  const transport = await transportNodeHid.default.open(path);
+  const banHwAppInst = new BananoHwApp(transport);
+  const signer = {};
+  const ledgerPath = getLedgerPath(config, accountIx);
+  const accountData = await banHwAppInst.getAddress(ledgerPath);
+  signer.getPublicKey = () => {
+    return accountData.publicKey;
+  };
+  signer.getAccount = () => {
+    return accountData.address;
+  };
+  signer.signBlock = async (blockData) => {
+    console.log('signer.signBlock', 'blockData', blockData);
+    const hwBlockData = {}
+    if(blockData.previous == '0000000000000000000000000000000000000000000000000000000000000000') {
+      hwBlockData.representative = blockData.representative
+      hwBlockData.balance = blockData.balance;
+      hwBlockData.sourceBlock = blockData.link;
+    } else {
+      hwBlockData.previousBlock = blockData.previous;
+      hwBlockData.representative = blockData.representative
+      hwBlockData.balance = blockData.balance;
+      hwBlockData.recipient = index.getBananoAccount(blockData.link);
+    }
+    console.log('signer.signBlock', 'hwBlockData', hwBlockData);
+    return await banHwAppInst.signBlock(ledgerPath, hwBlockData);
+  };
+  return signer;
+};
 
 const commands = {};
 
@@ -199,6 +256,46 @@ commands['bamountraw'] = async (amount) => {
 commands['getseed'] = async () => {
   const response = crypto.randomBytes(32).toString('hex').toUpperCase();
   console.log('getseed response', response);
+};
+
+commands['blgetaccount'] = async (index) => {
+  const config = configs.banano;
+  bananodeApi.setUrl(config.bananodeUrl);
+  const accountData = await getLedgerAccountData(config, index);
+  console.log('banano getaccount accountData', accountData);
+};
+
+commands['blcheckpending'] = async (index, count) => {
+  if (index == undefined) {
+    throw Error('index is a required parameter');
+  }
+  if (count == undefined) {
+    throw Error('count is a required parameter');
+  }
+  const config = configs.banano;
+  bananodeApi.setUrl(config.bananodeUrl);
+  const accountData = await getLedgerAccountData(config, index);
+  const account = accountData.account;
+  console.log('banano checkpending accountData', account);
+  const pending = await bananodeApi.getAccountsPending([account], parseInt(count));
+  console.log('banano checkpending response', pending);
+};
+
+commands['blreceive'] = async (index, specificPendingBlockHash) => {
+  const config = configs.banano;
+  bananodeApi.setUrl(config.bananodeUrl);
+  const accountSigner = await getLedgerAccountSigner(config, index);
+  const account = accountSigner.getAccount();
+  let representative = await bananodeApi.getAccountRepresentative(account);
+  if (!(representative)) {
+    representative = account;
+  }
+  try {
+    const response = await depositUtil.receive(loggingUtil, bananodeApi, account, accountSigner, representative, specificPendingBlockHash, config.prefix);
+    console.log('banano receive response', response);
+  } catch (error) {
+    console.trace( error);
+  }
 };
 
 const run = async () => {

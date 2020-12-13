@@ -33,7 +33,7 @@
     if (accountPrefix === undefined) {
       throw Error('accountPrefix is required.');
     }
-    const publicKey = bananoUtil.getPublicKey(privateKey);
+    const publicKey = await bananoUtil.getPublicKey(privateKey);
     const fromAccount = bananoUtil.getAccount(publicKey, accountPrefix);
     const amountRaw = bananoUtil.getRawStrFromMajorAmountStr(amountBananos.toString(), accountPrefix);
     /* istanbul ignore if */

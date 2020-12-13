@@ -74,11 +74,11 @@
 
 
   const sweep = async (loggingUtil, bananodeApi, privateKey, representative, specificPendingBlockHash, accountPrefix) => {
-  /* istanbul ignore if */
+    /* istanbul ignore if */
     if (LOG_SWEEP) {
       loggingUtil.log('STARTED sweep');
     }
-    const publicKey = bananoUtil.getPublicKey(privateKey);
+    const publicKey = await bananoUtil.getPublicKey(privateKey);
     const account = bananoUtil.getAccount(publicKey, accountPrefix);
     const accountsPending = await bananodeApi.getAccountsPending([account], MAX_ACCOUNTS_PENDING);
     const history = await bananodeApi.getAccountHistory(account, 1);

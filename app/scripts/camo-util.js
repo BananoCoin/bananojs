@@ -86,7 +86,7 @@
     if (amountPrefix == undefined) {
       throw Error( 'amountPrefix is a required parameter.' );
     }
-    const publicKey = bananoUtil.getPublicKey( privateKey );
+    const publicKey = await bananoUtil.getPublicKey( privateKey );
     const account = bananoUtil.getAccount( publicKey, amountPrefix );
     // console.log( 'account', account );
     const history = await bananodeApi.getAccountHistory( account, 1 );
@@ -143,9 +143,9 @@
     const publicKeyByAccount = {};
     const representativeByAccount = {};
 
-    const getAccount = ( seed, seedIx ) => {
+    const getAccount = async ( seed, seedIx ) => {
       const privateKey = bananoUtil.getPrivateKey( seed, seedIx );
-      const publicKey = bananoUtil.getPublicKey( privateKey );
+      const publicKey = await bananoUtil.getPublicKey( privateKey );
       const account = bananoUtil.getAccount( publicKey, amountPrefix );
       const camoPublicKey = getCamoPublicKey( privateKey );
       const camoAccount = bananoUtil.getAccount( camoPublicKey, amountPrefix );
@@ -159,7 +159,7 @@
 
     let seedIx = 0;
     let isUnopenedPrivateKeyFlag = await isUnopenedPrivateKeyInSeed( bananodeApi, seed, seedIx, amountPrefix);
-    unopenedAccounts.push( getAccount( seed, seedIx, amountPrefix ) );
+    unopenedAccounts.push( await getAccount( seed, seedIx, amountPrefix ) );
     while ( !isUnopenedPrivateKeyFlag ) {
     /* istanbul ignore if */
       if (LOG_RECEIVE) {
@@ -167,7 +167,7 @@
       }
 
       seedIx++;
-      unopenedAccounts.push( getAccount( seed, seedIx ) );
+      unopenedAccounts.push( await getAccount( seed, seedIx ) );
       isUnopenedPrivateKeyFlag = await isUnopenedPrivateKeyInSeed( bananodeApi, seed, seedIx, amountPrefix );
     }
     /* istanbul ignore if */
@@ -314,7 +314,7 @@
     let accountHasBalance = true;
     while ( accountHasBalance ) {
       const privateKey = bananoUtil.getPrivateKey( seed, seedIx );
-      const publicKey = bananoUtil.getPublicKey( privateKey );
+      const publicKey = await bananoUtil.getPublicKey( privateKey );
       const account = bananoUtil.getAccount( publicKey, amountPrefix );
       const accountBalanceRaw = await bananodeApi.getAccountBalanceRaw( account );
 
@@ -493,7 +493,7 @@
       const amountRaw = amount;
       const destSeedIx = amountIx;
       const destPrivateKey = bananoUtil.getPrivateKey( destSeed, destSeedIx );
-      const destPublicKey = bananoUtil.getPublicKey( destPrivateKey );
+      const destPublicKey = await bananoUtil.getPublicKey( destPrivateKey );
       const destAccount = bananoUtil.getAccount( destPublicKey, amountPrefix );
       /* istanbul ignore if */
       if ( LOG_SEND ) {
@@ -621,7 +621,7 @@
     if (sharedSecret) {
       const sharedSeed = sharedSecret;
       const sharedPrivateKey = bananoUtil.getPrivateKey( sharedSeed, sharedSeedIx );
-      const sharedPublicKey = bananoUtil.getPublicKey( sharedPrivateKey );
+      const sharedPublicKey = await bananoUtil.getPublicKey( sharedPrivateKey );
       const sharedAccount = bananoUtil.getAccount( sharedPublicKey, amountPrefix );
       const data = {};
       data.sharedSeed = sharedSeed;

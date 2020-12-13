@@ -277,7 +277,7 @@
    */
   const receiveNanoDepositsForSeed = async (seed, seedIx, representative, specificPendingBlockHash) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
-    const publicKey = bananoUtil.getPublicKey(privateKey);
+    const publicKey = await bananoUtil.getPublicKey(privateKey);
     const account = bananoUtil.getAccount(publicKey, NANO_PREFIX);
     const response = await depositUtil.receive(loggingUtil, bananodeApi, account, privateKey, representative, specificPendingBlockHash, NANO_PREFIX);
     return response;
@@ -294,7 +294,7 @@
    */
   const receiveBananoDepositsForSeed = async (seed, seedIx, representative, specificPendingBlockHash) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
-    const publicKey = bananoUtil.getPublicKey(privateKey);
+    const publicKey = await bananoUtil.getPublicKey(privateKey);
     const account = bananoUtil.getAccount(publicKey, BANANO_PREFIX);
     const response = await depositUtil.receive(loggingUtil, bananodeApi, account, privateKey, representative, specificPendingBlockHash, BANANO_PREFIX);
     return response;
@@ -367,9 +367,9 @@
    * @param {string} seedIx the index to use with the seed.
    * @return {string} the account.
    */
-  const getBananoAccountFromSeed = (seed, seedIx) => {
+  const getBananoAccountFromSeed = async (seed, seedIx) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
-    const publicKey = bananoUtil.getPublicKey(privateKey);
+    const publicKey = await bananoUtil.getPublicKey(privateKey);
     const account = bananoUtil.getAccount(publicKey, BANANO_PREFIX);
     return account;
   };
@@ -382,9 +382,9 @@
    * @param {string} seedIx the index to use with the seed.
    * @return {string} the account.
    */
-  const getNanoAccountFromSeed = (seed, seedIx) => {
+  const getNanoAccountFromSeed = async (seed, seedIx) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
-    const publicKey = bananoUtil.getPublicKey(privateKey);
+    const publicKey = await bananoUtil.getPublicKey(privateKey);
     const account = bananoUtil.getAccount(publicKey, NANO_PREFIX);
     return account;
   };
@@ -435,7 +435,7 @@
  */
   const openBananoAccountFromSeed = async (seed, seedIx, representative, pendingBlockHash, pendingValueRaw) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
-    const publicKey = bananoUtil.getPublicKey(privateKey);
+    const publicKey = await bananoUtil.getPublicKey(privateKey);
     return await bananoUtil.open(bananodeApi, privateKey, publicKey, representative, pendingBlockHash, pendingValueRaw, BANANO_PREFIX);
   };
 
@@ -451,7 +451,7 @@
  */
   const openNanoAccountFromSeed = async (seed, seedIx, representative, pendingBlockHash, pendingValueRaw) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
-    const publicKey = bananoUtil.getPublicKey(privateKey);
+    const publicKey = await bananoUtil.getPublicKey(privateKey);
     return await bananoUtil.open(bananodeApi, privateKey, publicKey, representative, pendingBlockHash, pendingValueRaw, NANO_PREFIX);
   };
 

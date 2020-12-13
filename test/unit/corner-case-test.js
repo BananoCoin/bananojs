@@ -212,14 +212,14 @@ describe('corner-cases', () => {
     const accountSigner = {};
     accountSigner.getPublicKey = async () => {
       return await bananojs.getPublicKey(destAccount);
-    }
+    };
     accountSigner.signBlock = async () => {
       return '';
-    }
+    };
     try {
       const actual = await bananojs.bananoUtil.sendFromPrivateKey(bananodeApi, accountSigner, destAccount, amountRaw, bananojs.BANANO_PREFIX);
       expect(expected).to.deep.equal(actual);
-    } catch(e) {
+    } catch (e) {
       console.trace(e);
     }
   });

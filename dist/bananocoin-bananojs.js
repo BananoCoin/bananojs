@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.1.3
+//version 2.2.0
 //license MIT
 const require = (modname) => {
   if (typeof BigInt === 'undefined') {
@@ -2156,7 +2156,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
     });
   };
 
-  const getBlocks = async (hashes, source) => {
+  const getBlocks = async (hashes, jsonBlock) => {
     if (hashes === undefined) {
       throw Error(`'hashes' is a required parameter.`);
     }
@@ -2166,8 +2166,8 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
       hashes: hashes,
     };
 
-    if (source !== undefined) {
-      formData.source = source;
+    if (jsonBlock !== undefined) {
+      formData.json_block = jsonBlock;
     }
 
     //    console.log( `account_history request ${JSON.stringify( formData )}` );
@@ -2915,8 +2915,13 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
     return nacl.sign.detached.verify(hashBytes, signatureBytes, publicKeyBytes);
   };
 
-  const sign = (privateKey, block) => {
-    return signHash(privateKey, hash(block));
+  const sign = async (privateKey, block) => {
+    if (typeof privateKey == 'object') {
+      const hwResponse = await privateKey.signBlock(block);
+      return hwResponse.signature;
+    } else {
+      return signHash(privateKey, hash(block));
+    }
   };
 
   const generateAccountKeyPair = (accountSecretKeyBytes) => {
@@ -3017,7 +3022,10 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
  * @param {string} privateKey the private key.
  * @return {string} the public key.
  */
-  const getPublicKey = (privateKey) => {
+  const getPublicKey = async (privateKey) => {
+    if (typeof privateKey == 'object') {
+      return await privateKey.getPublicKey();
+    }
     const accountKeyPair = generateAccountKeyPair(hexToBytes(privateKey));
     return bytesToHex(accountKeyPair.publicKey);
   };
@@ -3209,7 +3217,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
     if (LOG_SEND) {
       console.log(`STARTED getPublicKey ${privateKey}`);
     }
-    const publicKey = getPublicKey(privateKey);
+    const publicKey = await getPublicKey(privateKey);
 
     /* istanbul ignore if */
     if (LOG_SEND) {
@@ -3311,7 +3319,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
       if (LOG_SEND) {
         console.log('STARTED sign');
       }
-      block.signature = sign(privateKey, block);
+      block.signature = await sign(privateKey, block);
       /* istanbul ignore if */
       if (LOG_SEND) {
         console.log('SUCCESS sign');
@@ -3341,7 +3349,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
     block.balance = pendingValueRaw;
     block.link = pending;
     block.work = work;
-    block.signature = sign(privateKey, block);
+    block.signature = await sign(privateKey, block);
 
     // console.log( 'open', block );
 
@@ -3357,7 +3365,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
       if (LOG_OPEN) {
         console.log('FAILURE open', JSON.stringify(e));
       }
-      throw Error(JSON.stringify(e));
+      throw Error(e.message);
     }
   };
 
@@ -3374,7 +3382,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
     if (representative === undefined) {
       throw Error('representative is a required parameter.');
     }
-    const publicKey = getPublicKey(privateKey);
+    const publicKey = await getPublicKey(privateKey);
     const accountAddress = getAccount(publicKey, accountPrefix);
     const accountInfo = await bananodeApi.getAccountInfo(accountAddress);
     /* istanbul ignore if */
@@ -3403,7 +3411,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
     block.balance = remainingDecimal;
     block.link = '0000000000000000000000000000000000000000000000000000000000000000';
     block.work = work;
-    block.signature = sign(privateKey, block);
+    block.signature = await sign(privateKey, block);
 
 
     /* istanbul ignore if */
@@ -3422,12 +3430,12 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
       if (LOG_RECEIVE) {
         console.log('FAILURE receive', JSON.stringify(e));
       }
-      throw Error(JSON.stringify(e));
+      throw Error(e.message);
     }
   };
 
   const receive = async (bananodeApi, privateKey, publicKey, representative, previous, hash, valueRaw, accountPrefix) => {
-  /* istanbul ignore if */
+    /* istanbul ignore if */
     if (bananodeApi === undefined) {
       throw Error('bananodeApi is a required parameter.');
     }
@@ -3466,7 +3474,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
     block.balance = valueRaw;
     block.link = hash;
     block.work = work;
-    block.signature = sign(privateKey, block);
+    block.signature = await sign(privateKey, block);
 
     /* istanbul ignore if */
     if (LOG_RECEIVE) {
@@ -3480,11 +3488,9 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
       }
       return processResponse;
     } catch (e) {
-    /* istanbul ignore if */
-      if (LOG_RECEIVE) {
-        console.log('FAILURE receive', JSON.stringify(e));
-      }
-      throw Error(JSON.stringify(e));
+      /* istanbul ignore if */
+      // console.log('FAILURE receive', e.message);
+      throw Error(e.message);
     }
   };
 
@@ -3740,11 +3746,11 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
 
 
   const sweep = async (loggingUtil, bananodeApi, privateKey, representative, specificPendingBlockHash, accountPrefix) => {
-  /* istanbul ignore if */
+    /* istanbul ignore if */
     if (LOG_SWEEP) {
       loggingUtil.log('STARTED sweep');
     }
-    const publicKey = bananoUtil.getPublicKey(privateKey);
+    const publicKey = await bananoUtil.getPublicKey(privateKey);
     const account = bananoUtil.getAccount(publicKey, accountPrefix);
     const accountsPending = await bananodeApi.getAccountsPending([account], MAX_ACCOUNTS_PENDING);
     const history = await bananodeApi.getAccountHistory(account, 1);
@@ -3889,7 +3895,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
     if (accountPrefix === undefined) {
       throw Error('accountPrefix is required.');
     }
-    const publicKey = bananoUtil.getPublicKey(privateKey);
+    const publicKey = await bananoUtil.getPublicKey(privateKey);
     const fromAccount = bananoUtil.getAccount(publicKey, accountPrefix);
     const amountRaw = bananoUtil.getRawStrFromMajorAmountStr(amountBananos.toString(), accountPrefix);
     /* istanbul ignore if */
@@ -4009,7 +4015,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
     if (amountPrefix == undefined) {
       throw Error( 'amountPrefix is a required parameter.' );
     }
-    const publicKey = bananoUtil.getPublicKey( privateKey );
+    const publicKey = await bananoUtil.getPublicKey( privateKey );
     const account = bananoUtil.getAccount( publicKey, amountPrefix );
     // console.log( 'account', account );
     const history = await bananodeApi.getAccountHistory( account, 1 );
@@ -4066,9 +4072,9 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
     const publicKeyByAccount = {};
     const representativeByAccount = {};
 
-    const getAccount = ( seed, seedIx ) => {
+    const getAccount = async ( seed, seedIx ) => {
       const privateKey = bananoUtil.getPrivateKey( seed, seedIx );
-      const publicKey = bananoUtil.getPublicKey( privateKey );
+      const publicKey = await bananoUtil.getPublicKey( privateKey );
       const account = bananoUtil.getAccount( publicKey, amountPrefix );
       const camoPublicKey = getCamoPublicKey( privateKey );
       const camoAccount = bananoUtil.getAccount( camoPublicKey, amountPrefix );
@@ -4082,7 +4088,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
 
     let seedIx = 0;
     let isUnopenedPrivateKeyFlag = await isUnopenedPrivateKeyInSeed( bananodeApi, seed, seedIx, amountPrefix);
-    unopenedAccounts.push( getAccount( seed, seedIx, amountPrefix ) );
+    unopenedAccounts.push( await getAccount( seed, seedIx, amountPrefix ) );
     while ( !isUnopenedPrivateKeyFlag ) {
     /* istanbul ignore if */
       if (LOG_RECEIVE) {
@@ -4090,7 +4096,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
       }
 
       seedIx++;
-      unopenedAccounts.push( getAccount( seed, seedIx ) );
+      unopenedAccounts.push( await getAccount( seed, seedIx ) );
       isUnopenedPrivateKeyFlag = await isUnopenedPrivateKeyInSeed( bananodeApi, seed, seedIx, amountPrefix );
     }
     /* istanbul ignore if */
@@ -4237,7 +4243,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
     let accountHasBalance = true;
     while ( accountHasBalance ) {
       const privateKey = bananoUtil.getPrivateKey( seed, seedIx );
-      const publicKey = bananoUtil.getPublicKey( privateKey );
+      const publicKey = await bananoUtil.getPublicKey( privateKey );
       const account = bananoUtil.getAccount( publicKey, amountPrefix );
       const accountBalanceRaw = await bananodeApi.getAccountBalanceRaw( account );
 
@@ -4416,7 +4422,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
       const amountRaw = amount;
       const destSeedIx = amountIx;
       const destPrivateKey = bananoUtil.getPrivateKey( destSeed, destSeedIx );
-      const destPublicKey = bananoUtil.getPublicKey( destPrivateKey );
+      const destPublicKey = await bananoUtil.getPublicKey( destPrivateKey );
       const destAccount = bananoUtil.getAccount( destPublicKey, amountPrefix );
       /* istanbul ignore if */
       if ( LOG_SEND ) {
@@ -4544,7 +4550,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
     if (sharedSecret) {
       const sharedSeed = sharedSecret;
       const sharedPrivateKey = bananoUtil.getPrivateKey( sharedSeed, sharedSeedIx );
-      const sharedPublicKey = bananoUtil.getPublicKey( sharedPrivateKey );
+      const sharedPublicKey = await bananoUtil.getPublicKey( sharedPrivateKey );
       const sharedAccount = bananoUtil.getAccount( sharedPublicKey, amountPrefix );
       const data = {};
       data.sharedSeed = sharedSeed;
@@ -4903,7 +4909,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
    */
   const receiveNanoDepositsForSeed = async (seed, seedIx, representative, specificPendingBlockHash) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
-    const publicKey = bananoUtil.getPublicKey(privateKey);
+    const publicKey = await bananoUtil.getPublicKey(privateKey);
     const account = bananoUtil.getAccount(publicKey, NANO_PREFIX);
     const response = await depositUtil.receive(loggingUtil, bananodeApi, account, privateKey, representative, specificPendingBlockHash, NANO_PREFIX);
     return response;
@@ -4920,7 +4926,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
    */
   const receiveBananoDepositsForSeed = async (seed, seedIx, representative, specificPendingBlockHash) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
-    const publicKey = bananoUtil.getPublicKey(privateKey);
+    const publicKey = await bananoUtil.getPublicKey(privateKey);
     const account = bananoUtil.getAccount(publicKey, BANANO_PREFIX);
     const response = await depositUtil.receive(loggingUtil, bananodeApi, account, privateKey, representative, specificPendingBlockHash, BANANO_PREFIX);
     return response;
@@ -4993,9 +4999,9 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
    * @param {string} seedIx the index to use with the seed.
    * @return {string} the account.
    */
-  const getBananoAccountFromSeed = (seed, seedIx) => {
+  const getBananoAccountFromSeed = async (seed, seedIx) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
-    const publicKey = bananoUtil.getPublicKey(privateKey);
+    const publicKey = await bananoUtil.getPublicKey(privateKey);
     const account = bananoUtil.getAccount(publicKey, BANANO_PREFIX);
     return account;
   };
@@ -5008,9 +5014,9 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
    * @param {string} seedIx the index to use with the seed.
    * @return {string} the account.
    */
-  const getNanoAccountFromSeed = (seed, seedIx) => {
+  const getNanoAccountFromSeed = async (seed, seedIx) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
-    const publicKey = bananoUtil.getPublicKey(privateKey);
+    const publicKey = await bananoUtil.getPublicKey(privateKey);
     const account = bananoUtil.getAccount(publicKey, NANO_PREFIX);
     return account;
   };
@@ -5061,7 +5067,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
  */
   const openBananoAccountFromSeed = async (seed, seedIx, representative, pendingBlockHash, pendingValueRaw) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
-    const publicKey = bananoUtil.getPublicKey(privateKey);
+    const publicKey = await bananoUtil.getPublicKey(privateKey);
     return await bananoUtil.open(bananodeApi, privateKey, publicKey, representative, pendingBlockHash, pendingValueRaw, BANANO_PREFIX);
   };
 
@@ -5077,7 +5083,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
  */
   const openNanoAccountFromSeed = async (seed, seedIx, representative, pendingBlockHash, pendingValueRaw) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
-    const publicKey = bananoUtil.getPublicKey(privateKey);
+    const publicKey = await bananoUtil.getPublicKey(privateKey);
     return await bananoUtil.open(bananodeApi, privateKey, publicKey, representative, pendingBlockHash, pendingValueRaw, NANO_PREFIX);
   };
 

@@ -498,12 +498,8 @@
 
   const sign = async (privateKey, block) => {
     if (typeof privateKey == 'object') {
-      try {
-        const hwResponse = await privateKey.signBlock(block);
-        return hwResponse.signature;
-      } catch (error) {
-        console.log('sign', error.message);
-      }
+      const hwResponse = await privateKey.signBlock(block);
+      return hwResponse.signature;
     } else {
       return signHash(privateKey, hash(block));
     }

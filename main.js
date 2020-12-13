@@ -107,7 +107,7 @@ commands['cbcheckpending'] = async (seed) => {
   const config = configs.banano;
   bananodeApi.setUrl(config.bananodeUrl);
   const privateKey = bananoUtil.getPrivateKey(seed, 0);
-  const publicKey = bananoUtil.getPublicKey(privateKey);
+  const publicKey = await bananoUtil.getPublicKey(privateKey);
   const account = bananoUtil.getAccount(publicKey);
   const accountsPending = await bananodeApi.getAccountsPending([account], -1);
   const blocks = Object.keys(accountsPending.blocks[account]);
@@ -119,7 +119,7 @@ commands['cbregister'] = async (seed) => {
   const config = configs.banano;
   bananodeApi.setUrl(config.bananodeUrl);
   const privateKey = bananoUtil.getPrivateKey(seed, 0);
-  const publicKey = bananoUtil.getPublicKey(privateKey);
+  const publicKey = await bananoUtil.getPublicKey(privateKey);
   const account = bananoUtil.getAccount(publicKey);
   const camoPublicKey = camoUtil.getCamoPublicKey(privateKey);
   const camoAccount = bananoUtil.getAccount(camoPublicKey);
@@ -142,7 +142,7 @@ commands['cbcheckseed'] = async (seed) => {
   const config = configs.banano;
   bananodeApi.setUrl(config.bananodeUrl);
   const privateKey = bananoUtil.getPrivateKey(seed, 0);
-  const publicKey = bananoUtil.getPublicKey(privateKey);
+  const publicKey = await bananoUtil.getPublicKey(privateKey);
   const account = bananoUtil.getAccount(publicKey);
   console.log('checkseed bananoAccount', account);
   const representative = await bananodeApi.getAccountRepresentative(account);
@@ -184,7 +184,7 @@ commands['ncheckpending'] = async (account, maxAccountsPending) => {
 commands['ngetaccount'] = async (privateKey) => {
   const config = configs.nano;
   bananodeApi.setUrl(config.bananodeUrl);
-  const publicKey = bananoUtil.getPublicKey(privateKey);
+  const publicKey = await bananoUtil.getPublicKey(privateKey);
   console.log('nano getaccount publicKey', publicKey);
   const account = bananoUtil.getAccount(publicKey, config.prefix);
   console.log('nano getaccount account', account);
@@ -200,7 +200,7 @@ commands['ngetprivatekey'] = async (seed, seedIx) => {
 commands['nreceive'] = async (privateKey, specificPendingBlockHash) => {
   const config = configs.nano;
   bananodeApi.setUrl(config.bananodeUrl);
-  const publicKey = bananoUtil.getPublicKey(privateKey);
+  const publicKey = await bananoUtil.getPublicKey(privateKey);
   const account = bananoUtil.getAccount(publicKey, config.prefix);
   let representative = await bananodeApi.getAccountRepresentative(account);
   if (!(representative)) {
@@ -239,7 +239,7 @@ commands['bcheckpending'] = async (account, maxAccountsPending) => {
 commands['bgetaccount'] = async (privateKey) => {
   const config = configs.banano;
   bananodeApi.setUrl(config.bananodeUrl);
-  const publicKey = bananoUtil.getPublicKey(privateKey);
+  const publicKey = await bananoUtil.getPublicKey(privateKey);
   console.log('banano getaccount publicKey', publicKey);
   const account = bananoUtil.getAccount(publicKey, index.BANANO_PREFIX);
   console.log('banano getaccount account', account);
@@ -255,7 +255,7 @@ commands['bgetprivatekey'] = async (seed, seedIx) => {
 commands['breceive'] = async (privateKey, specificPendingBlockHash) => {
   const config = configs.banano;
   bananodeApi.setUrl(config.bananodeUrl);
-  const publicKey = bananoUtil.getPublicKey(privateKey);
+  const publicKey = await bananoUtil.getPublicKey(privateKey);
   const account = bananoUtil.getAccount(publicKey, index.BANANO_PREFIX);
   let representative = await bananodeApi.getAccountRepresentative(account);
   if (!(representative)) {

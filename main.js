@@ -40,6 +40,14 @@ const getLedgerAccountData = async (config, index) => {
 };
 
 const getLedgerAccountSigner = async (config, accountIx) => {
+  /* istanbul ignore if */
+  if (config === undefined) {
+    throw Error('config is a required parameter.');
+  }
+    /* istanbul ignore if */
+    if (accountIx === undefined) {
+      throw Error('accountIx is a required parameter.');
+    }
   // https://github.com/BananoCoin/bananovault/blob/master/src/app/services/ledger.service.ts#L379
   const paths = await transportNodeHid.default.list();
   const path = paths[0];
@@ -55,19 +63,38 @@ const getLedgerAccountSigner = async (config, accountIx) => {
     return accountData.address;
   };
   signer.signBlock = async (blockData) => {
-    console.log('signer.signBlock', 'blockData', blockData);
-    const hwBlockData = {}
-    if(blockData.previous == '0000000000000000000000000000000000000000000000000000000000000000') {
-      hwBlockData.representative = blockData.representative
+    // console.log('signer.signBlock', 'blockData', blockData);
+    const hwBlockData = {};
+    if (blockData.previous == '0000000000000000000000000000000000000000000000000000000000000000') {
+      hwBlockData.representative = blockData.representative;
       hwBlockData.balance = blockData.balance;
       hwBlockData.sourceBlock = blockData.link;
     } else {
       hwBlockData.previousBlock = blockData.previous;
-      hwBlockData.representative = blockData.representative
+      hwBlockData.representative = blockData.representative;
       hwBlockData.balance = blockData.balance;
       hwBlockData.recipient = index.getBananoAccount(blockData.link);
+
+      const cacheBlockData = {};
+      const cacheBlocks = await bananodeApi.getBlocks([blockData.previous], true);
+      // console.log('signer.signBlock', 'cacheBlocks', cacheBlocks);
+      const cacheBlock = cacheBlocks.blocks[blockData.previous];
+      // console.log('signer.signBlock', 'cacheBlock', cacheBlock);
+      cacheBlockData.previousBlock = cacheBlock.previous;
+      cacheBlockData.representative = cacheBlock.representative;
+      cacheBlockData.balance = cacheBlock.balance;
+      cacheBlockData.recipient = index.getBananoAccount(cacheBlock.link);
+      // console.log('signer.signBlock', 'cacheBlockData', cacheBlockData);
+      try {
+        const cacheResponse = await banHwAppInst.cacheBlock(ledgerPath, cacheBlockData, cacheBlock.signature);
+        // console.log('signer.signBlock', 'cacheResponse', cacheResponse);
+      } catch (error) {
+        console.log('signer.signBlock', 'error', error.message);
+        console.trace(error);
+      }
     }
-    console.log('signer.signBlock', 'hwBlockData', hwBlockData);
+
+    // console.log('signer.signBlock', 'hwBlockData', hwBlockData);
     return await banHwAppInst.signBlock(ledgerPath, hwBlockData);
   };
   return signer;
@@ -190,7 +217,6 @@ commands['naccountinfo'] = async (account) => {
   console.log('nano accountinfo response', response);
 };
 
-
 commands['bsendraw'] = async (privateKey, destAccount, amountRaw) => {
   const config = configs.banano;
   bananodeApi.setUrl(config.bananodeUrl);
@@ -262,7 +288,8 @@ commands['blgetaccount'] = async (index) => {
   const config = configs.banano;
   bananodeApi.setUrl(config.bananodeUrl);
   const accountData = await getLedgerAccountData(config, index);
-  console.log('banano getaccount accountData', accountData);
+  console.log('banano getaccount publicKey', accountData.publicKey);
+  console.log('banano getaccount account', accountData.account);
 };
 
 commands['blcheckpending'] = async (index, count) => {
@@ -295,6 +322,18 @@ commands['blreceive'] = async (index, specificPendingBlockHash) => {
     console.log('banano receive response', response);
   } catch (error) {
     console.trace( error);
+  }
+};
+
+commands['blsendraw'] = async (index, destAccount, amountRaw) => {
+  const config = configs.banano;
+  bananodeApi.setUrl(config.bananodeUrl);
+  const accountSigner = await getLedgerAccountSigner(config, index);
+  try {
+    const response = await bananoUtil.sendFromPrivateKey(bananodeApi, accountSigner, destAccount, amountRaw, config.prefix);
+    console.log('banano sendbanano response', response);
+  } catch (error) {
+    console.log('banano sendbanano error', error.message);
   }
 };
 

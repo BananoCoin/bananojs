@@ -1020,7 +1020,7 @@
   };
 
   const receive = async (bananodeApi, privateKey, publicKey, representative, previous, hash, valueRaw, accountPrefix) => {
-  /* istanbul ignore if */
+    /* istanbul ignore if */
     if (bananodeApi === undefined) {
       throw Error('bananodeApi is a required parameter.');
     }
@@ -1073,13 +1073,9 @@
       }
       return processResponse;
     } catch (e) {
-    /* istanbul ignore if */
-      if (LOG_RECEIVE) {
-        console.log('FAILURE receive', JSON.stringify(e));
-      }
-      console.log('FAILURE receive', JSON.stringify(e));
+      /* istanbul ignore if */
       console.log('FAILURE receive', e.message);
-      throw Error(JSON.stringify(e));
+      throw Error(e.message);
     }
   };
 

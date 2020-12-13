@@ -192,7 +192,7 @@
     });
   };
 
-  const getBlocks = async (hashes, source) => {
+  const getBlocks = async (hashes, json_block) => {
     if (hashes === undefined) {
       throw Error(`'hashes' is a required parameter.`);
     }
@@ -202,8 +202,8 @@
       hashes: hashes,
     };
 
-    if (source !== undefined) {
-      formData.source = source;
+    if (json_block !== undefined) {
+      formData.json_block = json_block;
     }
 
     //    console.log( `account_history request ${JSON.stringify( formData )}` );

@@ -44,10 +44,10 @@ const getLedgerAccountSigner = async (config, accountIx) => {
   if (config === undefined) {
     throw Error('config is a required parameter.');
   }
-    /* istanbul ignore if */
-    if (accountIx === undefined) {
-      throw Error('accountIx is a required parameter.');
-    }
+  /* istanbul ignore if */
+  if (accountIx === undefined) {
+    throw Error('accountIx is a required parameter.');
+  }
   // https://github.com/BananoCoin/bananovault/blob/master/src/app/services/ledger.service.ts#L379
   const paths = await transportNodeHid.default.list();
   const path = paths[0];
@@ -86,7 +86,8 @@ const getLedgerAccountSigner = async (config, accountIx) => {
       cacheBlockData.recipient = index.getBananoAccount(cacheBlock.link);
       // console.log('signer.signBlock', 'cacheBlockData', cacheBlockData);
       try {
-        const cacheResponse = await banHwAppInst.cacheBlock(ledgerPath, cacheBlockData, cacheBlock.signature);
+        // const cacheResponse =
+        await banHwAppInst.cacheBlock(ledgerPath, cacheBlockData, cacheBlock.signature);
         // console.log('signer.signBlock', 'cacheResponse', cacheResponse);
       } catch (error) {
         console.log('signer.signBlock', 'error', error.message);

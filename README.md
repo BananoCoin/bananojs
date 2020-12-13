@@ -4,6 +4,8 @@ JavaScript utilities for the banano cryptocurrency.
 
 make sure to use `npm i @bananocoin/bananojs@latest` to get the latest version.
 
+now includes Ledger Nano S/X Support.
+
 # simple banano functions
 
     const bananojs = require('@bananocoin/bananojs');

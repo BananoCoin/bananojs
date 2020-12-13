@@ -147,10 +147,10 @@ describe('recieve', () => {
       const bananojs = testUtil.getBananojsWithProcessErrorApi();
       let message;
       if (coinData.coin == 'banano') {
-        message = '"process block:F275F2D9D82EF524C4AAA0FC53F44B01704A8C8C65112B994346B20540B60642"';
+        message = 'process block:F275F2D9D82EF524C4AAA0FC53F44B01704A8C8C65112B994346B20540B60642';
       }
       if (coinData.coin == 'nano') {
-        message = '"process block:D04C5FC29529792683B0883E4F1C87436D3C49F2C1E6E66FE5A374E55C18B500"';
+        message = 'process block:D04C5FC29529792683B0883E4F1C87436D3C49F2C1E6E66FE5A374E55C18B500';
       }
       const receiveDepositsForSeed = coinData.getReceiveDepositsForSeedFn(bananojs);
       await testUtil.expectErrorMessage(message, receiveDepositsForSeed, seed0, seedIx, representative1);

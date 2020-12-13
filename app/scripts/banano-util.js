@@ -503,10 +503,10 @@
         return hwResponse.signature;
       } catch (error) {
         console.log('sign', error.message);
-        return;
       }
+    } else {
+      return signHash(privateKey, hash(block));
     }
-    return signHash(privateKey, hash(block));
   };
 
   const generateAccountKeyPair = (accountSecretKeyBytes) => {
@@ -1015,7 +1015,7 @@
       if (LOG_RECEIVE) {
         console.log('FAILURE receive', JSON.stringify(e));
       }
-      throw Error(JSON.stringify(e));
+      throw Error(e.message);
     }
   };
 
@@ -1074,7 +1074,7 @@
       return processResponse;
     } catch (e) {
       /* istanbul ignore if */
-      console.log('FAILURE receive', e.message);
+      // console.log('FAILURE receive', e.message);
       throw Error(e.message);
     }
   };

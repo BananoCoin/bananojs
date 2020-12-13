@@ -10,10 +10,10 @@ const process = async (block, subtype) => {
   }
   if (subtype == undefined) {
     throw Error(`'subtype' is a required parameter.'`);
-  }  
+  }
   const hash = bananojs.getBlockHash(block);
   return new Promise((resolve, reject) => {
-    reject(`process block:${hash}`);
+    reject(Error(`process block:${hash}`));
   });
 };
 

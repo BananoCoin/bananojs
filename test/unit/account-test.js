@@ -16,33 +16,33 @@ const expectedBananoAccount = bananoTest.seed0bananoAccount;
 const expectedNanoAccount = bananoTest.seed0nanoAccount;
 
 describe('account', () => {
-  it('getBananoAccountFromSeed valid account matches expected', () => {
+  it('getBananoAccountFromSeed valid account matches expected', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
-    const actualAccount = bananojs.getBananoAccountFromSeed(seed0, seedIx);
+    const actualAccount = await bananojs.getBananoAccountFromSeed(seed0, seedIx);
     expect(actualAccount).to.equal(expectedBananoAccount);
   });
-  it('getNanoAccountFromSeed valid account matches expected', () => {
+  it('getNanoAccountFromSeed valid account matches expected', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
-    const actualAccount = bananojs.getNanoAccountFromSeed(seed0, seedIx);
+    const actualAccount = await bananojs.getNanoAccountFromSeed(seed0, seedIx);
     expect(actualAccount).to.equal(expectedNanoAccount);
   });
   it('banano getAccountBalanceRaw valid account matches expected', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
-    const account = bananojs.getBananoAccountFromSeed(seed0, seedIx);
+    const account = await bananojs.getBananoAccountFromSeed(seed0, seedIx);
     const actualBalance = await bananojs.getAccountBalanceRaw(account);
     const expectedBalance = '1000000000000000000000000000000';
     expect(actualBalance).to.equal(expectedBalance);
   });
   it('nano getAccountBalanceRaw valid account matches expected', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
-    const account = bananojs.getNanoAccountFromSeed(seed0, seedIx);
+    const account = await bananojs.getNanoAccountFromSeed(seed0, seedIx);
     const actualBalance = await bananojs.getAccountBalanceRaw(account);
     const expectedBalance = '10000000000000000000000000000000';
     expect(actualBalance).to.equal(expectedBalance);
   });
   it('banano getAccountHistory valid account matches expected', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
-    const account = bananojs.getBananoAccountFromSeed(seed0, seedIx);
+    const account = await bananojs.getBananoAccountFromSeed(seed0, seedIx);
     const actualHistory = await bananojs.getAccountHistory(account, -1, false, false);
     const expectedHistory = {
       'account': 'ban_3i1aq1cchnmbn9x5rsbap8b15akfh7wj7pwskuzi7ahz8oq6cobd99d4r3b7',
@@ -61,7 +61,7 @@ describe('account', () => {
   });
   it('nano getAccountHistory valid account matches expected', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
-    const account = bananojs.getNanoAccountFromSeed(seed0, seedIx);
+    const account = await bananojs.getNanoAccountFromSeed(seed0, seedIx);
     const actualHistory = await bananojs.getAccountHistory(account, -1, false, false);
     const expectedHistory = {
       'account': 'nano_3i1aq1cchnmbn9x5rsbap8b15akfh7wj7pwskuzi7ahz8oq6cobd99d4r3b7',
@@ -80,7 +80,7 @@ describe('account', () => {
   });
   it('banano getAccountInfo valid account matches expected', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
-    const account = bananojs.getBananoAccountFromSeed(seed0, seedIx);
+    const account = await bananojs.getBananoAccountFromSeed(seed0, seedIx);
     const actualAccountInfo = await bananojs.getAccountInfo(account);
     const expectedAccountInfo = {
       'account_version': '1',
@@ -96,7 +96,7 @@ describe('account', () => {
   });
   it('nano getAccountInfo valid account matches expected', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
-    const account = bananojs.getNanoAccountFromSeed(seed0, seedIx);
+    const account = await bananojs.getNanoAccountFromSeed(seed0, seedIx);
     const actualAccountInfo = await bananojs.getAccountInfo(account);
     const expectedAccountInfo = {
       'account_version': '1',
@@ -112,7 +112,7 @@ describe('account', () => {
   });
   it('banano getAccountsPending valid account matches expected', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
-    const account = bananojs.getBananoAccountFromSeed(seed0, seedIx);
+    const account = await bananojs.getBananoAccountFromSeed(seed0, seedIx);
     const actualAccountInfo = await bananojs.getAccountsPending([account], 1);
     const expectedAccountInfo = {
       'blocks': {
@@ -126,7 +126,7 @@ describe('account', () => {
   });
   it('nano getAccountsPending valid account matches expected', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
-    const account = bananojs.getNanoAccountFromSeed(seed0, seedIx);
+    const account = await bananojs.getNanoAccountFromSeed(seed0, seedIx);
     const actualAccountInfo = await bananojs.getAccountsPending([account], 1);
     const expectedAccountInfo = {
       'blocks': {

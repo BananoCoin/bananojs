@@ -202,6 +202,27 @@ describe('corner-cases', () => {
           actualBananoParts);
     });
   });
+  it('sign from hardware wallet', async () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    const bananodeApi = require('../util/mock-bananode-api.js');
+    // console.log(`STARTED hw`, bananojs.bananodeApi);
+    const destAccount = 'ban_3i1aq1cchnmbn9x5rsbap8b15akfh7wj7pwskuzi7ahz8oq6cobd99d4r3b7';
+    const amountRaw = '1';
+    const expected = 'EA94473875A88E3777C7FF4251410F09B82AACECE02901D78FDAE4BC571AF77D';
+    const accountSigner = {};
+    accountSigner.getPublicKey = async () => {
+      return await bananojs.getPublicKey(destAccount);
+    }
+    accountSigner.signBlock = async () => {
+      return '';
+    }
+    try {
+      const actual = await bananojs.bananoUtil.sendFromPrivateKey(bananodeApi, accountSigner, destAccount, amountRaw, bananojs.BANANO_PREFIX);
+      expect(expected).to.deep.equal(actual);
+    } catch(e) {
+      console.trace(e);
+    }
+  });
 
   beforeEach(async () => {
   });

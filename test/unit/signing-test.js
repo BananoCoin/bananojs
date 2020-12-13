@@ -62,10 +62,10 @@ describe('block-sign', () => {
     const actualHash = bananojs.getBlockHash(block);
     expect(expectedHash).to.deep.equal(actualHash);
   });
-  it('signature of block matches expected', () => {
+  it('signature of block matches expected', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
     const expectedSignature = signature;
-    const actualSignature = bananojs.getSignature(privateKey, block);
+    const actualSignature = await bananojs.getSignature(privateKey, block);
     expect(expectedSignature).to.deep.equal(actualSignature);
   });
   it('getWork works', () => {

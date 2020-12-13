@@ -40,8 +40,8 @@ describe('change', () => {
     it(coinData.coin + ' changeRepresentativeForSeed processing error', async () => {
       const bananojs = testUtil.getBananojsWithProcessErrorApi();
       const messages = {
-        banano: '"process block:329E20904109CAB232624D68D568F2C2DC9675EA1C7151280E61D7E1AD397E41"',
-        nano: '"process block:CAE4778886C7574F99C99FE5EA826D3E442E8260B6F75768C317B0D575F0240C"',
+        banano: 'process block:329E20904109CAB232624D68D568F2C2DC9675EA1C7151280E61D7E1AD397E41',
+        nano: 'process block:CAE4778886C7574F99C99FE5EA826D3E442E8260B6F75768C317B0D575F0240C',
       };
       const message = messages[coinData.coin];
       const changeRepresentativeForSeed = coinData.getChangeRepresentativeForSeedFn(bananojs);

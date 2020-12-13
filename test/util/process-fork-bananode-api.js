@@ -15,7 +15,7 @@ const process = async (block, subtype) => {
   return new Promise((resolve, reject) => {
     const json = {};
     json.error = 'Fork';
-    reject(json);
+    reject(Error(JSON.stringify(json)));
   });
 };
 

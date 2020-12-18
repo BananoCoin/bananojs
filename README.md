@@ -6,6 +6,10 @@ make sure to use `npm i @bananocoin/bananojs@latest` to get the latest version.
 
 now includes Ledger Nano S/X Support.
 
+If you do not want ledger support, use version 2.1.2.
+
+Since ledger support requires node-gyp, and that's a heavyweight library, hardware support may be migrated to a seperate project in the future.
+
 # simple banano functions
 
     const bananojs = require('@bananocoin/bananojs');

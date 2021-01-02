@@ -4,11 +4,8 @@ JavaScript utilities for the banano cryptocurrency.
 
 make sure to use `npm i @bananocoin/bananojs@latest` to get the latest version.
 
-now includes Ledger Nano S/X Support.
-
-If you do not want ledger support, use version 2.1.2.
-
-Since ledger support requires node-gyp, and that's a heavyweight library, hardware support may be migrated to a seperate project in the future.
+now includes Ledger Nano S/X Support in a different project:
+    https://github.com/BananoCoin/bananojs-hw
 
 # simple banano functions
 

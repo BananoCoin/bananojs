@@ -28,6 +28,10 @@ now includes Ledger Nano S/X Support in a different project:
 
   https://bananocoin.github.io/bananojs/web/
 
+# description on how to do browser integration
+
+  <https://github.com/BananoCoin/bananojs/blob/master/docs/banano-client-side.md>
+
 # complete documentation of all functions
 
   <https://github.com/BananoCoin/bananojs/blob/master/docs/documentation.md>

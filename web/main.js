@@ -14,8 +14,8 @@ const getNewSeed = async (ix) => {
 
 const getAccountHistoryAndPending = async (ix) => {
   const seed = document.getElementById('seed' + ix).value;
-  const privateKey = window.bananocoinBananojs.getPrivateKey(seed, 0);
-  const publicKey = window.bananocoinBananojs.getPublicKey(privateKey);
+  const privateKey = await window.bananocoinBananojs.getPrivateKey(seed, 0);
+  const publicKey = await window.bananocoinBananojs.getPublicKey(privateKey);
   const account = window.bananocoinBananojs.getBananoAccount(publicKey);
   const accountElt = document.getElementById('account' + ix);
   if (accountElt.innerText != account) {

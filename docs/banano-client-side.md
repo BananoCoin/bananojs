@@ -29,7 +29,7 @@ For now here's now to get started:
 
     ```js
     const getAccountInfo = async (ix) => {
-      const url = '<https://kaliumapi.appditto.com/api'>;
+      const url = 'https://kaliumapi.appditto.com/api';
       const seed = window.localStorage.seed;
       const privateKey = await window.bananocoinBananojs.getPrivateKey(seed, 0);
       const publicKey = await window.bananocoinBananojs.getPublicKey(privateKey);

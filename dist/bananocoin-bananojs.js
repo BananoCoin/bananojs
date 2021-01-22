@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.2.3
+//version 2.2.4
 //license MIT
 const require = (modname) => {
   if (typeof BigInt === 'undefined') {
@@ -1978,7 +1978,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
     if (formData == undefined) {
       throw Error(`'formData' is a required parameter.`);
     }
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
     // https://docs.nano.org/commands/rpc-protocol#accounts-balances
 
       const apiUrl = new URL(url);
@@ -2015,8 +2015,8 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
       });
 
       req.on('error', (error) => {
-        throw Error(error);
         console.log('sendRequest error', error, body);
+        reject(error);
       });
 
       req.write(body);

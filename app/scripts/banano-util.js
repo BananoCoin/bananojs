@@ -308,6 +308,9 @@
     if (account === undefined) {
       throw Error(`Undefined BANANO Account`);
     }
+    if (account.startsWith === undefined) {
+      throw Error(`Not a string: '${account}'`);
+    }
     let accountCrop;
     if (account.startsWith('camo')) {
       if (((!account.startsWith('camo_1')) &&

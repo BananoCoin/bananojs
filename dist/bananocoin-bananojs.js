@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.2.4
+//version 2.2.5
 //license MIT
 const require = (modname) => {
   if (typeof BigInt === 'undefined') {
@@ -2726,6 +2726,9 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
   const getAccountPublicKey = (account) => {
     if (account === undefined) {
       throw Error(`Undefined BANANO Account`);
+    }
+    if (account.startsWith === undefined) {
+      throw Error(`Not a string: '${account}'`);
     }
     let accountCrop;
     if (account.startsWith('camo')) {

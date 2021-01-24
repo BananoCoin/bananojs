@@ -28,6 +28,14 @@ describe('corner-cases', () => {
     const message = 'Undefined BANANO Account';
     await testUtil.expectErrorMessage(message, bananojs.getAccountPublicKey);
   });
+  it('getAccountPublicKey error `Not a string', async () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    const message = `Not a string: '[object Promise]'`;
+    const promise = new Promise((resolve)=>{
+      resolve();
+    });
+    await testUtil.expectErrorMessage(message, bananojs.getAccountPublicKey, promise );
+  });
   it('getAccountPublicKey error Invalid BANANO Account prefix', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
     const message = 'Invalid BANANO Account prefix \'\'';

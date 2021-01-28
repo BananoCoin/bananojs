@@ -44,8 +44,12 @@
           if (chunks.length == 0) {
             resolve(undefined);
           } else {
-            const json = JSON.parse(chunks);
-            resolve(json);
+            try {
+              const json = JSON.parse(chunks);
+              resolve(json);
+            } catch (error) {
+              reject(error);
+            }
           }
         });
       });

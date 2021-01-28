@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.2.5
+//version 2.2.6
 //license MIT
 const require = (modname) => {
   if (typeof BigInt === 'undefined') {
@@ -2008,8 +2008,12 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
           if (chunks.length == 0) {
             resolve(undefined);
           } else {
-            const json = JSON.parse(chunks);
-            resolve(json);
+            try {
+              const json = JSON.parse(chunks);
+              resolve(json);
+            } catch (error) {
+              reject(error);
+            }
           }
         });
       });

@@ -1,6 +1,6 @@
 {
   "name": "@bananocoin/bananojs",
-  "version": "2.2.6",
+  "version": "2.2.7",
   "module": "index.js",
   "repository": {
     "type": "git",
@@ -17,6 +17,7 @@
     "coverage": "nyc -x 'test/util/**' -x 'test/unit/**' -x 'libraries/**' -x '**/mock-bananode-api.js' -x '**/bananode-api.js' ./node_modules/mocha/bin/mocha -t 100000 test/unit",
     "coverage-win": "nyc -x 'test\\util\\**' -x 'test\\unit\\**' -x 'libraries\\**' -x '**\\mock-bananode-api.js' -x '**\\bananode-api.js' .\\node_modules\\mocha\\bin\\mocha -t 100000 test\\unit",
     "camo-test": "./node_modules/mocha/bin/mocha -t 1000000 test/camo",
+    "vanity-test": "./node_modules/mocha/bin/mocha -t 1000000 test/vanity",
     "square-proof-test": "./node_modules/mocha/bin/mocha -t 1000000 test/square-proof",
     "start": "node main.js",
     "docs": "./node_modules/documentation/bin/documentation.js build --config documentation.yaml documentation.js -f md -o docs/documentation.md"
@@ -26,10 +27,10 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
-    "chai": "^4.2.0",
+    "chai": "^4.3.0",
     "documentation": "^13.1.1",
-    "elliptic": "^6.5.3",
-    "eslint": "^7.18.0",
+    "elliptic": "^6.5.4",
+    "eslint": "^7.19.0",
     "eslint-config-google": "^0.14.0",
     "mocha": "^8.2.1",
     "nyc": "^15.1.0"

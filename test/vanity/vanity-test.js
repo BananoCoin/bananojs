@@ -4,6 +4,7 @@
 const chai = require('chai');
 const elliptic = require('elliptic');
 const bananojs = require('../../index.js');
+const crypto = require('crypto');
 
 // modules
 const curve25519 = new elliptic.ec('curve25519');
@@ -77,7 +78,7 @@ describe('vanity', () => {
       const cy = BigInt('0x' + cKeyPublic.getY().toString('hex'));
       return {'x': cx.toString(10), 'y': cy.toString(10)};
     };
-    it.only('medium1', () => {
+    it('medium1', () => {
       // https://medium.com/coinmonks/having-fun-with-bitcoins-vanity-bitcoin-address-generation-fea28f855173
       const a = '86061879872531449951982497796959448028218381820041432789293827894874333168061';
       console.log('a ', a);
@@ -116,13 +117,58 @@ describe('vanity', () => {
       const ab = scalarAddsecp256k1(a, b);
       console.log('ab', ab);
       expect(ab).to.deep.equal('78841054190318847542394804641275380427777505825944707943814168573046538504957');
-      console.log('pub(ab)', getPublicKey(ab));
+      const pubab = getPublicKey(ab);
+      console.log('pub(ab)', pubab);
 
       const AB = publicKeyAdd(A, B);
       console.log('AB     ', AB);
+      expect(pubab).to.deep.equal(AB);
     });
   });
-  describe('PlasmaPower', () => {
+  describe('banano', () => {
+    const getRandomSeed = () => {
+      return crypto.randomBytes(32).toString('hex').toUpperCase();
+    };
+    const addPrivateKeys = (privateKey0, privateKey1) => {
+      const privateKey0Int = BigInt('0x' + privateKey0);
+      const privateKey1Int = BigInt('0x' + privateKey1);
+      const nInt = BigInt(elliptic.curves.ed25519.n);
+      const privateKey01Int = (privateKey0Int + privateKey1Int)%nInt;
+      let privateKey2 = privateKey01Int.toString(16);
+      while (privateKey2.length < 64) {
+        privateKey2 = '0' + privateKey2;
+      }
+      return privateKey2;
+    };
+    const addPublicKeys = (publicKey0, publicKey1) => {
+      const key0 = ed25519.decodePoint(publicKey0, 'hex');
+      const key1 = ed25519.decodePoint(publicKey1, 'hex');
+      // console.log('addPublicKeys', 'key0', key0);
+      // console.log('addPublicKeys', 'key1', key1);
+      let key2 = key0.add(key1);
+      // console.log('addPublicKeys', 'key2', key2);
+      key2 = key2.normalize();
+      key2 = key2.encode('hex', true).toUpperCase();
+
+      return key2.substring(2);
+    };
+    it('random', async () => {
+      const seed0 = getRandomSeed();
+      const seed1 = getRandomSeed();
+      const privateKey0 = bananojs.bananoUtil.getPrivateKey(seed0, 0);
+      const privateKey1 = bananojs.bananoUtil.getPrivateKey(seed1, 0);
+      const publicKey0 = await bananojs.bananoUtil.getPublicKey(privateKey0);
+      const publicKey1 = await bananojs.bananoUtil.getPublicKey(privateKey1);
+      const privateKey01 = addPrivateKeys(privateKey0, privateKey1);
+      // console.log('random', 'privateKey01', privateKey01.length, privateKey01);
+      const publicKey01 = addPublicKeys(publicKey0, publicKey1);
+      const privateKey01pub = await bananojs.bananoUtil.getPublicKey(privateKey01);
+      console.log('random', 'publicKey01    ', publicKey01.length, publicKey01);
+      console.log('random', 'privateKey01pub', privateKey01pub.length, privateKey01pub);
+      expect(privateKey01pub).to.deep.equal(publicKey01);
+    });
+  });
+  describe.skip('PlasmaPower', () => {
     it('point derivation', async () => {
       const secret = 'FFFA1DA85206E1B977E4EAA21460BDF220856254607513409F3734D10D7C030D';
       console.log('secret', secret);

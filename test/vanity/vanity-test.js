@@ -121,6 +121,7 @@ describe('vanity', () => {
 
         // bob wants to fund a vanity for wanda, and give her the private key.
         // wanda wants to confirm bob has the private key before releasing the SC.
+        // bob wants to confirm wanda has the private key before releasing the SC.
         const wandaPrivate = getRandomBytes32Base10();
         const wandaPublic = getPublicKey(wandaPrivate);
         const bobPrivate = getRandomBytes32Base10();
@@ -132,16 +133,22 @@ describe('vanity', () => {
         const bobMessage = getRandomBytes32Base16();
         const bobSignature = getKeyFromPrivate(bobPrivate).sign(bobMessage).toDER();
 
+        const wandaMessage = getRandomBytes32Base16();
+        const wandaSignature = getKeyFromPrivate(wandaPrivate).sign(wandaMessage).toDER();
+
         // wanda verifies the bobPublic signature, proving bob has bobPrivate
         // which proves he can give her the bobPrivate key that unlocks bobVanityPublic.
         expect(true).to.deep.equal(getKeyFromPublic(bobPublic).verify(bobMessage, bobSignature));
+        expect(true).to.deep.equal(getKeyFromPublic(wandaPublic).verify(wandaMessage, wandaSignature));
 
-        // at this point wanda instructs the SC to release the wax if it gets the private key from bob. wanda has comitted now, and cannot cancel until the time lock.
+        // at this point wanda instructs the SC to release the wax if it gets the private key from bob or wanda. wanda has comitted now, and cannot cancel until the time lock.
+        // if the SC gets the private key from wanda, bob can get the bananos, so SC sends wax to bob.
+        // if the SC gets the private key from bob, wanda can get the bananos, so SC sends wax to wanda.
 
         const wandaVanityPrivate = scalarAdd(wandaPrivate, bobPrivate);
-        // at this point wansa knows the vanity's private address.
+        // at this point wanda knows the vanity's private address.
         const wandaVanityPublic = getPublicKey(wandaVanityPrivate);
-        // at this point wansa confirms the vanity's public address and can withdraw.
+        // at this point wanda confirms the vanity's public address and can withdraw.
         expect(wandaVanityPublic).to.deep.equal(bobVanityPublic);
       });
     });

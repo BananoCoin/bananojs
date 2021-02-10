@@ -1314,7 +1314,7 @@
         throw new Error('bad signature size');
       }
       if (publicKey.length !== crypto_sign_PUBLICKEYBYTES) {
-        throw new Error('bad public key size');
+        throw new Error('bad public key size:' + publicKey.length + ' expected:' + crypto_sign_PUBLICKEYBYTES);
       }
       const sm = new Uint8Array(crypto_sign_BYTES + msg.length);
       const m = new Uint8Array(crypto_sign_BYTES + msg.length);

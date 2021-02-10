@@ -12,13 +12,6 @@ const expect = chai.expect;
 // PEM conversion
 // https://scalingbitcoin.org/transcript/telaviv2019/threshold-scriptless-scripts
 // https://gist.github.com/mauriciolobo/f205d2db54fc8f35749e7a01c5b894d2
-
-const getPublicKeyPem = (pubKeyHex) => {
-  return `-----BEGIN PUBLIC KEY-----
-${Buffer.from(`3056301006072a8648ce3d020106052b8104000a034200${pubKeyHex}`, 'hex').toString('base64')}
------END PUBLIC KEY-----`;
-};
-
 const createPemFromKey = (keyPair) => {
   const pvtKey = `-----BEGIN PRIVATE KEY-----
 ${Buffer.from(`308184020100301006072a8648ce3d020106052b8104000a046d306b0201010420${keyPair.getPrivateKey('hex')}a144034200${keyPair.getPublicKey('hex')}`, 'hex').toString('base64')}

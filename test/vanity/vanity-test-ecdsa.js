@@ -44,89 +44,6 @@ const getRandomBytes32Base16 = () => {
 };
 
 const getEc = (curve) => {
-  if (curve == 'banano') {
-    const ecEd = elliptic.ec('ed25519');
-
-    const ec = {};
-    ec.n = BigInt('7237005577332262213973186563042994240857116359379907606001950938285454250989');
-
-    const getPublicKeyHex = (publicKeyRaw, format) => {
-      console.log('getPublicKeyHex', 'publicKeyRaw', publicKeyRaw.length, publicKeyRaw, 'format', format);
-      if (format === 'hex') {
-        return publicKeyRaw;
-      } else {
-        const publicKeyEd = {x: publicKeyX, y: publicKeyY};
-        const keyEd = ecEd.keyFromPublic(getPubKey(publicKeyRaw), format);
-        return keyEd.encode('hex');
-      }
-    };
-
-    const getPublicKeyObj = (publicKeyRaw, format) => {
-      const publicKeyHex = getPublicKeyHex(publicKeyRaw, format);
-      console.log('getPublicKeyObj', 'publicKeyHex', publicKeyHex.length, publicKeyHex);
-      const keyEd = ecEd.keyFromPublic(publicKeyHex);
-      const publicKeyObj = {};
-      publicKeyObj.getX = () => {
-        return keyEd.getPublic().getX();
-      };
-      publicKeyObj.getY = () => {
-        return keyEd.getPublic().getY();
-      };
-      publicKeyObj.add = (that) => {
-        const thisPublicKeyEd = {x: publicKeyX, y: publicKeyY};
-        const thatPublicKeyEd = {x: publicKeyX, y: publicKeyY};
-        const thisKeyEd = ecEd.keyFromPublic(thisPublicKeyEd);
-        const thatKeyEd = ecEd.keyFromPublic(thatPublicKeyEd);
-        const addKeyEd = thisKeyEd.getPublic().add(thatKeyEd.getPublic());
-        const addKey = {x: addKeyEd.getX(), y: addKeyEd.getY()};
-        return getPublicKeyObj(addKey);
-        // console.log('add', 'publicKey', publicKey.length, publicKey, 'that', that);
-      };
-      return publicKeyObj;
-    };
-
-    ec.keyFromPublic = async (publicKeyRaw, format) => {
-      const key = {
-        public: getPublicKeyHex(publicKeyRaw, format),
-      };
-      key.getPublic = () => {
-        return getPublicKeyObj(publicKeyRaw, format);
-      };
-      key.verify = (hash, signature) => {
-        const publicKey = getPublicKeyHex(publicKeyRaw, format);
-        return bananojs.bananoUtil.verify(hash, signature, publicKey);
-      };
-      // console.log('keyFromPublic', 'publicKey', publicKey.length, publicKey);
-      return key;
-    };
-    ec.keyFromPrivate = async (privateKey) => {
-      privateKey = privateKey.padStart(64, '0');
-      console.log('keyFromPrivate', 'privateKey', privateKey.length, privateKey);
-      // const privateKey0 = privateKey.substring(0, 32);
-      // console.log('keyFromPrivate', 'privateKey0', privateKey0.length, privateKey0);
-      const publicKey = await bananojs.camoUtil.getCamoPublicKey(privateKey);
-      const publicKeyEd = ecEd.keyFromPrivate(privateKey).getPublic().encode('hex');
-      console.log('keyFromPrivate', 'publicKey', publicKey.length, publicKey);
-      console.log('keyFromPrivate', 'publicKeyEd', publicKeyEd.length, publicKeyEd);
-      const key = {
-        private: privateKey,
-        public: publicKey,
-      };
-      key.getPublic = () => {
-        return getPublicKeyObj(publicKey, 'hex');
-      };
-      key.sign = (message) => {
-        const sig = {
-          toDER: () => {
-            return bananojs.bananoUtil.signHash(privateKey, message);
-          },
-        };
-        return sig;
-      };
-      return key;
-    };
-    return ec;
-  }
   return elliptic.ec(curve);
 };
 
@@ -140,7 +57,6 @@ describe('vanity', () => {
     }
     return true;
   }); ;
-  // curves.push('banano');
   for (let curveIx = 0; curveIx < curves.length; curveIx++) {
     const curve = curves[curveIx];
     describe(curve, async () => {

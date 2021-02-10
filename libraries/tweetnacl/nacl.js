@@ -1135,10 +1135,10 @@
 
     function checkBoxLengths(pk, sk) {
       if (pk.length !== crypto_box_PUBLICKEYBYTES) {
-        throw new Error('bad public key size');
+        throw new Error('bad public key size' + pk.length + ' expected:' + crypto_box_PUBLICKEYBYTES);
       }
       if (sk.length !== crypto_box_SECRETKEYBYTES) {
-        throw new Error('bad secret key size');
+        throw new Error('bad secret key size:' + sk.length + ' expected:' + crypto_box_SECRETKEYBYTES);
       }
     }
 
@@ -1349,7 +1349,7 @@
     exports.sign.keyPair.fromSecretKey = function(secretKey) {
       checkArrayTypes(secretKey);
       if (secretKey.length !== crypto_sign_SECRETKEYBYTES) {
-        throw new Error('bad secret key size');
+        throw new Error('bad secret key size:' + secretKey.length + ' expected:' + crypto_box_SECRETKEYBYTES);
       }
       let pk = new Uint8Array(crypto_sign_PUBLICKEYBYTES);
       pk = derivePublicFromSecret(secretKey);

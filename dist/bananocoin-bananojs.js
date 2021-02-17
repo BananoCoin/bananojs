@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.2.7
+//version 2.2.8
 //license MIT
 const require = (modname) => {
   if (typeof BigInt === 'undefined') {
@@ -1639,19 +1639,19 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
 
     function checkLengths(k, n) {
       if (k.length !== crypto_secretbox_KEYBYTES) {
-        throw new Error('bad key size');
+        throw new Error('bad key size' + n.length + ' expected:' + crypto_secretbox_KEYBYTES);
       }
       if (n.length !== crypto_secretbox_NONCEBYTES) {
-        throw new Error('bad nonce size');
+        throw new Error('bad nonce size' + n.length + ' expected:' + crypto_secretbox_NONCEBYTES);
       }
     }
 
     function checkBoxLengths(pk, sk) {
       if (pk.length !== crypto_box_PUBLICKEYBYTES) {
-        throw new Error('bad public key size');
+        throw new Error('bad public key size' + pk.length + ' expected:' + crypto_box_PUBLICKEYBYTES);
       }
       if (sk.length !== crypto_box_SECRETKEYBYTES) {
-        throw new Error('bad secret key size');
+        throw new Error('bad secret key size:' + sk.length + ' expected:' + crypto_box_SECRETKEYBYTES);
       }
     }
 
@@ -1696,9 +1696,12 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
         c[i + crypto_secretbox_BOXZEROBYTES] = box[i];
       }
       if (c.length < 32) {
+        console.log('c.length < 32', c.length);
         return null;
       }
-      if (crypto_secretbox_open(m, c, c.length, nonce, key) !== 0) {
+      const val = crypto_secretbox_open(m, c, c.length, nonce, key);
+      if (val !== 0) {
+        console.log('val !== 0', val);
         return null;
       }
       return m.subarray(crypto_secretbox_ZEROBYTES);
@@ -1827,7 +1830,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
         throw new Error('bad signature size');
       }
       if (publicKey.length !== crypto_sign_PUBLICKEYBYTES) {
-        throw new Error('bad public key size');
+        throw new Error('bad public key size:' + publicKey.length + ' expected:' + crypto_sign_PUBLICKEYBYTES);
       }
       const sm = new Uint8Array(crypto_sign_BYTES + msg.length);
       const m = new Uint8Array(crypto_sign_BYTES + msg.length);
@@ -1859,10 +1862,79 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
       return deriveUnhashedPublicFromSecret(secretKey);
     };
 
+    exports.convertSecretKey = function(sk, direct) {
+      let d = new Uint8Array(64);
+      const o = new Uint8Array(32);
+      let i;
+      if (direct) {
+        d = sk.slice(0, 32);
+      } else {
+        crypto_hash(d, sk, 32);
+        d[0] &= 248;
+        d[31] &= 127;
+        d[31] |= 64;
+      }
+      for (i = 0; i < 32; i++) o[i] = d[i];
+      for (i = 0; i < 64; i++) d[i] = 0;
+      return o;
+    };
+
+    exports.convertPublicKey = function(pk) {
+      // https://github.com/dchest/ed2curve-js/blob/master/ed2curve.js
+      const z = new Uint8Array(32);
+      const q = [gf(), gf(), gf(), gf()];
+      const a = gf(); const b = gf();
+
+      if (unpackneg(q, pk)) return null; // reject invalid key
+
+      const y = q[1];
+
+      A(a, gf1, y);
+      Z(b, gf1, y);
+      inv25519(b, b);
+      M(a, a, b);
+
+      pack25519(z, a);
+      return z;
+    };
+
+    exports.TryToConvertPublicKeyBack = function(pk) {
+  		const z = new Uint8Array(32);
+  			const x = gf(); const a = gf(); const b = gf();
+
+  		unpack25519(x, pk);
+
+  		A(a, x, gf1);
+  		Z(b, x, gf1);
+  		inv25519(a, a);
+  		M(a, a, b);
+
+  		pack25519(z, a); // what about last byte of this value??? Sometimes pubKeys not equals... Maybe there is parity-bit lost.
+
+      // https://crypto.stackexchange.com/questions/13077/can-curve25519-keys-be-used-with-ed25519-keys
+
+  		return z;
+  	};
+    exports.convert_ed25519_to_curve25519_public_key = exports.convertPublicKey;
+
+    exports.convert_curve25519_to_ed25519_public_key = exports.TryToConvertPublicKeyBack;
+
+
+
+    exports.sign.keyPair.add = function(a, b) {
+      const aUnpacked = new Float64Array(80);
+      const bUnpacked = new Float64Array(80);
+      unpack25519(aUnpacked, a);
+      unpack25519(bUnpacked, b);
+      add(aUnpacked, bUnpacked);
+      pack(bUnpacked, c);
+      const c = new Uint8Array(32);
+    };
+
     exports.sign.keyPair.fromSecretKey = function(secretKey) {
       checkArrayTypes(secretKey);
       if (secretKey.length !== crypto_sign_SECRETKEYBYTES) {
-        throw new Error('bad secret key size');
+        throw new Error('bad secret key size:' + secretKey.length + ' expected:' + crypto_box_SECRETKEYBYTES);
       }
       let pk = new Uint8Array(crypto_sign_PUBLICKEYBYTES);
       pk = derivePublicFromSecret(secretKey);
@@ -2358,6 +2430,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
     exports.getAccountInfo = getAccountInfo;
     exports.getBlocks = getBlocks;
     exports.getBlockCount = getBlockCount;
+    exports.sendRequest = sendRequest;
     exports.log = console.log;
     exports.trace = console.trace;
 

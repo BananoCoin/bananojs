@@ -394,6 +394,7 @@
     exports.getAccountInfo = getAccountInfo;
     exports.getBlocks = getBlocks;
     exports.getBlockCount = getBlockCount;
+    exports.sendRequest = sendRequest;
     exports.log = console.log;
     exports.trace = console.trace;
 

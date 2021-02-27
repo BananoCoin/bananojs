@@ -7,6 +7,7 @@ const camoUtil = require('./app/scripts/camo-util.js');
 const loggingUtil = require('./app/scripts/logging-util.js');
 const depositUtil = require('./app/scripts/deposit-util.js');
 const crypto = require('crypto');
+const fs = require('fs');
 
 const configs = {};
 configs.banano = {};
@@ -141,6 +142,60 @@ commands['bsendraw'] = async (privateKey, destAccount, amountRaw) => {
     console.log('banano sendbanano response', response);
   } catch (error) {
     console.log('banano sendbanano error', error.message);
+  }
+};
+
+commands['bsendjson'] = async (privateKey, file) => {
+  const config = configs.banano;
+  bananodeApi.setUrl(config.bananodeUrl);
+  try {
+    const jsonStr = fs.readFileSync(file, 'UTF-8');
+    const json = JSON.parse(jsonStr);
+    const responses = [];
+    const publicKey = await bananoUtil.getPublicKey(privateKey);
+    const account = bananoUtil.getAccount(publicKey, config.prefix);
+    console.log('banano sendjson account', account);
+
+    const pending = await bananodeApi.getAccountsPending([account], parseInt(1));
+    console.log('banano sendjson pending', pending);
+    if (pending.blocks) {
+      if (pending.blocks[account]) {
+        const pendingBlockhashes = [...Object.keys(pending.blocks[account])];
+        const specificPendingBlockHash = pendingBlockhashes[0];
+        console.log('banano sendjson aborting, found pending block ', specificPendingBlockHash);
+        let representative = await bananodeApi.getAccountRepresentative(account);
+        if (!(representative)) {
+          representative = account;
+        }
+        const response = await depositUtil.receive(loggingUtil, bananodeApi, account, privateKey, representative, specificPendingBlockHash, config.prefix);
+        console.log('banano sendjson aborted, found pending blocks', response);
+        return;
+      }
+    }
+
+
+    for (let ix = 0; ix < json.accounts.length; ix++) {
+      const elt = json.accounts[ix];
+      let destAccount = elt.account;
+      if (destAccount.startsWith('nano_')) {
+        destAccount = 'ban_' + destAccount.substring(5);
+      }
+      let amountRaw;
+      if (elt.amount !== undefined) {
+        amountRaw = await index.getBananoDecimalAmountAsRaw(elt.amount);
+      }
+      if (elt.balance !== undefined) {
+        amountRaw = await index.getBananoDecimalAmountAsRaw(elt.balance);
+      }
+      console.log('banano sendjson', destAccount, amountRaw);
+
+      const response = await bananoUtil.sendFromPrivateKey(bananodeApi, privateKey, destAccount, amountRaw, config.prefix);
+      responses.push(response);
+    }
+    console.log('banano sendjson responses', responses);
+  } catch (error) {
+    console.trace(error);
+    console.log('banano sendjson error', error.message);
   }
 };
 

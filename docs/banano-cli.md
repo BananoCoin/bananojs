@@ -62,6 +62,37 @@
         bananojs
         banano sendbanano response BF3BA5C6F91D52E88658E6AB800237C4023AD59392B4AB203EBA1E5BF706E535
 
+# send using private key and a json file
+
+        json file is of the format:
+        (account can start with nano_ or ban_ for compatibility with nano-banano airdrops)
+        (amount can be called amount or balance for compatibility with nano-banano airdrops)
+
+        ```js
+        {
+          "accounts":[
+          {
+            "account":"ban_1coranoshiqdentfbwkfo7fxzgg1jhz6m33pt9aa8497xxfageuskroocdxa"
+            ,
+            "amount":"1.2"
+          },
+          {
+            "account":"nano_1coranoshiqdentfbwkfo7fxzgg1jhz6m33pt9aa8497xxfageuskroocdxa"
+            ,
+            "balance":"1.3"}
+          ]
+        }
+        ```
+
+        npm start bsendjson ${privateKey} ${jsonfile}
+
+        npm start bsendjson 1111111111111111111111111111111111111111111111111111111111111111 test-airdrop.json
+
+        bananojs
+        banano bsendjson response BF3BA5C6F91D52E88658E6AB800237C4023AD59392B4AB203EBA1E5BF706E535
+        BF3BA5C6F91D52E88658E6AB800237C4023AD59392B4AB203EBA1E5BF706E535
+        BF3BA5C6F91D52E88658E6AB800237C4023AD59392B4AB203EBA1E5BF706E535
+
 # check account info
 
         npm start baccountinfo ban_1coranoshiqdentfbwkfo7fxzgg1jhz6m33pt9aa8497xxfageuskroocdxa

@@ -945,6 +945,7 @@
     exports.depositUtil = depositUtil;
     exports.withdrawUtil = withdrawUtil;
     exports.loggingUtil = loggingUtil;
+    exports.realBananodeApi = realBananodeApi;
 
     exports.setBananodeApi = setBananodeApi;
     exports.getBananoPartsFromDecimal = getBananoPartsFromDecimal;

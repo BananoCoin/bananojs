@@ -28,7 +28,7 @@
         method: 'POST',
         hostname: apiUrl.hostname,
         path: apiUrl.pathname,
-        port: 443,
+        port: apiUrl.port,
         headers: {
           'Content-Type': 'application/json',
           'Content-Length': body.length,

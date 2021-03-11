@@ -1,55 +1,56 @@
-# camo encrypted amounts
+# camo 1.19
 
-amounts are encrypted using the formula:  
+## encrypted amounts
 
-    `x` = amount.  
-    `a` = large prime.  
-    `n` = large prime.  
+Eventually, when we figure it out, we will ty to implement bullet proofs in banano.
+(We are hoping nano will do it first)
+<https://github.com/PlasmaPower/orv-privacy>
 
-    encryptedX =  (`x` + `a`) % `n`;  
+## time sensitive send blocks.
 
-`a` and `n` are computed from blake hashing the shared secret until you find two prime numbers.  
+Eventually we would like to support a "time sensitive send block" which will allow a user to send banano and get it refunded if a receive block is not generated within 24h.
 
-alice's old account balance is `decA0`.  
-alice's new account balance is `decA1`.  
-blake's old account balance is `decB0`.  
-blake's new account balance is `decB1`.  
+This would require nano to implement "time as a currency" proof of work, so we are waiting for that.
 
-when alice sends bans she sends:  
+## trustless swap to wax.
 
-    her old encrypted amount (`encA0`).  
-    her new encrypted amount (`encA1`).  
-    her sent amount (`encTx0`).  
-    the modulus (`n`).  
+The main idea came from PlasmaPower's idea to do a trustless DEX with NANO and BTC.
+<https://github.com/MerosCrypto/asmr>
 
-when blake receives bans he puts in the receive block:  
+based on monero's XMR to BTC swap
+<https://arxiv.org/pdf/2101.12332.pdf>
 
-    the old encrypted amount (`encB0`).  
-    the new encrypted amount (`encB1`).  
+He also described how to do a 'split key vanity', where you can generate a known public key, where the real private key is unknown, and is a combination of two private keys.
 
-the validator wants to make sure the accounts balance:  
+<https://raw.githubusercontent.com/PlasmaPower/curve25519-repl/master/examples/nano/secure-distributed-vanity-address-gen.txt>
 
-    `encA0` - `encTx0` = `encA1`  
-      (Alice subtracted correctly)  
-    `encB0` + `encTx0` = `encB1`  
-      (Blake added correctly)  
-    `encA0` + `encB0` = `encA1` + `encB1`  
-      (the sum of the old equals the sum of the new)  
-    since the validator knows `n`, it can do this calculation, mod `n`, easily.  
+So here is the idea:
 
-# assumptions:  
-1) it is cryptographically hard to create an `encA0`, `encB0`, `encA1`, `encB1`, and `encTx0` where the validator's encrypted accounts balance, but the decrypted ones do not:  
+Alice has Wax and wants Banano.
+Bob has Banano and wants Wax.
 
-    `encA0` - `encTx0` = `encA1` BUT `decA0` - `decTx0` != `decA1`  
-    `encB0` + `encTx0` = `encB1` BUT `decB0` + `decTx0` != `decB1`  
-    `encA0` + `encB0` = `encA1` + `encB1` BUT `decA0` + `decB0` != `decA1` + `decB1`  
+1.  Alice creates a ECDH key pair A.
+2.  Bob creates a ECDH key pair B.
+3.  they share public keys.
+4.  Bob calculates the split key vanity (AB) based on his private key and Alice's public key.
+5.  Alice puts her WAX into a time locked smart contract that will unlock under four conditions:
 
-2) it is cryptographically hard to find `a` given `n`.  
-3) it is cryptographically hard to find the shared secret given `a` and `n`.  
-4) it is cryptographically hard to find
+    1.  REDEEM. if 2h elapses and Bob shared the private key of B, Bob can unlock the wax and send to his account. (this is the happy path, Alice has AB)
+    2.  CANCEL. if 2h elapses, either Alice or Bob can send a cancel tx.
 
-    `decA0` given `encA0`  
-    `decA1` given `encA1`  
-    `decB0` given `encB0`  
-    `decB1` given `encB1`  
-    `decTx0` given `encTx0`  
+        1.  REFUND. If Alice sees CANCEL, Alice can unlock the wax by publishing a TX with private key A. This allows Bob to unlock the Banano using AB.
+        2.  PUNISH. If 4h elapses, Bob can unlock the wax and send to his account. This unlocks the wax, but does not unlock the Banano.
+
+6.  Before 1h elapses, Bob puts his Banano into AB.
+
+7.  depending on who plays nice, several things can happen:
+    1.  both parties play nice. After 1h both Banano and wax are in the accounts. After 2h Bob sends REDEEM. Bob gets wax, Alice gets Banano.
+    2.  Bob does not play nice. After 2h the Banano is not in the account. Alice sends CANCEL. Alice sends REFUND. Bob should not send Bananos to AB after 1h, as after 2h Alice can CANCEL/REFUND and Bob's Banano are unrecoverable.
+    3.  Alice does not play nice. Alice sees the Banano in the account and sends CANCEL but does not send REFUND. Bob should send PUNISH. Alice can prevent PUNISH by sending REFUND. Otherwise Bob gets Wax and Alice's Banano are unrecoverable.
+    4.  Both parties do not play nice.
+        After 1h it will be obvious to Alice if Bob is playing nice.
+        After 2h, Alice or Bob can CANCEL and it will be obvious to both parties who is playing nice.
+        After 4h, Bob can CANCEL/PUNISH or Alice can CANCEL/REFUND.
+        If neither party plays nice, and neither party tries to cancel, the system will wait for whoever decides to move first, as both parties can retrieve the Wax at this point.
+
+<https://github.com/BananoCoin/bananojs/blob/master/test/vanity/vanity-test-banano.js>

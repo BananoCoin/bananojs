@@ -5,6 +5,7 @@
 (function() {
 // FINISHED TOP nodejs/browser hack
   const https = require('https');
+  const http = require('http');
 
   let url;
 
@@ -18,6 +19,7 @@
     // https://docs.nano.org/commands/rpc-protocol#accounts-balances
 
       const apiUrl = new URL(url);
+      console.log(apiUrl);
       const body = JSON.stringify(formData);
       //        console.log( 'sendRequest request', body );
 
@@ -32,8 +34,12 @@
         },
         timeout: 30000,
       };
+      let module = https;
+      if(apiUrl.protocol === 'http'){
+        options.port = apiUrl.port || 80;
+      }
 
-      const req = https.request(options, (res) => {
+      const req = module.request(options, (res) => {
       // console.log(`statusCode: ${res.statusCode}`);
         let chunks = '';
         res.on('data', (chunk) => {

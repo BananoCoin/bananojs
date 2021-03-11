@@ -4,7 +4,8 @@
 // STARTED TOP nodejs/browser hack
 (function() {
 // FINISHED TOP nodejs/browser hack
-  let https = require('https');
+  const https = require('https');
+  const http = require('http');
 
   let url;
 
@@ -35,8 +36,13 @@
         },
         timeout: 30000,
       };
+      let moduleRef = https;
+      if(apiUrl.protocol === 'http'){
+        moduleRef = http;
+        options.port = apiUrl.port || 80;
+      }
 
-      const req = https.request(options, (res) => {
+      const req = moduleRef.request(options, (res) => {
       // console.log(`statusCode: ${res.statusCode}`);
         let chunks = '';
         res.on('data', (chunk) => {

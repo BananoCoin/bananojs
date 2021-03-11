@@ -137,6 +137,12 @@ const getBananojsWithMockApi = () => {
   return bananojs;
 };
 
+const getBananojsWithRealApi = () => {
+  const bananodeApi = require('./mock-bananode-api.js');
+  bananojs.setBananodeApi(bananojs.realBananodeApi);
+  return bananojs;
+};
+
 const getBananojsWithErrorApi = () => {
   const bananodeApi = require('./everything-error-bananode-api.js');
   bananojs.setBananodeApi(bananodeApi);
@@ -206,6 +212,7 @@ const deactivate = () => {
 };
 
 exports.getTimeNanos = getTimeNanos;
+exports.getBananojsWithRealApi = getBananojsWithRealApi;
 exports.getBananojsWithMockApi = getBananojsWithMockApi;
 exports.getBananojsWithErrorApi = getBananojsWithErrorApi;
 exports.getBananojsWithProcessErrorApi = getBananojsWithProcessErrorApi;

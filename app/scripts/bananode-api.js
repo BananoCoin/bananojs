@@ -33,12 +33,13 @@
         },
         timeout: 30000,
       };
-      let module = https;
+      let moduleRef = https;
       if(apiUrl.protocol === 'http'){
+        moduleRef = http;
         options.port = apiUrl.port || 80;
       }
 
-      const req = module.request(options, (res) => {
+      const req = moduleRef.request(options, (res) => {
       // console.log(`statusCode: ${res.statusCode}`);
         let chunks = '';
         res.on('data', (chunk) => {

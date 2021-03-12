@@ -6,6 +6,8 @@
 // FINISHED TOP nodejs/browser hack
   const https = require('https');
   const http = require('http');
+  let moduleRef;
+  let moduleRefOverride = false;
 
   let url;
 
@@ -22,6 +24,7 @@
     // https://docs.nano.org/commands/rpc-protocol#accounts-balances
 
       const apiUrl = new URL(url);
+      // console.log('apiUrl', apiUrl);
       const body = JSON.stringify(formData);
       //        console.log( 'sendRequest request', body );
 
@@ -36,12 +39,8 @@
         },
         timeout: 30000,
       };
-      let moduleRef = https;
-      if(apiUrl.protocol === 'http'){
-        moduleRef = http;
-        options.port = apiUrl.port || 80;
-      }
-
+      // console.log('url', url);
+      // console.log('apiUrl.protocol', apiUrl.protocol);
       const req = moduleRef.request(options, (res) => {
       // console.log(`statusCode: ${res.statusCode}`);
         let chunks = '';
@@ -473,11 +472,18 @@
   const setUrl = (newUrl) => {
     // console.log('started serUrl', newUrl);
     url = newUrl;
+    if (url.startsWith('https')) {
+      moduleRef = https;
+    } else if (url.startsWith('http')) {
+      moduleRef = http;
+    }
     // console.log('success serUrl', newUrl, url);
+    moduleRefOverride = false;
   };
 
-  const setHttps = (newHttps) => {
-    https = newHttps;
+  const setModuleRef = (newModuleRef) => {
+    moduleRef = newModuleRef;
+    moduleRefOverride = true;
   };
 
   const setLogRequestErrors = (newLogRequestErrors) => {
@@ -489,7 +495,7 @@
     const exports = {};
 
     exports.setUrl = setUrl;
-    exports.setHttps = setHttps;
+    exports.setModuleRef = setModuleRef;
     exports.setLogRequestErrors = setLogRequestErrors;
     exports.getFrontiers = getFrontiers;
     exports.getBlockAccount = getBlockAccount;

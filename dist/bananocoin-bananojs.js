@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.4.0
+//version 2.4.2
 //license MIT
 const require = (modname) => {
   if (typeof BigInt === 'undefined') {
@@ -2040,7 +2040,10 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
 // STARTED TOP nodejs/browser hack
 (function() {
 // FINISHED TOP nodejs/browser hack
-  let https = require('https');
+  const https = require('https');
+  const http = require('http');
+  let moduleRef;
+  let moduleRefOverride = false;
 
   let url;
 
@@ -2057,6 +2060,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
     // https://docs.nano.org/commands/rpc-protocol#accounts-balances
 
       const apiUrl = new URL(url);
+      // console.log('apiUrl', apiUrl);
       const body = JSON.stringify(formData);
       //        console.log( 'sendRequest request', body );
 
@@ -2071,8 +2075,9 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
         },
         timeout: 30000,
       };
-
-      const req = https.request(options, (res) => {
+      // console.log('url', url);
+      // console.log('apiUrl.protocol', apiUrl.protocol);
+      const req = moduleRef.request(options, (res) => {
       // console.log(`statusCode: ${res.statusCode}`);
         let chunks = '';
         res.on('data', (chunk) => {
@@ -2503,11 +2508,18 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
   const setUrl = (newUrl) => {
     // console.log('started serUrl', newUrl);
     url = newUrl;
+    if (url.startsWith('https')) {
+      moduleRef = https;
+    } else if (url.startsWith('http')) {
+      moduleRef = http;
+    }
     // console.log('success serUrl', newUrl, url);
+    moduleRefOverride = false;
   };
 
-  const setHttps = (newHttps) => {
-    https = newHttps;
+  const setModuleRef = (newModuleRef) => {
+    moduleRef = newModuleRef;
+    moduleRefOverride = true;
   };
 
   const setLogRequestErrors = (newLogRequestErrors) => {
@@ -2519,7 +2531,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
     const exports = {};
 
     exports.setUrl = setUrl;
-    exports.setHttps = setHttps;
+    exports.setModuleRef = setModuleRef;
     exports.setLogRequestErrors = setLogRequestErrors;
     exports.getFrontiers = getFrontiers;
     exports.getBlockAccount = getBlockAccount;

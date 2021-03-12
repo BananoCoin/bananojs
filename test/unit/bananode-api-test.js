@@ -61,16 +61,17 @@ const getErrorHttps = (retval) => {
 
 const getFakeBananodeApi = (retval) => {
   const bananojs = testUtil.getBananojsWithRealApi();
-  bananojs.realBananodeApi.setHttps(getFakeHttps(retval));
+  bananojs.realBananodeApi.setUrl('https://localhost');
   bananojs.realBananodeApi.setUrl('http://localhost');
+  bananojs.realBananodeApi.setModuleRef(getFakeHttps(retval));
   bananojs.realBananodeApi.setLogRequestErrors(true);
   return bananojs.realBananodeApi;
 };
 
 const getErrorBananodeApi = (retval) => {
   const bananojs = testUtil.getBananojsWithRealApi();
-  bananojs.realBananodeApi.setHttps(getErrorHttps(retval));
   bananojs.realBananodeApi.setUrl('http://localhost');
+  bananojs.realBananodeApi.setModuleRef(getErrorHttps(retval));
   bananojs.realBananodeApi.setLogRequestErrors(false);
   return bananojs.realBananodeApi;
 };

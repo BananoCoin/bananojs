@@ -96,7 +96,7 @@ const changeRepresentativeToCamo = async (ix, seed) => {
   if (accountInfo.representative) {
     if (accountInfo.representative != representative) {
       console.log(`INTERIM changeRepresentativeToCamo need to change rep from ${accountInfo.representative} to ${representative}`);
-      const response = await window.bananocoinBananojs.changeRepresentativeForSeed(seed, 0, representative);
+      const response = await window.bananocoinBananojs.changeBananoRepresentativeForSeed(seed, 0, representative);
       console.log('SUCCESS changeRepresentativeToCamo response', JSON.stringify(response));
       if (response.error) {
         console.log('FAILURE RETRY changeRepresentativeToCamo response', JSON.stringify(response));

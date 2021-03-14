@@ -3,7 +3,7 @@
 const bananoUtil = require('../../app/scripts/banano-util.js');
 const bananojs = require('../../index.js');
 
-const GENERATE_UNKNOWN_BLOCK_WORK = false;
+const GENERATE_UNKNOWN_BLOCK_WORK = true;
 
 const getBalanceRaw = (account) => {
   for (let ix = 0; ix < bananojs.PREFIXES.length; ix++) {
@@ -53,7 +53,7 @@ const process = async (block, subtype) => {
   }
   if (subtype == undefined) {
     throw Error(`'subtype' is a required parameter.'`);
-  }  
+  }
   // https://docs.nano.org/commands/rpc-protocol/#process-block
   const retval = {};
   const blockHash = bananoUtil.hash(block);
@@ -72,11 +72,30 @@ const getGeneratedWork = async (hash) => {
   if (hash == 'E30D22B7935BCC25412FC07427391AB4C98A4AD68BAA733300D23D82C9D20AD3') {
     defaultWork = '5DAD3C0000000000';
   }
+  if (hash == '6C22D9056710A1EC9D61D9A0BCB45CA77B1757D651D0113A845A0E53C10F4E4F') {
+    defaultWork = '23922D0000000000';
+  }
+  if (hash == '08ADFBD2D47434DCEA55C903395B2C4219C16D860A630518EBAEBD79C8E295E0') {
+    defaultWork = '10A51C0100000000';
+  }
+  if (hash == '2C91AAFA9FF589ED3723E5A01E11046ED335701585F232F779B437F706D2502D') {
+    defaultWork = '980C430000000000';
+  }
+  if (hash == 'BAF3A8F66639550359A8E79438302854D5A8584849EAC320467F06C526FD816D') {
+    defaultWork = 'A807110000000000';
+  }
+  if (hash == '60C3B3D9DD0AF49D590E8AFC448690FC9CAF8E6911641C3A40AB16DB33F8F038') {
+    defaultWork = 'FA1E1C0000000000';
+  }
+  if (hash == 'C7771A83A9BABFF0E8555D2EA241DE79959C8C520519AB806ECA610B2AD2B748') {
+    defaultWork = '822E5D0000000000';
+  }
 
   if (GENERATE_UNKNOWN_BLOCK_WORK) {
-    const work = bananoUtil.getHashCPUWorker(hash, bananoUtil.getZeroedWorkBytes());
-    console.log( `getGeneratedWork work ${work} for hash ${JSON.stringify( hash )}` );
-    return work;
+    if (defaultWork == undefined) {
+      const work = bananoUtil.getHashCPUWorker(hash, bananoUtil.getZeroedWorkBytes());
+      throw Error(`unknown hash ${hash} sent to getGeneratedWork got work ${work}`);
+    }
   } else {
     if (defaultWork == undefined) {
       throw Error(`unknown hash ${hash} sent to getGeneratedWork`);

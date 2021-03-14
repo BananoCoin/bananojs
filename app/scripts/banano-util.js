@@ -889,7 +889,8 @@
       block.previous = previous;
       block.representative = representative;
       block.balance = remainingDecimal;
-
+      const work = await bananodeApi.getGeneratedWork(previous);
+      block.work = work;
       /* istanbul ignore if */
       if (LOG_SEND) {
         console.log('STARTED getAccountPublicKey', destAccount);

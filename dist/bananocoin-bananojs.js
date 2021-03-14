@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.4.3
+//version 2.4.4
 //license MIT
 const require = (modname) => {
   if (typeof BigInt === 'undefined') {
@@ -3566,7 +3566,8 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
       block.previous = previous;
       block.representative = representative;
       block.balance = remainingDecimal;
-
+      const work = await bananodeApi.getGeneratedWork(previous);
+      block.work = work;
       /* istanbul ignore if */
       if (LOG_SEND) {
         console.log('STARTED getAccountPublicKey', destAccount);

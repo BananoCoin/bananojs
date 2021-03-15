@@ -9,16 +9,21 @@ now includes Ledger Nano S/X Support in a different project:
 
 # simple banano functions
 
-    const bananojs = require('@bananocoin/bananojs');
-    bananojs.setBananodeApiUrl('https://kaliumapi.appditto.com/api');
+    ```js
+    const run = async () => {
+      const bananojs = require('@bananocoin/bananojs');
+      bananojs.setBananodeApiUrl('https://kaliumapi.appditto.com/api');
 
-    const crypto = require('crypto');
-    const seed = crypto.randomBytes(32).toString('hex');
-    const privateKey = bananojs.getPrivateKey(seed, 0);
-    const publicKey = bananojs.getPublicKey(privateKey);
-    const account = bananojs.getBananoAccount(publicKey);
+      const crypto = require('crypto');
+      const seed = crypto.randomBytes(32).toString('hex');
+      const privateKey = bananojs.getPrivateKey(seed, 0);
+      const publicKey = await bananojs.getPublicKey(privateKey);
+      const account = bananojs.getBananoAccount(publicKey);
 
-    bananojs.getAccountInfo(account).then((res) => console.log(res));
+      bananojs.getAccountInfo(account).then((res) => console.log(res));
+    };
+    run();
+    ```
 
 # examples of most functions as part of the cli
 

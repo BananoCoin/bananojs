@@ -76,6 +76,13 @@
   };
 
   const getAccountBalanceRaw = async (account) => {
+    const balances = await getAccountBalanceAndPendingRaw(account);
+    if (balances) {
+      return balances.balance;
+    }
+  }
+
+  const getAccountBalanceAndPendingRaw = async (account) => {
     /* istanbul ignore if */
     if (account == undefined) {
       throw Error(`'account' is a required parameter.`);
@@ -101,10 +108,10 @@
               return;
             }
             // console.log( 'accounts_balances json.balances', json.balances );
-
-            const balance = json.balances[account].balance;
-            // console.log( 'accounts_balances balance', balance );
-            resolve(balance);
+            resolve({
+              balance: json.balances[account].balance,
+              pending: json.balances[account].pending
+            });
           });
     });
   };
@@ -501,6 +508,7 @@
     exports.getBlockAccount = getBlockAccount;
     exports.getAccountsPending = getAccountsPending;
     exports.getAccountBalanceRaw = getAccountBalanceRaw;
+    exports.getAccountBalanceAndPendingRaw = getAccountBalanceAndPendingRaw;
     exports.getAccountRepresentative = getAccountRepresentative;
     exports.getPrevious = getPrevious;
     exports.process = process;

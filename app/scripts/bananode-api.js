@@ -7,7 +7,6 @@
   const https = require('https');
   const http = require('http');
   let moduleRef;
-  let moduleRefOverride = false;
 
   let url;
 
@@ -80,7 +79,7 @@
     if (balances) {
       return balances.balance;
     }
-  }
+  };
 
   const getAccountBalanceAndPendingRaw = async (account) => {
     /* istanbul ignore if */
@@ -110,7 +109,7 @@
             // console.log( 'accounts_balances json.balances', json.balances );
             resolve({
               balance: json.balances[account].balance,
-              pending: json.balances[account].pending
+              pending: json.balances[account].pending,
             });
           });
     });
@@ -485,12 +484,10 @@
       moduleRef = http;
     }
     // console.log('success serUrl', newUrl, url);
-    moduleRefOverride = false;
   };
 
   const setModuleRef = (newModuleRef) => {
     moduleRef = newModuleRef;
-    moduleRefOverride = true;
   };
 
   const setLogRequestErrors = (newLogRequestErrors) => {

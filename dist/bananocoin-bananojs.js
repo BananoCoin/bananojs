@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.4.5
+//version 2.4.6
 //license MIT
 const require = (modname) => {
   if (typeof BigInt === 'undefined') {
@@ -2109,7 +2109,6 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
   const https = require('https');
   const http = require('http');
   let moduleRef;
-  let moduleRefOverride = false;
 
   let url;
 
@@ -2182,7 +2181,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
     if (balances) {
       return balances.balance;
     }
-  }
+  };
 
   const getAccountBalanceAndPendingRaw = async (account) => {
     /* istanbul ignore if */
@@ -2212,7 +2211,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
             // console.log( 'accounts_balances json.balances', json.balances );
             resolve({
               balance: json.balances[account].balance,
-              pending: json.balances[account].pending
+              pending: json.balances[account].pending,
             });
           });
     });
@@ -2587,12 +2586,10 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
       moduleRef = http;
     }
     // console.log('success serUrl', newUrl, url);
-    moduleRefOverride = false;
   };
 
   const setModuleRef = (newModuleRef) => {
     moduleRef = newModuleRef;
-    moduleRefOverride = true;
   };
 
   const setLogRequestErrors = (newLogRequestErrors) => {

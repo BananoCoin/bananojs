@@ -246,7 +246,7 @@ commands['baccountinfo'] = async (account) => {
     return;
   }
   const response = await bananodeApi.getAccountInfo(account, true);
-  if(response.error !== undefined) {
+  if (response.error !== undefined) {
     console.log('banano accountinfo response', response);
     return;
   }

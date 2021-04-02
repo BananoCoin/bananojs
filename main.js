@@ -238,7 +238,19 @@ commands['breceive'] = async (privateKey, specificPendingBlockHash) => {
 commands['baccountinfo'] = async (account) => {
   const config = configs.banano;
   bananodeApi.setUrl(config.bananodeUrl);
+  console.log('banano accountinfo account', account);
+  try {
+    bananoUtil.getAccountPublicKey(account);
+  } catch (error) {
+    console.log('banano accountinfo error', error);
+    return;
+  }
   const response = await bananodeApi.getAccountInfo(account, true);
+  if(response.error !== undefined) {
+    console.log('banano accountinfo response', response);
+    return;
+  }
+
   response.balanceParts = await bananoUtil.getAmountPartsFromRaw(response.balance, config.prefix);
   response.balanceDescription = await index.getBananoPartsDescription(response.balanceParts);
   response.balanceDecimal = await index.getBananoPartsAsDecimal(response.balanceParts);

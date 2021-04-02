@@ -33,6 +33,17 @@ describe('account', () => {
     const expectedBalance = '1000000000000000000000000000000';
     expect(actualBalance).to.equal(expectedBalance);
   });
+  it('banano getAccountBalanceAndPendingRaw valid account matches expected', async () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    const account = await bananojs.getBananoAccountFromSeed(seed0, seedIx);
+    const balances = await bananojs.getAccountBalanceAndPendingRaw(account);
+    const actualBalance = balances.balance;
+    const actualPending = balances.pending;
+    const expectedBalance = '1000000000000000000000000000000';
+    expect(actualBalance).to.equal(expectedBalance);
+    const expectedPending = '000123000456000789000000000000';
+    expect(actualPending).to.equal(expectedPending);
+  });
   it('nano getAccountBalanceRaw valid account matches expected', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
     const account = await bananojs.getNanoAccountFromSeed(seed0, seedIx);

@@ -478,10 +478,12 @@
   const setUrl = (newUrl) => {
     // console.log('started serUrl', newUrl);
     url = newUrl;
-    if (url.startsWith('https')) {
-      moduleRef = https;
-    } else if (url.startsWith('http')) {
-      moduleRef = http;
+    if (url !== undefined) {
+      if (url.startsWith('https')) {
+        moduleRef = https;
+      } else if (url.startsWith('http')) {
+        moduleRef = http;
+      }
     }
     // console.log('success serUrl', newUrl, url);
   };

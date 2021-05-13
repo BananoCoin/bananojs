@@ -19,6 +19,17 @@ configs.nano.bananodeUrl = 'https://app.natrium.io/api';
 
 const commands = {};
 
+commands['cbgetaccount'] = async (seed) => {
+  const config = configs.banano;
+  bananodeApi.setUrl(config.bananodeUrl);
+  const privateKey = bananoUtil.getPrivateKey(seed, 0);
+  const publicKey = await bananoUtil.getPublicKey(privateKey);
+  const camoPublicKey = camoUtil.getCamoPublicKey(privateKey);
+  const camoAccount = bananoUtil.getAccount(camoPublicKey, config.prefix);
+  console.log('camo banano getaccount camo public key', camoPublicKey);
+  console.log('camo banano getaccount camo account', camoAccount);
+};
+
 commands['cbcheckpending'] = async (seed) => {
   const config = configs.banano;
   bananodeApi.setUrl(config.bananodeUrl);

@@ -170,7 +170,7 @@
    * @param {string} amountRaw the amount to send, in raw.
    * @param {string} representative the representative (optional).
    * @param {string} previousHash the previous hash (optional).
-   * @return {string} returns the hash returned by the send.
+   * @return {Promise<string>} returns the hash returned by the send.
    */
   const sendAmountToBananoAccountWithRepresentativeAndPrevious = async (seed, seedIx, destAccount, amountRaw, representative, previousHash) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
@@ -192,7 +192,7 @@
    * @param {string} amountRaw the amount to send, in raw.
    * @param {string} representative the representative (optional).
    * @param {string} previousHash the previous hash (optional).
-   * @return {string} returns the hash returned by the send.
+   * @return {Promise<string>} returns the hash returned by the send.
    */
   const sendAmountToNanoAccountWithRepresentativeAndPrevious = async (seed, seedIx, destAccount, amountRaw, representative, previousHash) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
@@ -209,7 +209,7 @@
  * @param {string} amountRaw the amount to send, in raw.
  * @param {string} successCallback the callback to call upon success.
  * @param {string} failureCallback the callback to call upon failure.
- * @return {string} returns the hash returned by the send.
+ * @return {Promise<string>} returns the hash returned by the send.
  */
   const sendAmountToBananoAccount = async (seed, seedIx, destAccount, amountRaw, successCallback, failureCallback) => {
     return await bananoUtil.send(bananodeApi, seed, seedIx, destAccount, amountRaw, successCallback, failureCallback, BANANO_PREFIX)
@@ -228,7 +228,7 @@
  * @param {string} amountRaw the amount to send, in raw.
  * @param {string} successCallback the callback to call upon success.
  * @param {string} failureCallback the callback to call upon failure.
- * @return {string} returns the hash returned by the send.
+ * @return {Promise<string>} returns the hash returned by the send.
  */
   const sendAmountToNanoAccount = async (seed, seedIx, destAccount, amountRaw, successCallback, failureCallback) => {
     return await bananoUtil.send(bananodeApi, seed, seedIx, destAccount, amountRaw, successCallback, failureCallback, NANO_PREFIX)
@@ -244,7 +244,7 @@
    * @param {string} seed the seed to use to find the account.
    * @param {string} seedIx the index to use with the seed.
    * @param {string} representative the representative.
-   * @return {string} returns the hash returned by the change.
+   * @return {Promise<string>} returns the hash returned by the change.
    */
   const changeBananoRepresentativeForSeed = async (seed, seedIx, representative) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
@@ -258,7 +258,7 @@
    * @param {string} seed the seed to use to find the account.
    * @param {string} seedIx the index to use with the seed.
    * @param {string} representative the representative.
-   * @return {string} returns the hash returned by the change.
+   * @return {Promise<string>} returns the hash returned by the change.
    */
   const changeNanoRepresentativeForSeed = async (seed, seedIx, representative) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
@@ -273,7 +273,7 @@
    * @param {string} seedIx the index to use with the seed.
    * @param {string} representative the representative.
    * @param {string} specificPendingBlockHash a specific block hash to receive (optional).
-   * @return {object} returns the response returned by the receive.
+   * @return {Promise<object>} returns the response returned by the receive.
    */
   const receiveNanoDepositsForSeed = async (seed, seedIx, representative, specificPendingBlockHash) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
@@ -290,7 +290,7 @@
    * @param {string} seedIx the index to use with the seed.
    * @param {string} representative the representative.
    * @param {string} specificPendingBlockHash a specific block hash to receive (optional).
-   * @return {object} returns the response returned by the receive.
+   * @return {Promise<object>} returns the response returned by the receive.
    */
   const receiveBananoDepositsForSeed = async (seed, seedIx, representative, specificPendingBlockHash) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
@@ -307,7 +307,7 @@
  * @param {string} seedIx the index to use with the seed.
  * @param {string} toAccount the account to send to.
  * @param {string} amountBananos the amount of bananos.
- * @return {object} returns the response returned by the withdraw.
+ * @return {Promise<object>} returns the response returned by the withdraw.
  */
   const sendBananoWithdrawalFromSeed = async (seed, seedIx, toAccount, amountBananos) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
@@ -322,7 +322,7 @@
  * @param {string} seedIx the index to use with the seed.
  * @param {string} toAccount the account to send to.
  * @param {string} amountBananos the amount of bananos.
- * @return {object} returns the response returned by the withdraw.
+ * @return {Promise<object>} returns the response returned by the withdraw.
  */
   const sendNanoWithdrawalFromSeed = async (seed, seedIx, toAccount, amountBananos) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
@@ -338,7 +338,7 @@
  * Calls {@link https://docs.nano.org/commands/rpc-protocol/#accounts_balances}
  * @memberof BananodeApi
  * @param {string} account the account to use.
- * @return {string} the account's balance, in raw.
+ * @return {Promise<string>} the account's balance, in raw.
  */
   const getAccountBalanceRaw = async (account) => {
     return await bananodeApi.getAccountBalanceRaw(account);
@@ -353,7 +353,7 @@
  * Calls {@link https://docs.nano.org/commands/rpc-protocol/#accounts_balances}
  * @memberof BananodeApi
  * @param {string} account the account to use.
- * @return {object} the account's balances, in raw.
+ * @return {Promise<object>} the account's balances, in raw.
  */
   const getAccountBalanceAndPendingRaw = async (account) => {
     return await bananodeApi.getAccountBalanceAndPendingRaw(account);
@@ -368,7 +368,7 @@
  * @param {string} count the count to use (use -1 for all).
  * @param {string} head the head to start at (optional).
  * @param {string} raw if true, return raw history (optional).
- * @return {object} the account's history.
+ * @return {Promise<object>} the account's history.
  */
   const getAccountHistory = async (account, count, head, raw) => {
     return await bananodeApi.getAccountHistory(account, count, head, raw);
@@ -380,7 +380,7 @@
    * @memberof BananoUtil
    * @param {string} seed the seed to use to find the account.
    * @param {string} seedIx the index to use with the seed.
-   * @return {string} the account.
+   * @return {Promise<string>} the account.
    */
   const getBananoAccountFromSeed = async (seed, seedIx) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
@@ -395,7 +395,7 @@
    * @memberof BananoUtil
    * @param {string} seed the seed to use to find the account.
    * @param {string} seedIx the index to use with the seed.
-   * @return {string} the account.
+   * @return {Promise<string>} the account.
    */
   const getNanoAccountFromSeed = async (seed, seedIx) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
@@ -421,7 +421,7 @@
  * @memberof BananodeApi
  * @param {string} account the account to use.
  * @param {boolean} representativeFlag the representativeFlag to use (optional).
- * @return {object} the account's info.
+ * @return {Promise<object>} the account's info.
  */
   const getAccountInfo = async (account, representativeFlag) => {
     return await bananodeApi.getAccountInfo(account, representativeFlag);
@@ -432,7 +432,7 @@
  *
  * Calls {@link https://docs.nano.org/commands/rpc-protocol/#block_count}
  * @memberof BananodeApi
- * @return {object} the block count.
+ * @return {Promise<object>} the block count.
  */
   const getBlockCount = async () => {
     return await bananodeApi.getBlockCount();
@@ -446,7 +446,7 @@
  * @param {string} representative the representative.
  * @param {string} pendingBlockHash the pending block hash.
  * @param {string} pendingValueRaw the pending block hash.
- * @return {string} returns the hash returned by the open.
+ * @return {Promise<string>} returns the hash returned by the open.
  */
   const openBananoAccountFromSeed = async (seed, seedIx, representative, pendingBlockHash, pendingValueRaw) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
@@ -462,7 +462,7 @@
  * @param {string} representative the representative.
  * @param {string} pendingBlockHash the pending block hash.
  * @param {string} pendingValueRaw the pending block hash.
- * @return {string} returns the hash returned by the open.
+ * @return {Promise<string>} returns the hash returned by the open.
  */
   const openNanoAccountFromSeed = async (seed, seedIx, representative, pendingBlockHash, pendingValueRaw) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
@@ -550,7 +550,7 @@
    * @memberof CamoUtil
    * @param {string} toPrivateKey the private key that receives the funds.
    * @param {string} fromPublicKey the public key that sent the funds.
-   * @return {string_array} the received hashes in an array.
+   * @return {Promise<string_array>} the received hashes in an array.
    */
   const camoBananoReceive = async (toPrivateKey, fromPublicKey) => {
     return await camoUtil.receive( bananodeApi, toPrivateKey, fromPublicKey, BANANO_PREFIX);
@@ -562,7 +562,7 @@
    * @memberof CamoUtil
    * @param {string} toPrivateKey the private key that receives the funds.
    * @param {string} fromPublicKey the public key that sent the funds.
-   * @return {string_array} the received hashes in an array.
+   * @return {Promise<string_array>} the received hashes in an array.
    */
   const camoNanoReceive = async (toPrivateKey, fromPublicKey) => {
     return await camoUtil.receive( bananodeApi, toPrivateKey, fromPublicKey, NANO_PREFIX);
@@ -573,7 +573,7 @@
    *
    * @memberof CamoUtil
    * @param {string} seed the seed to use to find the account.
-   * @return {string} the private key to use.
+   * @return {Promise<string>} the private key to use.
    */
   const getCamoBananoNextPrivateKeyForReceive = async (seed) => {
     return await camoUtil.getFirstUnopenedPrivateKey( bananodeApi, seed, BANANO_PREFIX );
@@ -584,7 +584,7 @@
    *
    * @memberof CamoUtil
    * @param {string} seed the seed to use to find the account.
-   * @return {string} the private key to use.
+   * @return {Promise<string>} the private key to use.
    */
   const getCamoNanoNextPrivateKeyForReceive = async (seed) => {
     return await camoUtil.getFirstUnopenedPrivateKey( bananodeApi, seed, NANO_PREFIX );
@@ -598,7 +598,7 @@
  * @param {string} fromCamoPrivateKey the private key used to generate the shared seed.
  * @param {string} toCamoPublicKey the public key that receives the funds.
  * @param {string} amountBananos the amount of bananos.
- * @return {string_array} the sent hashes in an array.
+ * @return {Promise<string_array>} the sent hashes in an array.
  */
   const camoBananoSend = async (fundingPrivateKey, fromCamoPrivateKey, toCamoPublicKey, amountBananos) => {
     const amountRaw = getRawStrFromBananoStr(amountBananos);
@@ -613,7 +613,7 @@
  * @param {string} fromCamoPrivateKey the private key used to generate the shared seed.
  * @param {string} toCamoPublicKey the public key that receives the funds.
  * @param {string} amountBananos the amount of bananos.
- * @return {string_array} the sent hashes in an array.
+ * @return {Promise<string_array>} the sent hashes in an array.
  */
   const camoNanoSend = async (fundingPrivateKey, fromCamoPrivateKey, toCamoPublicKey, amountBananos) => {
     const amountRaw = getRawStrFromNanoStr(amountBananos);
@@ -630,7 +630,7 @@
  * @param {string} seedIx the index to use with the seed.
  * @param {string} toAccount the account to send to.
  * @param {string} amountBananos the amount of bananos.
- * @return {string_array} the sent hashes in an array.
+ * @return {Promise<string_array>} the sent hashes in an array.
  */
   const camoBananoSendWithdrawalFromSeed = async (seed, seedIx, toAccount, amountBananos) => {
     const accountValid = getCamoAccountValidationInfo(toAccount);
@@ -653,7 +653,7 @@
  * @param {string} seedIx the index to use with the seed.
  * @param {string} toAccount the account to send to.
  * @param {string} amountBananos the amount of bananos.
- * @return {string_array} the sent hashes in an array.
+ * @return {Promise<string_array>} the sent hashes in an array.
  */
   const camoNanoSendWithdrawalFromSeed = async (seed, seedIx, toAccount, amountBananos) => {
     const accountValid = getCamoAccountValidationInfo(toAccount);
@@ -673,7 +673,7 @@
    * @param {string} fromAccount the account to recieve from.
    * @param {number} sharedSeedIx the index to use with the shared seed.
    * @param {number} count the max count to get.
-   * @return {string_array} the pending hashes in an array.
+   * @return {Promise<string_array>} the pending hashes in an array.
    */
   const camoBananoGetAccountsPending = async (seed, seedIx, fromAccount, sharedSeedIx, count) => {
     const accountValid = getCamoAccountValidationInfo(fromAccount);
@@ -692,7 +692,7 @@
    * @param {string} fromAccount the account to recieve from.
    * @param {number} sharedSeedIx the index to use with the shared seed.
    * @param {number} count the max count to get.
-   * @return {string_array} the pending hashes in an array.
+   * @return {Promise<string_array>} the pending hashes in an array.
    */
   const camoNanoGetAccountsPending = async (seed, seedIx, fromAccount, sharedSeedIx, count) => {
     const accountValid = getCamoAccountValidationInfo(fromAccount);
@@ -720,7 +720,7 @@
    * @param {string} seedIx the index to use with the seed.
    * @param {string} account the camo account to send or recieve from.
    * @param {string} sharedSeedIx the index to use with the shared seed.
-   * @return {string} the shared account.
+   * @return {Promise<string>} the shared account.
    */
   const getCamoBananoSharedAccountData = async (seed, seedIx, account, sharedSeedIx) => {
     const accountValid = getCamoAccountValidationInfo(account);
@@ -738,7 +738,7 @@
    * @param {string} seedIx the index to use with the seed.
    * @param {string} account the camo account to send or recieve from.
    * @param {string} sharedSeedIx the index to use with the shared seed.
-   * @return {string} the shared account.
+   * @return {Promise<string>} the shared account.
    */
   const getCamoNanoSharedAccountData = async (seed, seedIx, account, sharedSeedIx) => {
     const accountValid = getCamoAccountValidationInfo(account);
@@ -758,7 +758,7 @@
    * @param {string} account the camo account to send or recieve from.
    * @param {string} sharedSeedIx the index to use with the shared seed.
    * @param {string} specificPendingBlockHash the pending block to recieve.
-   * @return {string} the response from receiving the block.
+   * @return {Promise<string>} the response from receiving the block.
    */
   const receiveCamoBananoDepositsForSeed = async (seed, seedIx, account, sharedSeedIx, specificPendingBlockHash) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
@@ -786,7 +786,7 @@
    * @param {string} account the camo account to send or recieve from.
    * @param {string} sharedSeedIx the index to use with the shared seed.
    * @param {string} specificPendingBlockHash the pending block to recieve.
-   * @return {string} the response from receiving the block.
+   * @return {Promise<string>} the response from receiving the block.
    */
   const receiveCamoNanoDepositsForSeed = async (seed, seedIx, account, sharedSeedIx, specificPendingBlockHash) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
@@ -812,7 +812,7 @@
    * @memberof CamoUtil
    * @param {string} toPrivateKey the private key that receives the funds.
    * @param {string} fromPublicKey the public key that sent the funds.
-   * @return {string} the account balance, in raw.
+   * @return {Promise<string>} the account balance, in raw.
    */
   const getCamoBananoAccountBalanceRaw = async (toPrivateKey, fromPublicKey) => {
     return await camoUtil.getBalanceRaw( bananodeApi, toPrivateKey, fromPublicKey, BANANO_PREFIX);
@@ -824,7 +824,7 @@
    * @memberof CamoUtil
    * @param {string} toPrivateKey the private key that receives the funds.
    * @param {string} fromPublicKey the public key that sent the funds.
-   * @return {string} the account balance, in raw.
+   * @return {Promise<string>} the account balance, in raw.
    */
   const getCamoNanoAccountBalanceRaw = async (toPrivateKey, fromPublicKey) => {
     return await camoUtil.getBalanceRaw( bananodeApi, toPrivateKey, fromPublicKey, NANO_PREFIX);
@@ -838,7 +838,7 @@
  * @param {string_array} accounts the array of pending accounts.
  * @param {number} count the max count to get.
  * @param {string} source if true, get source.
- * @return {object} the account's pending blocks.
+ * @return {Promise<object>} the account's pending blocks.
  */
   const getAccountsPending = async (accounts, count, source) => {
     return await bananodeApi.getAccountsPending(accounts, count, source);

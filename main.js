@@ -26,6 +26,7 @@ commands['cbgetaccount'] = async (seed) => {
   const publicKey = await bananoUtil.getPublicKey(privateKey);
   const camoPublicKey = camoUtil.getCamoPublicKey(privateKey);
   const camoAccount = bananoUtil.getAccount(camoPublicKey, config.prefix);
+  console.log('camo banano getaccount public key', publicKey);
   console.log('camo banano getaccount camo public key', camoPublicKey);
   console.log('camo banano getaccount camo account', camoAccount);
 };

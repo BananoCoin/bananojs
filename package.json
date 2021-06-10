@@ -1,6 +1,6 @@
 {
   "name": "@bananocoin/bananojs",
-  "version": "2.4.10",
+  "version": "2.4.11",
   "module": "index.js",
   "repository": {
     "type": "git",
@@ -32,9 +32,9 @@
     "chai": "^4.3.4",
     "documentation": "^13.2.5",
     "elliptic": "^6.5.4",
-    "eslint": "^7.27.0",
+    "eslint": "^7.28.0",
     "eslint-config-google": "^0.14.0",
-    "mocha": "^8.4.0",
+    "mocha": "^9.0.0",
     "nyc": "^15.1.0"
   },
   "description": "JavaScript utilities for the banano cryptocurrency.",

@@ -9,6 +9,7 @@
 
 ### update version in package-lock.json
   npm i;
+  npm audit fix;
 
   npm run eslint;
   npm run eslint-main;

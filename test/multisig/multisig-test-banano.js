@@ -13,27 +13,36 @@ const getRandomBytes32Base16 = () => {
   return crypto.randomBytes(32).toString('hex').toUpperCase();
 };
 
-const getPublicKey = () => {
-
-}
+const getPublicKey = (secret) => {
+  const key = ec.keyFromSecret(secret);
+  return key.pubBytes();
+};
 
 const signAndVerify = async (a, aZ, b, bZ, msgHashHex) => {
   const msgHash = Buffer.from(msgHashHex, 'hex');
-  const getPlayerData = (secret, zValue) => {
-    // hex string, array or Buffer
-  	const key = ec.keyFromSecret(secret);
+  const A = getPublicKey(a);
+  const B = getPublicKey(b);
+  const aBytes = ec.keyFromSecret(a).privBytes();
+  const bBytes = ec.keyFromSecret(b).privBytes();
 
-  	return {
-  		'secretKeyBytes': key.privBytes(),
-  		'publicKeyBytes': key.pubBytes(),
-  		'publicKeyPoint': ec.decodePoint(key.pubBytes()),
-  		'messagePrefix': key.messagePrefix(),
-  		'zValue': zValue,
-  	};
+
+  // const playerData1 = getPlayerData(a, aZ);
+  // const playerData2 = getPlayerData(b, bZ);
+  const playerData1 = {
+    secretKeyBytes: aBytes,
+    publicKeyPoint: ec.decodePoint(A),
+    zValue: aZ,
+  };
+  const playerData2 = {
+    secretKeyBytes: bBytes,
+    publicKeyPoint: ec.decodePoint(B),
+    zValue: bZ,
   };
 
   const getSignatureComponentsForPlayer = (playerData, message) => {
-  	const r = ec.hashInt(playerData.messagePrefix, message, playerData.zValue);
+  	const r = ec.hashInt(
+        // playerData.messagePrefix,
+        message, playerData.zValue);
   	const R = ec.g.mul(r);
   	const Rencoded = ec.encodePoint(R);
   	const t = ec.hashInt(Rencoded);
@@ -95,7 +104,7 @@ const signAndVerify = async (a, aZ, b, bZ, msgHashHex) => {
 
   const getSignatureContribution = (aggregatedRPoint, pubKeys, message, playerData, signatureComponents) => {
   	const aggregatedPublicKeyPoint = getAggregatedPublicKeyPoint(pubKeys);
-  	const aHashSignatureComponent = getAHashSignatureComponent(playerData['publicKeyPoint'], pubKeys);
+  	const aHashSignatureComponent = getAHashSignatureComponent(playerData.publicKeyPoint, pubKeys);
   	const kHash = getKHash(aggregatedRPoint, aggregatedPublicKeyPoint, message);
 
   	let signatureContribution = kHash.mul(ec.decodeInt(playerData['secretKeyBytes']));
@@ -127,10 +136,8 @@ const signAndVerify = async (a, aZ, b, bZ, msgHashHex) => {
   	return ec.makeSignature({R: aggregatedRPoint, S: aggregatedSignature, Rencoded: ec.encodePoint(aggregatedRPoint)});
   };
 
-  const playerData1 = getPlayerData(a, aZ);
   const signatureComponents1 = getSignatureComponentsForPlayer(playerData1, msgHash);
 
-  const playerData2 = getPlayerData(b, bZ);
   const signatureComponents2 = getSignatureComponentsForPlayer(playerData2, msgHash);
 
   const pubKeys = [
@@ -138,12 +145,7 @@ const signAndVerify = async (a, aZ, b, bZ, msgHashHex) => {
   	playerData2.publicKeyPoint,
   ];
 
-  const RPoints = [
-  	signatureComponents1.RPoint,
-  	signatureComponents2.RPoint,
-  ];
-
-  const aggregatedRPoint = getAggregatedRPoint(RPoints);
+  const aggregatedRPoint = getAggregatedRPoint([signatureComponents1.RPoint, signatureComponents2.RPoint]);
   const signatureContribution1 = getSignatureContribution(aggregatedRPoint, pubKeys, msgHash, playerData1, signatureComponents1);
   const signatureContribution2 = getSignatureContribution(aggregatedRPoint, pubKeys, msgHash, playerData2, signatureComponents2);
 
@@ -154,8 +156,13 @@ const signAndVerify = async (a, aZ, b, bZ, msgHashHex) => {
 
   const aggregatedSignature = getAggregatedSignature(signatureContributions, aggregatedRPoint);
 
-  const aggregatedPublicKeyPoint = getAggregatedPublicKeyPoint(pubKeys);
-  const aggPubKey = ec.keyFromPublic(aggregatedPublicKeyPoint);
+
+  const getAggregatedPublicKey = (A, B) => {
+    const aggregatedPublicKeyPoint = getAggregatedPublicKeyPoint([A, B]);
+    return ec.keyFromPublic(aggregatedPublicKeyPoint);
+  };
+
+  const aggPubKey = getAggregatedPublicKey(playerData1.publicKeyPoint, playerData2.publicKeyPoint);
   const verified = ec.verify(msgHash, aggregatedSignature, aggPubKey);
   expect(true).to.deep.equal(verified);
 };

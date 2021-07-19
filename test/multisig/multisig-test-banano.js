@@ -22,20 +22,15 @@ const signAndVerify = async (a, aZ, b, bZ, msgHashHex) => {
   const msgHash = Buffer.from(msgHashHex, 'hex');
   const A = getPublicKey(a);
   const B = getPublicKey(b);
-  const aBytes = ec.keyFromSecret(a).privBytes();
-  const bBytes = ec.keyFromSecret(b).privBytes();
-
 
   const playerData1 = {
-    secretKeyBytes: aBytes,
-    publicKeyPoint: ec.decodePoint(A),
+    secretKey: a,
     publicKey: A,
     zValue: aZ,
   };
 
   const playerData2 = {
-    secretKeyBytes: bBytes,
-    publicKeyPoint: ec.decodePoint(B),
+    secretKey: b,
     publicKey: B,
     zValue: bZ,
   };
@@ -109,7 +104,8 @@ const signAndVerify = async (a, aZ, b, bZ, msgHashHex) => {
   	const aHashSignatureComponent = getAHashSignatureComponent(playerData.publicKey, pubKeys);
   	const kHash = getKHash(aggregatedRPoint, aggregatedPublicKeyPoint, message);
 
-  	let signatureContribution = kHash.mul(ec.decodeInt(playerData.secretKeyBytes));
+    const secretKeyBytes = ec.keyFromSecret(playerData.secretKey).privBytes();
+  	let signatureContribution = kHash.mul(ec.decodeInt(secretKeyBytes));
 
     // not absolutely certain about the order of operations here.
   	signatureContribution = signatureContribution.mul(aHashSignatureComponent);

@@ -13,9 +13,13 @@ const getRandomBytes32Base16 = () => {
   return crypto.randomBytes(32).toString('hex').toUpperCase();
 };
 
+const getPublicKey = () => {
+
+}
+
 const signAndVerify = async (a, aZ, b, bZ, msgHashHex) => {
   const msgHash = Buffer.from(msgHashHex, 'hex');
-  function getPlayerData(secret, zValue) {
+  const getPlayerData = (secret, zValue) => {
     // hex string, array or Buffer
   	const key = ec.keyFromSecret(secret);
 
@@ -26,9 +30,9 @@ const signAndVerify = async (a, aZ, b, bZ, msgHashHex) => {
   		'messagePrefix': key.messagePrefix(),
   		'zValue': zValue,
   	};
-  }
+  };
 
-  function getSignatureComponentsForPlayer(playerData, message) {
+  const getSignatureComponentsForPlayer = (playerData, message) => {
   	const r = ec.hashInt(playerData.messagePrefix, message, playerData.zValue);
   	const R = ec.g.mul(r);
   	const Rencoded = ec.encodePoint(R);
@@ -39,23 +43,24 @@ const signAndVerify = async (a, aZ, b, bZ, msgHashHex) => {
   		'RPoint': R,
   		'RPointCommitment': t,
   	};
-  }
+  };
 
-  function getAggregatedRPoint(RPoints) {
+  const getAggregatedRPoint = (RPoints) => {
   	let aggregatedRPoint = null;
 
   	for (let i = 0; i < RPoints.length; i++) {
   		if (aggregatedRPoint === null) {
   			aggregatedRPoint = RPoints[i];
   		} else {
-  			aggregatedRPoint = aggregatedRPoint.add(RPoints[i]); // point addition
+        // point addition
+  			aggregatedRPoint = aggregatedRPoint.add(RPoints[i]);
   		}
   	}
 
   	return aggregatedRPoint;
-  }
+  };
 
-  function getAHashSignatureComponent(playerPublicKeyPoint, pubKeys) {
+  const getAHashSignatureComponent = (playerPublicKeyPoint, pubKeys) => {
   	const hashArguments = [ec.encodePoint(playerPublicKeyPoint)];
 
   	for (let i = 0; i < pubKeys.length; i++) {
@@ -63,9 +68,9 @@ const signAndVerify = async (a, aZ, b, bZ, msgHashHex) => {
   	}
 
   	return ec.hashInt.apply(ec, hashArguments);
-  }
+  };
 
-  function getAggregatedPublicKeyPoint(pubKeys) {
+  const getAggregatedPublicKeyPoint = (pubKeys) => {
   	let aggregatedPublicKeyPoint = null;
   	let aHashComponent = null;
   	let aggregationComponentPoint = null;
@@ -82,46 +87,51 @@ const signAndVerify = async (a, aZ, b, bZ, msgHashHex) => {
   	}
 
   	return aggregatedPublicKeyPoint; // need to convert to key?
-  }
+  };
 
-  function getKHash(aggregatedRPoint, aggregatedPublicKeyPoint, message) {
+  const getKHash = (aggregatedRPoint, aggregatedPublicKeyPoint, message) => {
   	return ec.hashInt(ec.encodePoint(aggregatedRPoint), ec.encodePoint(aggregatedPublicKeyPoint), message);
-  }
+  };
 
-  function getSignatureContribution(aggregatedRPoint, pubKeys, message, playerData, signatureComponents) {
+  const getSignatureContribution = (aggregatedRPoint, pubKeys, message, playerData, signatureComponents) => {
   	const aggregatedPublicKeyPoint = getAggregatedPublicKeyPoint(pubKeys);
   	const aHashSignatureComponent = getAHashSignatureComponent(playerData['publicKeyPoint'], pubKeys);
   	const kHash = getKHash(aggregatedRPoint, aggregatedPublicKeyPoint, message);
 
   	let signatureContribution = kHash.mul(ec.decodeInt(playerData['secretKeyBytes']));
-  	signatureContribution = signatureContribution.mul(aHashSignatureComponent); // not absolutely certain about the order of operations here.
-  	signatureContribution = signatureComponents['rHash'].add(signatureContribution); // bigint addition
-  	signatureContribution = signatureContribution.umod(ec.curve.n); // appears to not be needed? Rust implementation doesn't seem to have it, even for single sig.
+
+    // not absolutely certain about the order of operations here.
+  	signatureContribution = signatureContribution.mul(aHashSignatureComponent);
+
+    // bigint addition
+  	signatureContribution = signatureComponents['rHash'].add(signatureContribution);
+
+    // appears to not be needed? Rust implementation doesn't seem to have it, even for single sig.
+  	signatureContribution = signatureContribution.umod(ec.curve.n);
 
   	return signatureContribution;
-  }
+  };
 
-  function getAggregatedSignature(signatureContributions) {
+  const getAggregatedSignature = (signatureContributions) => {
   	let aggregatedSignature = null;
 
   	for (let i = 0; i < signatureContributions.length; i++) {
   		if (aggregatedSignature === null) {
   			aggregatedSignature = signatureContributions[i];
   		} else {
-  			aggregatedSignature = aggregatedSignature.add(signatureContributions[i]); // bigint addition
+        // bigint addition
+  			aggregatedSignature = aggregatedSignature.add(signatureContributions[i]);
   		}
   	}
 
   	return ec.makeSignature({R: aggregatedRPoint, S: aggregatedSignature, Rencoded: ec.encodePoint(aggregatedRPoint)});
-  }
+  };
 
   const playerData1 = getPlayerData(a, aZ);
   const signatureComponents1 = getSignatureComponentsForPlayer(playerData1, msgHash);
 
   const playerData2 = getPlayerData(b, bZ);
   const signatureComponents2 = getSignatureComponentsForPlayer(playerData2, msgHash);
-
-  // when the second player's data is uncommented, verification fails
 
   const pubKeys = [
   	playerData1.publicKeyPoint,
@@ -146,9 +156,7 @@ const signAndVerify = async (a, aZ, b, bZ, msgHashHex) => {
 
   const aggregatedPublicKeyPoint = getAggregatedPublicKeyPoint(pubKeys);
   const aggPubKey = ec.keyFromPublic(aggregatedPublicKeyPoint);
-  // console.log('Attempting to verify aggregated signature...');
   const verified = ec.verify(msgHash, aggregatedSignature, aggPubKey);
-  // console.log('Verification Passed: ' + verified);
   expect(true).to.deep.equal(verified);
 };
 

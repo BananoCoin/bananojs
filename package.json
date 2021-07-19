@@ -1,6 +1,6 @@
 {
   "name": "@bananocoin/bananojs",
-  "version": "2.4.13",
+  "version": "2.4.14",
   "module": "index.js",
   "repository": {
     "type": "git",
@@ -18,6 +18,7 @@
     "coverage-win": "nyc -x 'test\\util\\**' -x 'test\\unit\\**' -x 'libraries\\**' -x '**\\mock-bananode-api.js' -x '**\\bananode-api.js' .\\node_modules\\mocha\\bin\\mocha -t 100000 test\\unit",
     "camo-test": "./node_modules/mocha/bin/mocha -t 1000000 test/camo",
     "vanity-test": "./node_modules/mocha/bin/mocha -t 1000000 test/vanity",
+    "multisig-test": "./node_modules/mocha/bin/mocha -t 1000000 test/multisig",
     "square-proof-test": "./node_modules/mocha/bin/mocha -t 1000000 test/square-proof",
     "start": "node main.js",
     "docs": "./node_modules/documentation/bin/documentation.js build --config documentation.yaml documentation.js -f md -o docs/documentation.md"
@@ -32,7 +33,7 @@
     "chai": "^4.3.4",
     "documentation": "^13.2.5",
     "elliptic": "^6.5.4",
-    "eslint": "^7.30.0",
+    "eslint": "^7.31.0",
     "eslint-config-google": "^0.14.0",
     "mocha": "^9.0.2",
     "nyc": "^15.1.0"

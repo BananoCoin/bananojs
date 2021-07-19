@@ -116,12 +116,12 @@ let signatureComponents2 = getSignatureComponentsForPlayer(playerData2, msgHash)
 
 let pubKeys = [
 	playerData1.publicKeyPoint,
-	// playerData2.publicKeyPoint
+	playerData2.publicKeyPoint
 ];
 
 let RPoints = [
 	signatureComponents1.RPoint,
-	// signatureComponents2.RPoint
+	signatureComponents2.RPoint
 ];
 
 let aggregatedRPoint = getAggregatedRPoint(RPoints);
@@ -130,7 +130,7 @@ let signatureContribution2 = getSignatureContribution(aggregatedRPoint, pubKeys,
 
 let signatureContributions = [
 	signatureContribution1,
-	// signatureContribution2
+	signatureContribution2
 ];
 
 let aggregatedSignature = getAggregatedSignature(signatureContributions, aggregatedRPoint);

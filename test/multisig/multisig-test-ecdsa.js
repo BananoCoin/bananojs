@@ -12,6 +12,7 @@ const ec = new elliptic.eddsa('ed25519');
 
 // notes
 // based on https://github.com/nanocurrency/nano-node/issues/462
+// https://github.com/numsu/nanocurrency-web-js/blob/a54611534f91cf117012e039ca62801cc2e63e67/lib/ed25519.ts#L103
 
 // functions
 const bytesToHex = bananojs.bananoUtil.bytesToHex;

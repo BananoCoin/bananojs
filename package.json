@@ -1,6 +1,6 @@
 {
   "name": "@bananocoin/bananojs",
-  "version": "2.4.14",
+  "version": "2.4.15",
   "module": "index.js",
   "repository": {
     "type": "git",
@@ -8,20 +8,21 @@
   },
   "scripts": {
     "build": "node build/build.js",
+    "camo-test": "./node_modules/mocha/bin/mocha -t 1000000 test/camo",
+    "coverage": "nyc -x 'test/util/**' -x 'test/unit/**' -x 'libraries/**' -x '**/mock-bananode-api.js' ./node_modules/mocha/bin/mocha -t 100000 test/unit",
+    "coverage-win": "nyc -x 'test\\util\\**' -x 'test\\unit\\**' -x 'libraries\\**' -x '**\\mock-bananode-api.js' -x '**\\bananode-api.js' .\\node_modules\\mocha\\bin\\mocha -t 100000 test\\unit",
+    "docs": "./node_modules/documentation/bin/documentation.js build --config documentation.yaml documentation.js -f md -o docs/documentation.md",
     "eslint": "eslint --fix 'app/scripts/**/*.js'",
     "eslint-main": "eslint --fix 'main.js'",
     "eslint-index": "eslint --fix 'index.js'",
     "eslint-unit-test": "eslint --fix 'test/unit/**/*.js'",
+    "multisig-test": "./node_modules/mocha/bin/mocha -t 1000000 test/multisig",
+    "publish-preflight": "npm i;npm audit fix;npm run eslint;npm run eslint-main;npm run eslint-index;npm run eslint-unit-test;npm run coverage;npm run docs;npm run build;",
     "test": "./node_modules/mocha/bin/mocha -t 100000 test/unit",
     "test-win": ".\\node_modules\\mocha\\bin\\mocha -t 100000 test\\unit",
-    "coverage": "nyc -x 'test/util/**' -x 'test/unit/**' -x 'libraries/**' -x '**/mock-bananode-api.js' ./node_modules/mocha/bin/mocha -t 100000 test/unit",
-    "coverage-win": "nyc -x 'test\\util\\**' -x 'test\\unit\\**' -x 'libraries\\**' -x '**\\mock-bananode-api.js' -x '**\\bananode-api.js' .\\node_modules\\mocha\\bin\\mocha -t 100000 test\\unit",
-    "camo-test": "./node_modules/mocha/bin/mocha -t 1000000 test/camo",
     "vanity-test": "./node_modules/mocha/bin/mocha -t 1000000 test/vanity",
-    "multisig-test": "./node_modules/mocha/bin/mocha -t 1000000 test/multisig",
     "square-proof-test": "./node_modules/mocha/bin/mocha -t 1000000 test/square-proof",
-    "start": "node main.js",
-    "docs": "./node_modules/documentation/bin/documentation.js build --config documentation.yaml documentation.js -f md -o docs/documentation.md"
+    "start": "node main.js"
   },
   "keywords": [],
   "author": "",
@@ -35,7 +36,7 @@
     "elliptic": "^6.5.4",
     "eslint": "^7.31.0",
     "eslint-config-google": "^0.14.0",
-    "mocha": "^9.0.2",
+    "mocha": "^9.0.3",
     "nyc": "^15.1.0"
   },
   "description": "JavaScript utilities for the banano cryptocurrency.",

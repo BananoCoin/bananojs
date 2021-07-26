@@ -8,19 +8,7 @@
   (change version)
 
 ### update version in package-lock.json
-  npm i;
-  npm audit fix;
-
-  npm run eslint;
-  npm run eslint-main;
-  npm run eslint-index;
-  npm run eslint-unit-test;
-
-  npm run coverage;
-
-  npm run docs;
-
-  npm run build;
+  npm run publish-preflight;
 
 ### good to commit here, so published code is same as NPM code.
 

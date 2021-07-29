@@ -14,23 +14,31 @@ const ec = new elliptic.eddsa('ed25519');
 // based on https://github.com/nanocurrency/nano-node/issues/462
 // https://github.com/numsu/nanocurrency-web-js/blob/a54611534f91cf117012e039ca62801cc2e63e67/lib/ed25519.ts#L103
 
+// the problem is the differene between EdDSA and Ed25519
+// EdDSA = signing. Ed25519 = sha512 hashing and signing.
+// need a EdDSA that uses blake2 that isnt a WASM or minified js.
+
+// Incorrect, SHA-512 has been used
+// 0000000000000000000000000000000000000000000000000000000000000000 ->
+// 3B6A27BCCEB6A42D62A3A8D02A6F0D73653215771DE243A63AC048A18B59DA29
+
+// Correct, Blake2b-512 digested the seed
+// 0000000000000000000000000000000000000000000000000000000000000000 ->
+// 19D3D919475DEED4696B5D13018151D1AF88B2BD3BCFF048B45031C1F36D1858
+
 // functions
 const bytesToHex = bananojs.bananoUtil.bytesToHex;
 
 const hexToBytes = bananojs.bananoUtil.hexToBytes;
 
-// const getPublicKey = bananojs.bananoUtil.getPublicKey;
 
 const getRandomBytes32Base16 = () => {
   return crypto.randomBytes(32).toString('hex').toUpperCase();
 };
 
 const getPublicKey = async (secret) => {
-  // const bananoPublicKey = await bananojs.bananoUtil.getPublicKey(secret);
-  // console.log('bananoPublicKey', bananoPublicKey);
   const key = ec.keyFromSecret(secret);
   const ecPublicKey = key.pubBytes();
-  // console.log('ecPublicKey', bytesToHex(ecPublicKey));
   return bytesToHex(ecPublicKey);
 };
 
@@ -345,8 +353,20 @@ const runTest = async (a, aZ, b, bZ, msgHash) => {
   expect(true).to.deep.equal(verified);
 };
 
-describe('multisig', () => {
+describe('multisig-ecdsa', () => {
   describe('banano', async () => {
+    const privateKey = '0000000000000000000000000000000000000000000000000000000000000000';
+    it('SHA-512 has been used', async () => {
+      const actualPublicKey = await getPublicKey(privateKey);
+      const expectedPublicKey = '3B6A27BCCEB6A42D62A3A8D02A6F0D73653215771DE243A63AC048A18B59DA29';
+      expect(actualPublicKey).to.deep.equal(expectedPublicKey);
+    });
+    it('Blake2b-512 digested the seed', async () => {
+      const privateKey = '0000000000000000000000000000000000000000000000000000000000000000';
+      const actualPublicKey = await bananojs.bananoUtil.getPublicKey(privateKey);
+      const expectedPublicKey = '19D3D919475DEED4696B5D13018151D1AF88B2BD3BCFF048B45031C1F36D1858';
+      expect(actualPublicKey).to.deep.equal(expectedPublicKey);
+    });
     it('zeroes', async () => {
       const a = '0000000000000000000000000000000000000000000000000000000000000000';
       const aZ = '0000000000000000000000000000000000000000000000000000000000000000';

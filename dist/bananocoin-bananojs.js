@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.4.16
+//version 2.4.17
 //license MIT
 const require = (modname) => {
   if (typeof BigInt === 'undefined') {

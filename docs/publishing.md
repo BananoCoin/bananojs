@@ -12,7 +12,7 @@
 
     npm run publish-preflight;
 
-    npm run commit patch "bumping deps";
+### good to commit here, so published code is same as NPM code.
 
     npm publish --access public;
 

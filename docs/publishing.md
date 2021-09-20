@@ -2,6 +2,7 @@
 
     npm update;
     npm outdated;
+    npm audit fix;
     npm install package@latest;
 
 ## to publish a new version

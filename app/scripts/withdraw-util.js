@@ -8,7 +8,7 @@
 
   const LOG_WITHDRAW = false;
 
-  const withdraw = async (loggingUtil, bananodeApi, privateKey, toAccount, amountBananos, accountPrefix) => {
+  const withdraw = async (loggingUtil, bananodeApi, privateKey, toAccount, amountBananos, accountPrefix, representative, previous) => {
   /* istanbul ignore if */
     if (loggingUtil === undefined) {
       throw Error('loggingUtil is required.');
@@ -41,7 +41,7 @@
       loggingUtil.log('STARTED withdraw fromAccount', fromAccount,
           'toAccount', toAccount, 'amountRaw', amountRaw);
     }
-    const response = await bananoUtil.sendFromPrivateKey(bananodeApi, privateKey, toAccount, amountRaw, accountPrefix);
+    const response = await bananoUtil.sendFromPrivateKeyWithRepresentativeAndPrevious(bananodeApi, privateKey, toAccount, amountRaw, representative, previous, accountPrefix);
     /* istanbul ignore if */
     if (LOG_WITHDRAW) {
       loggingUtil.log('SUCCESS withdraw fromAccount', fromAccount,

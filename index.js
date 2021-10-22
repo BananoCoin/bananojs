@@ -307,11 +307,13 @@
  * @param {string} seedIx the index to use with the seed.
  * @param {string} toAccount the account to send to.
  * @param {string} amountBananos the amount of bananos.
+ * @param {string} representative the new representative (optional).
+ * @param {string} previous the new previous (optional).
  * @return {Promise<object>} returns the response returned by the withdraw.
  */
-  const sendBananoWithdrawalFromSeed = async (seed, seedIx, toAccount, amountBananos) => {
+  const sendBananoWithdrawalFromSeed = async (seed, seedIx, toAccount, amountBananos, representative, previous) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
-    const response = withdrawUtil.withdraw(loggingUtil, bananodeApi, privateKey, toAccount, amountBananos, BANANO_PREFIX);
+    const response = withdrawUtil.withdraw(loggingUtil, bananodeApi, privateKey, toAccount, amountBananos, BANANO_PREFIX, representative, previous);
     return response;
   };
 
@@ -322,11 +324,13 @@
  * @param {string} seedIx the index to use with the seed.
  * @param {string} toAccount the account to send to.
  * @param {string} amountBananos the amount of bananos.
+ * @param {string} representative the new representative (optional).
+ * @param {string} previous the new previous (optional).
  * @return {Promise<object>} returns the response returned by the withdraw.
  */
-  const sendNanoWithdrawalFromSeed = async (seed, seedIx, toAccount, amountBananos) => {
+  const sendNanoWithdrawalFromSeed = async (seed, seedIx, toAccount, amountBananos, representative, previous) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
-    const response = withdrawUtil.withdraw(loggingUtil, bananodeApi, privateKey, toAccount, amountBananos, NANO_PREFIX);
+    const response = withdrawUtil.withdraw(loggingUtil, bananodeApi, privateKey, toAccount, amountBananos, NANO_PREFIX, representative, previous);
     return response;
   };
 

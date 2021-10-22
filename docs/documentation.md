@@ -769,6 +769,8 @@ Send a withdrawal from a banano account with a given seed.
 *   `seedIx` **[string][155]** the index to use with the seed.
 *   `toAccount` **[string][155]** the account to send to.
 *   `amountBananos` **[string][155]** the amount of bananos.
+*   `representative` **[string][155]** the new representative (optional).
+*   `previous` **[string][155]** the new previous (optional).
 
 Returns **[Promise][158]<[object][161]>** returns the response returned by the withdraw.
 
@@ -782,6 +784,8 @@ Send a withdrawal from a nano account with a given seed.
 *   `seedIx` **[string][155]** the index to use with the seed.
 *   `toAccount` **[string][155]** the account to send to.
 *   `amountBananos` **[string][155]** the amount of bananos.
+*   `representative` **[string][155]** the new representative (optional).
+*   `previous` **[string][155]** the new previous (optional).
 
 Returns **[Promise][158]<[object][161]>** returns the response returned by the withdraw.
 

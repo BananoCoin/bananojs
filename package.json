@@ -1,6 +1,6 @@
 {
   "name": "@bananocoin/bananojs",
-  "version": "2.4.18",
+  "version": "2.4.19",
   "module": "index.js",
   "repository": {
     "type": "git",
@@ -17,7 +17,7 @@
     "eslint-index": "eslint --fix 'index.js'",
     "eslint-unit-test": "eslint --fix 'test/unit/**/*.js'",
     "multisig-test": "./node_modules/mocha/bin/mocha -t 1000000 test/multisig",
-    "publish-preflight": "npm i;npm audit fix;npm run eslint;npm run eslint-main;npm run eslint-index;npm run eslint-unit-test;npm run coverage;npm run docs;npm run build;",
+    "preflight": "npm update;npm outdated;npm i;npm audit fix;npm run eslint;npm run eslint-main;npm run eslint-index;npm run eslint-unit-test;npm run coverage;npm run docs;npm run build;",
     "test": "./node_modules/mocha/bin/mocha -t 100000 test/unit",
     "test-win": ".\\node_modules\\mocha\\bin\\mocha -t 100000 test\\unit",
     "vanity-test": "./node_modules/mocha/bin/mocha -t 1000000 test/vanity",
@@ -36,7 +36,7 @@
     "elliptic": "^6.5.4",
     "eslint": "^7.32.0",
     "eslint-config-google": "^0.14.0",
-    "mocha": "^9.1.2",
+    "mocha": "^9.1.3",
     "nyc": "^15.1.0"
   },
   "description": "JavaScript utilities for the banano cryptocurrency.",

@@ -10,6 +10,9 @@
 
   let url;
 
+  /*set as authorization string, should set if node wants api key*/
+  let authorization;
+
   let logRequestErrors = true;
 
   const LOG_GET_GENERATED_WORK = false;
@@ -38,6 +41,11 @@
         },
         timeout: 30000,
       };
+
+      if (!!authorization) {
+        options.headers['Authorization'] = authorization;
+      }
+      
       // console.log('url', url);
       // console.log('apiUrl.protocol', apiUrl.protocol);
       const req = moduleRef.request(options, (res) => {

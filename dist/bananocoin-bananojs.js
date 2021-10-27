@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.4.18
+//version 2.4.19
 //license MIT
 const require = (modname) => {
   if (typeof BigInt === 'undefined') {
@@ -2112,6 +2112,9 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
 
   let url;
 
+  /*set as authorization string, should set if node wants api key*/
+  let authorization;
+
   let logRequestErrors = true;
 
   const LOG_GET_GENERATED_WORK = false;
@@ -2140,6 +2143,11 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
         },
         timeout: 30000,
       };
+
+      if (!!authorization) {
+        options.headers['Authorization'] = authorization;
+      }
+      
       // console.log('url', url);
       // console.log('apiUrl.protocol', apiUrl.protocol);
       const req = moduleRef.request(options, (res) => {

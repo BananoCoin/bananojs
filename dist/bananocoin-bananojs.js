@@ -2112,12 +2112,16 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
 
   let url;
 
-  /*set as authorization string, should set if node wants api key*/
-  let authorization;
-
   let logRequestErrors = true;
 
   const LOG_GET_GENERATED_WORK = false;
+
+  /*set as authorization string, should set if node wants api key*/
+  let auth;
+
+  const setAuth = (auth_string) => {
+    auth = auth_string;
+  }
 
   const sendRequest = async (formData) => {
     /* istanbul ignore if */
@@ -2144,10 +2148,10 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
         timeout: 30000,
       };
 
-      if (!!authorization) {
-        options.headers['Authorization'] = authorization;
+      if (!!auth) {
+        options.headers['Authorization'] = auth;
       }
-      
+
       // console.log('url', url);
       // console.log('apiUrl.protocol', apiUrl.protocol);
       const req = moduleRef.request(options, (res) => {
@@ -2629,6 +2633,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
     exports.sendRequest = sendRequest;
     exports.log = console.log;
     exports.trace = console.trace;
+    exports.setAuth = setAuth;
 
     return exports;
   })();

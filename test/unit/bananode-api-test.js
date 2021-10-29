@@ -153,6 +153,14 @@ describe('bananode-api', () => {
   it('setUrl', async () => {
     await call({}, 'setUrl', undefined);
   });
+  describe('setAuth', () => {
+    it('setAuth blank', async () => {
+      await call({}, 'setAuth', '');
+    });
+    it('setAuth fake', async () => {
+      await call({}, 'setAuth', 'fakeAuth');
+    });
+  });
   it('getBlockCount', async () => {
     await call({}, 'getBlockCount');
   });

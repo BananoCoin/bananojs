@@ -209,6 +209,7 @@ const expectErrorMessage = async (errorMessage, fn, arg1, arg2, arg3, arg4, arg5
 
 const deactivate = () => {
   bananojs.setBananodeApi(undefined);
+  bananojs.setAuth(undefined);
 };
 
 exports.getTimeNanos = getTimeNanos;

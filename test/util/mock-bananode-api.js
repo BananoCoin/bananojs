@@ -214,6 +214,10 @@ const setUrl = () => {
 
 };
 
+const setAuth = () => {
+
+};
+
 exports.getAccountBalanceRaw = getAccountBalanceRaw;
 exports.getAccountBalanceAndPendingRaw = getAccountBalanceAndPendingRaw;
 exports.getAccountRepresentative = getAccountRepresentative;
@@ -226,3 +230,4 @@ exports.getAccountInfo = getAccountInfo;
 exports.getBlockCount = getBlockCount;
 exports.getFrontiers = getFrontiers;
 exports.setUrl = setUrl;
+exports.setAuth = setAuth;

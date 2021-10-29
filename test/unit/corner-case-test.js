@@ -23,6 +23,10 @@ describe('corner-cases', () => {
     const actual = bananojs.bananoUtil.decToHex(1);
     expect(expected).to.deep.equal(actual);
   });
+  it('setAuth', () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    bananojs.setAuth('');
+  });
   it('getAccountPublicKey error Undefined BANANO Account', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
     const message = 'Undefined BANANO Account';

@@ -28,6 +28,18 @@
   };
 
   /**
+ * Sets the Bananode Api Authorization
+ * @memberof Main
+ * @param {string} auth the new authorization
+ * @return {undefined} returns nothing.
+ */
+  const setAuth = (auth) => {
+    if(bananodeApi !== undefined) {
+      bananodeApi.setAuth(auth);
+    }
+  };
+
+  /**
    * converts amount from decimal to bananoParts.
    * @memberof BananoUtil
    * @param {string} decimalAmount the decimal amount of bananos.
@@ -967,6 +979,7 @@
     exports.realBananodeApi = realBananodeApi;
 
     exports.setBananodeApi = setBananodeApi;
+    exports.setAuth = setAuth;
     exports.getBananoPartsFromDecimal = getBananoPartsFromDecimal;
     exports.getBananoPartsAsDecimal = getBananoPartsAsDecimal;
     exports.getBananoDecimalAmountAsRaw = getBananoDecimalAmountAsRaw;

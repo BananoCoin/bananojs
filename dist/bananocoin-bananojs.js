@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.4.18
+//version 2.4.20
 //license MIT
 const require = (modname) => {
   if (typeof BigInt === 'undefined') {
@@ -2116,6 +2116,19 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
 
   const LOG_GET_GENERATED_WORK = false;
 
+  let auth;
+
+  /**
+ * Sets an authorization string (http 'Authorization' header), useful if node requires api key.
+ *
+ * @memberof BananodeApi
+ * @param {string} authString api key as a string\
+ * @return {undefined} returns nothing.
+ */
+  const setAuth = (authString) => {
+    auth = authString;
+  }
+
   const sendRequest = async (formData) => {
     /* istanbul ignore if */
     if (formData == undefined) {
@@ -2140,6 +2153,11 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
         },
         timeout: 30000,
       };
+
+      if (!!auth) {
+        options.headers['Authorization'] = auth;
+      }
+
       // console.log('url', url);
       // console.log('apiUrl.protocol', apiUrl.protocol);
       const req = moduleRef.request(options, (res) => {
@@ -2621,6 +2639,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
     exports.sendRequest = sendRequest;
     exports.log = console.log;
     exports.trace = console.trace;
+    exports.setAuth = setAuth;
 
     return exports;
   })();

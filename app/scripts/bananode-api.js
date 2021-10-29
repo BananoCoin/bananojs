@@ -14,6 +14,19 @@
 
   const LOG_GET_GENERATED_WORK = false;
 
+  let auth;
+
+  /**
+ * Sets an authorization string (http 'Authorization' header), useful if node requires api key.
+ *
+ * @memberof BananodeApi
+ * @param {string} authString api key as a string\
+ * @return {undefined} returns nothing.
+ */
+  const setAuth = (authString) => {
+    auth = authString;
+  }
+
   const sendRequest = async (formData) => {
     /* istanbul ignore if */
     if (formData == undefined) {
@@ -38,6 +51,11 @@
         },
         timeout: 30000,
       };
+
+      if (!!auth) {
+        options.headers['Authorization'] = auth;
+      }
+
       // console.log('url', url);
       // console.log('apiUrl.protocol', apiUrl.protocol);
       const req = moduleRef.request(options, (res) => {
@@ -519,6 +537,7 @@
     exports.sendRequest = sendRequest;
     exports.log = console.log;
     exports.trace = console.trace;
+    exports.setAuth = setAuth;
 
     return exports;
   })();

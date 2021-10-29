@@ -34,7 +34,7 @@
  * @return {undefined} returns nothing.
  */
   const setAuth = (auth) => {
-    if(bananodeApi !== undefined) {
+    if (bananodeApi !== undefined) {
       bananodeApi.setAuth(auth);
     }
   };

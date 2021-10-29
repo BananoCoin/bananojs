@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.4.20
+//version 2.4.21
 //license MIT
 const require = (modname) => {
   if (typeof BigInt === 'undefined') {
@@ -2127,7 +2127,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
  */
   const setAuth = (authString) => {
     auth = authString;
-  }
+  };
 
   const sendRequest = async (formData) => {
     /* istanbul ignore if */
@@ -4948,6 +4948,18 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
   };
 
   /**
+ * Sets the Bananode Api Authorization
+ * @memberof Main
+ * @param {string} auth the new authorization
+ * @return {undefined} returns nothing.
+ */
+  const setAuth = (auth) => {
+    if (bananodeApi !== undefined) {
+      bananodeApi.setAuth(auth);
+    }
+  };
+
+  /**
    * converts amount from decimal to bananoParts.
    * @memberof BananoUtil
    * @param {string} decimalAmount the decimal amount of bananos.
@@ -5887,6 +5899,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
     exports.realBananodeApi = realBananodeApi;
 
     exports.setBananodeApi = setBananodeApi;
+    exports.setAuth = setAuth;
     exports.getBananoPartsFromDecimal = getBananoPartsFromDecimal;
     exports.getBananoPartsAsDecimal = getBananoPartsAsDecimal;
     exports.getBananoDecimalAmountAsRaw = getBananoDecimalAmountAsRaw;

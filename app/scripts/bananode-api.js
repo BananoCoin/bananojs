@@ -25,7 +25,7 @@
  */
   const setAuth = (authString) => {
     auth = authString;
-  }
+  };
 
   const sendRequest = async (formData) => {
     /* istanbul ignore if */

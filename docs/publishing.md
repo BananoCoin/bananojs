@@ -4,7 +4,7 @@
 
 ### update version in package-lock.json
 
-    npm run publish-preflight;
+    npm run preflight;
 
 ## to publish a new version
 

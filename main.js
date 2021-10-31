@@ -279,6 +279,16 @@ commands['getseed'] = async () => {
   console.log('getseed response', response);
 };
 
+commands['reprocess'] = async (subtype, hash) => {
+  const config = configs.banano;
+  bananodeApi.setUrl(config.bananodeUrl);
+  const blocks = await bananodeApi.getBlocks([hash], true);
+  const block = blocks.blocks[hash];
+  console.log('reprocess block', block);
+  const response = await bananodeApi.process(block, subtype);
+  console.log('reprocess response', response);
+};
+
 
 const run = async () => {
   console.log('bananojs');

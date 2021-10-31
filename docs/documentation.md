@@ -681,7 +681,7 @@ Returns **[Promise][162]<[object][165]>** returns the response returned by the r
 
 ### receiveBananoDepositsForSeed
 
-Recieve deposits for a nano account with a given seed.
+Recieve deposits for a banano account with a given seed.
 
 #### Parameters
 

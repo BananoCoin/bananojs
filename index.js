@@ -296,7 +296,7 @@
   };
 
   /**
-   * Recieve deposits for a nano account with a given seed.
+   * Recieve deposits for a banano account with a given seed.
    * @memberof DepositUtil
    * @param {string} seed the seed to use to find the account.
    * @param {string} seedIx the index to use with the seed.

@@ -17,4 +17,4 @@
 ## to publish documentation
 
     docs on how to make docs here:
-    <https://github.com/documentationjs/documentation#readme>
+    <https://jsdoc.app/>

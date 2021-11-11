@@ -1,6 +1,6 @@
 {
   "name": "@bananocoin/bananojs",
-  "version": "2.4.22",
+  "version": "2.4.23",
   "module": "index.js",
   "repository": {
     "type": "git",
@@ -11,7 +11,7 @@
     "camo-test": "./node_modules/mocha/bin/mocha -t 1000000 test/camo",
     "coverage": "nyc -x 'test/util/**' -x 'test/unit/**' -x 'libraries/**' -x '**/mock-bananode-api.js' ./node_modules/mocha/bin/mocha -t 100000 test/unit",
     "coverage-win": "nyc -x 'test\\util\\**' -x 'test\\unit\\**' -x 'libraries\\**' -x '**\\mock-bananode-api.js' -x '**\\bananode-api.js' .\\node_modules\\mocha\\bin\\mocha -t 100000 test\\unit",
-    "docs": "./node_modules/documentation/bin/documentation.js build --config documentation.yaml documentation.js -f md -o docs/documentation.md",
+    "docs": "jsdoc2md documentation.js app/scripts/**/*.js > docs/documentation.md",
     "eslint": "eslint --fix 'app/scripts/**/*.js'",
     "eslint-main": "eslint --fix 'main.js'",
     "eslint-index": "eslint --fix 'index.js'",
@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "chai": "^4.3.4",
-    "documentation": "^13.2.5",
+    "jsdoc-to-markdown": "^7.1.0",
     "elliptic": "^6.5.4",
     "eslint": "^7.32.0",
     "eslint-config-google": "^0.14.0",

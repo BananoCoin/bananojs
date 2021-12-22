@@ -68,17 +68,23 @@ describe('block-sign', () => {
     const actualSignature = await bananojs.getSignature(privateKey, block);
     expect(expectedSignature).to.deep.equal(actualSignature);
   });
-  it('getWork works', () => {
+  it('getHexFromBytes and getHexFromBytes works', () => {
     const bananojs = testUtil.getBananojsWithMockApi();
-    const workBytes = bananojs.getBytesFromHex(expectedWorkStart).reverse();
-    const actualWork = bananojs.getWorkUsingCpu(expectedWorkHash, workBytes);
-    expect(expectedWork).to.deep.equal(actualWork);
+    const workBytes = bananojs.getBytesFromHex(expectedWorkStart);
+    const actualWorkStart = bananojs.getHexFromBytes(workBytes);
+    expect(expectedWorkStart).to.deep.equal(actualWorkStart);
   });
   it('getZeroedWorkBytes', () => {
     const expectedWorkBytes = new Uint8Array(8);
     const bananojs = testUtil.getBananojsWithMockApi();
     const actualWorkBytes = bananojs.getZeroedWorkBytes();
     expect(expectedWorkBytes).to.deep.equal(actualWorkBytes);
+  });
+  it('getWork works', () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    const workBytes = bananojs.getBytesFromHex(expectedWorkStart).reverse();
+    const actualWork = bananojs.getWorkUsingCpu(expectedWorkHash, workBytes);
+    expect(expectedWork).to.deep.equal(actualWork);
   });
 
   beforeEach(async () => {

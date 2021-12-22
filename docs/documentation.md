@@ -91,6 +91,7 @@ Sets the URL to use for the node behind the Bananode Api
     * [.verify(hash, signature, publicKey)](#BananoUtil.verify) ⇒ <code>string</code>
     * [.getSignature(privateKey, block)](#BananoUtil.getSignature) ⇒ <code>string</code>
     * [.getBytesFromHex(hex)](#BananoUtil.getBytesFromHex) ⇒ <code>Uint8Array</code>
+    * [.getHexFromBytes(bytes)](#BananoUtil.getHexFromBytes) ⇒ <code>string</code>
     * [.getWorkUsingCpu(hash, workBytes)](#BananoUtil.getWorkUsingCpu) ⇒ <code>string</code>
     * [.getRawStrFromBananoStr(amountStr, amountPrefix)](#BananoUtil.getRawStrFromBananoStr) ⇒ <code>string</code>
     * [.getRawStrFromBanoshiStr(amountStr, amountPrefix)](#BananoUtil.getRawStrFromBanoshiStr) ⇒ <code>string</code>
@@ -389,6 +390,18 @@ Converts a hex string to bytes in a Uint8Array.
 | Param | Type | Description |
 | --- | --- | --- |
 | hex | <code>string</code> | the hex string to use. |
+
+<a name="BananoUtil.getHexFromBytes"></a>
+
+### BananoUtil.getHexFromBytes(bytes) ⇒ <code>string</code>
+Converts bytes in a Uint8Array to a hex string.
+
+**Kind**: static method of [<code>BananoUtil</code>](#BananoUtil)  
+**Returns**: <code>string</code> - the hex string.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| bytes | <code>Uint8Array</code> | the bytes to use. |
 
 <a name="BananoUtil.getWorkUsingCpu"></a>
 

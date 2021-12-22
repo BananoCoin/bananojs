@@ -5475,9 +5475,9 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
  * @param {Uint8Array} bytes the bytes to use.
  * @return {string} the hex string.
  */
-    const getHexFromBytes = (bytes) => {
-      return bananoUtil.bytesToHex(bytes);
-    };  
+  const getHexFromBytes = (bytes) => {
+    return bananoUtil.bytesToHex(bytes);
+  };
 
   /**
  * gets work bytes using the CPU.

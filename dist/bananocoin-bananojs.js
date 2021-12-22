@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.4.23
+//version 2.4.24
 //license MIT
 const require = (modname) => {
   if (typeof BigInt === 'undefined') {
@@ -5469,6 +5469,17 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
   };
 
   /**
+ * Converts bytes in a Uint8Array to a hex string.
+ *
+ * @memberof BananoUtil
+ * @param {Uint8Array} bytes the bytes to use.
+ * @return {string} the hex string.
+ */
+    const getHexFromBytes = (bytes) => {
+      return bananoUtil.bytesToHex(bytes);
+    };  
+
+  /**
  * gets work bytes using the CPU.
  *
  * @memberof BananoUtil
@@ -5928,6 +5939,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
     exports.signHash = signHash;
     exports.verify = verify;
     exports.getBytesFromHex = getBytesFromHex;
+    exports.getHexFromBytes = getHexFromBytes;
     exports.getWorkUsingCpu = getWorkUsingCpu;
     exports.getZeroedWorkBytes = bananoUtil.getZeroedWorkBytes;
     exports.isWorkValid = bananoUtil.isWorkValid;

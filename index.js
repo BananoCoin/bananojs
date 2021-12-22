@@ -549,6 +549,17 @@
   };
 
   /**
+ * Converts bytes in a Uint8Array to a hex string.
+ *
+ * @memberof BananoUtil
+ * @param {Uint8Array} bytes the bytes to use.
+ * @return {string} the hex string.
+ */
+    const getHexFromBytes = (bytes) => {
+      return bananoUtil.bytesToHex(bytes);
+    };  
+
+  /**
  * gets work bytes using the CPU.
  *
  * @memberof BananoUtil
@@ -1008,6 +1019,7 @@
     exports.signHash = signHash;
     exports.verify = verify;
     exports.getBytesFromHex = getBytesFromHex;
+    exports.getHexFromBytes = getHexFromBytes;
     exports.getWorkUsingCpu = getWorkUsingCpu;
     exports.getZeroedWorkBytes = bananoUtil.getZeroedWorkBytes;
     exports.isWorkValid = bananoUtil.isWorkValid;

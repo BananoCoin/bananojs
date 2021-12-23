@@ -42,15 +42,20 @@ const requireRaw = (modname) => {
   }
   if (window.bananocoin.bananojs[modname]) {
     return window.bananocoin.bananojs[modname];
-  } else {
-    throw Error(`unknown module:'${modname}'`);
   }
+  if (window.bananocoin.other[modname]) {
+    return window.bananocoin.other[modname];
+  }
+  throw Error(`unknown module:'${modname}'`);
 };
 if (!window.bananocoin) {
   window.bananocoin = {};
 }
 if (!window.bananocoin.bananojs) {
   window.bananocoin.bananojs = {};
+}
+if (!window.bananocoin.other) {
+  window.bananocoin.other = {};
 }
 window.bananocoin.bananojs.http = {};
 window.bananocoin.bananojs.http.request = (requestOptions, requestWriterCallback) => {

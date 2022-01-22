@@ -17,7 +17,7 @@
     "eslint-index": "eslint --fix 'index.js'",
     "eslint-unit-test": "eslint --fix 'test/unit/**/*.js'",
     "multisig-test": "./node_modules/mocha/bin/mocha -t 1000000 test/multisig",
-    "npm-check-updates": "npm-check-updates -u",
+    "npm-check-updates": "npm-check-updates --target minor -u",
     "preflight": "npm update;npm run npm-check-updates;npm outdated;npm i;npm audit fix;npm run eslint;npm run eslint-main;npm run eslint-index;npm run eslint-unit-test;npm run coverage;npm run docs;npm run build;",
     "test": "./node_modules/mocha/bin/mocha -t 100000 test/unit",
     "test-win": ".\\node_modules\\mocha\\bin\\mocha -t 100000 test\\unit",

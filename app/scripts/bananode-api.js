@@ -133,6 +133,30 @@
     });
   };
 
+  const getAccountsBalances = async (accounts) => {
+    if (accounts == undefined || !Array.isArray(accounts)) {
+      throw Error(`'accounts' is a required parameter.`);
+    }
+    const formData = {
+      action: 'accounts_balances',
+      accounts: accounts,
+    };
+    return new Promise((resolve, reject) => {
+      sendRequest(formData)
+        .catch((error) => {
+          console.log(`accounts_balances error '${error.message}'`);
+          reject(error);
+        })
+        .then((json) => {
+          if (json === undefined || json.balances === undefined) {
+            resolve();
+            return;
+          }
+          resolve(json);
+        });
+    });
+  };
+
   const getAccountRepresentative = async (account) => {
     /* istanbul ignore if */
     if (account == undefined) {
@@ -526,6 +550,7 @@
     exports.getAccountsPending = getAccountsPending;
     exports.getAccountBalanceRaw = getAccountBalanceRaw;
     exports.getAccountBalanceAndPendingRaw = getAccountBalanceAndPendingRaw;
+    exports.getAccountsBalances = getAccountsBalances;
     exports.getAccountRepresentative = getAccountRepresentative;
     exports.getPrevious = getPrevious;
     exports.process = process;

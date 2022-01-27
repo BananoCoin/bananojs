@@ -34,6 +34,21 @@ const getAccountBalanceAndPendingRaw = (account) => {
   return balances;
 };
 
+const getAccountsBalances = (accounts) => {
+  // https://docs.nano.org/commands/rpc-protocol/#accounts-balances
+  const json = {};
+  json.balances = {};
+  json.balances[accounts[0]] = {};
+  json.balances[accounts[0]].balance = getBalanceRaw(accounts[0]);
+  json.balances[accounts[0]].pending = '000123000456000789000000000000';
+  json.balances[accounts[1]] = {};
+  json.balances[accounts[1]].balance = getBalanceRaw(accounts[1]);
+  json.balances[accounts[1]].pending = '000123000456000789000000000000';
+  const balances = json;
+
+  return balances;
+};
+
 const getAccountRepresentative = (account) => {
   // https://docs.nano.org/commands/rpc-protocol/#account-representative
   const retval = {};
@@ -220,6 +235,7 @@ const setAuth = () => {
 
 exports.getAccountBalanceRaw = getAccountBalanceRaw;
 exports.getAccountBalanceAndPendingRaw = getAccountBalanceAndPendingRaw;
+exports.getAccountsBalances = getAccountsBalances;
 exports.getAccountRepresentative = getAccountRepresentative;
 exports.getPrevious = getPrevious;
 exports.process = process;

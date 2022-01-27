@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.4.25
+//version 2.5.0
 //license MIT
 const require = (modname) => {
   if (typeof BigInt === 'undefined') {
@@ -2240,6 +2240,32 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
     });
   };
 
+  const getAccountsBalances = async (accounts) => {
+    /* istanbul ignore if */
+    if (accounts == undefined || !Array.isArray(accounts)) {
+      throw Error(`'accounts' is a required parameter.`);
+    }
+    const formData = {
+      action: 'accounts_balances',
+      accounts: accounts,
+    };
+    return new Promise((resolve, reject) => {
+      sendRequest(formData)
+          .catch((error) => {
+            // console.log(`accounts_balances error '${error.message}'`);
+            reject(error);
+          })
+          .then((json) => {
+            if (json === undefined || json.balances === undefined) {
+              resolve();
+              return;
+            }
+            console.log( 'accounts_balances json', json );
+            resolve(json);
+          });
+    });
+  };
+
   const getAccountRepresentative = async (account) => {
     /* istanbul ignore if */
     if (account == undefined) {
@@ -2633,6 +2659,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
     exports.getAccountsPending = getAccountsPending;
     exports.getAccountBalanceRaw = getAccountBalanceRaw;
     exports.getAccountBalanceAndPendingRaw = getAccountBalanceAndPendingRaw;
+    exports.getAccountsBalances = getAccountsBalances;
     exports.getAccountRepresentative = getAccountRepresentative;
     exports.getPrevious = getPrevious;
     exports.process = process;
@@ -5301,6 +5328,20 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
   };
 
   /**
+* Get the balances and pending values, in raw, as an object for all given account. Returns the Node object without transformation.
+*
+* (use other methods like getBananoPartsFromRaw to convert to banano or banoshi)
+*
+* Calls {@link https://docs.nano.org/commands/rpc-protocol/#accounts_balances}
+* @memberof BananodeApi
+* @param {string_array} accounts the account to use.
+* @return {Promise<object>} the account's balances, in raw.
+*/
+  const getAccountsBalances = async (accounts) => {
+    return await bananodeApi.getAccountsBalances(accounts);
+  };
+
+  /**
  * Get the history for an account.
  *
  * Calls {@link https://docs.nano.org/commands/rpc-protocol/#account_history}
@@ -5926,6 +5967,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
     exports.getBlockHash = getBlockHash;
     exports.getAccountBalanceRaw = getAccountBalanceRaw;
     exports.getAccountBalanceAndPendingRaw = getAccountBalanceAndPendingRaw;
+    exports.getAccountsBalances = getAccountsBalances;
     exports.getBananoPartsFromRaw = getBananoPartsFromRaw;
     exports.getNanoPartsFromRaw = getNanoPartsFromRaw;
     exports.getPrivateKey = bananoUtil.getPrivateKey;

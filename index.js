@@ -376,7 +376,7 @@
   };
 
   /**
-* Get the balances and pending values, in raw, as an object for all given account. Returns the Node object without transformation. 
+* Get the balances and pending values, in raw, as an object for all given account. Returns the Node object without transformation.
 *
 * (use other methods like getBananoPartsFromRaw to convert to banano or banoshi)
 *

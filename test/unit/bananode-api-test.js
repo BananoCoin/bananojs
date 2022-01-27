@@ -252,6 +252,17 @@ describe('bananode-api', () => {
       await call({'fake': JSON.stringify(fakeResp)}, 'getAccountBalanceRaw', '');
     });
   });
+  describe('getAccountsBalances', () => {
+    it('getAccountsBalances', async () => {
+      await call({}, 'getAccountsBalances', ['']);
+    });
+    it('getAccountsBalances', async () => {
+      const fakeResp = {};
+      fakeResp.balances = {};
+      fakeResp.balances[''] = '';
+      await call({'fake': JSON.stringify(fakeResp)}, 'getAccountsBalances', ['']);
+    });
+  });
   beforeEach(async () => {
   });
 

@@ -723,6 +723,7 @@ Recieve deposits for a banano account with a given seed.
 * [BananodeApi](#BananodeApi) : <code>object</code>
     * [.getAccountBalanceRaw(account)](#BananodeApi.getAccountBalanceRaw) ⇒ <code>Promise.&lt;string&gt;</code>
     * [.getAccountBalanceAndPendingRaw(account)](#BananodeApi.getAccountBalanceAndPendingRaw) ⇒ <code>Promise.&lt;object&gt;</code>
+    * [.getAccountsBalances(accounts)](#BananodeApi.getAccountsBalances) ⇒ <code>Promise.&lt;object&gt;</code>
     * [.getAccountHistory(account, count, head, raw)](#BananodeApi.getAccountHistory) ⇒ <code>Promise.&lt;object&gt;</code>
     * [.getAccountInfo(account, representativeFlag)](#BananodeApi.getAccountInfo) ⇒ <code>Promise.&lt;object&gt;</code>
     * [.getBlockCount()](#BananodeApi.getBlockCount) ⇒ <code>Promise.&lt;object&gt;</code>
@@ -761,6 +762,22 @@ Calls [https://docs.nano.org/commands/rpc-protocol/#accounts_balances](https://d
 | Param | Type | Description |
 | --- | --- | --- |
 | account | <code>string</code> | the account to use. |
+
+<a name="BananodeApi.getAccountsBalances"></a>
+
+### BananodeApi.getAccountsBalances(accounts) ⇒ <code>Promise.&lt;object&gt;</code>
+Get the balances and pending values, in raw, as an object for all given account. Returns the Node object without transformation.
+
+(use other methods like getBananoPartsFromRaw to convert to banano or banoshi)
+
+Calls [https://docs.nano.org/commands/rpc-protocol/#accounts_balances](https://docs.nano.org/commands/rpc-protocol/#accounts_balances)
+
+**Kind**: static method of [<code>BananodeApi</code>](#BananodeApi)  
+**Returns**: <code>Promise.&lt;object&gt;</code> - the account's balances, in raw.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| accounts | <code>string\_array</code> | the account to use. |
 
 <a name="BananodeApi.getAccountHistory"></a>
 

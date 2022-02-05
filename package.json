@@ -1,6 +1,6 @@
 {
   "name": "@bananocoin/bananojs",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "module": "index.js",
   "repository": {
     "type": "git",

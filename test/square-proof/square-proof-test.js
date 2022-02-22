@@ -24,7 +24,7 @@ const getSumOfSquares = (x) => {
   if (x === undefined) {
     throw Error('x is a required parameter.');
   }
-  return (x[0] * x[0]) + (x[1] * x[1]) + (x[2] * x[2]) + (x[3] * x[3]);
+  return x[0] * x[0] + x[1] * x[1] + x[2] * x[2] + x[3] * x[3];
 };
 
 const getSquares = (amount) => {
@@ -83,7 +83,7 @@ const encryptTx = (tx) => {
 
 const isAmountSquare = (amount) => {
   for (let x = ZERO; x <= amount; x++) {
-    if ((x * x) == amount) {
+    if (x * x == amount) {
       return true;
     }
   }
@@ -173,7 +173,7 @@ describe('square-proof', () => {
     const oldSourceBalanceSoS = [2, 3, 4, 11];
 
     const squareBigInt = (i) => {
-      return BigInt(i)*BigInt(i);
+      return BigInt(i) * BigInt(i);
     };
 
     const squareBigInts = (array) => {
@@ -203,7 +203,6 @@ describe('square-proof', () => {
       expect(expected.toString()).to.equal(actual.toString());
     };
     checkBalance();
-
 
     console.log('multiplier', sharedSecretMult);
     console.log('sharedSecretMod', sharedSecretMod);

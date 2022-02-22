@@ -9,14 +9,16 @@ const expect = chai.expect;
 
 const testUtil = require('../util/test-util.js');
 
-const privateKey0 = '0000000000000000000000000000000000000000000000000000000000000000';
-const privateKey1 = '1111111111111111111111111111111111111111111111111111111111111111';
+const privateKey0 =
+  '0000000000000000000000000000000000000000000000000000000000000000';
+const privateKey1 =
+  '1111111111111111111111111111111111111111111111111111111111111111';
 
 const aliceAmount0 = BigInt(10);
 const bobAmount0 = BigInt(20);
 const txAmount = BigInt(3);
-const aliceAmount1 = (aliceAmount0 - txAmount);
-const bobAmount1 = (bobAmount0 + txAmount);
+const aliceAmount1 = aliceAmount0 - txAmount;
+const bobAmount1 = bobAmount0 + txAmount;
 
 describe('camo', () => {
   it('camo amount test - basic', async () => {
@@ -30,20 +32,26 @@ describe('camo', () => {
       const bananojs = testUtil.getBananojsWithMockApi();
       const publicKey0 = await bananojs.getCamoPublicKey(privateKey0);
       const publicKey1 = await bananojs.getCamoPublicKey(privateKey1);
-      const sharedSecret01 = await bananojs.getSharedSecret(privateKey0, publicKey1);
-      const sharedSecret10 = await bananojs.getSharedSecret(privateKey1, publicKey0);
+      const sharedSecret01 = await bananojs.getSharedSecret(
+        privateKey0,
+        publicKey1
+      );
+      const sharedSecret10 = await bananojs.getSharedSecret(
+        privateKey1,
+        publicKey0
+      );
       expect(sharedSecret01).to.deep.equal(sharedSecret10);
       return sharedSecret01;
     };
 
     const hash = (a) => {
-      const blake = require( 'blakejs' );
+      const blake = require('blakejs');
       const bananoUtil = require('../../app/scripts/banano-util.js');
-      const aBytes = bananoUtil.hexToBytes( a );
-      const context = blake.blake2bInit( 32 );
-      blake.blake2bUpdate( context, aBytes );
-      const bBytes = blake.blake2bFinal( context );
-      const b = bananoUtil.bytesToHex( bBytes );
+      const aBytes = bananoUtil.hexToBytes(a);
+      const context = blake.blake2bInit(32);
+      blake.blake2bUpdate(context, aBytes);
+      const bBytes = blake.blake2bFinal(context);
+      const b = bananoUtil.bytesToHex(bBytes);
       return b;
     };
 
@@ -52,7 +60,7 @@ describe('camo', () => {
     const getPrime = async () => {
       maybePrimeHash = hash(maybePrimeHash);
       maybePrime = BigInt('0x' + maybePrimeHash);
-      while (!await bigintCryptoUtils.isProbablyPrime(maybePrime)) {
+      while (!(await bigintCryptoUtils.isProbablyPrime(maybePrime))) {
         maybePrimeHash = hash(maybePrimeHash);
         maybePrime = BigInt('0x' + maybePrimeHash);
       }
@@ -77,8 +85,7 @@ describe('camo', () => {
     expect(amount0.toString()).to.deep.equal(amount1.toString());
   });
 
-  beforeEach(async () => {
-  });
+  beforeEach(async () => {});
 
   afterEach(async () => {
     testUtil.deactivate();

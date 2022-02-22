@@ -17,7 +17,8 @@ const nanoAccount = bananoTest.nanoAccount;
 describe('account-validation', () => {
   describe('banano', () => {
     it('getBananoAccountValidationInfo valid account matches expected', () => {
-      const validationInfo = bananojs.getBananoAccountValidationInfo(bananoAccount);
+      const validationInfo =
+        bananojs.getBananoAccountValidationInfo(bananoAccount);
       expect(validationInfo).to.deep.equal({
         valid: true,
         message: 'valid',
@@ -39,34 +40,43 @@ describe('account-validation', () => {
     });
     it('getBananoAccountValidationInfo too short account matches expected', () => {
       const badAccount = 'ban_1bad1not64chars';
-      const validationInfo = bananojs.getBananoAccountValidationInfo(badAccount);
+      const validationInfo =
+        bananojs.getBananoAccountValidationInfo(badAccount);
       expect(validationInfo).to.deep.equal({
         valid: false,
         message: 'Invalid BANANO Account (not 64 characters)',
       });
     });
     it('getBananoAccountValidationInfo malformed prefix account matches expected', () => {
-      const badAccount = 'ban_4bad1ppzmj146pdxgbmph3wmeg15t8zk1yfwbozysoxtti3xqa15qufta5tq';
-      const validationInfo = bananojs.getBananoAccountValidationInfo(badAccount);
+      const badAccount =
+        'ban_4bad1ppzmj146pdxgbmph3wmeg15t8zk1yfwbozysoxtti3xqa15qufta5tq';
+      const validationInfo =
+        bananojs.getBananoAccountValidationInfo(badAccount);
       expect(validationInfo).to.deep.equal({
         valid: false,
         message: 'Invalid BANANO Account (does not start with ban_1 or ban_3)',
       });
     });
     it('getBananoAccountValidationInfo incorrect alphabet account matches expected', () => {
-      const badAccount = 'ban_1BAD1ppzmj146pdxgbmph3wmeg15t8zk1yfwbozysoxtti3xqa15qufta5tq';
-      const validationInfo = bananojs.getBananoAccountValidationInfo(badAccount);
+      const badAccount =
+        'ban_1BAD1ppzmj146pdxgbmph3wmeg15t8zk1yfwbozysoxtti3xqa15qufta5tq';
+      const validationInfo =
+        bananojs.getBananoAccountValidationInfo(badAccount);
       expect(validationInfo).to.deep.equal({
         valid: false,
-        message: 'Invalid BANANO account (characters after ban_ must be one of:13456789abcdefghijkmnopqrstuwxyz)',
+        message:
+          'Invalid BANANO account (characters after ban_ must be one of:13456789abcdefghijkmnopqrstuwxyz)',
       });
     });
     it('getBananoAccountValidationInfo checksum alphabet account matches expected', () => {
-      const badAccount = 'ban_1111111111111111111111111111111111111111111111111111hifc8npq';
-      const validationInfo = bananojs.getBananoAccountValidationInfo(badAccount);
+      const badAccount =
+        'ban_1111111111111111111111111111111111111111111111111111hifc8npq';
+      const validationInfo =
+        bananojs.getBananoAccountValidationInfo(badAccount);
       expect(validationInfo).to.deep.equal({
         valid: false,
-        message: 'Invalid BANANO account (Incorrect checksum hifc8npq <> hifc8npp)',
+        message:
+          'Invalid BANANO account (Incorrect checksum hifc8npq <> hifc8npp)',
       });
     });
   });
@@ -101,7 +111,8 @@ describe('account-validation', () => {
       });
     });
     it('getNanoAccountValidationInfo malformed prefix account matches expected', () => {
-      const badAccount = 'nano_4bad1ppzmj146pdxgbmph3wmeg15t8zk1yfwbozysoxtti3xqa15qufta5tq';
+      const badAccount =
+        'nano_4bad1ppzmj146pdxgbmph3wmeg15t8zk1yfwbozysoxtti3xqa15qufta5tq';
       const validationInfo = bananojs.getNanoAccountValidationInfo(badAccount);
       expect(validationInfo).to.deep.equal({
         valid: false,
@@ -109,25 +120,28 @@ describe('account-validation', () => {
       });
     });
     it('getNanoAccountValidationInfo incorrect alphabet account matches expected', () => {
-      const badAccount = 'nano_1BAD1ppzmj146pdxgbmph3wmeg15t8zk1yfwbozysoxtti3xqa15qufta5tq';
+      const badAccount =
+        'nano_1BAD1ppzmj146pdxgbmph3wmeg15t8zk1yfwbozysoxtti3xqa15qufta5tq';
       const validationInfo = bananojs.getNanoAccountValidationInfo(badAccount);
       expect(validationInfo).to.deep.equal({
         valid: false,
-        message: 'Invalid NANO account (characters after nano_ must be one of:13456789abcdefghijkmnopqrstuwxyz)',
+        message:
+          'Invalid NANO account (characters after nano_ must be one of:13456789abcdefghijkmnopqrstuwxyz)',
       });
     });
     it('getNanoAccountValidationInfo checksum alphabet account matches expected', () => {
-      const badAccount = 'nano_1111111111111111111111111111111111111111111111111111hifc8npq';
+      const badAccount =
+        'nano_1111111111111111111111111111111111111111111111111111hifc8npq';
       const validationInfo = bananojs.getNanoAccountValidationInfo(badAccount);
       expect(validationInfo).to.deep.equal({
         valid: false,
-        message: 'Invalid NANO account (Incorrect checksum hifc8npq <> hifc8npp)',
+        message:
+          'Invalid NANO account (Incorrect checksum hifc8npq <> hifc8npp)',
       });
     });
   });
 
-  beforeEach(async () => {
-  });
+  beforeEach(async () => {});
 
   afterEach(async () => {
     testUtil.deactivate();

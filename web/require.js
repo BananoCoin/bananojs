@@ -58,7 +58,10 @@ if (!window.bananocoin.other) {
   window.bananocoin.other = {};
 }
 window.bananocoin.bananojs.http = {};
-window.bananocoin.bananojs.http.request = (requestOptions, requestWriterCallback) => {
+window.bananocoin.bananojs.http.request = (
+  requestOptions,
+  requestWriterCallback
+) => {
   const LOG_HTTP = false;
   const xmlhttp = new XMLHttpRequest();
   const url = 'https://' + requestOptions.hostname + requestOptions.path;
@@ -81,14 +84,10 @@ window.bananocoin.bananojs.http.request = (requestOptions, requestWriterCallback
     }
     xmlhttp.send(body);
   };
-  requestWriter.end = () => {
-  };
-  requestWriter.listeners['end'] = () => {
-  };
-  requestWriter.listeners['data'] = () => {
-  };
-  requestWriter.listeners['error'] = () => {
-  };
+  requestWriter.end = () => {};
+  requestWriter.listeners['end'] = () => {};
+  requestWriter.listeners['data'] = () => {};
+  requestWriter.listeners['error'] = () => {};
   requestWriter.on = (key, fn) => {
     requestWriter.listeners[key] = fn;
   };
@@ -100,7 +99,7 @@ window.bananocoin.bananojs.http.request = (requestOptions, requestWriterCallback
     endFn();
   };
 
-  xmlhttp.onreadystatechange = function() {
+  xmlhttp.onreadystatechange = function () {
     if (this.readyState == 4) {
       if (LOG_HTTP) {
         console.log('https end', this.responseText);
@@ -124,7 +123,10 @@ window.bananocoin.bananojs.http.request = (requestOptions, requestWriterCallback
   return requestWriter;
 };
 window.bananocoin.bananojs.https = {};
-window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallback) => {
+window.bananocoin.bananojs.https.request = (
+  requestOptions,
+  requestWriterCallback
+) => {
   const LOG_HTTP = false;
   const xmlhttp = new XMLHttpRequest();
   const url = 'https://' + requestOptions.hostname + requestOptions.path;
@@ -147,14 +149,10 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
     }
     xmlhttp.send(body);
   };
-  requestWriter.end = () => {
-  };
-  requestWriter.listeners['end'] = () => {
-  };
-  requestWriter.listeners['data'] = () => {
-  };
-  requestWriter.listeners['error'] = () => {
-  };
+  requestWriter.end = () => {};
+  requestWriter.listeners['end'] = () => {};
+  requestWriter.listeners['data'] = () => {};
+  requestWriter.listeners['error'] = () => {};
   requestWriter.on = (key, fn) => {
     requestWriter.listeners[key] = fn;
   };
@@ -166,7 +164,7 @@ window.bananocoin.bananojs.https.request = (requestOptions, requestWriterCallbac
     endFn();
   };
 
-  xmlhttp.onreadystatechange = function() {
+  xmlhttp.onreadystatechange = function () {
     if (this.readyState == 4) {
       if (LOG_HTTP) {
         console.log('https end', this.responseText);

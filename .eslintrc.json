@@ -13,8 +13,11 @@
     "ecmaVersion": 2018
   },
   "rules": {
-    "max-len": ["error", {
-      "code": 220
-    }]
+    "max-len": [
+      "error",
+      {
+        "code": 220
+      }
+    ]
   }
 }

@@ -13,7 +13,8 @@ const coinDatas = testUtil.getCoinDatas(bananoTest);
 
 const expectedWorkStart = 'FD7B270000000000';
 const expectedWork = 'FD7B280000000000';
-const expectedWorkHash = '000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F';
+const expectedWorkHash =
+  '000D1BAEC8EC208142C99059B393051BAC8380F9B5A2E6B2489A277D81789F3F';
 
 const privateKey = bananoTest.privateKey;
 const block = bananoTest.block;
@@ -35,7 +36,14 @@ describe('block-sign', () => {
         throw error;
       };
       const sendAmountToAccount = coinData.getSendAmountToAccountFn(bananojs);
-      sendAmountToAccount(bananoSeed, 0, bananoAccount, 1, successCallback, failureCallback);
+      sendAmountToAccount(
+        bananoSeed,
+        0,
+        bananoAccount,
+        1,
+        successCallback,
+        failureCallback
+      );
     });
     it(coinData.coin + ' send works, bad account', (done) => {
       const bananojs = testUtil.getBananojsWithMockApi();
@@ -46,7 +54,14 @@ describe('block-sign', () => {
         throw error;
       };
       const sendAmountToAccount = coinData.getSendAmountToAccountFn(bananojs);
-      sendAmountToAccount(bad.seed, 0, bad.account, 1, successCallback, failureCallback);
+      sendAmountToAccount(
+        bad.seed,
+        0,
+        bad.account,
+        1,
+        successCallback,
+        failureCallback
+      );
     });
   });
 
@@ -87,8 +102,7 @@ describe('block-sign', () => {
     expect(expectedWork).to.deep.equal(actualWork);
   });
 
-  beforeEach(async () => {
-  });
+  beforeEach(async () => {});
 
   afterEach(async () => {
     testUtil.deactivate();

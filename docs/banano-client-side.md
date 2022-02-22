@@ -32,12 +32,17 @@ For now here's now to get started:
       const url = 'https://kaliumapi.appditto.com/api';
       const seed = window.localStorage.seed;
       const privateKey = await window.bananocoinBananojs.getPrivateKey(seed, 0);
-      const publicKey = await window.bananocoinBananojs.getPublicKey(privateKey);
+      const publicKey = await window.bananocoinBananojs.getPublicKey(
+        privateKey
+      );
       const account = window.bananocoinBananojs.getBananoAccount(publicKey);
       window.bananocoinBananojs.setBananodeApiUrl(url);
-      const accountInfo = await window.bananocoinBananojs.getAccountInfo(account, true);
+      const accountInfo = await window.bananocoinBananojs.getAccountInfo(
+        account,
+        true
+      );
       return accountInfo;
-    }
+    };
     ```
 
 4.  receive pending deposits
@@ -46,10 +51,16 @@ For now here's now to get started:
     const receiveBananoDeposits = async () => {
       const seed = window.localStorage.seed;
       const privateKey = await window.bananocoinBananojs.getPrivateKey(seed, 0);
-      const publicKey = await window.bananocoinBananojs.getPublicKey(privateKey);
+      const publicKey = await window.bananocoinBananojs.getPublicKey(
+        privateKey
+      );
       const account = window.bananocoinBananojs.getBananoAccount(publicKey);
-      return await window.bananocoinBananojs.receiveBananoDepositsForSeed(seed, 0, account);
-    }
+      return await window.bananocoinBananojs.receiveBananoDepositsForSeed(
+        seed,
+        0,
+        account
+      );
+    };
     ```
 
 5.  withdraw banano.
@@ -57,6 +68,11 @@ For now here's now to get started:
     ```js
     const withdrawBanano = async (withdrawAccount, withdrawAmount) => {
       const seed = window.localStorage.seed;
-      return await window.bananocoinBananojs.sendBananoWithdrawalFromSeed(seed, 0, withdrawAccount, withdrawAmount);
-    }
+      return await window.bananocoinBananojs.sendBananoWithdrawalFromSeed(
+        seed,
+        0,
+        withdrawAccount,
+        withdrawAmount
+      );
+    };
     ```

@@ -33,8 +33,12 @@ const getAccountHistoryAndPending = async (ix) => {
 
 const getAccountInfo = async (ix, account) => {
   window.bananocoinBananojs.setBananodeApiUrl(url);
-  const accountInfo = await window.bananocoinBananojs.getAccountInfo(account, true);
-  document.getElementById('accountInfo' + ix).innerText = JSON.stringify(accountInfo);
+  const accountInfo = await window.bananocoinBananojs.getAccountInfo(
+    account,
+    true
+  );
+  document.getElementById('accountInfo' + ix).innerText =
+    JSON.stringify(accountInfo);
   if (accountInfo.error) {
     setTimeout(async () => {
       getAccountInfo(ix, account);
@@ -44,7 +48,10 @@ const getAccountInfo = async (ix, account) => {
 
 const getAccountHistory = async (ix, account) => {
   window.bananocoinBananojs.setBananodeApiUrl(url);
-  const history = await window.bananocoinBananojs.getAccountHistory(account, maxHistory);
+  const history = await window.bananocoinBananojs.getAccountHistory(
+    account,
+    maxHistory
+  );
   document.getElementById('history' + ix).innerText = JSON.stringify(history);
   if (history.error) {
     setTimeout(async () => {
@@ -55,7 +62,11 @@ const getAccountHistory = async (ix, account) => {
 
 const getAccountsPending = async (ix, account) => {
   window.bananocoinBananojs.setBananodeApiUrl(url);
-  const pending = await window.bananocoinBananojs.getAccountsPending([account], maxPending, true);
+  const pending = await window.bananocoinBananojs.getAccountsPending(
+    [account],
+    maxPending,
+    true
+  );
   document.getElementById('pending' + ix).innerText = JSON.stringify(pending);
   if (pending.error) {
     setTimeout(async () => {
@@ -67,8 +78,10 @@ const getAccountsPending = async (ix, account) => {
 const getCamoRepresentative = (ix, seed) => {
   const privateKey = window.bananocoinBananojs.getPrivateKey(seed, 0);
   const camoPublicKey = window.bananocoinBananojs.getCamoPublicKey(privateKey);
-  const camoRepresentative = window.bananocoinBananojs.getCamoAccount(camoPublicKey);
-  document.getElementById('camoRepresentative' + ix).innerText = camoRepresentative;
+  const camoRepresentative =
+    window.bananocoinBananojs.getCamoAccount(camoPublicKey);
+  document.getElementById('camoRepresentative' + ix).innerText =
+    camoRepresentative;
 };
 
 const getBananoAccountDeposits = async (ix) => {
@@ -76,8 +89,13 @@ const getBananoAccountDeposits = async (ix) => {
   const privateKey = window.bananocoinBananojs.getPrivateKey(seed, 0);
   const publicKey = window.bananocoinBananojs.getPublicKey(privateKey);
   const account = window.bananocoinBananojs.getBananoAccount(publicKey);
-  const response = await window.bananocoinBananojs.receiveBananoDepositsForSeed(seed, 0, account);
-  document.getElementById('accountDeposits' + ix).innerText = JSON.stringify(response);
+  const response = await window.bananocoinBananojs.receiveBananoDepositsForSeed(
+    seed,
+    0,
+    account
+  );
+  document.getElementById('accountDeposits' + ix).innerText =
+    JSON.stringify(response);
   if (response.error) {
     setTimeout(async () => {
       getBananoAccountDeposits(ix);
@@ -91,25 +109,46 @@ const changeRepresentativeToCamo = async (ix, seed) => {
   const accountInfo = JSON.parse(accountInfoStr);
   const privateKey = window.bananocoinBananojs.getPrivateKey(seed, 0);
   const camoPublicKey = window.bananocoinBananojs.getCamoPublicKey(privateKey);
-  const representative = window.bananocoinBananojs.getBananoAccount(camoPublicKey);
+  const representative =
+    window.bananocoinBananojs.getBananoAccount(camoPublicKey);
   if (accountInfo.representative) {
     if (accountInfo.representative != representative) {
-      console.log(`INTERIM changeRepresentativeToCamo need to change rep from ${accountInfo.representative} to ${representative}`);
-      const response = await window.bananocoinBananojs.changeBananoRepresentativeForSeed(seed, 0, representative);
-      console.log('SUCCESS changeRepresentativeToCamo response', JSON.stringify(response));
+      console.log(
+        `INTERIM changeRepresentativeToCamo need to change rep from ${accountInfo.representative} to ${representative}`
+      );
+      const response =
+        await window.bananocoinBananojs.changeBananoRepresentativeForSeed(
+          seed,
+          0,
+          representative
+        );
+      console.log(
+        'SUCCESS changeRepresentativeToCamo response',
+        JSON.stringify(response)
+      );
       if (response.error) {
-        console.log('FAILURE RETRY changeRepresentativeToCamo response', JSON.stringify(response));
+        console.log(
+          'FAILURE RETRY changeRepresentativeToCamo response',
+          JSON.stringify(response)
+        );
         setTimeout(async () => {
           changeRepresentativeToCamo(ix, seed);
         }, 1000);
       } else {
-        console.log('SUCCESS changeRepresentativeToCamo response', JSON.stringify(response));
+        console.log(
+          'SUCCESS changeRepresentativeToCamo response',
+          JSON.stringify(response)
+        );
       }
     } else {
       console.log('SKIPPED changeRepresentativeToCamo', ix, 'set correctly.');
     }
   } else {
-    console.log('SKIPPED changeRepresentativeToCamo', ix, 'account not opened yet.');
+    console.log(
+      'SKIPPED changeRepresentativeToCamo',
+      ix,
+      'account not opened yet.'
+    );
   }
 };
 
@@ -143,18 +182,34 @@ const setSharedSeed = async () => {
   const accountInfo1 = JSON.parse(accountInfo1Str);
   const accountInfo2 = JSON.parse(accountInfo2Str);
 
-  const camoRepresentative1 = document.getElementById('camoRepresentative1').innerText;
-  const camoRepresentative2 = document.getElementById('camoRepresentative2').innerText;
+  const camoRepresentative1 = document.getElementById(
+    'camoRepresentative1'
+  ).innerText;
+  const camoRepresentative2 = document.getElementById(
+    'camoRepresentative2'
+  ).innerText;
 
-  const accountInfoRepresentativeAsCamo1 = getBanAsCamo(accountInfo1.representative);
-  const accountInfoRepresentativeAsCamo2 = getBanAsCamo(accountInfo2.representative);
+  const accountInfoRepresentativeAsCamo1 = getBanAsCamo(
+    accountInfo1.representative
+  );
+  const accountInfoRepresentativeAsCamo2 = getBanAsCamo(
+    accountInfo2.representative
+  );
 
   if (camoRepresentative1 != accountInfoRepresentativeAsCamo1) {
-    console.log('SKIPPED setSharedSeed, account1 rep not set.', camoRepresentative1, accountInfoRepresentativeAsCamo1);
+    console.log(
+      'SKIPPED setSharedSeed, account1 rep not set.',
+      camoRepresentative1,
+      accountInfoRepresentativeAsCamo1
+    );
     return;
   }
   if (camoRepresentative2 != accountInfoRepresentativeAsCamo2) {
-    console.log('SKIPPED setSharedSeed, account2 rep not set.', camoRepresentative2, accountInfoRepresentativeAsCamo2);
+    console.log(
+      'SKIPPED setSharedSeed, account2 rep not set.',
+      camoRepresentative2,
+      accountInfoRepresentativeAsCamo2
+    );
     return;
   }
 
@@ -169,8 +224,20 @@ const setSharedSeed = async () => {
   const account1AsCamo = getBanAsCamo(account1);
   const account2AsCamo = getBanAsCamo(account2);
 
-  const sharedData12 = await window.bananocoinBananojs.getCamoBananoSharedAccountData(seed1, 0, account2AsCamo, 0);
-  const sharedData21 = await window.bananocoinBananojs.getCamoBananoSharedAccountData(seed2, 0, account1AsCamo, 0);
+  const sharedData12 =
+    await window.bananocoinBananojs.getCamoBananoSharedAccountData(
+      seed1,
+      0,
+      account2AsCamo,
+      0
+    );
+  const sharedData21 =
+    await window.bananocoinBananojs.getCamoBananoSharedAccountData(
+      seed2,
+      0,
+      account1AsCamo,
+      0
+    );
 
   if (sharedData12.sharedSeed == sharedData21.sharedSeed) {
     const seed3Elt = document.getElementById('seed3');
@@ -179,7 +246,11 @@ const setSharedSeed = async () => {
       getAccountHistoryAndPending(3);
     }
   } else {
-    console.log('SKIPPED setSharedSeed, derivations do not match', sharedData12, sharedData21);
+    console.log(
+      'SKIPPED setSharedSeed, derivations do not match',
+      sharedData12,
+      sharedData21
+    );
   }
 };
 

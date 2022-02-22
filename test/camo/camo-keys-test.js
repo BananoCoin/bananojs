@@ -43,17 +43,25 @@ describe('camo-keys', () => {
     //        console.log( `camoPublicKey0Bytes.length ${camoPublicKey0Bytes.length}` );
     //        console.log( `camoPublicKeyFBytes.length ${camoPublicKeyFBytes.length}` );
 
-    const secret0 = bananoUtil.bytesToHex(nacl.scalarMult(privateKeyFBytes, camoPublicKey0Bytes));
-    const secretF = bananoUtil.bytesToHex(nacl.scalarMult(privateKey0Bytes, camoPublicKeyFBytes));
+    const secret0 = bananoUtil.bytesToHex(
+      nacl.scalarMult(privateKeyFBytes, camoPublicKey0Bytes)
+    );
+    const secretF = bananoUtil.bytesToHex(
+      nacl.scalarMult(privateKey0Bytes, camoPublicKeyFBytes)
+    );
 
     expect(secret0).to.deep.equal(secretF);
   });
   it('banano-nacl-fromSecretKey', async () => {
     const privateKey0Bytes = getPrivateKey0Bytes();
     const camoPrivateKey0Bytes = nacl.camo.hashsecret(privateKey0Bytes);
-    const publicKeyFromSecretKey0Bytes = nacl.sign.keyPair.fromSecretKey(privateKey0Bytes).publicKey;
-    const publicKeyFromUnhashedSecretKey0Bytes = nacl.sign.keyPair.fromUnhashedSecretKey(camoPrivateKey0Bytes);
-    expect(publicKeyFromUnhashedSecretKey0Bytes).to.deep.equal(publicKeyFromSecretKey0Bytes);
+    const publicKeyFromSecretKey0Bytes =
+      nacl.sign.keyPair.fromSecretKey(privateKey0Bytes).publicKey;
+    const publicKeyFromUnhashedSecretKey0Bytes =
+      nacl.sign.keyPair.fromUnhashedSecretKey(camoPrivateKey0Bytes);
+    expect(publicKeyFromUnhashedSecretKey0Bytes).to.deep.equal(
+      publicKeyFromSecretKey0Bytes
+    );
   });
   it('banano-nacl scalarMult.base vs scalarbase', async () => {
     /**
@@ -68,9 +76,13 @@ describe('camo-keys', () => {
      */
     const privateKey0Bytes = getPrivateKey0Bytes();
     const camoPrivateKey0Bytes = nacl.camo.hashsecret(privateKey0Bytes);
-    const scalarbasePublicKey0Bytes = nacl.camo.scalarbase(camoPrivateKey0Bytes);
-    const scalarMultBasePublicKey0Bytes = nacl.camo.scalarMult.base(camoPrivateKey0Bytes);
-    expect(scalarbasePublicKey0Bytes).to.not.equal(scalarMultBasePublicKey0Bytes);
+    const scalarbasePublicKey0Bytes =
+      nacl.camo.scalarbase(camoPrivateKey0Bytes);
+    const scalarMultBasePublicKey0Bytes =
+      nacl.camo.scalarMult.base(camoPrivateKey0Bytes);
+    expect(scalarbasePublicKey0Bytes).to.not.equal(
+      scalarMultBasePublicKey0Bytes
+    );
   });
   it('camo-nacl-public-key', async () => {
     const privateKey0 = bananoUtil.getPrivateKey(camoTestData.seed0, 0);
@@ -90,8 +102,12 @@ describe('camo-keys', () => {
     //        console.log( `camoPublicKey0Bytes.length ${camoPublicKey0Bytes.length}` );
     //        console.log( `camoPublicKeyFBytes.length ${camoPublicKeyFBytes.length}` );
 
-    const secret0 = bananoUtil.bytesToHex(nacl.camo.scalarMult(camoPrivateKeyFBytes, camoPublicKey0Bytes));
-    const secretF = bananoUtil.bytesToHex(nacl.camo.scalarMult(camoPrivateKey0Bytes, camoPublicKeyFBytes));
+    const secret0 = bananoUtil.bytesToHex(
+      nacl.camo.scalarMult(camoPrivateKeyFBytes, camoPublicKey0Bytes)
+    );
+    const secretF = bananoUtil.bytesToHex(
+      nacl.camo.scalarMult(camoPrivateKey0Bytes, camoPublicKeyFBytes)
+    );
 
     expect(secret0).to.deep.equal(secretF);
   });
@@ -102,11 +118,19 @@ describe('camo-keys', () => {
     const privateKey0Bytes = bananoUtil.hexToBytes(privateKey0);
     const privateKeyFBytes = bananoUtil.hexToBytes(privateKeyF);
 
-    const camoPublicKey0Bytes = camoUtil.getCamoPublicKeyBytes(privateKey0Bytes);
-    const camoPublicKeyFBytes = camoUtil.getCamoPublicKeyBytes(privateKeyFBytes);
+    const camoPublicKey0Bytes =
+      camoUtil.getCamoPublicKeyBytes(privateKey0Bytes);
+    const camoPublicKeyFBytes =
+      camoUtil.getCamoPublicKeyBytes(privateKeyFBytes);
 
-    const secret0FBytes = camoUtil.getSharedSecretBytes(privateKey0Bytes, camoPublicKeyFBytes);
-    const secretF0Bytes = camoUtil.getSharedSecretBytes(privateKeyFBytes, camoPublicKey0Bytes);
+    const secret0FBytes = camoUtil.getSharedSecretBytes(
+      privateKey0Bytes,
+      camoPublicKeyFBytes
+    );
+    const secretF0Bytes = camoUtil.getSharedSecretBytes(
+      privateKeyFBytes,
+      camoPublicKey0Bytes
+    );
 
     expect(secret0FBytes).to.deep.equal(secretF0Bytes);
   });
@@ -116,7 +140,6 @@ describe('camo-keys', () => {
 
     const privateKeyF = bananoUtil.getPrivateKey(camoTestData.seedF, 0);
     const publicKeyF = camoUtil.getCamoPublicKey(privateKeyF);
-
 
     expect(publicKeyF).to.deep.equal(camoTestData.seed0_camo_public);
 

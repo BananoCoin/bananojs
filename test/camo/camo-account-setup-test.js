@@ -22,7 +22,12 @@ const LOG_WAIT_FOR_HASH = false;
 const LOG_TEST_SEND_GET_BALANCE = false;
 
 const waitForHash = async (privateKey, pendingHash) => {
-  let isHashInPendingOfPrivateKeyFlag = await camoUtil.isHashInPendingOfPrivateKey(bananodeApi, privateKey, pendingHash);
+  let isHashInPendingOfPrivateKeyFlag =
+    await camoUtil.isHashInPendingOfPrivateKey(
+      bananodeApi,
+      privateKey,
+      pendingHash
+    );
   let waitCount = 0;
   while (!isHashInPendingOfPrivateKeyFlag) {
     waitCount++;
@@ -30,61 +35,114 @@ const waitForHash = async (privateKey, pendingHash) => {
       console.log(`[${waitCount}] isHashInPendingOfPrivateKey returned false`);
     }
     await sleepUtil.sleep(1000);
-    isHashInPendingOfPrivateKeyFlag = await camoUtil.isHashInPendingOfPrivateKey(bananodeApi, privateKey, pendingHash);
+    isHashInPendingOfPrivateKeyFlag =
+      await camoUtil.isHashInPendingOfPrivateKey(
+        bananodeApi,
+        privateKey,
+        pendingHash
+      );
   }
 };
 
 describe('camo-account-setup', () => {
   it('find-unopened-account', async () => {
-    const privateKey0 = await camoUtil.getFirstUnopenedPrivateKey(bananodeApi, camoTestData.seed0);
+    const privateKey0 = await camoUtil.getFirstUnopenedPrivateKey(
+      bananodeApi,
+      camoTestData.seed0
+    );
     expect(privateKey0).to.not.equal(camoTestData.seed0private0);
   });
   it('open-account', async () => {
-    const fundingPrivateKey = bananoUtil.getPrivateKey(camoTestData.funding_seed, camoTestData.funding_seed_ix);
+    const fundingPrivateKey = bananoUtil.getPrivateKey(
+      camoTestData.funding_seed,
+      camoTestData.funding_seed_ix
+    );
 
-    const sweptCount1 = await camoUtil.receiveSeed(bananodeApi, camoTestData.seed0, fundingPrivateKey);
+    const sweptCount1 = await camoUtil.receiveSeed(
+      bananodeApi,
+      camoTestData.seed0,
+      fundingPrivateKey
+    );
     if (LOG_OPEN_ACCOUNT) {
       console.log('swept pending blocks 1', sweptCount1);
     }
 
-    const privateKey0 = await camoUtil.getFirstUnopenedPrivateKey(bananodeApi, camoTestData.seed0);
-    const pendingHash0 = await camoUtil.openAccountWithPrivateKey(bananodeApi, fundingPrivateKey, privateKey0);
+    const privateKey0 = await camoUtil.getFirstUnopenedPrivateKey(
+      bananodeApi,
+      camoTestData.seed0
+    );
+    const pendingHash0 = await camoUtil.openAccountWithPrivateKey(
+      bananodeApi,
+      fundingPrivateKey,
+      privateKey0
+    );
     if (LOG_OPEN_ACCOUNT) {
-      console.log(`openAccountWithPrivateKey0 returned ${privateKey0} ${pendingHash0}`);
+      console.log(
+        `openAccountWithPrivateKey0 returned ${privateKey0} ${pendingHash0}`
+      );
     }
     if (LOG_OPEN_ACCOUNT) {
-      console.log(`STARTED waiting for blockchain to show hash0 ${pendingHash0}`);
+      console.log(
+        `STARTED waiting for blockchain to show hash0 ${pendingHash0}`
+      );
     }
     await waitForHash(privateKey0, pendingHash0);
     if (LOG_OPEN_ACCOUNT) {
-      console.log(`SUCCESS waiting for blockchain to show hash0 ${pendingHash0}`);
+      console.log(
+        `SUCCESS waiting for blockchain to show hash0 ${pendingHash0}`
+      );
     }
 
-    const sweptCount2 = await camoUtil.receiveSeed(bananodeApi, camoTestData.seed0, fundingPrivateKey);
+    const sweptCount2 = await camoUtil.receiveSeed(
+      bananodeApi,
+      camoTestData.seed0,
+      fundingPrivateKey
+    );
     if (LOG_OPEN_ACCOUNT) {
       console.log('swept pending blocks 2', sweptCount2);
     }
 
-    const sweptCount3 = await camoUtil.receiveSeed(bananodeApi, camoTestData.seedF, fundingPrivateKey);
+    const sweptCount3 = await camoUtil.receiveSeed(
+      bananodeApi,
+      camoTestData.seedF,
+      fundingPrivateKey
+    );
     if (LOG_OPEN_ACCOUNT) {
       console.log('swept pending blocks 3', sweptCount3);
     }
 
-    const privateKeyF = await camoUtil.getFirstUnopenedPrivateKey(bananodeApi, camoTestData.seedF);
-    const pendingHashF = await camoUtil.openAccountWithPrivateKey(bananodeApi, fundingPrivateKey, privateKeyF);
+    const privateKeyF = await camoUtil.getFirstUnopenedPrivateKey(
+      bananodeApi,
+      camoTestData.seedF
+    );
+    const pendingHashF = await camoUtil.openAccountWithPrivateKey(
+      bananodeApi,
+      fundingPrivateKey,
+      privateKeyF
+    );
     if (LOG_OPEN_ACCOUNT) {
-      console.log(`openAccountWithPrivateKeyF ${privateKeyF} returned ${pendingHashF}`);
+      console.log(
+        `openAccountWithPrivateKeyF ${privateKeyF} returned ${pendingHashF}`
+      );
     }
 
     if (LOG_OPEN_ACCOUNT) {
-      console.log(`STARTED waiting for blockchain to show hashF ${pendingHashF}`);
+      console.log(
+        `STARTED waiting for blockchain to show hashF ${pendingHashF}`
+      );
     }
     await waitForHash(privateKeyF, pendingHashF);
     if (LOG_OPEN_ACCOUNT) {
-      console.log(`SUCCESS waiting for blockchain to show hashF ${pendingHashF}`);
+      console.log(
+        `SUCCESS waiting for blockchain to show hashF ${pendingHashF}`
+      );
     }
 
-    const sweptCount4 = await camoUtil.receiveSeed(bananodeApi, camoTestData.seedF, fundingPrivateKey);
+    const sweptCount4 = await camoUtil.receiveSeed(
+      bananodeApi,
+      camoTestData.seedF,
+      fundingPrivateKey
+    );
     if (LOG_OPEN_ACCOUNT) {
       console.log('swept pending blocks 4', sweptCount4);
     }
@@ -100,7 +158,9 @@ describe('camo-account-setup', () => {
     const privateKey0 = camoTestData.shared_seed_private0;
     const publicKey0 = bananoUtil.getPublicKey(privateKey0);
     const account0 = bananoUtil.getAccount(publicKey0);
-    const representative0 = await bananodeApi.getAccountRepresentative(account0);
+    const representative0 = await bananodeApi.getAccountRepresentative(
+      account0
+    );
     const camoPublicKey0 = bananoUtil.getAccountPublicKey(representative0);
 
     expect(publicKey0).to.equal(camoTestData.shared_seed_public0);
@@ -116,7 +176,9 @@ describe('camo-account-setup', () => {
     const privateKeyF = camoTestData.shared_seed_privateF;
     const publicKeyF = bananoUtil.getPublicKey(privateKeyF);
     const accountF = bananoUtil.getAccount(publicKeyF);
-    const representativeF = await bananodeApi.getAccountRepresentative(accountF);
+    const representativeF = await bananodeApi.getAccountRepresentative(
+      accountF
+    );
     const camoPublicKeyF = bananoUtil.getAccountPublicKey(representativeF);
 
     expect(publicKeyF).to.equal(camoTestData.shared_seed_publicF);
@@ -128,8 +190,14 @@ describe('camo-account-setup', () => {
       console.log('representativeF', representativeF);
       console.log('camoPublicKeyF', camoPublicKeyF);
     }
-    const sharedSecret0F = camoUtil.getSharedSecret(privateKey0, camoPublicKeyF);
-    const sharedSecretF0 = camoUtil.getSharedSecret(privateKeyF, camoPublicKey0);
+    const sharedSecret0F = camoUtil.getSharedSecret(
+      privateKey0,
+      camoPublicKeyF
+    );
+    const sharedSecretF0 = camoUtil.getSharedSecret(
+      privateKeyF,
+      camoPublicKey0
+    );
 
     if (LOG_TEST_SHARED_SEED) {
       console.log('sharedSecret0F', sharedSecret0F);
@@ -141,7 +209,9 @@ describe('camo-account-setup', () => {
     const privateKey0 = camoTestData.shared_seed_private0;
     const publicKey0 = bananoUtil.getPublicKey(privateKey0);
     const account0 = bananoUtil.getAccount(publicKey0);
-    const representative0 = await bananodeApi.getAccountRepresentative(account0);
+    const representative0 = await bananodeApi.getAccountRepresentative(
+      account0
+    );
     const camoPublicKey0 = bananoUtil.getAccountPublicKey(representative0);
 
     expect(publicKey0).to.equal(camoTestData.shared_seed_public0);
@@ -152,7 +222,9 @@ describe('camo-account-setup', () => {
     const privateKeyF = camoTestData.shared_seed_privateF;
     const publicKeyF = bananoUtil.getPublicKey(privateKeyF);
     const accountF = bananoUtil.getAccount(publicKeyF);
-    const representativeF = await bananodeApi.getAccountRepresentative(accountF);
+    const representativeF = await bananodeApi.getAccountRepresentative(
+      accountF
+    );
     const camoPublicKeyF = bananoUtil.getAccountPublicKey(representativeF);
 
     expect(publicKeyF).to.equal(camoTestData.shared_seed_publicF);
@@ -160,39 +232,85 @@ describe('camo-account-setup', () => {
     expect(camoPublicKeyF).to.equal(camoTestData.shared_seed_camoF);
   });
   it('test-shared-secrets', async () => {
-    const sharedSecret0F = camoUtil.getSharedSecret(camoTestData.shared_seed_private0, camoTestData.shared_seed_camoF);
+    const sharedSecret0F = camoUtil.getSharedSecret(
+      camoTestData.shared_seed_private0,
+      camoTestData.shared_seed_camoF
+    );
     expect(sharedSecret0F).to.equal(camoTestData.shared_seed0F);
 
-    const sharedSecretF0 = camoUtil.getSharedSecret(camoTestData.shared_seed_privateF, camoTestData.shared_seed_camo0);
+    const sharedSecretF0 = camoUtil.getSharedSecret(
+      camoTestData.shared_seed_privateF,
+      camoTestData.shared_seed_camo0
+    );
     expect(sharedSecretF0).to.equal(camoTestData.shared_seed0F);
   });
   it('test-send-get-balance', async () => {
-    const fundingPrivateKey = bananoUtil.getPrivateKey(camoTestData.funding_seed, camoTestData.funding_seed_ix);
+    const fundingPrivateKey = bananoUtil.getPrivateKey(
+      camoTestData.funding_seed,
+      camoTestData.funding_seed_ix
+    );
     const amountRaw = bananoUtil.getRawStrFromBananoStr('6');
-    const balanceRawBefore = await camoUtil.getBalanceRaw(bananodeApi, camoTestData.shared_seed_privateF, camoTestData.shared_seed_public0);
+    const balanceRawBefore = await camoUtil.getBalanceRaw(
+      bananodeApi,
+      camoTestData.shared_seed_privateF,
+      camoTestData.shared_seed_public0
+    );
     if (LOG_TEST_SEND_GET_BALANCE) {
-      console.log(`before send, balance To Private Key F From Public Key 0 = ${balanceRawBefore}`);
+      console.log(
+        `before send, balance To Private Key F From Public Key 0 = ${balanceRawBefore}`
+      );
     }
-    const hashes = await camoUtil.send(bananodeApi, fundingPrivateKey, camoTestData.shared_seed_private0, camoTestData.shared_seed_publicF, amountRaw);
+    const hashes = await camoUtil.send(
+      bananodeApi,
+      fundingPrivateKey,
+      camoTestData.shared_seed_private0,
+      camoTestData.shared_seed_publicF,
+      amountRaw
+    );
     if (LOG_TEST_SEND_GET_BALANCE) {
       console.log(`after send, hashes`, hashes);
       console.log('camoTestData.shared_seed0F', camoTestData.shared_seed0F);
     }
     for (let seedIx = 0; seedIx < hashes.length; seedIx++) {
       const hash = hashes[seedIx];
-      const privateKey = bananoUtil.getPrivateKey(camoTestData.shared_seed0F, seedIx);
+      const privateKey = bananoUtil.getPrivateKey(
+        camoTestData.shared_seed0F,
+        seedIx
+      );
       if (LOG_TEST_SEND_GET_BALANCE) {
-        console.log('STARTED waitForHash ', 'privateKey', privateKey, 'hash', hash);
+        console.log(
+          'STARTED waitForHash ',
+          'privateKey',
+          privateKey,
+          'hash',
+          hash
+        );
       }
       await waitForHash(privateKey, hash);
       if (LOG_TEST_SEND_GET_BALANCE) {
-        console.log('SUCCCESS waitForHash ', 'privateKey', privateKey, 'hash', hash);
+        console.log(
+          'SUCCCESS waitForHash ',
+          'privateKey',
+          privateKey,
+          'hash',
+          hash
+        );
       }
     }
-    await camoUtil.receive(bananodeApi, camoTestData.shared_seed_privateF, camoTestData.shared_seed_public0);
-    const balanceRawAfter = await camoUtil.getBalanceRaw(bananodeApi, camoTestData.shared_seed_privateF, camoTestData.shared_seed_public0);
+    await camoUtil.receive(
+      bananodeApi,
+      camoTestData.shared_seed_privateF,
+      camoTestData.shared_seed_public0
+    );
+    const balanceRawAfter = await camoUtil.getBalanceRaw(
+      bananodeApi,
+      camoTestData.shared_seed_privateF,
+      camoTestData.shared_seed_public0
+    );
     if (LOG_TEST_SEND_GET_BALANCE) {
-      console.log(`after send, balance To Private Key F From Public Key 0 = ${balanceRawAfter}`);
+      console.log(
+        `after send, balance To Private Key F From Public Key 0 = ${balanceRawAfter}`
+      );
     }
 
     expect(balanceRawAfter).to.not.equal(balanceRawBefore);

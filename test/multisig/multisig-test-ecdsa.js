@@ -31,7 +31,6 @@ const bytesToHex = bananojs.bananoUtil.bytesToHex;
 
 const hexToBytes = bananojs.bananoUtil.hexToBytes;
 
-
 const getRandomBytes32Base16 = () => {
   return crypto.randomBytes(32).toString('hex').toUpperCase();
 };
@@ -45,31 +44,33 @@ const getPublicKey = async (secret) => {
 const getMultiSigPublicKey = (A, B) => {
   const pubKeys = [A, B];
   const getAHashSignatureComponent = (publicKey, pubKeys) => {
-  	const hashArguments = [publicKey];
+    const hashArguments = [publicKey];
 
-  	for (let i = 0; i < pubKeys.length; i++) {
-  		hashArguments.push(pubKeys[i]);
-  	}
+    for (let i = 0; i < pubKeys.length; i++) {
+      hashArguments.push(pubKeys[i]);
+    }
 
-  	return ec.hashInt.apply(ec, hashArguments);
+    return ec.hashInt.apply(ec, hashArguments);
   };
 
   const getAggregatedPublicKeyPoint = (pubKeys) => {
-  	let aggregatedPublicKeyPoint = null;
+    let aggregatedPublicKeyPoint = null;
 
-  	for (let i = 0; i < pubKeys.length; i++) {
+    for (let i = 0; i < pubKeys.length; i++) {
       const pubKeyIPoint = ec.decodePoint(pubKeys[i]);
-  		const aHashComponent = getAHashSignatureComponent(pubKeys[i], pubKeys);
-  		const aggregationComponentPoint = pubKeyIPoint.mul(aHashComponent);
+      const aHashComponent = getAHashSignatureComponent(pubKeys[i], pubKeys);
+      const aggregationComponentPoint = pubKeyIPoint.mul(aHashComponent);
 
-  		if (aggregatedPublicKeyPoint === null) {
-  			aggregatedPublicKeyPoint = aggregationComponentPoint;
-  		} else {
-  			aggregatedPublicKeyPoint = aggregatedPublicKeyPoint.add(aggregationComponentPoint);
-  		}
-  	}
+      if (aggregatedPublicKeyPoint === null) {
+        aggregatedPublicKeyPoint = aggregationComponentPoint;
+      } else {
+        aggregatedPublicKeyPoint = aggregatedPublicKeyPoint.add(
+          aggregationComponentPoint
+        );
+      }
+    }
     // need to convert to key?
-  	return aggregatedPublicKeyPoint;
+    return aggregatedPublicKeyPoint;
   };
 
   const getAggregatedPublicKey = () => {
@@ -82,66 +83,69 @@ const getMultiSigPublicKey = (A, B) => {
   return multiSigPublicKey;
 };
 
-
 const getRHash = (zValue, message) => {
   // const key = ec.keyFromSecret(secret);
   // const messagePrefix = key.messagePrefix();
-  	const r = ec.hashInt(
-      // messagePrefix,
-      message, zValue);
+  const r = ec.hashInt(
+    // messagePrefix,
+    message,
+    zValue
+  );
   return r;
 };
 
 const getRPoint = (r) => {
-  	const R = ec.g.mul(r);
-  	const Rencoded = ec.encodePoint(R);
-  	const t = ec.hashInt(Rencoded);
+  const R = ec.g.mul(r);
+  const Rencoded = ec.encodePoint(R);
+  const t = ec.hashInt(Rencoded);
   return R;
 };
 
 const getAggregatedRPoint = (RPoints) => {
-  	let aggregatedRPoint = null;
+  let aggregatedRPoint = null;
 
-  	for (let i = 0; i < RPoints.length; i++) {
-  		if (aggregatedRPoint === null) {
-  			aggregatedRPoint = RPoints[i];
-  		} else {
+  for (let i = 0; i < RPoints.length; i++) {
+    if (aggregatedRPoint === null) {
+      aggregatedRPoint = RPoints[i];
+    } else {
       // point addition
-  			aggregatedRPoint = aggregatedRPoint.add(RPoints[i]);
-  		}
-  	}
+      aggregatedRPoint = aggregatedRPoint.add(RPoints[i]);
+    }
+  }
 
-  	return aggregatedRPoint;
+  return aggregatedRPoint;
 };
 
 const getAHashSignatureComponent = (publicKey, pubKeys) => {
-  	const hashArguments = [publicKey];
+  const hashArguments = [publicKey];
 
-  	for (let i = 0; i < pubKeys.length; i++) {
-  		hashArguments.push(pubKeys[i]);
-  	}
+  for (let i = 0; i < pubKeys.length; i++) {
+    hashArguments.push(pubKeys[i]);
+  }
 
-  	return ec.hashInt.apply(ec, hashArguments);
+  return ec.hashInt.apply(ec, hashArguments);
 };
 
 const getAggregatedPublicKeyPoint = (pubKeys) => {
-  	let aggregatedPublicKeyPoint = null;
-  	let aHashComponent = null;
-  	let aggregationComponentPoint = null;
+  let aggregatedPublicKeyPoint = null;
+  let aHashComponent = null;
+  let aggregationComponentPoint = null;
 
-  	for (let i = 0; i < pubKeys.length; i++) {
+  for (let i = 0; i < pubKeys.length; i++) {
     const pubKeyIPoint = ec.decodePoint(pubKeys[i]);
-  		aHashComponent = getAHashSignatureComponent(pubKeys[i], pubKeys);
-  		aggregationComponentPoint = pubKeyIPoint.mul(aHashComponent);
+    aHashComponent = getAHashSignatureComponent(pubKeys[i], pubKeys);
+    aggregationComponentPoint = pubKeyIPoint.mul(aHashComponent);
 
-  		if (aggregatedPublicKeyPoint === null) {
-  			aggregatedPublicKeyPoint = aggregationComponentPoint;
-  		} else {
-  			aggregatedPublicKeyPoint = aggregatedPublicKeyPoint.add(aggregationComponentPoint);
-  		}
-  	}
+    if (aggregatedPublicKeyPoint === null) {
+      aggregatedPublicKeyPoint = aggregationComponentPoint;
+    } else {
+      aggregatedPublicKeyPoint = aggregatedPublicKeyPoint.add(
+        aggregationComponentPoint
+      );
+    }
+  }
   // need to convert to key?
-  	return aggregatedPublicKeyPoint;
+  return aggregatedPublicKeyPoint;
 };
 
 const getAggregatedRPointFromMessage = (aZ, bZ, msgHashHex) => {
@@ -174,12 +178,25 @@ const getSignaturePart = async (a, A, aZ, B, bZ, msgHashHex) => {
 
   const pubKeys = [A, B];
 
-  const getSignatureContribution = async (aggregatedRPoint, pubKeys, message, secretKey, aRHash) => {
+  const getSignatureContribution = async (
+    aggregatedRPoint,
+    pubKeys,
+    message,
+    secretKey,
+    aRHash
+  ) => {
     const publicKey = await getPublicKey(secretKey);
     const aggregatedPublicKeyPoint = getAggregatedPublicKeyPoint(pubKeys);
-    const aHashSignatureComponent = getAHashSignatureComponent(publicKey, pubKeys);
+    const aHashSignatureComponent = getAHashSignatureComponent(
+      publicKey,
+      pubKeys
+    );
     const getKHash = (aggregatedRPoint, aggregatedPublicKeyPoint, message) => {
-      return ec.hashInt(ec.encodePoint(aggregatedRPoint), ec.encodePoint(aggregatedPublicKeyPoint), message);
+      return ec.hashInt(
+        ec.encodePoint(aggregatedRPoint),
+        ec.encodePoint(aggregatedPublicKeyPoint),
+        message
+      );
     };
     const kHash = getKHash(aggregatedRPoint, aggregatedPublicKeyPoint, message);
     const secretKeyBytes = ec.keyFromSecret(secretKey).privBytes();
@@ -197,7 +214,13 @@ const getSignaturePart = async (a, A, aZ, B, bZ, msgHashHex) => {
     return signatureContribution;
   };
 
-  const aSigContr = await getSignatureContribution(aggregatedRPoint, pubKeys, msgHash, a, aRHash);
+  const aSigContr = await getSignatureContribution(
+    aggregatedRPoint,
+    pubKeys,
+    msgHash,
+    a,
+    aRHash
+  );
   return aSigContr;
 };
 
@@ -209,12 +232,18 @@ const getCombinedSignature = async (aggregatedRPoint, aSig, bSig) => {
     if (aggregatedSignature === null) {
       aggregatedSignature = signatureContributions[i];
     } else {
-    // bigint addition
+      // bigint addition
       aggregatedSignature = aggregatedSignature.add(signatureContributions[i]);
     }
   }
 
-  return ec.makeSignature({R: aggregatedRPoint, S: aggregatedSignature, Rencoded: ec.encodePoint(aggregatedRPoint)}).toHex();
+  return ec
+    .makeSignature({
+      R: aggregatedRPoint,
+      S: aggregatedSignature,
+      Rencoded: ec.encodePoint(aggregatedRPoint),
+    })
+    .toHex();
 };
 
 const getSignature = async (a, A, aZ, b, B, bZ, msgHashHex) => {
@@ -223,57 +252,59 @@ const getSignature = async (a, A, aZ, b, B, bZ, msgHashHex) => {
   const getSignatureComponent = (secret, zValue, message) => {
     const key = ec.keyFromSecret(secret);
     const messagePrefix = key.messagePrefix();
-  	const r = ec.hashInt(messagePrefix, message, zValue);
-  	const R = ec.g.mul(r);
-  	const Rencoded = ec.encodePoint(R);
-  	const t = ec.hashInt(Rencoded);
+    const r = ec.hashInt(messagePrefix, message, zValue);
+    const R = ec.g.mul(r);
+    const Rencoded = ec.encodePoint(R);
+    const t = ec.hashInt(Rencoded);
 
-  	return {rHash: r, RPoint: R};
+    return { rHash: r, RPoint: R };
   };
 
   const getAggregatedRPoint = (RPoints) => {
-  	let aggregatedRPoint = null;
+    let aggregatedRPoint = null;
 
-  	for (let i = 0; i < RPoints.length; i++) {
-  		if (aggregatedRPoint === null) {
-  			aggregatedRPoint = RPoints[i];
-  		} else {
+    for (let i = 0; i < RPoints.length; i++) {
+      if (aggregatedRPoint === null) {
+        aggregatedRPoint = RPoints[i];
+      } else {
         // point addition
-  			aggregatedRPoint = aggregatedRPoint.add(RPoints[i]);
-  		}
-  	}
+        aggregatedRPoint = aggregatedRPoint.add(RPoints[i]);
+      }
+    }
 
-  	return aggregatedRPoint;
+    return aggregatedRPoint;
   };
 
   const getAHashSignatureComponent = (publicKey, pubKeys) => {
-  	const hashArguments = [publicKey];
+    const hashArguments = [publicKey];
 
-  	for (let i = 0; i < pubKeys.length; i++) {
-  		hashArguments.push(pubKeys[i]);
-  	}
+    for (let i = 0; i < pubKeys.length; i++) {
+      hashArguments.push(pubKeys[i]);
+    }
 
-  	return ec.hashInt.apply(ec, hashArguments);
+    return ec.hashInt.apply(ec, hashArguments);
   };
 
   const getAggregatedPublicKeyPoint = (pubKeys) => {
-  	let aggregatedPublicKeyPoint = null;
-  	let aHashComponent = null;
-  	let aggregationComponentPoint = null;
+    let aggregatedPublicKeyPoint = null;
+    let aHashComponent = null;
+    let aggregationComponentPoint = null;
 
-  	for (let i = 0; i < pubKeys.length; i++) {
+    for (let i = 0; i < pubKeys.length; i++) {
       const pubKeyIPoint = ec.decodePoint(pubKeys[i]);
-  		aHashComponent = getAHashSignatureComponent(pubKeys[i], pubKeys);
-  		aggregationComponentPoint = pubKeyIPoint.mul(aHashComponent);
+      aHashComponent = getAHashSignatureComponent(pubKeys[i], pubKeys);
+      aggregationComponentPoint = pubKeyIPoint.mul(aHashComponent);
 
-  		if (aggregatedPublicKeyPoint === null) {
-  			aggregatedPublicKeyPoint = aggregationComponentPoint;
-  		} else {
-  			aggregatedPublicKeyPoint = aggregatedPublicKeyPoint.add(aggregationComponentPoint);
-  		}
-  	}
+      if (aggregatedPublicKeyPoint === null) {
+        aggregatedPublicKeyPoint = aggregationComponentPoint;
+      } else {
+        aggregatedPublicKeyPoint = aggregatedPublicKeyPoint.add(
+          aggregationComponentPoint
+        );
+      }
+    }
     // need to convert to key?
-  	return aggregatedPublicKeyPoint;
+    return aggregatedPublicKeyPoint;
   };
 
   const aSigComp = getSignatureComponent(a, aZ, msgHash);
@@ -282,14 +313,30 @@ const getSignature = async (a, A, aZ, b, B, bZ, msgHashHex) => {
 
   const pubKeys = [A, B];
 
-  const aggregatedRPoint = getAggregatedRPoint([aSigComp.RPoint, bSigComp.RPoint]);
+  const aggregatedRPoint = getAggregatedRPoint([
+    aSigComp.RPoint,
+    bSigComp.RPoint,
+  ]);
 
-  const getSignatureContribution = async (aggregatedRPoint, pubKeys, message, secretKey, signatureComponents) => {
+  const getSignatureContribution = async (
+    aggregatedRPoint,
+    pubKeys,
+    message,
+    secretKey,
+    signatureComponents
+  ) => {
     const publicKey = await getPublicKey(secretKey);
     const aggregatedPublicKeyPoint = getAggregatedPublicKeyPoint(pubKeys);
-    const aHashSignatureComponent = getAHashSignatureComponent(publicKey, pubKeys);
+    const aHashSignatureComponent = getAHashSignatureComponent(
+      publicKey,
+      pubKeys
+    );
     const getKHash = (aggregatedRPoint, aggregatedPublicKeyPoint, message) => {
-      return ec.hashInt(ec.encodePoint(aggregatedRPoint), ec.encodePoint(aggregatedPublicKeyPoint), message);
+      return ec.hashInt(
+        ec.encodePoint(aggregatedRPoint),
+        ec.encodePoint(aggregatedPublicKeyPoint),
+        message
+      );
     };
     const kHash = getKHash(aggregatedRPoint, aggregatedPublicKeyPoint, message);
     const secretKeyBytes = ec.keyFromSecret(secretKey).privBytes();
@@ -299,7 +346,9 @@ const getSignature = async (a, A, aZ, b, B, bZ, msgHashHex) => {
     signatureContribution = signatureContribution.mul(aHashSignatureComponent);
 
     // bigint addition
-    signatureContribution = signatureComponents.rHash.add(signatureContribution);
+    signatureContribution = signatureComponents.rHash.add(
+      signatureContribution
+    );
 
     // appears to not be needed? Rust implementation doesn't seem to have it, even for single sig.
     signatureContribution = signatureContribution.umod(ec.curve.n);
@@ -307,25 +356,46 @@ const getSignature = async (a, A, aZ, b, B, bZ, msgHashHex) => {
     return signatureContribution;
   };
 
-  const aSigContr = await getSignatureContribution(aggregatedRPoint, pubKeys, msgHash, a, aSigComp);
-  const bSigContr = await getSignatureContribution(aggregatedRPoint, pubKeys, msgHash, b, bSigComp);
+  const aSigContr = await getSignatureContribution(
+    aggregatedRPoint,
+    pubKeys,
+    msgHash,
+    a,
+    aSigComp
+  );
+  const bSigContr = await getSignatureContribution(
+    aggregatedRPoint,
+    pubKeys,
+    msgHash,
+    b,
+    bSigComp
+  );
 
   const getAggregatedSignature = (signatureContributions) => {
-  	let aggregatedSignature = null;
+    let aggregatedSignature = null;
 
-  	for (let i = 0; i < signatureContributions.length; i++) {
-  		if (aggregatedSignature === null) {
-  			aggregatedSignature = signatureContributions[i];
-  		} else {
+    for (let i = 0; i < signatureContributions.length; i++) {
+      if (aggregatedSignature === null) {
+        aggregatedSignature = signatureContributions[i];
+      } else {
         // bigint addition
-  			aggregatedSignature = aggregatedSignature.add(signatureContributions[i]);
-  		}
-  	}
+        aggregatedSignature = aggregatedSignature.add(
+          signatureContributions[i]
+        );
+      }
+    }
 
-  	return ec.makeSignature({R: aggregatedRPoint, S: aggregatedSignature, Rencoded: ec.encodePoint(aggregatedRPoint)});
+    return ec.makeSignature({
+      R: aggregatedRPoint,
+      S: aggregatedSignature,
+      Rencoded: ec.encodePoint(aggregatedRPoint),
+    });
   };
 
-  const aggregatedSignature = getAggregatedSignature([aSigContr, bSigContr], aggregatedRPoint);
+  const aggregatedSignature = getAggregatedSignature(
+    [aSigContr, bSigContr],
+    aggregatedRPoint
+  );
   return aggregatedSignature.toHex();
 };
 
@@ -355,31 +425,45 @@ const runTest = async (a, aZ, b, bZ, msgHash) => {
 
 describe('multisig-ecdsa', () => {
   describe('banano', async () => {
-    const privateKey = '0000000000000000000000000000000000000000000000000000000000000000';
+    const privateKey =
+      '0000000000000000000000000000000000000000000000000000000000000000';
     it('SHA-512 has been used', async () => {
       const actualPublicKey = await getPublicKey(privateKey);
-      const expectedPublicKey = '3B6A27BCCEB6A42D62A3A8D02A6F0D73653215771DE243A63AC048A18B59DA29';
+      const expectedPublicKey =
+        '3B6A27BCCEB6A42D62A3A8D02A6F0D73653215771DE243A63AC048A18B59DA29';
       expect(actualPublicKey).to.deep.equal(expectedPublicKey);
     });
     it('Blake2b-512 digested the seed', async () => {
-      const privateKey = '0000000000000000000000000000000000000000000000000000000000000000';
-      const actualPublicKey = await bananojs.bananoUtil.getPublicKey(privateKey);
-      const expectedPublicKey = '19D3D919475DEED4696B5D13018151D1AF88B2BD3BCFF048B45031C1F36D1858';
+      const privateKey =
+        '0000000000000000000000000000000000000000000000000000000000000000';
+      const actualPublicKey = await bananojs.bananoUtil.getPublicKey(
+        privateKey
+      );
+      const expectedPublicKey =
+        '19D3D919475DEED4696B5D13018151D1AF88B2BD3BCFF048B45031C1F36D1858';
       expect(actualPublicKey).to.deep.equal(expectedPublicKey);
     });
     it('zeroes', async () => {
-      const a = '0000000000000000000000000000000000000000000000000000000000000000';
-      const aZ = '0000000000000000000000000000000000000000000000000000000000000000';
-      const b = '0000000000000000000000000000000000000000000000000000000000000000';
-      const bZ = '0000000000000000000000000000000000000000000000000000000000000000';
+      const a =
+        '0000000000000000000000000000000000000000000000000000000000000000';
+      const aZ =
+        '0000000000000000000000000000000000000000000000000000000000000000';
+      const b =
+        '0000000000000000000000000000000000000000000000000000000000000000';
+      const bZ =
+        '0000000000000000000000000000000000000000000000000000000000000000';
       const msgHash = '000102030405060708090A';
       await runTest(a, aZ, b, bZ, msgHash);
     });
     it('example', async () => {
-      const a = '31760bf21992fed876573423a3a1d4bffc41d692bb4f65f44ae21778f7fb941d';
-      const aZ = 'c9b67f7c8830b7c5a8d28acd9edee6d7082a02d1b2c8b11392296ea2965879b9';
-      const b = '6364c231f6d9755adf4960d7ed628b4e5e7a23ba2e191ff72df590fdf42383b9';
-      const bZ = '7b9b11bc0f882c436540c00ae3a7f5c18adf83fca2caa93454b17a6706552c00';
+      const a =
+        '31760bf21992fed876573423a3a1d4bffc41d692bb4f65f44ae21778f7fb941d';
+      const aZ =
+        'c9b67f7c8830b7c5a8d28acd9edee6d7082a02d1b2c8b11392296ea2965879b9';
+      const b =
+        '6364c231f6d9755adf4960d7ed628b4e5e7a23ba2e191ff72df590fdf42383b9';
+      const bZ =
+        '7b9b11bc0f882c436540c00ae3a7f5c18adf83fca2caa93454b17a6706552c00';
       const msgHash = '000102030405060708090A';
       await runTest(a, aZ, b, bZ, msgHash);
     });

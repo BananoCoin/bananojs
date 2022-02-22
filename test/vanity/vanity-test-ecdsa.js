@@ -14,11 +14,21 @@ const expect = chai.expect;
 // https://gist.github.com/mauriciolobo/f205d2db54fc8f35749e7a01c5b894d2
 const createPemFromKey = (keyPair) => {
   const pvtKey = `-----BEGIN PRIVATE KEY-----
-${Buffer.from(`308184020100301006072a8648ce3d020106052b8104000a046d306b0201010420${keyPair.getPrivateKey('hex')}a144034200${keyPair.getPublicKey('hex')}`, 'hex').toString('base64')}
+${Buffer.from(
+  `308184020100301006072a8648ce3d020106052b8104000a046d306b0201010420${keyPair.getPrivateKey(
+    'hex'
+  )}a144034200${keyPair.getPublicKey('hex')}`,
+  'hex'
+).toString('base64')}
 -----END PRIVATE KEY-----`;
 
   const pubKey = `-----BEGIN PUBLIC KEY-----
-${Buffer.from(`3056301006072a8648ce3d020106052b8104000a034200${keyPair.getPublicKey('hex')}`, 'hex').toString('base64')}
+${Buffer.from(
+  `3056301006072a8648ce3d020106052b8104000a034200${keyPair.getPublicKey(
+    'hex'
+  )}`,
+  'hex'
+).toString('base64')}
 -----END PUBLIC KEY-----`;
 
   return {
@@ -48,15 +58,17 @@ const getEc = (curve) => {
 };
 
 describe('vanity', () => {
-  const curves = [...Object.keys(elliptic.curves)].filter((value, index, arr) => {
-    if (value == 'PresetCurve') {
-      return false;
+  const curves = [...Object.keys(elliptic.curves)].filter(
+    (value, index, arr) => {
+      if (value == 'PresetCurve') {
+        return false;
+      }
+      if (value == 'curve25519') {
+        return false;
+      }
+      return true;
     }
-    if (value == 'curve25519') {
-      return false;
-    }
-    return true;
-  }); ;
+  );
   for (let curveIx = 0; curveIx < curves.length; curveIx++) {
     const curve = curves[curveIx];
     describe(curve, async () => {
@@ -67,7 +79,10 @@ describe('vanity', () => {
       };
 
       const getKeyFromPublic = async (publicKeyBase10) => {
-        const publicKeyBase16 = {x: dec2hex(publicKeyBase10.x), y: dec2hex(publicKeyBase10.y)};
+        const publicKeyBase16 = {
+          x: dec2hex(publicKeyBase10.x),
+          y: dec2hex(publicKeyBase10.y),
+        };
         const ec = getEc(curve);
         return await ec.keyFromPublic(publicKeyBase16);
       };
@@ -77,7 +92,7 @@ describe('vanity', () => {
         const publicKey = key.getPublic();
         const x = BigInt('0x' + publicKey.getX().toString('hex'));
         const y = BigInt('0x' + publicKey.getY().toString('hex'));
-        return {'x': x.toString(10), 'y': y.toString(10)};
+        return { x: x.toString(10), y: y.toString(10) };
       };
 
       const scalarAdd = (a, b) => {
@@ -90,15 +105,15 @@ describe('vanity', () => {
       };
 
       const publicKeyAdd = async (a, b) => {
-        const aHex = {x: dec2hex(a.x), y: dec2hex(a.y)};
-        const bHex = {x: dec2hex(b.x), y: dec2hex(b.y)};
+        const aHex = { x: dec2hex(a.x), y: dec2hex(a.y) };
+        const bHex = { x: dec2hex(b.x), y: dec2hex(b.y) };
         const ec = getEc(curve);
         const aKey = await ec.keyFromPublic(aHex);
         const bKey = await ec.keyFromPublic(bHex);
         const cKeyPublic = aKey.getPublic().add(bKey.getPublic());
         const cx = BigInt('0x' + cKeyPublic.getX().toString('hex'));
         const cy = BigInt('0x' + cKeyPublic.getY().toString('hex'));
-        return {'x': cx.toString(10), 'y': cy.toString(10)};
+        return { x: cx.toString(10), y: cy.toString(10) };
       };
 
       it('random', async () => {
@@ -151,9 +166,13 @@ describe('vanity', () => {
         // wanda verifies the bobPublic signature, proving bob has bobPrivate
         // which proves he can give her the bobPrivate key that unlocks bobVanityPublic.
         const bobKeyFromPublic = await getKeyFromPublic(bobPublic);
-        expect(true).to.deep.equal(bobKeyFromPublic.verify(bobMessage, bobSignature));
+        expect(true).to.deep.equal(
+          bobKeyFromPublic.verify(bobMessage, bobSignature)
+        );
         const wandaKeyFromPublic = await getKeyFromPublic(wandaPublic);
-        expect(true).to.deep.equal(wandaKeyFromPublic.verify(wandaMessage, wandaSignature));
+        expect(true).to.deep.equal(
+          wandaKeyFromPublic.verify(wandaMessage, wandaSignature)
+        );
 
         // at this point wanda instructs the SC to release the wax if it gets the private key from bob or wanda. wanda has comitted now, and cannot cancel until the time lock.
         // if the SC gets the private key from wanda, bob can get the bananos, so SC sends wax to bob.
@@ -168,9 +187,7 @@ describe('vanity', () => {
     });
   }
 
-  beforeEach(async () => {
-  });
+  beforeEach(async () => {});
 
-  afterEach(async () => {
-  });
+  afterEach(async () => {});
 });

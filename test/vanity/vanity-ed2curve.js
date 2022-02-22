@@ -26,7 +26,7 @@ const hexToBytes = bananojs.bananoUtil.hexToBytes;
 describe('vanity', () => {
   describe('ed2curve', async () => {
     it('random', async () => {
-    // Generate new sign key pair.
+      // Generate new sign key pair.
       const myKeyPair = nacl.sign.keyPair();
       const theirKeyPair = nacl.sign.keyPair();
 
@@ -42,7 +42,11 @@ describe('vanity', () => {
       console.log('message', bytesToHex(message));
       console.log('signedMessage', bytesToHex(signedMessage));
 
-      const verify = nacl.sign.detached.verify(message, signedMessage, myKeyPair.publicKey);
+      const verify = nacl.sign.detached.verify(
+        message,
+        signedMessage,
+        myKeyPair.publicKey
+      );
       console.log('verify', verify);
       expect(verify).to.deep.equal(true);
 
@@ -62,17 +66,30 @@ describe('vanity', () => {
       console.log('myDHPublicKey', bytesToHex(myDHPublicKey));
       const myDHSecretKey = nacl.convertSecretKey(myKeyPair.secretKey, false);
       console.log('myDHSecretKey', bytesToHex(myDHSecretKey));
-      const myCamoPublicKeyBytes = nacl.camo.scalarMult.base( nacl.camo.hashsecret( myKeyPair.secretKey ) );
+      const myCamoPublicKeyBytes = nacl.camo.scalarMult.base(
+        nacl.camo.hashsecret(myKeyPair.secretKey)
+      );
       console.log('myCamoPublicKey', bytesToHex(myCamoPublicKeyBytes));
       const theirDHPublicKey = nacl.convertPublicKey(theirKeyPair.publicKey);
       console.log('theirDHPublicKey', bytesToHex(theirDHPublicKey));
-      const theirDHSecretKey = nacl.convertSecretKey(theirKeyPair.secretKey, false);
+      const theirDHSecretKey = nacl.convertSecretKey(
+        theirKeyPair.secretKey,
+        false
+      );
       console.log('theirDHSecretKey', bytesToHex(theirDHSecretKey));
-      const theirCamoPublicKeyBytes = nacl.camo.scalarMult.base( nacl.camo.hashsecret( theirKeyPair.secretKey ) );
+      const theirCamoPublicKeyBytes = nacl.camo.scalarMult.base(
+        nacl.camo.hashsecret(theirKeyPair.secretKey)
+      );
       console.log('theirCamoPublicKey', bytesToHex(theirCamoPublicKeyBytes));
 
-      const secretBytes01 = nacl.camo.scalarMult( nacl.camo.hashsecret(myDHSecretKey), theirDHPublicKey );
-      const secretBytes10 = nacl.camo.scalarMult( nacl.camo.hashsecret(theirDHSecretKey), myDHPublicKey );
+      const secretBytes01 = nacl.camo.scalarMult(
+        nacl.camo.hashsecret(myDHSecretKey),
+        theirDHPublicKey
+      );
+      const secretBytes10 = nacl.camo.scalarMult(
+        nacl.camo.hashsecret(theirDHSecretKey),
+        myDHPublicKey
+      );
       console.log('secretBytes01', bytesToHex(secretBytes01));
       console.log('secretBytes10', bytesToHex(secretBytes10));
     });

@@ -40,7 +40,12 @@ commands['cbcheckpending'] = async (seed) => {
   const accountsPending = await bananodeApi.getAccountsPending([account], -1);
   const blocks = Object.keys(accountsPending.blocks[account]);
   console.log('camo banano checkpending account', account);
-  console.log('camo banano checkpending ', blocks.length, 'pending blocks', blocks);
+  console.log(
+    'camo banano checkpending ',
+    blocks.length,
+    'pending blocks',
+    blocks
+  );
 };
 
 commands['cbregister'] = async (seed) => {
@@ -51,11 +56,22 @@ commands['cbregister'] = async (seed) => {
   const account = bananoUtil.getAccount(publicKey);
   const camoPublicKey = camoUtil.getCamoPublicKey(privateKey);
   const camoAccount = bananoUtil.getAccount(camoPublicKey);
-  const pendingResponse = await camoUtil.receiveSeed(bananodeApi, seed, config.prefix);
+  const pendingResponse = await camoUtil.receiveSeed(
+    bananodeApi,
+    seed,
+    config.prefix
+  );
   console.log('camo banano register pendingResponse', pendingResponse);
   console.log('camo banano register bananoAccount', account);
   console.log('camo banano register camoAccount', camoAccount);
-  const response = await bananoUtil.sendFromPrivateKeyWithRepresentative(bananodeApi, privateKey, account, 1, camoAccount, config.prefix);
+  const response = await bananoUtil.sendFromPrivateKeyWithRepresentative(
+    bananodeApi,
+    privateKey,
+    account,
+    1,
+    camoAccount,
+    config.prefix
+  );
   console.log('camo banano register account response', response);
 };
 
@@ -77,12 +93,23 @@ commands['cbcheckseed'] = async (seed) => {
   console.log('checkseed camoAccount', representative);
 };
 
-commands['cbsendraw'] = async (fundingPrivateKey, seed, toAccount, amountRaw) => {
+commands['cbsendraw'] = async (
+  fundingPrivateKey,
+  seed,
+  toAccount,
+  amountRaw
+) => {
   const config = configs.banano;
   bananodeApi.setUrl(config.bananodeUrl);
   const privateKey = bananoUtil.getPrivateKey(seed, 0);
   const toPublicKey = bananoUtil.getAccountPublicKey(toAccount);
-  const hashes = await camoUtil.send(bananodeApi, fundingPrivateKey, privateKey, toPublicKey, amountRaw);
+  const hashes = await camoUtil.send(
+    bananodeApi,
+    fundingPrivateKey,
+    privateKey,
+    toPublicKey,
+    amountRaw
+  );
   console.log('camo banano sendraw response', hashes);
 };
 
@@ -91,21 +118,34 @@ commands['cbreceive'] = async (seed, fromBananoAccount) => {
   bananodeApi.setUrl(config.bananodeUrl);
   const toPrivateKey = bananoUtil.getPrivateKey(seed, 0);
   const fromPublicKey = bananoUtil.getAccountPublicKey(fromBananoAccount);
-  const hashes = await camoUtil.receive(bananodeApi, toPrivateKey, fromPublicKey);
+  const hashes = await camoUtil.receive(
+    bananodeApi,
+    toPrivateKey,
+    fromPublicKey
+  );
   console.log('camo banano receive response', hashes);
 };
 
 commands['nsendraw'] = async (privateKey, destAccount, amountRaw) => {
   const config = configs.nano;
   bananodeApi.setUrl(config.bananodeUrl);
-  const response = await bananoUtil.sendFromPrivateKey(bananodeApi, privateKey, destAccount, amountRaw, config.prefix);
+  const response = await bananoUtil.sendFromPrivateKey(
+    bananodeApi,
+    privateKey,
+    destAccount,
+    amountRaw,
+    config.prefix
+  );
   console.log('nano sendnano response', response);
 };
 
 commands['ncheckpending'] = async (account, maxAccountsPending) => {
   const config = configs.nano;
   bananodeApi.setUrl(config.bananodeUrl);
-  const pending = await bananodeApi.getAccountsPending([account], parseInt(maxAccountsPending));
+  const pending = await bananodeApi.getAccountsPending(
+    [account],
+    parseInt(maxAccountsPending)
+  );
   console.log('nano checkpending response', pending);
 };
 
@@ -131,10 +171,18 @@ commands['nreceive'] = async (privateKey, specificPendingBlockHash) => {
   const publicKey = await bananoUtil.getPublicKey(privateKey);
   const account = bananoUtil.getAccount(publicKey, config.prefix);
   let representative = await bananodeApi.getAccountRepresentative(account);
-  if (!(representative)) {
+  if (!representative) {
     representative = account;
   }
-  const response = await depositUtil.receive(loggingUtil, bananodeApi, account, privateKey, representative, specificPendingBlockHash, config.prefix);
+  const response = await depositUtil.receive(
+    loggingUtil,
+    bananodeApi,
+    account,
+    privateKey,
+    representative,
+    specificPendingBlockHash,
+    config.prefix
+  );
   console.log('nano receive response', response);
 };
 
@@ -142,7 +190,10 @@ commands['naccountinfo'] = async (account) => {
   const config = configs.nano;
   bananodeApi.setUrl(config.bananodeUrl);
   const response = await bananodeApi.getAccountInfo(account, true);
-  response.balanceParts = await bananoUtil.getAmountPartsFromRaw(response.balance, config.prefix);
+  response.balanceParts = await bananoUtil.getAmountPartsFromRaw(
+    response.balance,
+    config.prefix
+  );
   console.log('nano accountinfo response', response);
 };
 
@@ -150,7 +201,13 @@ commands['bsendraw'] = async (privateKey, destAccount, amountRaw) => {
   const config = configs.banano;
   bananodeApi.setUrl(config.bananodeUrl);
   try {
-    const response = await bananoUtil.sendFromPrivateKey(bananodeApi, privateKey, destAccount, amountRaw, config.prefix);
+    const response = await bananoUtil.sendFromPrivateKey(
+      bananodeApi,
+      privateKey,
+      destAccount,
+      amountRaw,
+      config.prefix
+    );
     console.log('banano sendbanano response', response);
   } catch (error) {
     console.log('banano sendbanano error', error.message);
@@ -168,23 +225,38 @@ commands['bsendjson'] = async (privateKey, file) => {
     const account = bananoUtil.getAccount(publicKey, config.prefix);
     console.log('banano sendjson account', account);
 
-    const pending = await bananodeApi.getAccountsPending([account], parseInt(1));
+    const pending = await bananodeApi.getAccountsPending(
+      [account],
+      parseInt(1)
+    );
     console.log('banano sendjson pending', pending);
     if (pending.blocks) {
       if (pending.blocks[account]) {
         const pendingBlockhashes = [...Object.keys(pending.blocks[account])];
         const specificPendingBlockHash = pendingBlockhashes[0];
-        console.log('banano sendjson aborting, found pending block ', specificPendingBlockHash);
-        let representative = await bananodeApi.getAccountRepresentative(account);
-        if (!(representative)) {
+        console.log(
+          'banano sendjson aborting, found pending block ',
+          specificPendingBlockHash
+        );
+        let representative = await bananodeApi.getAccountRepresentative(
+          account
+        );
+        if (!representative) {
           representative = account;
         }
-        const response = await depositUtil.receive(loggingUtil, bananodeApi, account, privateKey, representative, specificPendingBlockHash, config.prefix);
+        const response = await depositUtil.receive(
+          loggingUtil,
+          bananodeApi,
+          account,
+          privateKey,
+          representative,
+          specificPendingBlockHash,
+          config.prefix
+        );
         console.log('banano sendjson aborted, found pending blocks', response);
         return;
       }
     }
-
 
     for (let ix = 0; ix < json.accounts.length; ix++) {
       const elt = json.accounts[ix];
@@ -201,7 +273,13 @@ commands['bsendjson'] = async (privateKey, file) => {
       }
       console.log('banano sendjson', destAccount, amountRaw);
 
-      const response = await bananoUtil.sendFromPrivateKey(bananodeApi, privateKey, destAccount, amountRaw, config.prefix);
+      const response = await bananoUtil.sendFromPrivateKey(
+        bananodeApi,
+        privateKey,
+        destAccount,
+        amountRaw,
+        config.prefix
+      );
       responses.push(response);
     }
     console.log('banano sendjson responses', responses);
@@ -214,7 +292,10 @@ commands['bsendjson'] = async (privateKey, file) => {
 commands['bcheckpending'] = async (account, maxAccountsPending) => {
   const config = configs.banano;
   bananodeApi.setUrl(config.bananodeUrl);
-  const pending = await bananodeApi.getAccountsPending([account], parseInt(maxAccountsPending));
+  const pending = await bananodeApi.getAccountsPending(
+    [account],
+    parseInt(maxAccountsPending)
+  );
   console.log('banano checkpending response', pending);
 };
 
@@ -240,10 +321,18 @@ commands['breceive'] = async (privateKey, specificPendingBlockHash) => {
   const publicKey = await bananoUtil.getPublicKey(privateKey);
   const account = bananoUtil.getAccount(publicKey, index.BANANO_PREFIX);
   let representative = await bananodeApi.getAccountRepresentative(account);
-  if (!(representative)) {
+  if (!representative) {
     representative = account;
   }
-  const response = await depositUtil.receive(loggingUtil, bananodeApi, account, privateKey, representative, specificPendingBlockHash, config.prefix);
+  const response = await depositUtil.receive(
+    loggingUtil,
+    bananodeApi,
+    account,
+    privateKey,
+    representative,
+    specificPendingBlockHash,
+    config.prefix
+  );
   console.log('banano receive response', response);
 };
 
@@ -263,9 +352,16 @@ commands['baccountinfo'] = async (account) => {
     return;
   }
 
-  response.balanceParts = await bananoUtil.getAmountPartsFromRaw(response.balance, config.prefix);
-  response.balanceDescription = await index.getBananoPartsDescription(response.balanceParts);
-  response.balanceDecimal = await index.getBananoPartsAsDecimal(response.balanceParts);
+  response.balanceParts = await bananoUtil.getAmountPartsFromRaw(
+    response.balance,
+    config.prefix
+  );
+  response.balanceDescription = await index.getBananoPartsDescription(
+    response.balanceParts
+  );
+  response.balanceDecimal = await index.getBananoPartsAsDecimal(
+    response.balanceParts
+  );
   console.log('banano accountinfo response', response);
 };
 
@@ -289,14 +385,19 @@ commands['reprocess'] = async (subtype, hash) => {
   console.log('reprocess response', response);
 };
 
-
 const run = async () => {
   console.log('bananojs');
   if (process.argv.length < 3) {
     console.log('#usage:');
-    console.log('https://github.com/BananoCoin/bananojs/blob/master/docs/camo-cli.md');
-    console.log('https://github.com/BananoCoin/bananojs/blob/master/docs/banano-cli.md');
-    console.log('https://github.com/BananoCoin/bananojs/blob/master/docs/nano-cli.md');
+    console.log(
+      'https://github.com/BananoCoin/bananojs/blob/master/docs/camo-cli.md'
+    );
+    console.log(
+      'https://github.com/BananoCoin/bananojs/blob/master/docs/banano-cli.md'
+    );
+    console.log(
+      'https://github.com/BananoCoin/bananojs/blob/master/docs/nano-cli.md'
+    );
   } else {
     const command = process.argv[2];
     const arg0 = process.argv[3];

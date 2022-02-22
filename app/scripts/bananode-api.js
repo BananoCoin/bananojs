@@ -1,9 +1,8 @@
 'use strict';
 
-
 // STARTED TOP nodejs/browser hack
-(function() {
-// FINISHED TOP nodejs/browser hack
+(function () {
+  // FINISHED TOP nodejs/browser hack
   const https = require('https');
   const http = require('http');
   let moduleRef;
@@ -17,12 +16,12 @@
   let auth;
 
   /**
- * Sets an authorization string (http 'Authorization' header), useful if node requires api key.
- *
- * @memberof BananodeApi
- * @param {string} authString api key as a string\
- * @return {undefined} returns nothing.
- */
+   * Sets an authorization string (http 'Authorization' header), useful if node requires api key.
+   *
+   * @memberof BananodeApi
+   * @param {string} authString api key as a string\
+   * @return {undefined} returns nothing.
+   */
   const setAuth = (authString) => {
     auth = authString;
   };
@@ -33,7 +32,7 @@
       throw Error(`'formData' is a required parameter.`);
     }
     return new Promise((resolve, reject) => {
-    // https://docs.nano.org/commands/rpc-protocol#accounts-balances
+      // https://docs.nano.org/commands/rpc-protocol#accounts-balances
 
       const apiUrl = new URL(url);
       // console.log('apiUrl', apiUrl);
@@ -59,7 +58,7 @@
       // console.log('url', url);
       // console.log('apiUrl.protocol', apiUrl.protocol);
       const req = moduleRef.request(options, (res) => {
-      // console.log(`statusCode: ${res.statusCode}`);
+        // console.log(`statusCode: ${res.statusCode}`);
         let chunks = '';
         res.on('data', (chunk) => {
           chunks += chunk;
@@ -110,26 +109,26 @@
     };
     return new Promise((resolve, reject) => {
       sendRequest(formData)
-          .catch((error) => {
-            // console.log( `accounts_balances error '${error.message}'` );
-            reject(error);
-          })
-          .then((json) => {
-            if (json == undefined) {
-              resolve();
-              return;
-            }
-            // console.log( 'accounts_balances json', json );
-            if (json.balances == undefined) {
-              resolve();
-              return;
-            }
-            // console.log( 'accounts_balances json.balances', json.balances );
-            resolve({
-              balance: json.balances[account].balance,
-              pending: json.balances[account].pending,
-            });
+        .catch((error) => {
+          // console.log( `accounts_balances error '${error.message}'` );
+          reject(error);
+        })
+        .then((json) => {
+          if (json == undefined) {
+            resolve();
+            return;
+          }
+          // console.log( 'accounts_balances json', json );
+          if (json.balances == undefined) {
+            resolve();
+            return;
+          }
+          // console.log( 'accounts_balances json.balances', json.balances );
+          resolve({
+            balance: json.balances[account].balance,
+            pending: json.balances[account].pending,
           });
+        });
     });
   };
 
@@ -144,18 +143,18 @@
     };
     return new Promise((resolve, reject) => {
       sendRequest(formData)
-          .catch((error) => {
-            // console.log(`accounts_balances error '${error.message}'`);
-            reject(error);
-          })
-          .then((json) => {
-            if (json === undefined || json.balances === undefined) {
-              resolve();
-              return;
-            }
-            console.log( 'accounts_balances json', json );
-            resolve(json);
-          });
+        .catch((error) => {
+          // console.log(`accounts_balances error '${error.message}'`);
+          reject(error);
+        })
+        .then((json) => {
+          if (json === undefined || json.balances === undefined) {
+            resolve();
+            return;
+          }
+          console.log('accounts_balances json', json);
+          resolve(json);
+        });
     });
   };
 
@@ -171,18 +170,18 @@
     };
     return new Promise((resolve, reject) => {
       sendRequest(formData)
-          .catch((error) => {
-            // console.log( `account_representative error '${error.message}'` );
-            reject(error);
-          })
-          .then((json) => {
-            if (json === undefined) {
-              resolve('');
-            } else {
-              const representative = json.representative;
-              resolve(representative);
-            }
-          });
+        .catch((error) => {
+          // console.log( `account_representative error '${error.message}'` );
+          reject(error);
+        })
+        .then((json) => {
+          if (json === undefined) {
+            resolve('');
+          } else {
+            const representative = json.representative;
+            resolve(representative);
+          }
+        });
     });
   };
 
@@ -200,29 +199,28 @@
     // console.log( `accounts_frontiers request ${account}` );
     return new Promise((resolve, reject) => {
       sendRequest(formData)
-          .catch((error) => {
-            // console.log( `accounts_frontiers error '${error.message}'` );
-            reject(error);
-          })
-          .then((json) => {
-            // console.log( `accounts_frontiers response ${JSON.stringify( json )}` );
-            if (json === undefined) {
-              resolve('');
-            } else if (json.frontiers == undefined) {
-              // console.log( `accounts_frontiers response ${account}` );
-              resolve('');
-            } else if (json.frontiers == '') {
-              // console.log( `accounts_frontiers response ${account}` );
-              resolve('');
-            } else {
-              const previous = json.frontiers[account];
-              // console.log( `accounts_frontiers response ${account} ${previous}` );
-              resolve(previous);
-            }
-          });
+        .catch((error) => {
+          // console.log( `accounts_frontiers error '${error.message}'` );
+          reject(error);
+        })
+        .then((json) => {
+          // console.log( `accounts_frontiers response ${JSON.stringify( json )}` );
+          if (json === undefined) {
+            resolve('');
+          } else if (json.frontiers == undefined) {
+            // console.log( `accounts_frontiers response ${account}` );
+            resolve('');
+          } else if (json.frontiers == '') {
+            // console.log( `accounts_frontiers response ${account}` );
+            resolve('');
+          } else {
+            const previous = json.frontiers[account];
+            // console.log( `accounts_frontiers response ${account} ${previous}` );
+            resolve(previous);
+          }
+        });
     });
   };
-
 
   const getAccountHistory = async (account, count, head, raw) => {
     /* istanbul ignore if */
@@ -251,14 +249,14 @@
     // console.log( `account_history request ${JSON.stringify( formData )}` );
     return new Promise((resolve, reject) => {
       sendRequest(formData)
-          .catch((error) => {
-            // console.log( `account_history error '${error.message}'` );
-            reject(error);
-          })
-          .then((json) => {
-            // console.log( `account_history response ${JSON.stringify( json )}` );
-            resolve(json);
-          });
+        .catch((error) => {
+          // console.log( `account_history error '${error.message}'` );
+          reject(error);
+        })
+        .then((json) => {
+          // console.log( `account_history response ${JSON.stringify( json )}` );
+          resolve(json);
+        });
     });
   };
 
@@ -284,14 +282,14 @@
     // console.log( `account_info request ${JSON.stringify( formData )}` );
     return new Promise((resolve, reject) => {
       sendRequest(formData)
-          .catch((error) => {
-            // console.log( `account_info error '${error.message}'` );
-            reject(error);
-          })
-          .then((json) => {
-            // console.log( `account_info response ${JSON.stringify( json )}` );
-            resolve(json);
-          });
+        .catch((error) => {
+          // console.log( `account_info error '${error.message}'` );
+          reject(error);
+        })
+        .then((json) => {
+          // console.log( `account_info response ${JSON.stringify( json )}` );
+          resolve(json);
+        });
     });
   };
 
@@ -313,14 +311,14 @@
     // console.log( `blocks request ${JSON.stringify( formData )}` );
     return new Promise((resolve, reject) => {
       sendRequest(formData)
-          .catch((error) => {
-            // console.log( `blocks error '${error.message}'` );
-            reject(error);
-          })
-          .then((json) => {
-            // console.log( `blocks response ${JSON.stringify( json )}` );
-            resolve(json);
-          });
+        .catch((error) => {
+          // console.log( `blocks error '${error.message}'` );
+          reject(error);
+        })
+        .then((json) => {
+          // console.log( `blocks response ${JSON.stringify( json )}` );
+          resolve(json);
+        });
     });
   };
 
@@ -336,10 +334,10 @@
 
     // https://docs.nano.org/commands/rpc-protocol/#process
     const formData = {
-      'action': 'process',
-      'json_block': 'true',
-      'subtype': subtype,
-      'block': block,
+      action: 'process',
+      json_block: 'true',
+      subtype: subtype,
+      block: block,
     };
     // console.log( `process block`, block, block.work );
     if (block.work === undefined) {
@@ -348,36 +346,36 @@
     // console.log( `process request ${JSON.stringify( formData )}` );
     return new Promise((resolve, reject) => {
       sendRequest(formData)
-          .catch((error) => {
-            // console.log( `process error '${error.message}'` );
-            reject(error);
-          })
-          .then((json) => {
-            // console.log( `process response ${JSON.stringify( json )}` );
-            if (json === undefined) {
-              resolve('');
-            } else {
-              if (json.hash === undefined) {
-                // console.log(`process hash undefined`);
-                if (json.error === undefined) {
-                  // console.log(`process error undefined`);
-                  const jsonStr = JSON.stringify( json );
-                  // console.log(`process reject ${jsonStr}`);
-                  reject(Error(jsonStr));
-                } else {
-                  reject(Error(json.error));
-                }
+        .catch((error) => {
+          // console.log( `process error '${error.message}'` );
+          reject(error);
+        })
+        .then((json) => {
+          // console.log( `process response ${JSON.stringify( json )}` );
+          if (json === undefined) {
+            resolve('');
+          } else {
+            if (json.hash === undefined) {
+              // console.log(`process hash undefined`);
+              if (json.error === undefined) {
+                // console.log(`process error undefined`);
+                const jsonStr = JSON.stringify(json);
+                // console.log(`process reject ${jsonStr}`);
+                reject(Error(jsonStr));
               } else {
-                const hash = json.hash;
-                resolve(hash);
+                reject(Error(json.error));
               }
+            } else {
+              const hash = json.hash;
+              resolve(hash);
             }
-          });
+          }
+        });
     });
   };
 
   const getGeneratedWork = async (hash) => {
-  // https://docs.nano.org/commands/rpc-protocol#work-generate
+    // https://docs.nano.org/commands/rpc-protocol#work-generate
     const formData = {
       action: 'work_generate',
       hash: hash,
@@ -385,27 +383,31 @@
 
     /* istanbul ignore if */
     if (LOG_GET_GENERATED_WORK) {
-      console.log(`STARTED getGeneratedWork request ${JSON.stringify( formData )}`);
+      console.log(
+        `STARTED getGeneratedWork request ${JSON.stringify(formData)}`
+      );
     }
 
     return new Promise((resolve, reject) => {
       sendRequest(formData)
-          .catch((error) => {
-            // console.log( `getGeneratedWork error '${error.message}'` );
-            reject(error);
-          })
-          .then((json) => {
-            if (json === undefined) {
-              resolve('');
-            } else {
-              /* istanbul ignore if */
-              if (LOG_GET_GENERATED_WORK) {
-                console.log(`SUCCESS getGeneratedWork response ${JSON.stringify( json )}`);
-              }
-              const work = json.work;
-              resolve(work);
+        .catch((error) => {
+          // console.log( `getGeneratedWork error '${error.message}'` );
+          reject(error);
+        })
+        .then((json) => {
+          if (json === undefined) {
+            resolve('');
+          } else {
+            /* istanbul ignore if */
+            if (LOG_GET_GENERATED_WORK) {
+              console.log(
+                `SUCCESS getGeneratedWork response ${JSON.stringify(json)}`
+              );
             }
-          });
+            const work = json.work;
+            resolve(work);
+          }
+        });
     });
   };
 
@@ -436,14 +438,14 @@
     // console.log( `accounts_pending request ${JSON.stringify( formData )}` );
     return new Promise((resolve, reject) => {
       sendRequest(formData)
-          .catch((error) => {
-            // console.log( `accounts_pending error '${error.message}'` );
-            reject(error);
-          })
-          .then((json) => {
-            // console.log( `accounts_pending response ${JSON.stringify( json )}` );
-            resolve(json);
-          });
+        .catch((error) => {
+          // console.log( `accounts_pending error '${error.message}'` );
+          reject(error);
+        })
+        .then((json) => {
+          // console.log( `accounts_pending response ${JSON.stringify( json )}` );
+          resolve(json);
+        });
     });
   };
 
@@ -460,14 +462,14 @@
     // console.log( `block_account request ${JSON.stringify( formData )}` );
     return new Promise((resolve, reject) => {
       sendRequest(formData)
-          .catch((error) => {
-            // console.log( `block_account error '${error.message}'` );
-            reject(error);
-          })
-          .then((json) => {
-            // console.log( `block_account response ${JSON.stringify( json )}` );
-            resolve(json);
-          });
+        .catch((error) => {
+          // console.log( `block_account error '${error.message}'` );
+          reject(error);
+        })
+        .then((json) => {
+          // console.log( `block_account response ${JSON.stringify( json )}` );
+          resolve(json);
+        });
     });
   };
 
@@ -489,33 +491,33 @@
     // console.log( `frontiers request ${JSON.stringify( formData )}` );
     return new Promise((resolve, reject) => {
       sendRequest(formData)
-          .catch((error) => {
-            // console.log( `frontiers error '${error.message}'` );
-            reject(error);
-          })
-          .then((json) => {
-            // console.log( `frontiers response ${JSON.stringify( json )}` );
-            resolve(json);
-          });
+        .catch((error) => {
+          // console.log( `frontiers error '${error.message}'` );
+          reject(error);
+        })
+        .then((json) => {
+          // console.log( `frontiers response ${JSON.stringify( json )}` );
+          resolve(json);
+        });
     });
   };
 
   const getBlockCount = async () => {
-  // https://docs.nano.org/commands/rpc-protocol/#block_count
+    // https://docs.nano.org/commands/rpc-protocol/#block_count
     const formData = {
       action: 'block_count',
     };
     // console.log( `block_count request ${JSON.stringify( formData )}` );
     return new Promise((resolve, reject) => {
       sendRequest(formData)
-          .catch((error) => {
-            // console.log( `block_count error '${error.message}'` );
-            reject(error);
-          })
-          .then((json) => {
-            // console.log( `block_count response ${JSON.stringify( json )}` );
-            resolve(json);
-          });
+        .catch((error) => {
+          // console.log( `block_count error '${error.message}'` );
+          reject(error);
+        })
+        .then((json) => {
+          // console.log( `block_count response ${JSON.stringify( json )}` );
+          resolve(json);
+        });
     });
   };
 

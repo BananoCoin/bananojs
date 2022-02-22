@@ -49,7 +49,7 @@ const getErrorHttps = (retval) => {
       }
     };
     fakeReq.end = () => {
-    // console.log('onFns', onFns);
+      // console.log('onFns', onFns);
       const fn = onFns['end'];
       fn();
     };
@@ -187,16 +187,26 @@ describe('bananode-api', () => {
   describe('process', () => {
     const fakeReq = '{"hash":"fake hash"}';
     it('process', async () => {
-      await call({'fake': fakeReq}, 'process', '', '');
+      await call({ fake: fakeReq }, 'process', '', '');
     });
     it('process', async () => {
-      await call({'fake': fakeReq, 'error': '{"error":"fake error"}'}, 'process', '', '');
+      await call(
+        { fake: fakeReq, error: '{"error":"fake error"}' },
+        'process',
+        '',
+        ''
+      );
     });
     it('process', async () => {
-      await call({'fake': fakeReq, 'error': '{"fake":"error"}'}, 'process', '', '');
+      await call(
+        { fake: fakeReq, error: '{"fake":"error"}' },
+        'process',
+        '',
+        ''
+      );
     });
     it('process', async () => {
-      await call({'fake': fakeReq}, 'process', {work: true}, '');
+      await call({ fake: fakeReq }, 'process', { work: true }, '');
     });
   });
   describe('getBlocks', () => {
@@ -232,10 +242,10 @@ describe('bananode-api', () => {
       await call({}, 'getPrevious', '');
     });
     it('getPrevious', async () => {
-      await call({'fake': '{"frontiers":""}'}, 'getPrevious', '');
+      await call({ fake: '{"frontiers":""}' }, 'getPrevious', '');
     });
     it('getPrevious', async () => {
-      await call({'fake': '{"frontiers":{"":""}}'}, 'getPrevious', '');
+      await call({ fake: '{"frontiers":{"":""}}' }, 'getPrevious', '');
     });
   });
   it('getAccountRepresentative', async () => {
@@ -249,7 +259,11 @@ describe('bananode-api', () => {
       const fakeResp = {};
       fakeResp.balances = {};
       fakeResp.balances[''] = '';
-      await call({'fake': JSON.stringify(fakeResp)}, 'getAccountBalanceRaw', '');
+      await call(
+        { fake: JSON.stringify(fakeResp) },
+        'getAccountBalanceRaw',
+        ''
+      );
     });
   });
   describe('getAccountsBalances', () => {
@@ -260,11 +274,12 @@ describe('bananode-api', () => {
       const fakeResp = {};
       fakeResp.balances = {};
       fakeResp.balances[''] = '';
-      await call({'fake': JSON.stringify(fakeResp)}, 'getAccountsBalances', ['']);
+      await call({ fake: JSON.stringify(fakeResp) }, 'getAccountsBalances', [
+        '',
+      ]);
     });
   });
-  beforeEach(async () => {
-  });
+  beforeEach(async () => {});
 
   afterEach(async () => {
     testUtil.deactivate();

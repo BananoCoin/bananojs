@@ -2,27 +2,27 @@
 
 # requirements:
 
-  1) nodejs 6.4.1 or higher <https://nodejs.org/en/download/>
-  2) clone this repo
+1. nodejs 6.4.1 or higher <https://nodejs.org/en/download/>
+2. clone this repo
 
-    https://github.com/BananoCoin/bananojs.git
+   https://github.com/BananoCoin/bananojs.git
 
-  3) to install, run the command
+3. to install, run the command
 
-    npm install
+   npm install
 
-  4) to test, run the command
+4. to test, run the command
 
-    npm test
+   npm test
 
-  4.1) or on windows
+4.1) or on windows
 
     npm run test-win
 
-  5) to test, run the command
+5. to test, run the command
 
-    npm run coverage
+   npm run coverage
 
-  5.1) or on windows
+5.1) or on windows
 
     npm run coverage-win

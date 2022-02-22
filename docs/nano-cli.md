@@ -1,8 +1,11 @@
 # get private key from seed:
+
 ```
     npm start ngetprivatekey ${seed} ${seedIx}
 ```
+
 # get the account for the private key:
+
 ```
     npm start ngetaccount ${privateKey}
 
@@ -11,7 +14,9 @@
     nano getaccount publicKey ACA68A2D52FE17BAB36D48456569FE7F91F23CB57B971B13FAF236EBBCC7FA94
     banano getaccount account ban_3d78japo7ziqqcsptk47eonzwzwjyaydcywq5ebzowjpxgyehynnjc9pd5zj
 ```
+
 # check pending using private key:
+
 ```
     npm start ncheckpending ${account} ${maxAccountsPending}
 
@@ -26,7 +31,9 @@
       }
     }
 ```
+
 # recieve pending using private key:
+
 ```
     npm start nreceive ${privateKey} ${hash}
 
@@ -40,7 +47,9 @@
       receiveMessage: 'received 1 blocks.'
     }
 ```
+
 # send using private key:
+
 ```
     npm start nsendraw ${privateKey} ${destAccount} ${amountRaw}
 
@@ -49,7 +58,9 @@
     bananojs
     nano sendnano response BF3BA5C6F91D52E88658E6AB800237C4023AD59392B4AB203EBA1E5BF706E535
 ```
+
 # check account info
+
 ```
     npm start naccountinfo nano_3d78japo7ziqqcsptk47eonzwzwjyaydcywq5ebzowjpxgyehynnjc9pd5zj
 

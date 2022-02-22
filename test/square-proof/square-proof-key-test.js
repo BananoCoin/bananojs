@@ -33,29 +33,44 @@ const getSharedSecret = (privateKey0, privateKeyF) => {
 };
 
 const getSharedSecret0F = () => {
-  const sharedSecret = getSharedSecret(squareProofTestData.privateKey0, squareProofTestData.privateKeyF);
+  const sharedSecret = getSharedSecret(
+    squareProofTestData.privateKey0,
+    squareProofTestData.privateKeyF
+  );
   console.log('getSharedSecret0F', sharedSecret);
   return sharedSecret;
 };
 
 const getSharedSecret00 = () => {
-  const sharedSecret = getSharedSecret(squareProofTestData.privateKey0, squareProofTestData.privateKey0);
+  const sharedSecret = getSharedSecret(
+    squareProofTestData.privateKey0,
+    squareProofTestData.privateKey0
+  );
   console.log('getSharedSecret00', sharedSecret);
   return sharedSecret;
 };
 
 const getSharedSecretFF = () => {
-  const sharedSecret = getSharedSecret(squareProofTestData.privateKeyF, squareProofTestData.privateKeyF);
+  const sharedSecret = getSharedSecret(
+    squareProofTestData.privateKeyF,
+    squareProofTestData.privateKeyF
+  );
   console.log('getSharedSecretFF', sharedSecret);
   return sharedSecret;
 };
 
 const getEncryptedOriginalBalance0 = () => {
-  return BigInt(squareProofTestData.privateKey0prevBalance) * getSharedSecret00();
+  return (
+    BigInt(squareProofTestData.privateKey0prevBalance) * getSharedSecret00()
+  );
 };
 
 const getEncryptedNewBalance0 = () => {
-  return (BigInt(squareProofTestData.privateKey0prevBalance) - BigInt(squareProofTestData.amount)) * getSharedSecret00();
+  return (
+    (BigInt(squareProofTestData.privateKey0prevBalance) -
+      BigInt(squareProofTestData.amount)) *
+    getSharedSecret00()
+  );
 };
 
 const getEncryptedAmount = () => {
@@ -63,11 +78,17 @@ const getEncryptedAmount = () => {
 };
 
 const getEncryptedOriginalBalanceF = () => {
-  return BigInt(squareProofTestData.privateKeyFprevBalance) * getSharedSecretFF();
+  return (
+    BigInt(squareProofTestData.privateKeyFprevBalance) * getSharedSecretFF()
+  );
 };
 
 const getEncryptedNewBalanceF = () => {
-  return (BigInt(squareProofTestData.privateKeyFprevBalance) + BigInt(squareProofTestData.amount)) * getSharedSecretFF();
+  return (
+    (BigInt(squareProofTestData.privateKeyFprevBalance) +
+      BigInt(squareProofTestData.amount)) *
+    getSharedSecretFF()
+  );
 };
 
 describe('square-proof-key', () => {
@@ -79,12 +100,20 @@ describe('square-proof-key', () => {
     tx.destNewlBalance = getEncryptedNewBalanceF();
     tx.amount = getEncryptedAmount();
 
-    const sendBlockLeftSide = (tx.sourceOriginalBalance * getSharedSecret0F());
-    const sendBlockRightSide = (tx.sourceNewBalance * getSharedSecret0F()) + (tx.amount * getSharedSecret00());
-    expect(sendBlockLeftSide.toString()).to.equal(sendBlockRightSide.toString());
+    const sendBlockLeftSide = tx.sourceOriginalBalance * getSharedSecret0F();
+    const sendBlockRightSide =
+      tx.sourceNewBalance * getSharedSecret0F() +
+      tx.amount * getSharedSecret00();
+    expect(sendBlockLeftSide.toString()).to.equal(
+      sendBlockRightSide.toString()
+    );
 
-    const recieveBlockLeftSide = (tx.destNewlBalance * getSharedSecret0F());
-    const recieveBlockRightSide = (tx.destNewlBalance * getSharedSecret0F()) + (tx.amount * getSharedSecretFF());
-    expect(sendBlockLeftSide.toString()).to.equal(sendBlockRightSide.toString());
+    const recieveBlockLeftSide = tx.destNewlBalance * getSharedSecret0F();
+    const recieveBlockRightSide =
+      tx.destNewlBalance * getSharedSecret0F() +
+      tx.amount * getSharedSecretFF();
+    expect(sendBlockLeftSide.toString()).to.equal(
+      sendBlockRightSide.toString()
+    );
   });
 });

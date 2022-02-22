@@ -12,7 +12,6 @@ const getPrevious = (account) => {
   throw new Error(`getPrevious account:${account}`);
 };
 
-
 const process = (block) => {
   throw new Error(`process block:${block}`);
 };
@@ -20,7 +19,6 @@ const process = (block) => {
 const getGeneratedWork = async (hash) => {
   throw new Error(`getGeneratedWork hash:${hash}`);
 };
-
 
 const getAccountInfo = async (account) => {
   throw new Error(`getAccountInfo account:${account}`);

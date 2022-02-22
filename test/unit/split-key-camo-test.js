@@ -18,8 +18,10 @@ const signAndVerify = (privateKey, publicKey, hash) => {
 
 describe('split-key-camo', () => {
   it('test split key', () => {
-    const privateKey0 = '1111111111111111111111111111111111111111111111111111111111111112';
-    const privateKey1 = '1111111111111111111111111111111111111111111111111111111111111111';
+    const privateKey0 =
+      '1111111111111111111111111111111111111111111111111111111111111112';
+    const privateKey1 =
+      '1111111111111111111111111111111111111111111111111111111111111111';
 
     // console.log('privateKey0', privateKey0);
     // console.log('privateKey1', privateKey1);
@@ -56,10 +58,8 @@ describe('split-key-camo', () => {
     // console.log('verify2', verify2);
   });
 
-  beforeEach(async () => {
-  });
+  beforeEach(async () => {});
 
-  afterEach(async () => {
-  });
+  afterEach(async () => {});
 });
 // based on https://bitcointalk.org/index.php?topic=81865.msg901491#msg901491

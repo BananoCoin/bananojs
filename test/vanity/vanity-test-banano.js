@@ -80,8 +80,20 @@ const ed25519PointToCurve25519 = (ed25519Point) => {
   return curve25519.point(x, 1);
 };
 
-console.log('der', crypto.generateKeyPairSync('x25519').publicKey.export({format: 'der', type: 'spki'}).toString('hex'));
-console.log('der', crypto.generateKeyPairSync('x25519').publicKey.export({format: 'der', type: 'spki'}).toString('hex'));
+console.log(
+  'der',
+  crypto
+    .generateKeyPairSync('x25519')
+    .publicKey.export({ format: 'der', type: 'spki' })
+    .toString('hex')
+);
+console.log(
+  'der',
+  crypto
+    .generateKeyPairSync('x25519')
+    .publicKey.export({ format: 'der', type: 'spki' })
+    .toString('hex')
+);
 
 describe('vanity', () => {
   describe('banano', async () => {
@@ -101,7 +113,7 @@ describe('vanity', () => {
     const toXYPoint = (publicKey) => {
       const x = publicKey.getX().toString('hex');
       const y = publicKey.getY().toString('hex');
-      const camoPublicKeyCheck = {'x': x, 'y': y};
+      const camoPublicKeyCheck = { x: x, y: y };
       return camoPublicKeyCheck;
     };
 
@@ -118,15 +130,18 @@ describe('vanity', () => {
 
       console.log('getPublicKey', bananoPublicKey, camoPublicKeyCheck);
       bananoToCamoPublicKeyMap.set(bananoPublicKey, camoPublicKeyCheck);
-      canmToBananoPublicKeyMap.set(camoPublicKeyCheck.toString(), bananoPublicKey);
+      canmToBananoPublicKeyMap.set(
+        camoPublicKeyCheck.toString(),
+        bananoPublicKey
+      );
       return bananoPublicKey;
     };
 
     const scalarAdd = (a, b) => {
       console.log('scalarAdd', 'a', a);
       console.log('scalarAdd', 'b', b);
-      const aInt = BigInt('0x'+a);
-      const bInt = BigInt('0x'+b);
+      const aInt = BigInt('0x' + a);
+      const bInt = BigInt('0x' + b);
       const n = BigInt(eced25519.n);
       // console.log('scalarAdd', curve, n);
       const cInt = (aInt + bInt) % n;
@@ -140,7 +155,9 @@ describe('vanity', () => {
     // };
 
     const edToCurve = (p) => {
-      return bytesToHex(nacl.convert_ed25519_to_curve25519_public_key(hexToBytes(p)));
+      return bytesToHex(
+        nacl.convert_ed25519_to_curve25519_public_key(hexToBytes(p))
+      );
     };
 
     const publicKeyAdd = async (a, b) => {
@@ -195,9 +212,7 @@ describe('vanity', () => {
     });
   });
 
-  beforeEach(async () => {
-  });
+  beforeEach(async () => {});
 
-  afterEach(async () => {
-  });
+  afterEach(async () => {});
 });

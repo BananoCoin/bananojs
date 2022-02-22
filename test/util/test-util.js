@@ -12,10 +12,9 @@ const getTimeNanos = () => {
   return BigInt(process.hrtime.bigint());
 };
 
-
 const getCoinDatas = (bananoTest) => {
   if (bananoTest == undefined) {
-    throw Error( 'bananoTest is a required parameter.' );
+    throw Error('bananoTest is a required parameter.');
   }
   return [
     {
@@ -70,7 +69,8 @@ const getCoinDatas = (bananoTest) => {
       toAccount: bananoTest.bananoAccount,
       bad: {
         seed: 'F975E272ECAF243CB30D3DAB4473F14A482A255A46AE140B1F96F5A1F32F3D51',
-        account: 'ban_1bad1ppzmj146pdxgbmph3wmeg15t8zk1yfwbozysoxtti3xqa15qufta5tq',
+        account:
+          'ban_1bad1ppzmj146pdxgbmph3wmeg15t8zk1yfwbozysoxtti3xqa15qufta5tq',
       },
     },
     {
@@ -125,7 +125,8 @@ const getCoinDatas = (bananoTest) => {
       toAccount: bananoTest.nanoAccount,
       bad: {
         seed: 'F975E272ECAF243CB30D3DAB4473F14A482A255A46AE140B1F96F5A1F32F3D51',
-        account: 'nano_1bad1ppzmj146pdxgbmph3wmeg15t8zk1yfwbozysoxtti3xqa15qufta5tq',
+        account:
+          'nano_1bad1ppzmj146pdxgbmph3wmeg15t8zk1yfwbozysoxtti3xqa15qufta5tq',
       },
     },
   ];
@@ -191,7 +192,16 @@ const getBananojsWithCamoApi = () => {
   return bananojs;
 };
 
-const expectErrorMessage = async (errorMessage, fn, arg1, arg2, arg3, arg4, arg5, arg6) => {
+const expectErrorMessage = async (
+  errorMessage,
+  fn,
+  arg1,
+  arg2,
+  arg3,
+  arg4,
+  arg5,
+  arg6
+) => {
   try {
     await fn(arg1, arg2, arg3, arg4, arg5, arg6);
   } catch (err) {
@@ -217,11 +227,13 @@ exports.getBananojsWithRealApi = getBananojsWithRealApi;
 exports.getBananojsWithMockApi = getBananojsWithMockApi;
 exports.getBananojsWithErrorApi = getBananojsWithErrorApi;
 exports.getBananojsWithProcessErrorApi = getBananojsWithProcessErrorApi;
-exports.getBananojsWithAccountInfoBalanceErrorApi = getBananojsWithAccountInfoBalanceErrorApi;
+exports.getBananojsWithAccountInfoBalanceErrorApi =
+  getBananojsWithAccountInfoBalanceErrorApi;
 exports.getBananojsWithAccountInfoErrorApi = getBananojsWithAccountInfoErrorApi;
 exports.getBananojsWithCamoApi = getBananojsWithCamoApi;
 exports.getBananojsWithPendingErrorApi = getBananojsWithPendingErrorApi;
-exports.getBananojsWithAccountRepresentativeUndefinedApi = getBananojsWithAccountRepresentativeUndefinedApi;
+exports.getBananojsWithAccountRepresentativeUndefinedApi =
+  getBananojsWithAccountRepresentativeUndefinedApi;
 exports.getBananojsWithProcessForkApi = getBananojsWithProcessForkApi;
 exports.expectErrorMessage = expectErrorMessage;
 exports.getCoinDatas = getCoinDatas;

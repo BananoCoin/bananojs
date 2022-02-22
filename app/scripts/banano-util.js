@@ -1,9 +1,9 @@
 'use strict';
 
 // STARTED TOP nodejs/browser hack
-(function() {
-// FINISHED TOP nodejs/browser hack
-// istanbul ignore if
+(function () {
+  // FINISHED TOP nodejs/browser hack
+  // istanbul ignore if
   if (typeof BigInt === 'undefined') {
     return;
   }
@@ -13,16 +13,17 @@
 
   const workMin = BigInt('0xfffffe0000000000');
 
-  const preamble = '0000000000000000000000000000000000000000000000000000000000000006';
+  const preamble =
+    '0000000000000000000000000000000000000000000000000000000000000006';
 
   const prefixDivisors = {
-    'ban_': {
+    ban_: {
       minorDivisor: BigInt('1000000000000000000000000000'),
       majorDivisor: BigInt('100000000000000000000000000000'),
       majorName: 'banano',
       minorName: 'banoshi',
     },
-    'nano_': {
+    nano_: {
       minorDivisor: BigInt('1000000000000000000000000'),
       majorDivisor: BigInt('1000000000000000000000000000000'),
       majorName: 'nano',
@@ -49,21 +50,21 @@
   const LOG_GET_HASH_CPU_WORKER = false;
 
   /**
- * Converts an amount into a raw amount.
- *
- * @memberof BananoUtil
- * @param {string} amountStr the amount, as a string.
- * @param {string} amountPrefix the amount, as a string.
- * @return {string} the banano as a raw value.
- */
+   * Converts an amount into a raw amount.
+   *
+   * @memberof BananoUtil
+   * @param {string} amountStr the amount, as a string.
+   * @param {string} amountPrefix the amount, as a string.
+   * @return {string} the banano as a raw value.
+   */
   const getRawStrFromMajorAmountStr = (amountStr, amountPrefix) => {
-  /* istanbul ignore if */
+    /* istanbul ignore if */
     if (amountStr == undefined) {
-      throw Error( 'amountStr is a required parameter.' );
+      throw Error('amountStr is a required parameter.');
     }
     /* istanbul ignore if */
     if (amountPrefix == undefined) {
-      throw Error( 'amountPrefix is a required parameter.' );
+      throw Error('amountPrefix is a required parameter.');
     }
     /* istanbul ignore if */
     if (typeof amountStr !== 'string') {
@@ -85,7 +86,11 @@
 
     /* istanbul ignore if */
     if (prefixDivisors[amountPrefix] == undefined) {
-      throw Error(`'${amountPrefix}' is not an amountPrefix. (${[...Object.keys(prefixDivisors)]})`);
+      throw Error(
+        `'${amountPrefix}' is not an amountPrefix. (${[
+          ...Object.keys(prefixDivisors),
+        ]})`
+      );
     }
     const majorDivisor = prefixDivisors[amountPrefix].majorDivisor;
 
@@ -97,17 +102,17 @@
   };
 
   /**
- * Converts a banoshi amount into a raw amount.
- *
- * @memberof BananoUtil
- * @param {string} amountStr the banoshi, as a string.
- * @param {string} amountPrefix the amount prefix, as a string.
- * @return {string} the banano as a raw value.
- */
+   * Converts a banoshi amount into a raw amount.
+   *
+   * @memberof BananoUtil
+   * @param {string} amountStr the banoshi, as a string.
+   * @param {string} amountPrefix the amount prefix, as a string.
+   * @return {string} the banano as a raw value.
+   */
   const getRawStrFromMinorAmountStr = (amountStr, amountPrefix) => {
-  /* istanbul ignore if */
+    /* istanbul ignore if */
     if (amountPrefix == undefined) {
-      throw Error( 'amountPrefix is a required parameter.' );
+      throw Error('amountPrefix is a required parameter.');
     }
     const amount = BigInt(amountStr);
     const prefixDivisor = prefixDivisors[amountPrefix];
@@ -117,11 +122,11 @@
   };
 
   /**
- * @typedef {Object} BananoParts
- * @property {string} banano - The amount of banano.
- * @property {string} banoshi - The amount of banoshi (not counting whole banano).
- * @property {string} raw - The amount of raw (not counting whole banano and whole banoshi).
- */
+   * @typedef {Object} BananoParts
+   * @property {string} banano - The amount of banano.
+   * @property {string} banoshi - The amount of banoshi (not counting whole banano).
+   * @property {string} raw - The amount of raw (not counting whole banano and whole banoshi).
+   */
 
   /**
    * Get the banano parts (banano, banoshi, raw) for a given raw value.
@@ -134,7 +139,7 @@
   const getAmountPartsFromRaw = (amountRawStr, amountPrefix) => {
     /* istanbul ignore if */
     if (amountPrefix == undefined) {
-      throw Error( 'amountPrefix is a required parameter.' );
+      throw Error('amountPrefix is a required parameter.');
     }
     const amountRaw = BigInt(amountRawStr);
     //    console.log(`bananoRaw:    ${bananoRaw}`);
@@ -144,9 +149,9 @@
     //    console.log(`bananoDivisor:   ${bananoDivisor}`);
     const major = amountRaw / majorDivisor;
     //    console.log(`banano:${banano}`);
-    const majorRawRemainder = amountRaw - (major * majorDivisor);
+    const majorRawRemainder = amountRaw - major * majorDivisor;
     const minor = majorRawRemainder / minorDivisor;
-    const amountRawRemainder = majorRawRemainder - (minor * minorDivisor);
+    const amountRawRemainder = majorRawRemainder - minor * minorDivisor;
 
     const bananoParts = {};
     bananoParts.majorName = prefixDivisor.majorName;
@@ -166,11 +171,14 @@
   };
 
   const bytesToHex = (bytes) => {
-    return Array.prototype.map.call(bytes, (x) => ('00' + x.toString(16)).slice(-2)).join('').toUpperCase();
+    return Array.prototype.map
+      .call(bytes, (x) => ('00' + x.toString(16)).slice(-2))
+      .join('')
+      .toUpperCase();
   };
 
   const hash = (block) => {
-  /* istanbul ignore if */
+    /* istanbul ignore if */
     if (block === undefined) {
       throw Error('block is a required parameter.');
     }
@@ -196,9 +204,15 @@
     }
     const context = blake.blake2bInit(32, null);
     blake.blake2bUpdate(context, hexToBytes(preamble));
-    blake.blake2bUpdate(context, hexToBytes(getAccountPublicKey(block.account)));
+    blake.blake2bUpdate(
+      context,
+      hexToBytes(getAccountPublicKey(block.account))
+    );
     blake.blake2bUpdate(context, hexToBytes(block.previous));
-    blake.blake2bUpdate(context, hexToBytes(getAccountPublicKey(block.representative)));
+    blake.blake2bUpdate(
+      context,
+      hexToBytes(getAccountPublicKey(block.representative))
+    );
 
     // console.log( `block.balance:${block.balance}` );
     let balanceToPad = BigInt(block.balance).toString(16);
@@ -216,12 +230,12 @@
   };
 
   const uint5ToUint4 = (uint5) => {
-    const length = uint5.length / 4 * 5;
+    const length = (uint5.length / 4) * 5;
     const uint4 = new Uint8Array(length);
     for (let i = 1; i <= length; i++) {
       const n = i - 1;
       const m = i % 5;
-      const z = n - ((i - m) / 5);
+      const z = n - (i - m) / 5;
       const right = uint5[z - 1] << (5 - m);
       const left = uint5[z] >> m;
       uint4[n] = (left + right) % 16;
@@ -249,7 +263,7 @@
   const uint8ToUint4 = (uintValue) => {
     const uint4 = new Uint8Array(uintValue.length * 2);
     for (let i = 0; i < uintValue.length; i++) {
-      uint4[i * 2] = uintValue[i] / 16 | 0;
+      uint4[i * 2] = (uintValue[i] / 16) | 0;
       uint4[i * 2 + 1] = uintValue[i] % 16;
     }
 
@@ -267,7 +281,7 @@
     const length = uintValue.length / 2;
     const uint8 = new Uint8Array(length);
     for (let i = 0; i < length; i++) {
-      uint8[i] = (uintValue[i * 2] * 16) + uintValue[i * 2 + 1];
+      uint8[i] = uintValue[i * 2] * 16 + uintValue[i * 2 + 1];
     }
 
     return uint8;
@@ -298,12 +312,12 @@
   };
 
   /**
- * Get the public key for a given account.
- *
- * @memberof BananoUtil
- * @param {string} account the account.
- * @return {string} the public key.
- */
+   * Get the public key for a given account.
+   *
+   * @memberof BananoUtil
+   * @param {string} account the account.
+   * @return {string} the public key.
+   */
   const getAccountPublicKey = (account) => {
     if (account === undefined) {
       throw Error(`Undefined BANANO Account`);
@@ -313,34 +327,43 @@
     }
     let accountCrop;
     if (account.startsWith('camo')) {
-      if (((!account.startsWith('camo_1')) &&
-        (!account.startsWith('camo_3'))) ||
-        (account.length !== 65)) {
+      if (
+        (!account.startsWith('camo_1') && !account.startsWith('camo_3')) ||
+        account.length !== 65
+      ) {
         throw Error(`Invalid CAMO BANANO Account prefix '${account}'`);
       }
       accountCrop = account.substring(5, 65);
     } else if (account.startsWith('nano')) {
-      if (((!account.startsWith('nano_1')) &&
-        (!account.startsWith('nano_3'))) ||
-        (account.length !== 65)) {
+      if (
+        (!account.startsWith('nano_1') && !account.startsWith('nano_3')) ||
+        account.length !== 65
+      ) {
         throw Error(`Invalid NANO Account prefix '${account}'`);
       }
       accountCrop = account.substring(5, 65);
     } else {
-      if (((!account.startsWith('ban_1')) &&
-        (!account.startsWith('ban_3'))) ||
-        (account.length !== 64)) {
+      if (
+        (!account.startsWith('ban_1') && !account.startsWith('ban_3')) ||
+        account.length !== 64
+      ) {
         throw Error(`Invalid BANANO Account prefix '${account}'`);
       }
       accountCrop = account.substring(4, 64);
     }
     const isAccountValid = isAccountSuffixValid(accountCrop);
     if (!isAccountValid.valid) {
-      throw Error(`Invalid BANANO Account '${account}', ${isAccountValid.message}`);
+      throw Error(
+        `Invalid BANANO Account '${account}', ${isAccountValid.message}`
+      );
     }
 
-    const keyUint4 = arrayCrop(uint5ToUint4(stringToUint5(accountCrop.substring(0, 52))));
-    const hashUint4 = uint5ToUint4(stringToUint5(accountCrop.substring(52, 60)));
+    const keyUint4 = arrayCrop(
+      uint5ToUint4(stringToUint5(accountCrop.substring(0, 52)))
+    );
+    const hashUint4 = uint5ToUint4(
+      stringToUint5(accountCrop.substring(52, 60))
+    );
     const keyArray = uint4ToUint8(keyUint4);
     const blakeHash = blake.blake2b(keyArray, null, 5).reverse();
 
@@ -370,7 +393,8 @@
     const sum = [];
     let hex = '';
     const hexArray = [];
-    let i; let s;
+    let i;
+    let s;
     while (dec.length) {
       s = 1 * dec.shift();
       for (i = 0; s || i < sum.length; i++) {
@@ -399,7 +423,6 @@
     return hex;
   };
 
-
   const generateAccountSecretKeyBytes = (seedBytes, accountIndex) => {
     const accountBytes = hexToUint8(decToHex(accountIndex, 4));
     const context = blake.blake2bInit(32);
@@ -410,15 +433,15 @@
   };
 
   const uint4ToUint5 = (uintValue) => {
-    const length = uintValue.length / 5 * 4;
+    const length = (uintValue.length / 5) * 4;
     const uint5 = new Uint8Array(length);
     for (let i = 1; i <= length; i++) {
       const n = i - 1;
       const m = i % 4;
-      const z = n + ((i - m) / 4);
+      const z = n + (i - m) / 4;
       const right = uintValue[z] << m;
       let left;
-      if (((length - i) % 4) == 0) {
+      if ((length - i) % 4 == 0) {
         left = uintValue[z - 1] << 4;
       } else {
         left = uintValue[z + 1] >> (4 - m);
@@ -427,7 +450,6 @@
     }
     return uint5;
   };
-
 
   /**
    * Get the account suffix for a given public key (everything but ban_ or camo_ or nano_).
@@ -438,7 +460,9 @@
    */
   const getAccountSuffix = (publicKey) => {
     const keyBytes = uint4ToUint8(hexToUint4(publicKey)); // For some reason here we go from u, to hex, to 4, to 8??
-    const checksum = uint5ToString(uint4ToUint5(uint8ToUint4(blake.blake2b(keyBytes, null, 5).reverse())));
+    const checksum = uint5ToString(
+      uint4ToUint5(uint8ToUint4(blake.blake2b(keyBytes, null, 5).reverse()))
+    );
     const account = uint5ToString(uint4ToUint5(hexToUint4(`0${publicKey}`)));
     return `${account}${checksum}`;
   };
@@ -480,7 +504,7 @@
   };
 
   const signHash = (privateKey, hash) => {
-  //    console.log( `sign ${JSON.stringify( block )}` );
+    //    console.log( `sign ${JSON.stringify( block )}` );
     const hashBytes = hexToBytes(hash);
     //    console.log( `hashBytes[${hashBytes.length}]:${hashBytes}` );
 
@@ -513,13 +537,13 @@
   };
 
   /**
- * returns true if the work (in bytes) for the hash (in bytes) is valid.
- *
- * @memberof BananoUtil
- * @param {string} hashBytes the hash bytes to check.
- * @param {string} workBytes the work bytes to check.
- * @return {boolean} true if the work is valid for the hash.
- */
+   * returns true if the work (in bytes) for the hash (in bytes) is valid.
+   *
+   * @memberof BananoUtil
+   * @param {string} hashBytes the hash bytes to check.
+   * @param {string} workBytes the work bytes to check.
+   * @return {boolean} true if the work is valid for the hash.
+   */
   const isWorkValid = (hashBytes, workBytes) => {
     const context = blake.blake2bInit(8);
     blake.blake2bUpdate(context, workBytes);
@@ -541,7 +565,7 @@
   const incrementBytes = (bytes) => {
     let x = bytes.length - 1;
     for (x; x >= 0; x--) {
-      if ( bytes[x] ^ 0xFF ) {
+      if (bytes[x] ^ 0xff) {
         bytes[x]++;
         return;
       } else {
@@ -561,7 +585,7 @@
   };
 
   const getHashCPUWorker = (hash, workBytes) => {
-  /* istanbul ignore if */
+    /* istanbul ignore if */
     if (LOG_GET_HASH_CPU_WORKER) {
       console.log('STARTED getHashCPUWorker', hash, bytesToHex(startWorkBytes));
     }
@@ -593,19 +617,23 @@
     const retval = bytesToHex(workBytes.reverse());
     /* istanbul ignore if */
     if (LOG_GET_HASH_CPU_WORKER) {
-      console.log('SUCCESS getHashCPUWorker', hash, bytesToHex(startWorkBytes), retval);
+      console.log(
+        'SUCCESS getHashCPUWorker',
+        hash,
+        bytesToHex(startWorkBytes),
+        retval
+      );
     }
     return retval;
   };
 
-
   /**
- * Get the public key for a given private key.
- *
- * @memberof BananoUtil
- * @param {string} privateKey the private key.
- * @return {string} the public key.
- */
+   * Get the public key for a given private key.
+   *
+   * @memberof BananoUtil
+   * @param {string} privateKey the private key.
+   * @return {string} the public key.
+   */
   const getPublicKey = async (privateKey) => {
     if (typeof privateKey == 'object') {
       return await privateKey.getPublicKey();
@@ -615,13 +643,13 @@
   };
 
   /**
- * validates a seed.
- *
- * @memberof BananoUtil
- * @param {string} seed the seed to use to validate.
- * @param {string} seedIx the index to use with the seed.
- * @return {object} {valid:[true/false] message:[if false, why]}.
- */
+   * validates a seed.
+   *
+   * @memberof BananoUtil
+   * @param {string} seed the seed to use to validate.
+   * @param {string} seedIx the index to use with the seed.
+   * @return {object} {valid:[true/false] message:[if false, why]}.
+   */
   const isSeedValid = (seed) => {
     const regex = new RegExp(SEED_ALPHABET_REGEX_STR);
     const isValid = regex.test(seed);
@@ -636,15 +664,15 @@
   };
 
   /**
- * Get the private key for a given seed.
- *
- * @memberof BananoUtil
- * @param {string} seed the seed to use to find the account.
- * @param {string} seedIx the index to use with the seed.
- * @return {string} the private key.
- */
+   * Get the private key for a given seed.
+   *
+   * @memberof BananoUtil
+   * @param {string} seed the seed to use to find the account.
+   * @param {string} seedIx the index to use with the seed.
+   * @return {string} the private key.
+   */
   const getPrivateKey = (seed, seedIx) => {
-  /* istanbul ignore if */
+    /* istanbul ignore if */
     if (seed === undefined) {
       throw Error('seed is a required parameter.');
     }
@@ -661,8 +689,17 @@
     return bytesToHex(accountBytes);
   };
 
-  const send = async (bananodeApi, seed, seedIx, destAccount, amountRaw, successCallback, failureCallback, accountPrefix) => {
-  /* istanbul ignore if */
+  const send = async (
+    bananodeApi,
+    seed,
+    seedIx,
+    destAccount,
+    amountRaw,
+    successCallback,
+    failureCallback,
+    accountPrefix
+  ) => {
+    /* istanbul ignore if */
     if (bananodeApi === undefined) {
       throw Error('bananodeApi is a required parameter.');
     }
@@ -703,24 +740,36 @@
     if (LOG_SEND) {
       console.log(`INTERIM send ${seed} ${seedIx} ${privateKey}`);
     }
-    await sendFromPrivateKey(bananodeApi, privateKey, destAccount, amountRaw, accountPrefix)
-        .then((hash) => {
-          /* istanbul ignore if */
-          if (LOG_SEND) {
-            console.log(`SUCCESS send ${seed} ${seedIx} ${hash}`);
-          }
-          successCallback(hash);
-        })
-        .catch((error) => {
-          /* istanbul ignore if */
-          if (LOG_SEND) {
-            console.log('FAILURE send', error);
-          }
-          failureCallback(error);
-        });
+    await sendFromPrivateKey(
+      bananodeApi,
+      privateKey,
+      destAccount,
+      amountRaw,
+      accountPrefix
+    )
+      .then((hash) => {
+        /* istanbul ignore if */
+        if (LOG_SEND) {
+          console.log(`SUCCESS send ${seed} ${seedIx} ${hash}`);
+        }
+        successCallback(hash);
+      })
+      .catch((error) => {
+        /* istanbul ignore if */
+        if (LOG_SEND) {
+          console.log('FAILURE send', error);
+        }
+        failureCallback(error);
+      });
   };
 
-  const sendFromPrivateKey = async (bananodeApi, privateKey, destAccount, amountRaw, accountPrefix) => {
+  const sendFromPrivateKey = async (
+    bananodeApi,
+    privateKey,
+    destAccount,
+    amountRaw,
+    accountPrefix
+  ) => {
     /* istanbul ignore if */
     if (bananodeApi === undefined) {
       throw Error('bananodeApi is a required parameter.');
@@ -741,10 +790,24 @@
     if (accountPrefix === undefined) {
       throw Error('accountPrefix is a required parameter.');
     }
-    return await sendFromPrivateKeyWithRepresentative(bananodeApi, privateKey, destAccount, amountRaw, undefined, accountPrefix);
+    return await sendFromPrivateKeyWithRepresentative(
+      bananodeApi,
+      privateKey,
+      destAccount,
+      amountRaw,
+      undefined,
+      accountPrefix
+    );
   };
 
-  const sendFromPrivateKeyWithRepresentative = async (bananodeApi, privateKey, destAccount, amountRaw, newRepresentative, accountPrefix) => {
+  const sendFromPrivateKeyWithRepresentative = async (
+    bananodeApi,
+    privateKey,
+    destAccount,
+    amountRaw,
+    newRepresentative,
+    accountPrefix
+  ) => {
     /* istanbul ignore if */
     if (bananodeApi === undefined) {
       throw Error('bananodeApi is a required parameter.');
@@ -765,10 +828,26 @@
     if (accountPrefix === undefined) {
       throw Error('accountPrefix is a required parameter.');
     }
-    return await sendFromPrivateKeyWithRepresentativeAndPrevious(bananodeApi, privateKey, destAccount, amountRaw, newRepresentative, undefined, accountPrefix);
+    return await sendFromPrivateKeyWithRepresentativeAndPrevious(
+      bananodeApi,
+      privateKey,
+      destAccount,
+      amountRaw,
+      newRepresentative,
+      undefined,
+      accountPrefix
+    );
   };
 
-  const sendFromPrivateKeyWithRepresentativeAndPrevious = async (bananodeApi, privateKey, destAccount, amountRaw, newRepresentative, newPrevious, accountPrefix) => {
+  const sendFromPrivateKeyWithRepresentativeAndPrevious = async (
+    bananodeApi,
+    privateKey,
+    destAccount,
+    amountRaw,
+    newRepresentative,
+    newPrevious,
+    accountPrefix
+  ) => {
     /* istanbul ignore if */
     if (bananodeApi === undefined) {
       throw Error('bananodeApi is a required parameter.');
@@ -794,7 +873,9 @@
 
     /* istanbul ignore if */
     if (LOG_SEND) {
-      console.log(`STARTED sendFromPrivateKeyWithRepresentativeAndPrevious ${destAccount} ${amountRaw}`);
+      console.log(
+        `STARTED sendFromPrivateKeyWithRepresentativeAndPrevious ${destAccount} ${amountRaw}`
+      );
     }
 
     /* istanbul ignore if */
@@ -816,18 +897,26 @@
 
     const accountInfo = await bananodeApi.getAccountInfo(accountAddress);
     if (accountInfo == undefined) {
-      throw Error(`The server's account info cannot be retrieved, please try again.`);
+      throw Error(
+        `The server's account info cannot be retrieved, please try again.`
+      );
     }
 
     /* istanbul ignore if */
     if (LOG_SEND) {
-      console.log(`SUCCESS getAccountInfo ${accountAddress} ${JSON.stringify(accountInfo)}`);
+      console.log(
+        `SUCCESS getAccountInfo ${accountAddress} ${JSON.stringify(
+          accountInfo
+        )}`
+      );
     }
 
     const balanceRaw = accountInfo.balance;
 
     if (balanceRaw == undefined) {
-      throw Error(`The server's account balance cannot be retrieved, please try again.`);
+      throw Error(
+        `The server's account balance cannot be retrieved, please try again.`
+      );
     }
 
     if (BigInt(balanceRaw) < BigInt(amountRaw)) {
@@ -836,11 +925,12 @@
       const balanceMajorAmount = balance[balance.majorName];
       const amountMajorAmount = amount[amount.majorName];
       //        console.log( `balance:${JSON.stringify( balance )}` );
-      throw Error(`The server's account balance of ${balanceMajorAmount} ${balance.majorName}s is too small, cannot withdraw ${amountMajorAmount} ${balance.majorName}s. In raw ${balanceRaw} < ${amountRaw}.`);
+      throw Error(
+        `The server's account balance of ${balanceMajorAmount} ${balance.majorName}s is too small, cannot withdraw ${amountMajorAmount} ${balance.majorName}s. In raw ${balanceRaw} < ${amountRaw}.`
+      );
     }
 
     const remaining = BigInt(balanceRaw) - BigInt(amountRaw);
-
 
     const remainingDecimal = remaining.toString(10);
     let remainingPadded = remaining.toString(16);
@@ -853,9 +943,10 @@
     if (newRepresentative !== undefined) {
       representative = newRepresentative;
     } else {
-      representative = await bananodeApi.getAccountRepresentative(accountAddress);
+      representative = await bananodeApi.getAccountRepresentative(
+        accountAddress
+      );
     }
-
 
     /* istanbul ignore if */
     if (LOG_SEND) {
@@ -875,7 +966,7 @@
     }
 
     if (previous == '') {
-    /* istanbul ignore if */
+      /* istanbul ignore if */
       if (LOG_SEND) {
         console.log(`FAILURE previous == ''`);
       }
@@ -923,13 +1014,22 @@
     }
   };
 
-  const open = async (bananodeApi, privateKey, publicKey, representative, pending, pendingValueRaw, accountPrefix) => {
+  const open = async (
+    bananodeApi,
+    privateKey,
+    publicKey,
+    representative,
+    pending,
+    pendingValueRaw,
+    accountPrefix
+  ) => {
     const work = await bananodeApi.getGeneratedWork(publicKey);
     const accountAddress = getAccount(publicKey, accountPrefix);
     const block = {};
     block.type = 'state';
     block.account = accountAddress;
-    block.previous = '0000000000000000000000000000000000000000000000000000000000000000';
+    block.previous =
+      '0000000000000000000000000000000000000000000000000000000000000000';
     block.representative = representative;
     block.balance = pendingValueRaw;
     block.link = pending;
@@ -946,7 +1046,7 @@
       }
       return processResponse;
     } catch (e) {
-    /* istanbul ignore if */
+      /* istanbul ignore if */
       if (LOG_OPEN) {
         console.log('FAILURE open', JSON.stringify(e));
       }
@@ -954,8 +1054,13 @@
     }
   };
 
-  const change = async (bananodeApi, privateKey, representative, accountPrefix) => {
-  /* istanbul ignore if */
+  const change = async (
+    bananodeApi,
+    privateKey,
+    representative,
+    accountPrefix
+  ) => {
+    /* istanbul ignore if */
     if (bananodeApi === undefined) {
       throw Error('bananodeApi is a required parameter.');
     }
@@ -972,16 +1077,19 @@
     const accountInfo = await bananodeApi.getAccountInfo(accountAddress);
     /* istanbul ignore if */
     if (accountInfo == undefined) {
-      throw Error(`The server's account info cannot be retrieved, please try again.`);
+      throw Error(
+        `The server's account info cannot be retrieved, please try again.`
+      );
     }
     const previous = accountInfo.frontier;
     const work = await bananodeApi.getGeneratedWork(previous);
     const balanceRaw = accountInfo.balance;
 
-
     /* istanbul ignore if */
     if (balanceRaw == undefined) {
-      throw Error(`The server's account balance cannot be retrieved, please try again.`);
+      throw Error(
+        `The server's account balance cannot be retrieved, please try again.`
+      );
     }
 
     const remaining = BigInt(balanceRaw);
@@ -994,10 +1102,10 @@
     block.previous = previous;
     block.representative = representative;
     block.balance = remainingDecimal;
-    block.link = '0000000000000000000000000000000000000000000000000000000000000000';
+    block.link =
+      '0000000000000000000000000000000000000000000000000000000000000000';
     block.work = work;
     block.signature = await sign(privateKey, block);
-
 
     /* istanbul ignore if */
     if (LOG_CHANGE) {
@@ -1011,7 +1119,7 @@
       }
       return processResponse;
     } catch (e) {
-    /* istanbul ignore if */
+      /* istanbul ignore if */
       if (LOG_RECEIVE) {
         console.log('FAILURE receive', JSON.stringify(e));
       }
@@ -1019,7 +1127,16 @@
     }
   };
 
-  const receive = async (bananodeApi, privateKey, publicKey, representative, previous, hash, valueRaw, accountPrefix) => {
+  const receive = async (
+    bananodeApi,
+    privateKey,
+    publicKey,
+    representative,
+    previous,
+    hash,
+    valueRaw,
+    accountPrefix
+  ) => {
     /* istanbul ignore if */
     if (bananodeApi === undefined) {
       throw Error('bananodeApi is a required parameter.');
@@ -1079,12 +1196,11 @@
     }
   };
 
-
   /**
- * @typedef {Object} AccountValidationInfo
- * @property {string} message - The message describing why the account is valid or not.
- * @property {boolean} valid - True if account is valid.
- */
+   * @typedef {Object} AccountValidationInfo
+   * @property {string} message - The message describing why the account is valid or not.
+   * @property {boolean} valid - True if account is valid.
+   */
 
   /**
   * Returns an object saying if the banano account is valid or not.
@@ -1111,7 +1227,8 @@
     if (account.length == 64) {
       if (!account.startsWith('ban_1') && !account.startsWith('ban_3')) {
         return {
-          message: 'Invalid BANANO Account (does not start with ban_1 or ban_3)',
+          message:
+            'Invalid BANANO Account (does not start with ban_1 or ban_3)',
           valid: false,
         };
       }
@@ -1128,7 +1245,7 @@
         message: `Invalid BANANO account (characters after ban_ must be one of:13456789abcdefghijkmnopqrstuwxyz)`,
         valid: false,
       };
-    };
+    }
 
     try {
       getAccountPublicKey(account);
@@ -1145,13 +1262,13 @@
   };
 
   /**
-    * Returns an object saying if the nano account is valid or not.
-    * If the account is not valid, the message describes why it is not valid.
-    *
-    * @memberof BananoUtil
-    * @param {string} account the account.
-    * @return {AccountValidationInfo} an object saying if the account is valid, and why.
-    */
+   * Returns an object saying if the nano account is valid or not.
+   * If the account is not valid, the message describes why it is not valid.
+   *
+   * @memberof BananoUtil
+   * @param {string} account the account.
+   * @return {AccountValidationInfo} an object saying if the account is valid, and why.
+   */
   const getNanoAccountValidationInfo = (account) => {
     if (account === null) {
       return {
@@ -1168,7 +1285,8 @@
     if (account.length == 65) {
       if (!account.startsWith('nano_1') && !account.startsWith('nano_3')) {
         return {
-          message: 'Invalid NANO Account (does not start with nano_1 or nano_3)',
+          message:
+            'Invalid NANO Account (does not start with nano_1 or nano_3)',
           valid: false,
         };
       }
@@ -1185,7 +1303,7 @@
         message: `Invalid NANO account (characters after nano_ must be one of:13456789abcdefghijkmnopqrstuwxyz)`,
         valid: false,
       };
-    };
+    }
 
     try {
       getAccountPublicKey(account);
@@ -1201,14 +1319,12 @@
     };
   };
 
-
   const isAccountOpen = async (bananodeApi, account) => {
-    const history = await bananodeApi.getAccountHistory( account, 1 );
+    const history = await bananodeApi.getAccountHistory(account, 1);
     const historyHistory = history.history;
     const historyHistoryLength = historyHistory.length;
     return historyHistoryLength !== 0;
   };
-
 
   // STARTED BOTTOM nodejs/browser hack
   const exports = (() => {
@@ -1238,8 +1354,10 @@
     exports.isWorkValid = isWorkValid;
     exports.getAmountPartsFromRaw = getAmountPartsFromRaw;
     exports.sendFromPrivateKey = sendFromPrivateKey;
-    exports.sendFromPrivateKeyWithRepresentative = sendFromPrivateKeyWithRepresentative;
-    exports.sendFromPrivateKeyWithRepresentativeAndPrevious = sendFromPrivateKeyWithRepresentativeAndPrevious;
+    exports.sendFromPrivateKeyWithRepresentative =
+      sendFromPrivateKeyWithRepresentative;
+    exports.sendFromPrivateKeyWithRepresentativeAndPrevious =
+      sendFromPrivateKeyWithRepresentativeAndPrevious;
     exports.getAccountSuffix = getAccountSuffix;
     exports.isAccountSuffixValid = isAccountSuffixValid;
     exports.isAccountOpen = isAccountOpen;

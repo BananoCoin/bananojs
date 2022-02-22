@@ -17,7 +17,6 @@ const process = async (block, subtype) => {
   });
 };
 
-
 exports.getAccountBalanceRaw = bananodeApi.getAccountBalanceRaw;
 exports.getAccountRepresentative = bananodeApi.getAccountRepresentative;
 exports.getPrevious = bananodeApi.getPrevious;

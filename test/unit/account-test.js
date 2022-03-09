@@ -19,8 +19,8 @@ describe('account', () => {
   it('getBananoAccountFromSeed valid account matches expected', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
     const actualAccount = await bananojs.getBananoAccountFromSeed(
-      seed0,
-      seedIx
+        seed0,
+        seedIx,
     );
     expect(actualAccount).to.equal(expectedBananoAccount);
   });
@@ -72,10 +72,10 @@ describe('account', () => {
     const bananojs = testUtil.getBananojsWithMockApi();
     const account = await bananojs.getBananoAccountFromSeed(seed0, seedIx);
     const actualHistory = await bananojs.getAccountHistory(
-      account,
-      -1,
-      false,
-      false
+        account,
+        -1,
+        false,
+        false,
     );
     const expectedHistory = {
       account:
@@ -99,10 +99,10 @@ describe('account', () => {
     const bananojs = testUtil.getBananojsWithMockApi();
     const account = await bananojs.getNanoAccountFromSeed(seed0, seedIx);
     const actualHistory = await bananojs.getAccountHistory(
-      account,
-      -1,
-      false,
-      false
+        account,
+        -1,
+        false,
+        false,
     );
     const expectedHistory = {
       account:

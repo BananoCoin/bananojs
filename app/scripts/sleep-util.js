@@ -1,7 +1,7 @@
 'use strict';
 
 // STARTED TOP nodejs/browser hack
-(function () {
+(function() {
   // FINISHED TOP nodejs/browser hack
   const sleep = (millis) => {
     return new Promise((resolve) => setTimeout(resolve, millis));

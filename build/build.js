@@ -36,11 +36,11 @@ const build = () => {
   output += `//version ${pjson.version}\n`;
   output += `//license ${pjson.license}\n`;
   output += inputFiles
-    .map((f) => {
-      const fAbs = path.join(__dirname, f);
-      return fs.readFileSync(fAbs).toString();
-    })
-    .join('');
+      .map((f) => {
+        const fAbs = path.join(__dirname, f);
+        return fs.readFileSync(fAbs).toString();
+      })
+      .join('');
 
   const file = `bananocoin-bananojs.js`;
   fs.writeFileSync(path.join(directory, file), output);

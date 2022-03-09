@@ -1,7 +1,7 @@
 'use strict';
 
 // STARTED TOP nodejs/browser hack
-(function () {
+(function() {
   // FINISHED TOP nodejs/browser hack
 
   const bananoUtil = require('./app/scripts/banano-util.js');
@@ -85,9 +85,9 @@
       const count = 27 - bananoParts.raw.length;
       if (count < 0) {
         throw Error(
-          `too many numbers in bananoParts.raw '${
-            bananoParts.raw
-          }', remove ${-count} of them.`
+            `too many numbers in bananoParts.raw '${
+              bananoParts.raw
+            }', remove ${-count} of them.`,
         );
       }
       bananoDecimal += '0'.repeat(count);
@@ -111,7 +111,7 @@
       bananoBigInt = BigInt(getRawStrFromBananoStr(amountStr));
     } else {
       bananoBigInt = BigInt(
-        getRawStrFromBananoStr(amountStr.substring(0, decimal))
+          getRawStrFromBananoStr(amountStr.substring(0, decimal)),
       );
     }
     let banoshiBigInt;
@@ -124,7 +124,7 @@
       const count = 29 - banoshiRaw.length;
       if (count < 0) {
         throw Error(
-          `too many numbers past the decimal in '${amountStr}', remove ${-count} of them.`
+            `too many numbers past the decimal in '${amountStr}', remove ${-count} of them.`,
         );
       }
       banoshiRaw += '0'.repeat(count);
@@ -193,23 +193,23 @@
    * @return {Promise<string>} returns the hash returned by the send.
    */
   const sendAmountToBananoAccountWithRepresentativeAndPrevious = async (
-    seed,
-    seedIx,
-    destAccount,
-    amountRaw,
-    representative,
-    previousHash
+      seed,
+      seedIx,
+      destAccount,
+      amountRaw,
+      representative,
+      previousHash,
   ) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
     const hash =
       await bananoUtil.sendFromPrivateKeyWithRepresentativeAndPrevious(
-        bananodeApi,
-        privateKey,
-        destAccount,
-        amountRaw,
-        representative,
-        previousHash,
-        BANANO_PREFIX
+          bananodeApi,
+          privateKey,
+          destAccount,
+          amountRaw,
+          representative,
+          previousHash,
+          BANANO_PREFIX,
       );
     return hash;
   };
@@ -231,23 +231,23 @@
    * @return {Promise<string>} returns the hash returned by the send.
    */
   const sendAmountToNanoAccountWithRepresentativeAndPrevious = async (
-    seed,
-    seedIx,
-    destAccount,
-    amountRaw,
-    representative,
-    previousHash
+      seed,
+      seedIx,
+      destAccount,
+      amountRaw,
+      representative,
+      previousHash,
   ) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
     const hash =
       await bananoUtil.sendFromPrivateKeyWithRepresentativeAndPrevious(
-        bananodeApi,
-        privateKey,
-        destAccount,
-        amountRaw,
-        representative,
-        previousHash,
-        NANO_PREFIX
+          bananodeApi,
+          privateKey,
+          destAccount,
+          amountRaw,
+          representative,
+          previousHash,
+          NANO_PREFIX,
       );
     return hash;
   };
@@ -264,28 +264,28 @@
    * @return {Promise<string>} returns the hash returned by the send.
    */
   const sendAmountToBananoAccount = async (
-    seed,
-    seedIx,
-    destAccount,
-    amountRaw,
-    successCallback,
-    failureCallback
+      seed,
+      seedIx,
+      destAccount,
+      amountRaw,
+      successCallback,
+      failureCallback,
   ) => {
     return await bananoUtil
-      .send(
-        bananodeApi,
-        seed,
-        seedIx,
-        destAccount,
-        amountRaw,
-        successCallback,
-        failureCallback,
-        BANANO_PREFIX
-      )
-      .catch((error) => {
+        .send(
+            bananodeApi,
+            seed,
+            seedIx,
+            destAccount,
+            amountRaw,
+            successCallback,
+            failureCallback,
+            BANANO_PREFIX,
+        )
+        .catch((error) => {
         // console.trace(error);
-        throw Error(error);
-      });
+          throw Error(error);
+        });
   };
 
   /**
@@ -300,28 +300,28 @@
    * @return {Promise<string>} returns the hash returned by the send.
    */
   const sendAmountToNanoAccount = async (
-    seed,
-    seedIx,
-    destAccount,
-    amountRaw,
-    successCallback,
-    failureCallback
+      seed,
+      seedIx,
+      destAccount,
+      amountRaw,
+      successCallback,
+      failureCallback,
   ) => {
     return await bananoUtil
-      .send(
-        bananodeApi,
-        seed,
-        seedIx,
-        destAccount,
-        amountRaw,
-        successCallback,
-        failureCallback,
-        NANO_PREFIX
-      )
-      .catch((error) => {
+        .send(
+            bananodeApi,
+            seed,
+            seedIx,
+            destAccount,
+            amountRaw,
+            successCallback,
+            failureCallback,
+            NANO_PREFIX,
+        )
+        .catch((error) => {
         // console.trace(error);
-        throw Error(error);
-      });
+          throw Error(error);
+        });
   };
 
   /**
@@ -333,16 +333,16 @@
    * @return {Promise<string>} returns the hash returned by the change.
    */
   const changeBananoRepresentativeForSeed = async (
-    seed,
-    seedIx,
-    representative
+      seed,
+      seedIx,
+      representative,
   ) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
     const response = await bananoUtil.change(
-      bananodeApi,
-      privateKey,
-      representative,
-      BANANO_PREFIX
+        bananodeApi,
+        privateKey,
+        representative,
+        BANANO_PREFIX,
     );
     return response;
   };
@@ -356,16 +356,16 @@
    * @return {Promise<string>} returns the hash returned by the change.
    */
   const changeNanoRepresentativeForSeed = async (
-    seed,
-    seedIx,
-    representative
+      seed,
+      seedIx,
+      representative,
   ) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
     const response = await bananoUtil.change(
-      bananodeApi,
-      privateKey,
-      representative,
-      NANO_PREFIX
+        bananodeApi,
+        privateKey,
+        representative,
+        NANO_PREFIX,
     );
     return response;
   };
@@ -380,22 +380,22 @@
    * @return {Promise<object>} returns the response returned by the receive.
    */
   const receiveNanoDepositsForSeed = async (
-    seed,
-    seedIx,
-    representative,
-    specificPendingBlockHash
+      seed,
+      seedIx,
+      representative,
+      specificPendingBlockHash,
   ) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
     const publicKey = await bananoUtil.getPublicKey(privateKey);
     const account = bananoUtil.getAccount(publicKey, NANO_PREFIX);
     const response = await depositUtil.receive(
-      loggingUtil,
-      bananodeApi,
-      account,
-      privateKey,
-      representative,
-      specificPendingBlockHash,
-      NANO_PREFIX
+        loggingUtil,
+        bananodeApi,
+        account,
+        privateKey,
+        representative,
+        specificPendingBlockHash,
+        NANO_PREFIX,
     );
     return response;
   };
@@ -410,22 +410,22 @@
    * @return {Promise<object>} returns the response returned by the receive.
    */
   const receiveBananoDepositsForSeed = async (
-    seed,
-    seedIx,
-    representative,
-    specificPendingBlockHash
+      seed,
+      seedIx,
+      representative,
+      specificPendingBlockHash,
   ) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
     const publicKey = await bananoUtil.getPublicKey(privateKey);
     const account = bananoUtil.getAccount(publicKey, BANANO_PREFIX);
     const response = await depositUtil.receive(
-      loggingUtil,
-      bananodeApi,
-      account,
-      privateKey,
-      representative,
-      specificPendingBlockHash,
-      BANANO_PREFIX
+        loggingUtil,
+        bananodeApi,
+        account,
+        privateKey,
+        representative,
+        specificPendingBlockHash,
+        BANANO_PREFIX,
     );
     return response;
   };
@@ -442,23 +442,23 @@
    * @return {Promise<object>} returns the response returned by the withdraw.
    */
   const sendBananoWithdrawalFromSeed = async (
-    seed,
-    seedIx,
-    toAccount,
-    amountBananos,
-    representative,
-    previous
+      seed,
+      seedIx,
+      toAccount,
+      amountBananos,
+      representative,
+      previous,
   ) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
     const response = withdrawUtil.withdraw(
-      loggingUtil,
-      bananodeApi,
-      privateKey,
-      toAccount,
-      amountBananos,
-      BANANO_PREFIX,
-      representative,
-      previous
+        loggingUtil,
+        bananodeApi,
+        privateKey,
+        toAccount,
+        amountBananos,
+        BANANO_PREFIX,
+        representative,
+        previous,
     );
     return response;
   };
@@ -475,23 +475,23 @@
    * @return {Promise<object>} returns the response returned by the withdraw.
    */
   const sendNanoWithdrawalFromSeed = async (
-    seed,
-    seedIx,
-    toAccount,
-    amountBananos,
-    representative,
-    previous
+      seed,
+      seedIx,
+      toAccount,
+      amountBananos,
+      representative,
+      previous,
   ) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
     const response = withdrawUtil.withdraw(
-      loggingUtil,
-      bananodeApi,
-      privateKey,
-      toAccount,
-      amountBananos,
-      NANO_PREFIX,
-      representative,
-      previous
+        loggingUtil,
+        bananodeApi,
+        privateKey,
+        toAccount,
+        amountBananos,
+        NANO_PREFIX,
+        representative,
+        previous,
     );
     return response;
   };
@@ -629,22 +629,22 @@
    * @return {Promise<string>} returns the hash returned by the open.
    */
   const openBananoAccountFromSeed = async (
-    seed,
-    seedIx,
-    representative,
-    pendingBlockHash,
-    pendingValueRaw
+      seed,
+      seedIx,
+      representative,
+      pendingBlockHash,
+      pendingValueRaw,
   ) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
     const publicKey = await bananoUtil.getPublicKey(privateKey);
     return await bananoUtil.open(
-      bananodeApi,
-      privateKey,
-      publicKey,
-      representative,
-      pendingBlockHash,
-      pendingValueRaw,
-      BANANO_PREFIX
+        bananodeApi,
+        privateKey,
+        publicKey,
+        representative,
+        pendingBlockHash,
+        pendingValueRaw,
+        BANANO_PREFIX,
     );
   };
 
@@ -659,22 +659,22 @@
    * @return {Promise<string>} returns the hash returned by the open.
    */
   const openNanoAccountFromSeed = async (
-    seed,
-    seedIx,
-    representative,
-    pendingBlockHash,
-    pendingValueRaw
+      seed,
+      seedIx,
+      representative,
+      pendingBlockHash,
+      pendingValueRaw,
   ) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
     const publicKey = await bananoUtil.getPublicKey(privateKey);
     return await bananoUtil.open(
-      bananodeApi,
-      privateKey,
-      publicKey,
-      representative,
-      pendingBlockHash,
-      pendingValueRaw,
-      NANO_PREFIX
+        bananodeApi,
+        privateKey,
+        publicKey,
+        representative,
+        pendingBlockHash,
+        pendingValueRaw,
+        NANO_PREFIX,
     );
   };
 
@@ -770,10 +770,10 @@
    */
   const camoBananoReceive = async (toPrivateKey, fromPublicKey) => {
     return await camoUtil.receive(
-      bananodeApi,
-      toPrivateKey,
-      fromPublicKey,
-      BANANO_PREFIX
+        bananodeApi,
+        toPrivateKey,
+        fromPublicKey,
+        BANANO_PREFIX,
     );
   };
 
@@ -787,10 +787,10 @@
    */
   const camoNanoReceive = async (toPrivateKey, fromPublicKey) => {
     return await camoUtil.receive(
-      bananodeApi,
-      toPrivateKey,
-      fromPublicKey,
-      NANO_PREFIX
+        bananodeApi,
+        toPrivateKey,
+        fromPublicKey,
+        NANO_PREFIX,
     );
   };
 
@@ -803,9 +803,9 @@
    */
   const getCamoBananoNextPrivateKeyForReceive = async (seed) => {
     return await camoUtil.getFirstUnopenedPrivateKey(
-      bananodeApi,
-      seed,
-      BANANO_PREFIX
+        bananodeApi,
+        seed,
+        BANANO_PREFIX,
     );
   };
 
@@ -818,9 +818,9 @@
    */
   const getCamoNanoNextPrivateKeyForReceive = async (seed) => {
     return await camoUtil.getFirstUnopenedPrivateKey(
-      bananodeApi,
-      seed,
-      NANO_PREFIX
+        bananodeApi,
+        seed,
+        NANO_PREFIX,
     );
   };
 
@@ -835,19 +835,19 @@
    * @return {Promise<string_array>} the sent hashes in an array.
    */
   const camoBananoSend = async (
-    fundingPrivateKey,
-    fromCamoPrivateKey,
-    toCamoPublicKey,
-    amountBananos
-  ) => {
-    const amountRaw = getRawStrFromBananoStr(amountBananos);
-    return await camoUtil.send(
-      bananodeApi,
       fundingPrivateKey,
       fromCamoPrivateKey,
       toCamoPublicKey,
-      amountRaw,
-      BANANO_PREFIX
+      amountBananos,
+  ) => {
+    const amountRaw = getRawStrFromBananoStr(amountBananos);
+    return await camoUtil.send(
+        bananodeApi,
+        fundingPrivateKey,
+        fromCamoPrivateKey,
+        toCamoPublicKey,
+        amountRaw,
+        BANANO_PREFIX,
     );
   };
 
@@ -862,19 +862,19 @@
    * @return {Promise<string_array>} the sent hashes in an array.
    */
   const camoNanoSend = async (
-    fundingPrivateKey,
-    fromCamoPrivateKey,
-    toCamoPublicKey,
-    amountBananos
-  ) => {
-    const amountRaw = getRawStrFromNanoStr(amountBananos);
-    return await camoUtil.send(
-      bananodeApi,
       fundingPrivateKey,
       fromCamoPrivateKey,
       toCamoPublicKey,
-      amountRaw,
-      NANO_PREFIX
+      amountBananos,
+  ) => {
+    const amountRaw = getRawStrFromNanoStr(amountBananos);
+    return await camoUtil.send(
+        bananodeApi,
+        fundingPrivateKey,
+        fromCamoPrivateKey,
+        toCamoPublicKey,
+        amountRaw,
+        NANO_PREFIX,
     );
   };
 
@@ -891,10 +891,10 @@
    * @return {Promise<string_array>} the sent hashes in an array.
    */
   const camoBananoSendWithdrawalFromSeed = async (
-    seed,
-    seedIx,
-    toAccount,
-    amountBananos
+      seed,
+      seedIx,
+      toAccount,
+      amountBananos,
   ) => {
     const accountValid = getCamoAccountValidationInfo(toAccount);
     if (!accountValid.valid) {
@@ -904,10 +904,10 @@
     const fromCamoPrivateKey = bananoUtil.getPrivateKey(seed, 0);
     const toCamoPublicKey = bananoUtil.getAccountPublicKey(toAccount);
     return await camoBananoSend(
-      fundingPrivateKey,
-      fromCamoPrivateKey,
-      toCamoPublicKey,
-      amountBananos
+        fundingPrivateKey,
+        fromCamoPrivateKey,
+        toCamoPublicKey,
+        amountBananos,
     );
   };
 
@@ -924,10 +924,10 @@
    * @return {Promise<string_array>} the sent hashes in an array.
    */
   const camoNanoSendWithdrawalFromSeed = async (
-    seed,
-    seedIx,
-    toAccount,
-    amountBananos
+      seed,
+      seedIx,
+      toAccount,
+      amountBananos,
   ) => {
     const accountValid = getCamoAccountValidationInfo(toAccount);
     if (!accountValid.valid) {
@@ -937,10 +937,10 @@
     const fromCamoPrivateKey = bananoUtil.getPrivateKey(seed, 0);
     const toCamoPublicKey = bananoUtil.getAccountPublicKey(toAccount);
     return await camoNanoSend(
-      fundingPrivateKey,
-      fromCamoPrivateKey,
-      toCamoPublicKey,
-      amountBananos
+        fundingPrivateKey,
+        fromCamoPrivateKey,
+        toCamoPublicKey,
+        amountBananos,
     );
   };
 
@@ -954,11 +954,11 @@
    * @return {Promise<string_array>} the pending hashes in an array.
    */
   const camoBananoGetAccountsPending = async (
-    seed,
-    seedIx,
-    fromAccount,
-    sharedSeedIx,
-    count
+      seed,
+      seedIx,
+      fromAccount,
+      sharedSeedIx,
+      count,
   ) => {
     const accountValid = getCamoAccountValidationInfo(fromAccount);
     if (!accountValid.valid) {
@@ -967,12 +967,12 @@
     const toPrivateKey = bananoUtil.getPrivateKey(seed, seedIx);
     const fromPublicKey = bananoUtil.getAccountPublicKey(fromAccount);
     return await camoUtil.getAccountsPending(
-      bananodeApi,
-      toPrivateKey,
-      fromPublicKey,
-      sharedSeedIx,
-      count,
-      BANANO_PREFIX
+        bananodeApi,
+        toPrivateKey,
+        fromPublicKey,
+        sharedSeedIx,
+        count,
+        BANANO_PREFIX,
     );
   };
 
@@ -986,11 +986,11 @@
    * @return {Promise<string_array>} the pending hashes in an array.
    */
   const camoNanoGetAccountsPending = async (
-    seed,
-    seedIx,
-    fromAccount,
-    sharedSeedIx,
-    count
+      seed,
+      seedIx,
+      fromAccount,
+      sharedSeedIx,
+      count,
   ) => {
     const accountValid = getCamoAccountValidationInfo(fromAccount);
     if (!accountValid.valid) {
@@ -999,12 +999,12 @@
     const toPrivateKey = bananoUtil.getPrivateKey(seed, seedIx);
     const fromPublicKey = bananoUtil.getAccountPublicKey(fromAccount);
     return await camoUtil.getAccountsPending(
-      bananodeApi,
-      toPrivateKey,
-      fromPublicKey,
-      sharedSeedIx,
-      count,
-      NANO_PREFIX
+        bananodeApi,
+        toPrivateKey,
+        fromPublicKey,
+        sharedSeedIx,
+        count,
+        NANO_PREFIX,
     );
   };
 
@@ -1027,10 +1027,10 @@
    * @return {Promise<string>} the shared account.
    */
   const getCamoBananoSharedAccountData = async (
-    seed,
-    seedIx,
-    account,
-    sharedSeedIx
+      seed,
+      seedIx,
+      account,
+      sharedSeedIx,
   ) => {
     const accountValid = getCamoAccountValidationInfo(account);
     if (!accountValid.valid) {
@@ -1039,11 +1039,11 @@
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
     const publicKey = bananoUtil.getAccountPublicKey(account);
     return await camoUtil.getSharedAccountData(
-      bananodeApi,
-      privateKey,
-      publicKey,
-      sharedSeedIx,
-      BANANO_PREFIX
+        bananodeApi,
+        privateKey,
+        publicKey,
+        sharedSeedIx,
+        BANANO_PREFIX,
     );
   };
 
@@ -1056,10 +1056,10 @@
    * @return {Promise<string>} the shared account.
    */
   const getCamoNanoSharedAccountData = async (
-    seed,
-    seedIx,
-    account,
-    sharedSeedIx
+      seed,
+      seedIx,
+      account,
+      sharedSeedIx,
   ) => {
     const accountValid = getCamoAccountValidationInfo(account);
     if (!accountValid.valid) {
@@ -1068,11 +1068,11 @@
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
     const publicKey = bananoUtil.getAccountPublicKey(account);
     return await camoUtil.getSharedAccountData(
-      bananodeApi,
-      privateKey,
-      publicKey,
-      sharedSeedIx,
-      NANO_PREFIX
+        bananodeApi,
+        privateKey,
+        publicKey,
+        sharedSeedIx,
+        NANO_PREFIX,
     );
   };
 
@@ -1087,19 +1087,19 @@
    * @return {Promise<string>} the response from receiving the block.
    */
   const receiveCamoBananoDepositsForSeed = async (
-    seed,
-    seedIx,
-    account,
-    sharedSeedIx,
-    specificPendingBlockHash
+      seed,
+      seedIx,
+      account,
+      sharedSeedIx,
+      specificPendingBlockHash,
   ) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
     const publicKey = bananoUtil.getAccountPublicKey(account);
     const sharedSecret = await camoUtil.getSharedSecretFromRepresentative(
-      bananodeApi,
-      privateKey,
-      publicKey,
-      BANANO_PREFIX
+        bananodeApi,
+        privateKey,
+        publicKey,
+        BANANO_PREFIX,
     );
     if (sharedSecret) {
       const sharedSeed = sharedSecret;
@@ -1107,17 +1107,17 @@
       const camoPublicKey = await camoUtil.getCamoPublicKey(privateKey);
       const camoRepresentative = await camoUtil.getCamoAccount(camoPublicKey);
       const repPublicKey = await bananoUtil.getAccountPublicKey(
-        camoRepresentative
+          camoRepresentative,
       );
       const representative = await bananoUtil.getAccount(
-        repPublicKey,
-        BANANO_PREFIX
+          repPublicKey,
+          BANANO_PREFIX,
       );
       const response = await receiveBananoDepositsForSeed(
-        sharedSeed,
-        sharedSeedIx,
-        representative,
-        specificPendingBlockHash
+          sharedSeed,
+          sharedSeedIx,
+          representative,
+          specificPendingBlockHash,
       );
       return response;
     } else {
@@ -1136,19 +1136,19 @@
    * @return {Promise<string>} the response from receiving the block.
    */
   const receiveCamoNanoDepositsForSeed = async (
-    seed,
-    seedIx,
-    account,
-    sharedSeedIx,
-    specificPendingBlockHash
+      seed,
+      seedIx,
+      account,
+      sharedSeedIx,
+      specificPendingBlockHash,
   ) => {
     const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
     const publicKey = bananoUtil.getAccountPublicKey(account);
     const sharedSecret = await camoUtil.getSharedSecretFromRepresentative(
-      bananodeApi,
-      privateKey,
-      publicKey,
-      NANO_PREFIX
+        bananodeApi,
+        privateKey,
+        publicKey,
+        NANO_PREFIX,
     );
     if (sharedSecret) {
       const sharedSeed = sharedSecret;
@@ -1156,17 +1156,17 @@
       const camoPublicKey = await camoUtil.getCamoPublicKey(privateKey);
       const camoRepresentative = await camoUtil.getCamoAccount(camoPublicKey);
       const repPublicKey = await bananoUtil.getAccountPublicKey(
-        camoRepresentative
+          camoRepresentative,
       );
       const representative = await bananoUtil.getAccount(
-        repPublicKey,
-        NANO_PREFIX
+          repPublicKey,
+          NANO_PREFIX,
       );
       const response = await receiveNanoDepositsForSeed(
-        sharedSeed,
-        sharedSeedIx,
-        representative,
-        specificPendingBlockHash
+          sharedSeed,
+          sharedSeedIx,
+          representative,
+          specificPendingBlockHash,
       );
       return response;
     } else {
@@ -1183,14 +1183,14 @@
    * @return {Promise<string>} the account balance, in raw.
    */
   const getCamoBananoAccountBalanceRaw = async (
-    toPrivateKey,
-    fromPublicKey
-  ) => {
-    return await camoUtil.getBalanceRaw(
-      bananodeApi,
       toPrivateKey,
       fromPublicKey,
-      BANANO_PREFIX
+  ) => {
+    return await camoUtil.getBalanceRaw(
+        bananodeApi,
+        toPrivateKey,
+        fromPublicKey,
+        BANANO_PREFIX,
     );
   };
 
@@ -1204,10 +1204,10 @@
    */
   const getCamoNanoAccountBalanceRaw = async (toPrivateKey, fromPublicKey) => {
     return await camoUtil.getBalanceRaw(
-      bananodeApi,
-      toPrivateKey,
-      fromPublicKey,
-      NANO_PREFIX
+        bananodeApi,
+        toPrivateKey,
+        fromPublicKey,
+        NANO_PREFIX,
     );
   };
 

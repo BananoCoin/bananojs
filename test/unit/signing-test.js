@@ -37,12 +37,12 @@ describe('block-sign', () => {
       };
       const sendAmountToAccount = coinData.getSendAmountToAccountFn(bananojs);
       sendAmountToAccount(
-        bananoSeed,
-        0,
-        bananoAccount,
-        1,
-        successCallback,
-        failureCallback
+          bananoSeed,
+          0,
+          bananoAccount,
+          1,
+          successCallback,
+          failureCallback,
       );
     });
     it(coinData.coin + ' send works, bad account', (done) => {
@@ -55,12 +55,12 @@ describe('block-sign', () => {
       };
       const sendAmountToAccount = coinData.getSendAmountToAccountFn(bananojs);
       sendAmountToAccount(
-        bad.seed,
-        0,
-        bad.account,
-        1,
-        successCallback,
-        failureCallback
+          bad.seed,
+          0,
+          bad.account,
+          1,
+          successCallback,
+          failureCallback,
       );
     });
   });

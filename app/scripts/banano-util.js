@@ -1,7 +1,7 @@
 'use strict';
 
 // STARTED TOP nodejs/browser hack
-(function () {
+(function() {
   // FINISHED TOP nodejs/browser hack
   // istanbul ignore if
   if (typeof BigInt === 'undefined') {
@@ -87,9 +87,9 @@
     /* istanbul ignore if */
     if (prefixDivisors[amountPrefix] == undefined) {
       throw Error(
-        `'${amountPrefix}' is not an amountPrefix. (${[
-          ...Object.keys(prefixDivisors),
-        ]})`
+          `'${amountPrefix}' is not an amountPrefix. (${[
+            ...Object.keys(prefixDivisors),
+          ]})`,
       );
     }
     const majorDivisor = prefixDivisors[amountPrefix].majorDivisor;
@@ -172,9 +172,9 @@
 
   const bytesToHex = (bytes) => {
     return Array.prototype.map
-      .call(bytes, (x) => ('00' + x.toString(16)).slice(-2))
-      .join('')
-      .toUpperCase();
+        .call(bytes, (x) => ('00' + x.toString(16)).slice(-2))
+        .join('')
+        .toUpperCase();
   };
 
   const hash = (block) => {
@@ -205,13 +205,13 @@
     const context = blake.blake2bInit(32, null);
     blake.blake2bUpdate(context, hexToBytes(preamble));
     blake.blake2bUpdate(
-      context,
-      hexToBytes(getAccountPublicKey(block.account))
+        context,
+        hexToBytes(getAccountPublicKey(block.account)),
     );
     blake.blake2bUpdate(context, hexToBytes(block.previous));
     blake.blake2bUpdate(
-      context,
-      hexToBytes(getAccountPublicKey(block.representative))
+        context,
+        hexToBytes(getAccountPublicKey(block.representative)),
     );
 
     // console.log( `block.balance:${block.balance}` );
@@ -354,15 +354,15 @@
     const isAccountValid = isAccountSuffixValid(accountCrop);
     if (!isAccountValid.valid) {
       throw Error(
-        `Invalid BANANO Account '${account}', ${isAccountValid.message}`
+          `Invalid BANANO Account '${account}', ${isAccountValid.message}`,
       );
     }
 
     const keyUint4 = arrayCrop(
-      uint5ToUint4(stringToUint5(accountCrop.substring(0, 52)))
+        uint5ToUint4(stringToUint5(accountCrop.substring(0, 52))),
     );
     const hashUint4 = uint5ToUint4(
-      stringToUint5(accountCrop.substring(52, 60))
+        stringToUint5(accountCrop.substring(52, 60)),
     );
     const keyArray = uint4ToUint8(keyUint4);
     const blakeHash = blake.blake2b(keyArray, null, 5).reverse();
@@ -461,7 +461,7 @@
   const getAccountSuffix = (publicKey) => {
     const keyBytes = uint4ToUint8(hexToUint4(publicKey)); // For some reason here we go from u, to hex, to 4, to 8??
     const checksum = uint5ToString(
-      uint4ToUint5(uint8ToUint4(blake.blake2b(keyBytes, null, 5).reverse()))
+        uint4ToUint5(uint8ToUint4(blake.blake2b(keyBytes, null, 5).reverse())),
     );
     const account = uint5ToString(uint4ToUint5(hexToUint4(`0${publicKey}`)));
     return `${account}${checksum}`;
@@ -618,10 +618,10 @@
     /* istanbul ignore if */
     if (LOG_GET_HASH_CPU_WORKER) {
       console.log(
-        'SUCCESS getHashCPUWorker',
-        hash,
-        bytesToHex(startWorkBytes),
-        retval
+          'SUCCESS getHashCPUWorker',
+          hash,
+          bytesToHex(startWorkBytes),
+          retval,
       );
     }
     return retval;
@@ -690,14 +690,14 @@
   };
 
   const send = async (
-    bananodeApi,
-    seed,
-    seedIx,
-    destAccount,
-    amountRaw,
-    successCallback,
-    failureCallback,
-    accountPrefix
+      bananodeApi,
+      seed,
+      seedIx,
+      destAccount,
+      amountRaw,
+      successCallback,
+      failureCallback,
+      accountPrefix,
   ) => {
     /* istanbul ignore if */
     if (bananodeApi === undefined) {
@@ -741,34 +741,34 @@
       console.log(`INTERIM send ${seed} ${seedIx} ${privateKey}`);
     }
     await sendFromPrivateKey(
+        bananodeApi,
+        privateKey,
+        destAccount,
+        amountRaw,
+        accountPrefix,
+    )
+        .then((hash) => {
+        /* istanbul ignore if */
+          if (LOG_SEND) {
+            console.log(`SUCCESS send ${seed} ${seedIx} ${hash}`);
+          }
+          successCallback(hash);
+        })
+        .catch((error) => {
+        /* istanbul ignore if */
+          if (LOG_SEND) {
+            console.log('FAILURE send', error);
+          }
+          failureCallback(error);
+        });
+  };
+
+  const sendFromPrivateKey = async (
       bananodeApi,
       privateKey,
       destAccount,
       amountRaw,
-      accountPrefix
-    )
-      .then((hash) => {
-        /* istanbul ignore if */
-        if (LOG_SEND) {
-          console.log(`SUCCESS send ${seed} ${seedIx} ${hash}`);
-        }
-        successCallback(hash);
-      })
-      .catch((error) => {
-        /* istanbul ignore if */
-        if (LOG_SEND) {
-          console.log('FAILURE send', error);
-        }
-        failureCallback(error);
-      });
-  };
-
-  const sendFromPrivateKey = async (
-    bananodeApi,
-    privateKey,
-    destAccount,
-    amountRaw,
-    accountPrefix
+      accountPrefix,
   ) => {
     /* istanbul ignore if */
     if (bananodeApi === undefined) {
@@ -791,22 +791,22 @@
       throw Error('accountPrefix is a required parameter.');
     }
     return await sendFromPrivateKeyWithRepresentative(
-      bananodeApi,
-      privateKey,
-      destAccount,
-      amountRaw,
-      undefined,
-      accountPrefix
+        bananodeApi,
+        privateKey,
+        destAccount,
+        amountRaw,
+        undefined,
+        accountPrefix,
     );
   };
 
   const sendFromPrivateKeyWithRepresentative = async (
-    bananodeApi,
-    privateKey,
-    destAccount,
-    amountRaw,
-    newRepresentative,
-    accountPrefix
+      bananodeApi,
+      privateKey,
+      destAccount,
+      amountRaw,
+      newRepresentative,
+      accountPrefix,
   ) => {
     /* istanbul ignore if */
     if (bananodeApi === undefined) {
@@ -829,24 +829,24 @@
       throw Error('accountPrefix is a required parameter.');
     }
     return await sendFromPrivateKeyWithRepresentativeAndPrevious(
+        bananodeApi,
+        privateKey,
+        destAccount,
+        amountRaw,
+        newRepresentative,
+        undefined,
+        accountPrefix,
+    );
+  };
+
+  const sendFromPrivateKeyWithRepresentativeAndPrevious = async (
       bananodeApi,
       privateKey,
       destAccount,
       amountRaw,
       newRepresentative,
-      undefined,
-      accountPrefix
-    );
-  };
-
-  const sendFromPrivateKeyWithRepresentativeAndPrevious = async (
-    bananodeApi,
-    privateKey,
-    destAccount,
-    amountRaw,
-    newRepresentative,
-    newPrevious,
-    accountPrefix
+      newPrevious,
+      accountPrefix,
   ) => {
     /* istanbul ignore if */
     if (bananodeApi === undefined) {
@@ -874,7 +874,7 @@
     /* istanbul ignore if */
     if (LOG_SEND) {
       console.log(
-        `STARTED sendFromPrivateKeyWithRepresentativeAndPrevious ${destAccount} ${amountRaw}`
+          `STARTED sendFromPrivateKeyWithRepresentativeAndPrevious ${destAccount} ${amountRaw}`,
       );
     }
 
@@ -898,16 +898,16 @@
     const accountInfo = await bananodeApi.getAccountInfo(accountAddress);
     if (accountInfo == undefined) {
       throw Error(
-        `The server's account info cannot be retrieved, please try again.`
+          `The server's account info cannot be retrieved, please try again.`,
       );
     }
 
     /* istanbul ignore if */
     if (LOG_SEND) {
       console.log(
-        `SUCCESS getAccountInfo ${accountAddress} ${JSON.stringify(
-          accountInfo
-        )}`
+          `SUCCESS getAccountInfo ${accountAddress} ${JSON.stringify(
+              accountInfo,
+          )}`,
       );
     }
 
@@ -915,7 +915,7 @@
 
     if (balanceRaw == undefined) {
       throw Error(
-        `The server's account balance cannot be retrieved, please try again.`
+          `The server's account balance cannot be retrieved, please try again.`,
       );
     }
 
@@ -926,7 +926,7 @@
       const amountMajorAmount = amount[amount.majorName];
       //        console.log( `balance:${JSON.stringify( balance )}` );
       throw Error(
-        `The server's account balance of ${balanceMajorAmount} ${balance.majorName}s is too small, cannot withdraw ${amountMajorAmount} ${balance.majorName}s. In raw ${balanceRaw} < ${amountRaw}.`
+          `The server's account balance of ${balanceMajorAmount} ${balance.majorName}s is too small, cannot withdraw ${amountMajorAmount} ${balance.majorName}s. In raw ${balanceRaw} < ${amountRaw}.`,
       );
     }
 
@@ -944,7 +944,7 @@
       representative = newRepresentative;
     } else {
       representative = await bananodeApi.getAccountRepresentative(
-        accountAddress
+          accountAddress,
       );
     }
 
@@ -1015,13 +1015,13 @@
   };
 
   const open = async (
-    bananodeApi,
-    privateKey,
-    publicKey,
-    representative,
-    pending,
-    pendingValueRaw,
-    accountPrefix
+      bananodeApi,
+      privateKey,
+      publicKey,
+      representative,
+      pending,
+      pendingValueRaw,
+      accountPrefix,
   ) => {
     const work = await bananodeApi.getGeneratedWork(publicKey);
     const accountAddress = getAccount(publicKey, accountPrefix);
@@ -1055,10 +1055,10 @@
   };
 
   const change = async (
-    bananodeApi,
-    privateKey,
-    representative,
-    accountPrefix
+      bananodeApi,
+      privateKey,
+      representative,
+      accountPrefix,
   ) => {
     /* istanbul ignore if */
     if (bananodeApi === undefined) {
@@ -1078,7 +1078,7 @@
     /* istanbul ignore if */
     if (accountInfo == undefined) {
       throw Error(
-        `The server's account info cannot be retrieved, please try again.`
+          `The server's account info cannot be retrieved, please try again.`,
       );
     }
     const previous = accountInfo.frontier;
@@ -1088,7 +1088,7 @@
     /* istanbul ignore if */
     if (balanceRaw == undefined) {
       throw Error(
-        `The server's account balance cannot be retrieved, please try again.`
+          `The server's account balance cannot be retrieved, please try again.`,
       );
     }
 
@@ -1128,14 +1128,14 @@
   };
 
   const receive = async (
-    bananodeApi,
-    privateKey,
-    publicKey,
-    representative,
-    previous,
-    hash,
-    valueRaw,
-    accountPrefix
+      bananodeApi,
+      privateKey,
+      publicKey,
+      representative,
+      previous,
+      hash,
+      valueRaw,
+      accountPrefix,
   ) => {
     /* istanbul ignore if */
     if (bananodeApi === undefined) {

@@ -1,7 +1,7 @@
 'use strict';
 
 // STARTED TOP nodejs/browser hack
-(function () {
+(function() {
   // FINISHED TOP nodejs/browser hack
   const nacl = require('../../libraries/tweetnacl/nacl.js');
 
@@ -46,8 +46,8 @@
   const getSharedSecretBytes = (privateKeyBytes, publicKeyBytes) => {
     const camoPrivateKeyBytes = nacl.camo.hashsecret(privateKeyBytes);
     const secretBytes = nacl.camo.scalarMult(
-      camoPrivateKeyBytes,
-      publicKeyBytes
+        camoPrivateKeyBytes,
+        publicKeyBytes,
     );
 
     const context = blake.blake2bInit(32);
@@ -74,10 +74,10 @@
   };
 
   const isUnopenedPrivateKeyInSeed = async (
-    bananodeApi,
-    seed,
-    seedIx,
-    amountPrefix
+      bananodeApi,
+      seed,
+      seedIx,
+      amountPrefix,
   ) => {
     /* istanbul ignore if */
     if (amountPrefix == undefined) {
@@ -88,9 +88,9 @@
   };
 
   const isUnopenedPrivateKey = async (
-    bananodeApi,
-    privateKey,
-    amountPrefix
+      bananodeApi,
+      privateKey,
+      amountPrefix,
   ) => {
     /* istanbul ignore if */
     if (amountPrefix == undefined) {
@@ -113,9 +113,9 @@
   };
 
   const getFirstUnopenedPrivateKey = async (
-    bananodeApi,
-    seed,
-    amountPrefix
+      bananodeApi,
+      seed,
+      amountPrefix,
   ) => {
     /* istanbul ignore if */
     if (bananodeApi === undefined) {
@@ -131,18 +131,18 @@
     }
     let seedIx = 0;
     let isUnopenedPrivateKeyFlag = await isUnopenedPrivateKeyInSeed(
-      bananodeApi,
-      seed,
-      seedIx,
-      amountPrefix
+        bananodeApi,
+        seed,
+        seedIx,
+        amountPrefix,
     );
     while (!isUnopenedPrivateKeyFlag) {
       seedIx++;
       isUnopenedPrivateKeyFlag = await isUnopenedPrivateKeyInSeed(
-        bananodeApi,
-        seed,
-        seedIx,
-        amountPrefix
+          bananodeApi,
+          seed,
+          seedIx,
+          amountPrefix,
       );
     }
     //    console.log( 'getFirstUnopenedPrivateKey', seed, seedIx );
@@ -183,30 +183,30 @@
 
     let seedIx = 0;
     let isUnopenedPrivateKeyFlag = await isUnopenedPrivateKeyInSeed(
-      bananodeApi,
-      seed,
-      seedIx,
-      amountPrefix
+        bananodeApi,
+        seed,
+        seedIx,
+        amountPrefix,
     );
     unopenedAccounts.push(await getAccount(seed, seedIx, amountPrefix));
     while (!isUnopenedPrivateKeyFlag) {
       /* istanbul ignore if */
       if (LOG_RECEIVE) {
         console.log(
-          'INTERIM camo.receiveSeed',
-          'unopenedAccounts',
-          'seedIx',
-          seedIx
+            'INTERIM camo.receiveSeed',
+            'unopenedAccounts',
+            'seedIx',
+            seedIx,
         );
       }
 
       seedIx++;
       unopenedAccounts.push(await getAccount(seed, seedIx));
       isUnopenedPrivateKeyFlag = await isUnopenedPrivateKeyInSeed(
-        bananodeApi,
-        seed,
-        seedIx,
-        amountPrefix
+          bananodeApi,
+          seed,
+          seedIx,
+          amountPrefix,
       );
     }
     /* istanbul ignore if */
@@ -214,8 +214,8 @@
       console.log('accountsPending request', unopenedAccounts);
     }
     const accountsPending = await bananodeApi.getAccountsPending(
-      unopenedAccounts,
-      -1
+        unopenedAccounts,
+        -1,
     );
     /* istanbul ignore if */
     if (LOG_RECEIVE) {
@@ -232,8 +232,8 @@
       const publicKey = publicKeyByAccount[account];
       const representative = representativeByAccount[account];
       let isAccountOpenFlag = await bananoUtil.isAccountOpen(
-        bananodeApi,
-        account
+          bananodeApi,
+          account,
       );
       const pendingBlockHashs = Object.keys(accountsPending.blocks[account]);
       for (
@@ -249,15 +249,15 @@
         }
 
         const blockHash = await receiveBlock(
-          bananodeApi,
-          isAccountOpenFlag,
-          account,
-          privateKey,
-          publicKey,
-          representative,
-          pendingBlockHash,
-          pendingValueRaw,
-          amountPrefix
+            bananodeApi,
+            isAccountOpenFlag,
+            account,
+            privateKey,
+            publicKey,
+            representative,
+            pendingBlockHash,
+            pendingValueRaw,
+            amountPrefix,
         );
 
         accountOpenAndReceiveBlocks.push(blockHash);
@@ -268,15 +268,15 @@
   };
 
   const receiveBlock = async (
-    bananodeApi,
-    isAccountOpenFlag,
-    account,
-    privateKey,
-    publicKey,
-    representative,
-    pendingBlockHash,
-    pendingValueRaw,
-    amountPrefix
+      bananodeApi,
+      isAccountOpenFlag,
+      account,
+      privateKey,
+      publicKey,
+      representative,
+      pendingBlockHash,
+      pendingValueRaw,
+      amountPrefix,
   ) => {
     /* istanbul ignore if */
     if (bananodeApi === undefined) {
@@ -320,43 +320,43 @@
       const hash = pendingBlockHash;
       const valueRaw = pendingValueRaw;
       const receiveBlockHash = await bananoUtil.receive(
-        bananodeApi,
-        privateKey,
-        publicKey,
-        representative,
-        previous,
-        hash,
-        valueRaw,
-        amountPrefix
+          bananodeApi,
+          privateKey,
+          publicKey,
+          representative,
+          previous,
+          hash,
+          valueRaw,
+          amountPrefix,
       );
 
       /* istanbul ignore if */
       if (LOG_SWEEP_SEED_TO_INDEX) {
         console.log(
-          `accountsPending receiveBlockHash[${accountIx}]`,
-          account,
-          receiveBlockHash
+            `accountsPending receiveBlockHash[${accountIx}]`,
+            account,
+            receiveBlockHash,
         );
       }
       return receiveBlockHash;
     } else {
       const pending = pendingBlockHash;
       const openBlockHash = await bananoUtil.open(
-        bananodeApi,
-        privateKey,
-        publicKey,
-        representative,
-        pending,
-        pendingValueRaw,
-        amountPrefix
+          bananodeApi,
+          privateKey,
+          publicKey,
+          representative,
+          pending,
+          pendingValueRaw,
+          amountPrefix,
       );
 
       /* istanbul ignore if */
       if (LOG_SWEEP_SEED_TO_INDEX) {
         console.log(
-          `accountsPending openBlockHash[${accountIx}]`,
-          account,
-          openBlockHash
+            `accountsPending openBlockHash[${accountIx}]`,
+            account,
+            openBlockHash,
         );
       }
       return openBlockHash;
@@ -364,10 +364,10 @@
   };
 
   const getSharedSecretFromRepresentative = async (
-    bananodeApi,
-    toPrivateKey,
-    fromPublicKey,
-    amountPrefix
+      bananodeApi,
+      toPrivateKey,
+      fromPublicKey,
+      amountPrefix,
   ) => {
     /* istanbul ignore if */
     if (bananodeApi === undefined) {
@@ -387,7 +387,7 @@
     }
     const fromAccount = bananoUtil.getAccount(fromPublicKey, amountPrefix);
     const fromRepresentative = await bananodeApi.getAccountRepresentative(
-      fromAccount
+        fromAccount,
     );
     if (fromRepresentative) {
       const fromCamoPublicKey =
@@ -400,20 +400,20 @@
   };
 
   const getBalanceRaw = async (
-    bananodeApi,
-    toPrivateKey,
-    fromPublicKey,
-    amountPrefix
+      bananodeApi,
+      toPrivateKey,
+      fromPublicKey,
+      amountPrefix,
   ) => {
     /* istanbul ignore if */
     if (amountPrefix == undefined) {
       throw Error('amountPrefix is a required parameter.');
     }
     const sharedSecret = await getSharedSecretFromRepresentative(
-      bananodeApi,
-      toPrivateKey,
-      fromPublicKey,
-      amountPrefix
+        bananodeApi,
+        toPrivateKey,
+        fromPublicKey,
+        amountPrefix,
     );
 
     const seed = sharedSecret;
@@ -469,35 +469,35 @@
     /* istanbul ignore if */
     if (LOG_SPLIT_BIG_INT_INTO_POWERS_OF_TWO) {
       console.log(
-        `INTERIM splitBigIntIntoPowersOfTwo`,
-        'value',
-        value,
-        'divisor',
-        divisor
+          `INTERIM splitBigIntIntoPowersOfTwo`,
+          'value',
+          value,
+          'divisor',
+          divisor,
       );
     }
     while (divisor <= value) {
       /* istanbul ignore if */
       if (LOG_SPLIT_BIG_INT_INTO_POWERS_OF_TWO) {
         console.log(
-          `INTERIM splitBigIntIntoPowersOfTwo`,
-          'while ( divisor <= value )',
-          'value',
-          value,
-          'divisor',
-          divisor
+            `INTERIM splitBigIntIntoPowersOfTwo`,
+            'while ( divisor <= value )',
+            'value',
+            value,
+            'divisor',
+            divisor,
         );
       }
       if (divisor & value) {
         /* istanbul ignore if */
         if (LOG_SPLIT_BIG_INT_INTO_POWERS_OF_TWO) {
           console.log(
-            `INTERIM splitBigIntIntoPowersOfTwo`,
-            '(divisor & value)=true',
-            'value',
-            value,
-            'divisor',
-            divisor
+              `INTERIM splitBigIntIntoPowersOfTwo`,
+              '(divisor & value)=true',
+              'value',
+              value,
+              'divisor',
+              divisor,
           );
         }
         powersOfTwo.push(divisor);
@@ -505,12 +505,12 @@
         /* istanbul ignore if */
         if (LOG_SPLIT_BIG_INT_INTO_POWERS_OF_TWO) {
           console.log(
-            `INTERIM splitBigIntIntoPowersOfTwo`,
-            '(divisor & value)=false',
-            'value',
-            value,
-            'divisor',
-            divisor
+              `INTERIM splitBigIntIntoPowersOfTwo`,
+              '(divisor & value)=false',
+              'value',
+              value,
+              'divisor',
+              divisor,
           );
         }
       }
@@ -532,12 +532,12 @@
   };
 
   const send = async (
-    bananodeApi,
-    fundingPrivateKey,
-    fromPrivateKey,
-    toPublicKey,
-    amountRaw,
-    amountPrefix
+      bananodeApi,
+      fundingPrivateKey,
+      fromPrivateKey,
+      toPublicKey,
+      amountRaw,
+      amountPrefix,
   ) => {
     /* istanbul ignore if */
     if (bananodeApi === undefined) {
@@ -570,8 +570,8 @@
     }
 
     const bananoParts = bananoUtil.getAmountPartsFromRaw(
-      amountRaw,
-      amountPrefix
+        amountRaw,
+        amountPrefix,
     );
 
     /* istanbul ignore if */
@@ -580,7 +580,7 @@
     }
 
     const powersOfTwoBigInts = splitBigIntIntoPowersOfTwo(
-      BigInt(bananoParts[bananoParts.majorName])
+        BigInt(bananoParts[bananoParts.majorName]),
     );
 
     /* istanbul ignore if */
@@ -594,13 +594,13 @@
       /* istanbul ignore if */
       if (LOG_SEND) {
         console.log(
-          'camo.send.bananoParts[bananoParts.minorName]',
-          bananoParts[bananoParts.minorName]
+            'camo.send.bananoParts[bananoParts.minorName]',
+            bananoParts[bananoParts.minorName],
         );
       }
       const banoshiRaw = bananoUtil.getRawStrFromMinorAmountStr(
-        bananoParts[bananoParts.minorName],
-        amountPrefix
+          bananoParts[bananoParts.minorName],
+          amountPrefix,
       );
       /* istanbul ignore if */
       if (LOG_SEND) {
@@ -623,24 +623,24 @@
     ) {
       const powersOfTwoBigInt = powersOfTwoBigInts[powersOfTwoBigIntIx];
       const powersOfTwoRaw = bananoUtil.getRawStrFromMajorAmountStr(
-        powersOfTwoBigInt.toString(),
-        amountPrefix
+          powersOfTwoBigInt.toString(),
+          amountPrefix,
       );
       /* istanbul ignore if */
       if (LOG_SEND) {
         console.log(
-          `camo.send.powersOfTwoRaw[${powersOfTwoBigIntIx}]`,
-          powersOfTwoRaw
+            `camo.send.powersOfTwoRaw[${powersOfTwoBigIntIx}]`,
+            powersOfTwoRaw,
         );
       }
       amounts.push(powersOfTwoRaw);
     }
 
     const sharedSecret = await getSharedSecretFromRepresentative(
-      bananodeApi,
-      fromPrivateKey,
-      toPublicKey,
-      amountPrefix
+        bananodeApi,
+        fromPrivateKey,
+        toPublicKey,
+        amountPrefix,
     );
     /* istanbul ignore if */
     if (LOG_SEND) {
@@ -663,30 +663,30 @@
       /* istanbul ignore if */
       if (LOG_SEND) {
         console.log(
-          `STARTED camo.send[${destSeedIx}]`,
-          fundingPrivateKey,
-          destAccount,
-          amountRaw
+            `STARTED camo.send[${destSeedIx}]`,
+            fundingPrivateKey,
+            destAccount,
+            amountRaw,
         );
       }
       const hash =
         await bananoUtil.sendFromPrivateKeyWithRepresentativeAndPrevious(
-          bananodeApi,
-          fundingPrivateKey,
-          destAccount,
-          amountRaw,
-          undefined,
-          previous,
-          amountPrefix
+            bananodeApi,
+            fundingPrivateKey,
+            destAccount,
+            amountRaw,
+            undefined,
+            previous,
+            amountPrefix,
         );
       /* istanbul ignore if */
       if (LOG_SEND) {
         console.log(
-          `SUCCESS camo.send[${destSeedIx}]`,
-          'destPrivateKey',
-          destPrivateKey,
-          'hash',
-          hash
+            `SUCCESS camo.send[${destSeedIx}]`,
+            'destPrivateKey',
+            destPrivateKey,
+            'hash',
+            hash,
         );
       }
       previous = hash;
@@ -697,10 +697,10 @@
   };
 
   const receive = async (
-    bananodeApi,
-    toPrivateKey,
-    fromPublicKey,
-    amountPrefix
+      bananodeApi,
+      toPrivateKey,
+      fromPublicKey,
+      amountPrefix,
   ) => {
     /* istanbul ignore if */
     if (bananodeApi === undefined) {
@@ -725,10 +725,10 @@
     }
 
     const sharedSecret = await getSharedSecretFromRepresentative(
-      bananodeApi,
-      toPrivateKey,
-      fromPublicKey,
-      amountPrefix
+        bananodeApi,
+        toPrivateKey,
+        fromPublicKey,
+        amountPrefix,
     );
     /* istanbul ignore if */
     if (LOG_RECEIVE) {
@@ -793,11 +793,11 @@
   };
 
   const getSharedAccountData = async (
-    bananodeApi,
-    privateKey,
-    publicKey,
-    sharedSeedIx,
-    amountPrefix
+      bananodeApi,
+      privateKey,
+      publicKey,
+      sharedSeedIx,
+      amountPrefix,
   ) => {
     /* istanbul ignore if */
     if (bananodeApi === undefined) {
@@ -820,21 +820,21 @@
       throw Error('amountPrefix is a required parameter.');
     }
     const sharedSecret = await getSharedSecretFromRepresentative(
-      bananodeApi,
-      privateKey,
-      publicKey,
-      amountPrefix
+        bananodeApi,
+        privateKey,
+        publicKey,
+        amountPrefix,
     );
     if (sharedSecret) {
       const sharedSeed = sharedSecret;
       const sharedPrivateKey = bananoUtil.getPrivateKey(
-        sharedSeed,
-        sharedSeedIx
+          sharedSeed,
+          sharedSeedIx,
       );
       const sharedPublicKey = await bananoUtil.getPublicKey(sharedPrivateKey);
       const sharedAccount = bananoUtil.getAccount(
-        sharedPublicKey,
-        amountPrefix
+          sharedPublicKey,
+          amountPrefix,
       );
       const data = {};
       data.sharedSeed = sharedSeed;
@@ -848,12 +848,12 @@
   };
 
   const getAccountsPending = async (
-    bananodeApi,
-    toPrivateKey,
-    fromPublicKey,
-    sharedSeedIx,
-    count,
-    amountPrefix
+      bananodeApi,
+      toPrivateKey,
+      fromPublicKey,
+      sharedSeedIx,
+      count,
+      amountPrefix,
   ) => {
     /* istanbul ignore if */
     if (bananodeApi === undefined) {
@@ -880,11 +880,11 @@
       throw Error('amountPrefix is a required parameter.');
     }
     const accountData = await getSharedAccountData(
-      bananodeApi,
-      toPrivateKey,
-      fromPublicKey,
-      sharedSeedIx,
-      amountPrefix
+        bananodeApi,
+        toPrivateKey,
+        fromPublicKey,
+        sharedSeedIx,
+        amountPrefix,
     );
     if (accountData) {
       const accounts = [accountData.sharedAccount];

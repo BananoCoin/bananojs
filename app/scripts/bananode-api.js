@@ -1,7 +1,7 @@
 'use strict';
 
 // STARTED TOP nodejs/browser hack
-(function () {
+(function() {
   // FINISHED TOP nodejs/browser hack
   const https = require('https');
   const http = require('http');
@@ -109,26 +109,26 @@
     };
     return new Promise((resolve, reject) => {
       sendRequest(formData)
-        .catch((error) => {
+          .catch((error) => {
           // console.log( `accounts_balances error '${error.message}'` );
-          reject(error);
-        })
-        .then((json) => {
-          if (json == undefined) {
-            resolve();
-            return;
-          }
-          // console.log( 'accounts_balances json', json );
-          if (json.balances == undefined) {
-            resolve();
-            return;
-          }
-          // console.log( 'accounts_balances json.balances', json.balances );
-          resolve({
-            balance: json.balances[account].balance,
-            pending: json.balances[account].pending,
+            reject(error);
+          })
+          .then((json) => {
+            if (json == undefined) {
+              resolve();
+              return;
+            }
+            // console.log( 'accounts_balances json', json );
+            if (json.balances == undefined) {
+              resolve();
+              return;
+            }
+            // console.log( 'accounts_balances json.balances', json.balances );
+            resolve({
+              balance: json.balances[account].balance,
+              pending: json.balances[account].pending,
+            });
           });
-        });
     });
   };
 
@@ -143,18 +143,18 @@
     };
     return new Promise((resolve, reject) => {
       sendRequest(formData)
-        .catch((error) => {
+          .catch((error) => {
           // console.log(`accounts_balances error '${error.message}'`);
-          reject(error);
-        })
-        .then((json) => {
-          if (json === undefined || json.balances === undefined) {
-            resolve();
-            return;
-          }
-          console.log('accounts_balances json', json);
-          resolve(json);
-        });
+            reject(error);
+          })
+          .then((json) => {
+            if (json === undefined || json.balances === undefined) {
+              resolve();
+              return;
+            }
+            console.log('accounts_balances json', json);
+            resolve(json);
+          });
     });
   };
 
@@ -170,18 +170,18 @@
     };
     return new Promise((resolve, reject) => {
       sendRequest(formData)
-        .catch((error) => {
+          .catch((error) => {
           // console.log( `account_representative error '${error.message}'` );
-          reject(error);
-        })
-        .then((json) => {
-          if (json === undefined) {
-            resolve('');
-          } else {
-            const representative = json.representative;
-            resolve(representative);
-          }
-        });
+            reject(error);
+          })
+          .then((json) => {
+            if (json === undefined) {
+              resolve('');
+            } else {
+              const representative = json.representative;
+              resolve(representative);
+            }
+          });
     });
   };
 
@@ -199,26 +199,26 @@
     // console.log( `accounts_frontiers request ${account}` );
     return new Promise((resolve, reject) => {
       sendRequest(formData)
-        .catch((error) => {
+          .catch((error) => {
           // console.log( `accounts_frontiers error '${error.message}'` );
-          reject(error);
-        })
-        .then((json) => {
+            reject(error);
+          })
+          .then((json) => {
           // console.log( `accounts_frontiers response ${JSON.stringify( json )}` );
-          if (json === undefined) {
-            resolve('');
-          } else if (json.frontiers == undefined) {
+            if (json === undefined) {
+              resolve('');
+            } else if (json.frontiers == undefined) {
             // console.log( `accounts_frontiers response ${account}` );
-            resolve('');
-          } else if (json.frontiers == '') {
+              resolve('');
+            } else if (json.frontiers == '') {
             // console.log( `accounts_frontiers response ${account}` );
-            resolve('');
-          } else {
-            const previous = json.frontiers[account];
-            // console.log( `accounts_frontiers response ${account} ${previous}` );
-            resolve(previous);
-          }
-        });
+              resolve('');
+            } else {
+              const previous = json.frontiers[account];
+              // console.log( `accounts_frontiers response ${account} ${previous}` );
+              resolve(previous);
+            }
+          });
     });
   };
 
@@ -249,14 +249,14 @@
     // console.log( `account_history request ${JSON.stringify( formData )}` );
     return new Promise((resolve, reject) => {
       sendRequest(formData)
-        .catch((error) => {
+          .catch((error) => {
           // console.log( `account_history error '${error.message}'` );
-          reject(error);
-        })
-        .then((json) => {
+            reject(error);
+          })
+          .then((json) => {
           // console.log( `account_history response ${JSON.stringify( json )}` );
-          resolve(json);
-        });
+            resolve(json);
+          });
     });
   };
 
@@ -282,14 +282,14 @@
     // console.log( `account_info request ${JSON.stringify( formData )}` );
     return new Promise((resolve, reject) => {
       sendRequest(formData)
-        .catch((error) => {
+          .catch((error) => {
           // console.log( `account_info error '${error.message}'` );
-          reject(error);
-        })
-        .then((json) => {
+            reject(error);
+          })
+          .then((json) => {
           // console.log( `account_info response ${JSON.stringify( json )}` );
-          resolve(json);
-        });
+            resolve(json);
+          });
     });
   };
 
@@ -311,14 +311,14 @@
     // console.log( `blocks request ${JSON.stringify( formData )}` );
     return new Promise((resolve, reject) => {
       sendRequest(formData)
-        .catch((error) => {
+          .catch((error) => {
           // console.log( `blocks error '${error.message}'` );
-          reject(error);
-        })
-        .then((json) => {
+            reject(error);
+          })
+          .then((json) => {
           // console.log( `blocks response ${JSON.stringify( json )}` );
-          resolve(json);
-        });
+            resolve(json);
+          });
     });
   };
 
@@ -346,31 +346,31 @@
     // console.log( `process request ${JSON.stringify( formData )}` );
     return new Promise((resolve, reject) => {
       sendRequest(formData)
-        .catch((error) => {
+          .catch((error) => {
           // console.log( `process error '${error.message}'` );
-          reject(error);
-        })
-        .then((json) => {
+            reject(error);
+          })
+          .then((json) => {
           // console.log( `process response ${JSON.stringify( json )}` );
-          if (json === undefined) {
-            resolve('');
-          } else {
-            if (json.hash === undefined) {
-              // console.log(`process hash undefined`);
-              if (json.error === undefined) {
-                // console.log(`process error undefined`);
-                const jsonStr = JSON.stringify(json);
-                // console.log(`process reject ${jsonStr}`);
-                reject(Error(jsonStr));
-              } else {
-                reject(Error(json.error));
-              }
+            if (json === undefined) {
+              resolve('');
             } else {
-              const hash = json.hash;
-              resolve(hash);
+              if (json.hash === undefined) {
+              // console.log(`process hash undefined`);
+                if (json.error === undefined) {
+                // console.log(`process error undefined`);
+                  const jsonStr = JSON.stringify(json);
+                  // console.log(`process reject ${jsonStr}`);
+                  reject(Error(jsonStr));
+                } else {
+                  reject(Error(json.error));
+                }
+              } else {
+                const hash = json.hash;
+                resolve(hash);
+              }
             }
-          }
-        });
+          });
     });
   };
 
@@ -384,30 +384,30 @@
     /* istanbul ignore if */
     if (LOG_GET_GENERATED_WORK) {
       console.log(
-        `STARTED getGeneratedWork request ${JSON.stringify(formData)}`
+          `STARTED getGeneratedWork request ${JSON.stringify(formData)}`,
       );
     }
 
     return new Promise((resolve, reject) => {
       sendRequest(formData)
-        .catch((error) => {
+          .catch((error) => {
           // console.log( `getGeneratedWork error '${error.message}'` );
-          reject(error);
-        })
-        .then((json) => {
-          if (json === undefined) {
-            resolve('');
-          } else {
+            reject(error);
+          })
+          .then((json) => {
+            if (json === undefined) {
+              resolve('');
+            } else {
             /* istanbul ignore if */
-            if (LOG_GET_GENERATED_WORK) {
-              console.log(
-                `SUCCESS getGeneratedWork response ${JSON.stringify(json)}`
-              );
+              if (LOG_GET_GENERATED_WORK) {
+                console.log(
+                    `SUCCESS getGeneratedWork response ${JSON.stringify(json)}`,
+                );
+              }
+              const work = json.work;
+              resolve(work);
             }
-            const work = json.work;
-            resolve(work);
-          }
-        });
+          });
     });
   };
 
@@ -438,14 +438,14 @@
     // console.log( `accounts_pending request ${JSON.stringify( formData )}` );
     return new Promise((resolve, reject) => {
       sendRequest(formData)
-        .catch((error) => {
+          .catch((error) => {
           // console.log( `accounts_pending error '${error.message}'` );
-          reject(error);
-        })
-        .then((json) => {
+            reject(error);
+          })
+          .then((json) => {
           // console.log( `accounts_pending response ${JSON.stringify( json )}` );
-          resolve(json);
-        });
+            resolve(json);
+          });
     });
   };
 
@@ -462,14 +462,14 @@
     // console.log( `block_account request ${JSON.stringify( formData )}` );
     return new Promise((resolve, reject) => {
       sendRequest(formData)
-        .catch((error) => {
+          .catch((error) => {
           // console.log( `block_account error '${error.message}'` );
-          reject(error);
-        })
-        .then((json) => {
+            reject(error);
+          })
+          .then((json) => {
           // console.log( `block_account response ${JSON.stringify( json )}` );
-          resolve(json);
-        });
+            resolve(json);
+          });
     });
   };
 
@@ -491,14 +491,14 @@
     // console.log( `frontiers request ${JSON.stringify( formData )}` );
     return new Promise((resolve, reject) => {
       sendRequest(formData)
-        .catch((error) => {
+          .catch((error) => {
           // console.log( `frontiers error '${error.message}'` );
-          reject(error);
-        })
-        .then((json) => {
+            reject(error);
+          })
+          .then((json) => {
           // console.log( `frontiers response ${JSON.stringify( json )}` );
-          resolve(json);
-        });
+            resolve(json);
+          });
     });
   };
 
@@ -510,14 +510,14 @@
     // console.log( `block_count request ${JSON.stringify( formData )}` );
     return new Promise((resolve, reject) => {
       sendRequest(formData)
-        .catch((error) => {
+          .catch((error) => {
           // console.log( `block_count error '${error.message}'` );
-          reject(error);
-        })
-        .then((json) => {
+            reject(error);
+          })
+          .then((json) => {
           // console.log( `block_count response ${JSON.stringify( json )}` );
-          resolve(json);
-        });
+            resolve(json);
+          });
     });
   };
 

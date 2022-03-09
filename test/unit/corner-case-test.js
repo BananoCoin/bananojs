@@ -42,45 +42,45 @@ describe('corner-cases', () => {
       resolve();
     });
     await testUtil.expectErrorMessage(
-      message,
-      bananojs.getAccountPublicKey,
-      promise
+        message,
+        bananojs.getAccountPublicKey,
+        promise,
     );
   });
   it('getAccountPublicKey error Invalid BANANO Account prefix', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
-    const message = "Invalid BANANO Account prefix ''";
+    const message = 'Invalid BANANO Account prefix \'\'';
     await testUtil.expectErrorMessage(
-      message,
-      bananojs.getAccountPublicKey,
-      ''
+        message,
+        bananojs.getAccountPublicKey,
+        '',
     );
   });
   it('getAccountPublicKey error Invalid BANANO Account', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
     const message = `Invalid BANANO Account \'${invalidBanAccount}\', does not match regex '^[13456789abcdefghijkmnopqrstuwxyz]+$'`;
     await testUtil.expectErrorMessage(
-      message,
-      bananojs.getAccountPublicKey,
-      invalidBanAccount
+        message,
+        bananojs.getAccountPublicKey,
+        invalidBanAccount,
     );
   });
   it('getAccountPublicKey error Invalid NANO Account', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
     const message = `Invalid NANO Account prefix \'${invalidNanoAccount}\'`;
     await testUtil.expectErrorMessage(
-      message,
-      bananojs.getAccountPublicKey,
-      invalidNanoAccount
+        message,
+        bananojs.getAccountPublicKey,
+        invalidNanoAccount,
     );
   });
   it('getAccountPublicKey error Invalid CAMO BANANO Account prefix', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
     const message = `Invalid CAMO BANANO Account prefix \'${invalidCamoAccount}\'`;
     await testUtil.expectErrorMessage(
-      message,
-      bananojs.getAccountPublicKey,
-      invalidCamoAccount
+        message,
+        bananojs.getAccountPublicKey,
+        invalidCamoAccount,
     );
   });
   it('getAccountPublicKey camo', async () => {
@@ -115,7 +115,7 @@ describe('corner-cases', () => {
   });
   it('getBlockCount matches expected', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
-    const expected = { count: '1000', unchecked: '10' };
+    const expected = {count: '1000', unchecked: '10'};
     const actual = await bananojs.getBlockCount();
     expect(expected).to.deep.equal(actual);
   });
@@ -179,11 +179,11 @@ describe('corner-cases', () => {
     const bananojs = testUtil.getBananojsWithMockApi();
     const decimalAmount = '1.234567890123456789012345678901';
     const message =
-      "too many numbers past the decimal in '1.234567890123456789012345678901', remove 1 of them.";
+      'too many numbers past the decimal in \'1.234567890123456789012345678901\', remove 1 of them.';
     await testUtil.expectErrorMessage(
-      message,
-      bananojs.getBananoDecimalAmountAsRaw,
-      decimalAmount
+        message,
+        bananojs.getBananoDecimalAmountAsRaw,
+        decimalAmount,
     );
   });
   describe('getBananoPartsAsDecimal', () => {
@@ -194,7 +194,7 @@ describe('corner-cases', () => {
       expect(actualBananoParts.banoshi).to.equal('0');
       expect(actualBananoParts.raw).to.equal('0');
       const actualDecimal = await bananojs.getBananoPartsAsDecimal(
-        actualBananoParts
+          actualBananoParts,
       );
       const expectedDecimal = '0.00000000000000000000000000000';
       expect(actualDecimal).to.deep.equal(expectedDecimal);
@@ -207,7 +207,7 @@ describe('corner-cases', () => {
       expect(actualBananoParts.banoshi).to.equal(undefined);
       expect(actualBananoParts.raw).to.equal('0');
       const actualDecimal = await bananojs.getBananoPartsAsDecimal(
-        actualBananoParts
+          actualBananoParts,
       );
       const expectedDecimal = '0.00000000000000000000000000000';
       expect(actualDecimal).to.deep.equal(expectedDecimal);
@@ -220,7 +220,7 @@ describe('corner-cases', () => {
       expect(actualBananoParts.banoshi).to.equal('0');
       expect(actualBananoParts.raw).to.equal(undefined);
       const actualDecimal = await bananojs.getBananoPartsAsDecimal(
-        actualBananoParts
+          actualBananoParts,
       );
       const expectedDecimal = '0.00';
       expect(actualDecimal).to.deep.equal(expectedDecimal);
@@ -233,7 +233,7 @@ describe('corner-cases', () => {
       expect(actualBananoParts.banoshi).to.equal(undefined);
       expect(actualBananoParts.raw).to.equal(undefined);
       const actualDecimal = await bananojs.getBananoPartsAsDecimal(
-        actualBananoParts
+          actualBananoParts,
       );
       const expectedDecimal = '0';
       expect(actualDecimal).to.deep.equal(expectedDecimal);
@@ -241,15 +241,15 @@ describe('corner-cases', () => {
     it('getBananoPartsAsDecimal matches expected error', async () => {
       const actualDecimalAmount = '1.23456789012345678901234567890';
       const actualBananoParts = await bananojs.getBananoPartsFromDecimal(
-        actualDecimalAmount
+          actualDecimalAmount,
       );
       actualBananoParts.raw += '1';
       const message =
-        "too many numbers in bananoParts.raw '4567890123456789012345678901', remove 1 of them.";
+        'too many numbers in bananoParts.raw \'4567890123456789012345678901\', remove 1 of them.';
       await testUtil.expectErrorMessage(
-        message,
-        bananojs.getBananoPartsAsDecimal,
-        actualBananoParts
+          message,
+          bananojs.getBananoPartsAsDecimal,
+          actualBananoParts,
       );
     });
   });
@@ -271,11 +271,11 @@ describe('corner-cases', () => {
     };
     try {
       const actual = await bananojs.bananoUtil.sendFromPrivateKey(
-        bananodeApi,
-        accountSigner,
-        destAccount,
-        amountRaw,
-        bananojs.BANANO_PREFIX
+          bananodeApi,
+          accountSigner,
+          destAccount,
+          amountRaw,
+          bananojs.BANANO_PREFIX,
       );
       expect(expected).to.deep.equal(actual);
     } catch (e) {

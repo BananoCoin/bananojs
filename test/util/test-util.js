@@ -192,14 +192,14 @@ const getBananojsWithCamoApi = () => {
 };
 
 const expectErrorMessage = async (
-  errorMessage,
-  fn,
-  arg1,
-  arg2,
-  arg3,
-  arg4,
-  arg5,
-  arg6
+    errorMessage,
+    fn,
+    arg1,
+    arg2,
+    arg3,
+    arg4,
+    arg5,
+    arg6,
 ) => {
   try {
     await fn(arg1, arg2, arg3, arg4, arg5, arg6);

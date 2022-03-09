@@ -1,3 +1,4 @@
+/* eslint-disable */
 const url = 'https://kaliumapi.appditto.com/api';
 const maxHistory = 2;
 const maxPending = 2;

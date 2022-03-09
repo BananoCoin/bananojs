@@ -1,3 +1,4 @@
+/* eslint-disable */
 const require = (modname) => {
   if (typeof BigInt === 'undefined') {
     return;

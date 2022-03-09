@@ -3,7 +3,6 @@
 // libraries
 const chai = require('chai');
 const elliptic = require('elliptic');
-const bananojs = require('../../index.js');
 const crypto = require('crypto');
 
 // modules

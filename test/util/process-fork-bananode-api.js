@@ -11,7 +11,6 @@ const process = async (block, subtype) => {
   if (subtype == undefined) {
     throw Error(`'subtype' is a required parameter.'`);
   }
-  const hash = bananojs.getBlockHash(block);
   return new Promise((resolve, reject) => {
     const json = {};
     json.error = 'Fork';

@@ -139,7 +139,6 @@ const getBananojsWithMockApi = () => {
 };
 
 const getBananojsWithRealApi = () => {
-  const bananodeApi = require('./mock-bananode-api.js');
   bananojs.setBananodeApi(bananojs.realBananodeApi);
   return bananojs;
 };

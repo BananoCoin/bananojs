@@ -15,10 +15,6 @@ const getRandomBytes32Base16 = () => {
   return crypto.randomBytes(32).toString('hex').toUpperCase();
 };
 
-const getRandomBytes24Base16 = () => {
-  return crypto.randomBytes(24).toString('hex').toUpperCase();
-};
-
 const bytesToHex = bananojs.bananoUtil.bytesToHex;
 
 const hexToBytes = bananojs.bananoUtil.hexToBytes;

@@ -2,8 +2,6 @@
 
 const bananodeApi = require('./mock-bananode-api.js');
 
-const bananojs = require('../../index.js');
-
 const process = async (block, subtype) => {
   if (block == undefined) {
     throw Error(`'block' is a required parameter.'`);

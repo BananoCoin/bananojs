@@ -2,8 +2,6 @@
 
 const bananodeApi = require('./mock-bananode-api.js');
 
-const bananojs = require('../../index.js');
-
 const getAccountInfo = async (account) => {
   return undefined;
 };

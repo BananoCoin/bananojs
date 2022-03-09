@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.5.3
+//version 2.5.4
 //license MIT
 /* eslint-disable */
 const require = (modname) => {
@@ -191,7 +191,6 @@ window.bananocoin.bananojs.https.request = (
 
   return requestWriter;
 };
-/* eslint-disable */
 // STARTED TOP nodejs/browser hack
 (function() {
 // FINISHED TOP nodejs/browser hack
@@ -288,7 +287,6 @@ window.bananocoin.bananojs.https.request = (
   }
 })();
 // FINISHED BOTTOM nodejs/browser hack
-/* eslint-disable */
 // STARTED TOP nodejs/browser hack
 (function() {
 // FINISHED TOP nodejs/browser hack
@@ -581,7 +579,6 @@ window.bananocoin.bananojs.https.request = (
 })();
 // FINISHED BOTTOM nodejs/browser hack
 'use strict';
-/* eslint-disable */
 // STARTED TOP nodejs/browser hack
 (function() {
   const exports = (() => {

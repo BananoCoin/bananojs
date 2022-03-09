@@ -1,4 +1,3 @@
-/* eslint-disable */
 // STARTED TOP nodejs/browser hack
 (function() {
 // FINISHED TOP nodejs/browser hack

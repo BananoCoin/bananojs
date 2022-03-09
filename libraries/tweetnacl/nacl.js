@@ -1,6 +1,5 @@
 'use strict';
-
-
+/* eslint-disable */
 // STARTED TOP nodejs/browser hack
 (function() {
   const exports = (() => {

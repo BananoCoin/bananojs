@@ -792,7 +792,7 @@ Calls [https://docs.nano.org/commands/rpc-protocol/#account_history](https://doc
 | Param | Type | Description |
 | --- | --- | --- |
 | account | <code>string</code> | the account to use. |
-| count | <code>string</code> | the count to use (use -1 for all). |
+| count | <code>number</code> | the count to use (use -1 for all). |
 | head | <code>string</code> | the head to start at (optional). |
 | raw | <code>string</code> | if true, return raw history (optional). |
 

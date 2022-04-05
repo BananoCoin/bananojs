@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.5.6
+//version 2.5.7
 //license MIT
 /* eslint-disable */
 const require = (modname) => {
@@ -5969,7 +5969,7 @@ window.bananocoin.bananojs.https.request = (
    * Calls {@link https://docs.nano.org/commands/rpc-protocol/#account_history}
    * @memberof BananodeApi
    * @param {string} account the account to use.
-   * @param {string} count the count to use (use -1 for all).
+   * @param {number} count the count to use (use -1 for all).
    * @param {string} head the head to start at (optional).
    * @param {string} raw if true, return raw history (optional).
    * @return {Promise<object>} the account's history.

@@ -8,7 +8,7 @@
 
 ## to publish a new version (and put right version number in /dist/)
 
-    npm --no-git-tag-version version patch;npm run browserify;
+    npm --no-git-tag-version version patch;npm run build;
 
 ### good to commit here, so published code is same as NPM code.
 

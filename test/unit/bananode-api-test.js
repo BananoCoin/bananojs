@@ -10,6 +10,31 @@ const getFakeHttps = (retval) => {
   const fakeHttps = {};
   fakeHttps.request = (options, response) => {
     const fakeReq = {};
+    fakeReq.statusCode = 200;
+    const onFns = {};
+    fakeReq.on = (fnName, fn) => {
+      onFns[fnName] = fn;
+    };
+    fakeReq.write = (body) => {
+      const fn = onFns['data'];
+      fn(retval);
+    };
+    fakeReq.end = () => {
+      // console.log('onFns', onFns);
+      const fn = onFns['end'];
+      fn();
+    };
+    response(fakeReq);
+    return fakeReq;
+  };
+  return fakeHttps;
+};
+
+const getRateLimitedHttps = (retval) => {
+  const fakeHttps = {};
+  fakeHttps.request = (options, response) => {
+    const fakeReq = {};
+    fakeReq.statusCode = 429;
     const onFns = {};
     fakeReq.on = (fnName, fn) => {
       onFns[fnName] = fn;
@@ -33,6 +58,7 @@ const getErrorHttps = (retval) => {
   const errorHttps = {};
   errorHttps.request = (options, response) => {
     const fakeReq = {};
+    fakeReq.statusCode = 200;
     const onFns = {};
     fakeReq.on = (fnName, fn) => {
       onFns[fnName] = fn;
@@ -76,6 +102,33 @@ const getErrorBananodeApi = (retval) => {
   return bananojs.realBananodeApi;
 };
 
+const getRateLimitedBananodeApi = (retval) => {
+  const bananojs = testUtil.getBananojsWithRealApi();
+  bananojs.realBananodeApi.setUrl('http://localhost');
+  bananojs.realBananodeApi.setModuleRef(getRateLimitedHttps(retval));
+  bananojs.realBananodeApi.setLogRequestErrors(false);
+  return bananojs.realBananodeApi;
+};
+
+const callRateLimited = async (retval, fn, arg1, arg2, arg3, arg4) => {
+  if (retval === undefined) {
+    retval = '{}';
+  }
+  const api = getRateLimitedBananodeApi(retval);
+  // console.log('started api call', fn, arg1, arg2);
+  try {
+    const retval = await api[fn](arg1, arg2, arg3, arg4);
+    // console.log('success api call', fn, arg1, arg2);
+    return retval;
+  } catch (error) {
+    const errorJson = JSON.parse(error.message);
+    if (errorJson.statusCode == 429) {
+      return;
+    }
+    console.trace('callRateLimited', error.message);
+  }
+};
+
 const callFake = async (retval, fn, arg1, arg2, arg3, arg4) => {
   if (retval === undefined) {
     retval = '{}';
@@ -102,6 +155,7 @@ const callRequestError = async (retval, fn, arg1, arg2, arg3, arg4) => {
     // console.log('success api call', fn, arg1, arg2);
     return retval;
   } catch (error) {
+    // console.log('callRequestError', error);
     if (error.message == '{}') {
       return;
     }
@@ -142,6 +196,7 @@ const callResponseError = async (retval, fn, arg1, arg2, arg3, arg4) => {
 
 const call = async (retval, fn, arg1, arg2, arg3, arg4) => {
   await callFake(retval.fake, fn, arg1, arg2, arg3, arg4);
+  await callRateLimited(retval.fake, fn, arg1, arg2, arg3, arg4);
   await callRequestError(retval.fake, fn, arg1, arg2, arg3, arg4);
   await callResponseError(retval.error, fn, arg1, arg2, arg3, arg4);
 };

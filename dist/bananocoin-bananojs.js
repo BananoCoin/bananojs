@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.5.10
+//version 2.5.11
 //license MIT
 /* eslint-disable */
 const require = (modname) => {
@@ -2159,24 +2159,38 @@ window.bananocoin.bananojs.https.request = (
       // console.log('url', url);
       // console.log('apiUrl.protocol', apiUrl.protocol);
       const req = moduleRef.request(options, (res) => {
-        // console.log(`statusCode: ${res.statusCode}`);
-        let chunks = '';
-        res.on('data', (chunk) => {
-          chunks += chunk;
-        });
+        // console.log('res.statusCode', res.statusCode);
+        if (res.statusCode < 200 || res.statusCode > 299) {
+          // console.trace('error', res.statusCode);
+          let chunks = '';
+          res.on('data', (chunk) => {
+            chunks += chunk;
+          });
 
-        res.on('end', () => {
-          if (chunks.length == 0) {
-            resolve(undefined);
-          } else {
-            try {
-              const json = JSON.parse(chunks);
-              resolve(json);
-            } catch (error) {
-              reject(error);
+          res.on('end', () => {
+            // console.trace('error', res.statusCode);
+            reject(Error(JSON.stringify({body: chunks, statusCode: res.statusCode})));
+          });
+        } else {
+          // console.log(`statusCode: ${res.statusCode}`);
+          let chunks = '';
+          res.on('data', (chunk) => {
+            chunks += chunk;
+          });
+
+          res.on('end', () => {
+            if (chunks.length == 0) {
+              resolve(undefined);
+            } else {
+              try {
+                const json = JSON.parse(chunks);
+                resolve(json);
+              } catch (error) {
+                reject(error);
+              }
             }
-          }
-        });
+          });
+        }
       });
 
       req.on('error', (error) => {
@@ -2253,7 +2267,7 @@ window.bananocoin.bananojs.https.request = (
               resolve();
               return;
             }
-            console.log('accounts_balances json', json);
+            // console.log('accounts_balances json', json);
             resolve(json);
           });
     });

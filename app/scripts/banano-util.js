@@ -587,7 +587,7 @@
   const getHashCPUWorker = (hash, workBytes) => {
     /* istanbul ignore if */
     if (LOG_GET_HASH_CPU_WORKER) {
-      console.log('STARTED getHashCPUWorker', hash, bytesToHex(startWorkBytes));
+      console.log('STARTED getHashCPUWorker', hash, bytesToHex(workBytes));
     }
     /* istanbul ignore if */
     if (hash === undefined) {

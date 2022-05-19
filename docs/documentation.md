@@ -823,7 +823,7 @@ Calls [https://docs.nano.org/commands/rpc-protocol/#block_count](https://docs.na
 <a name="BananodeApi.getAccountsPending"></a>
 
 ### BananodeApi.getAccountsPending(accounts, count, source) ⇒ <code>Promise.&lt;object&gt;</code>
-Get the network block count.
+Get the pending blocks for the account.
 
 Calls [https://docs.nano.org/commands/rpc-protocol/#accounts_pending](https://docs.nano.org/commands/rpc-protocol/#accounts_pending)
 

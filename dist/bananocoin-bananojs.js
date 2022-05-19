@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.5.13
+//version 2.5.14
 //license MIT
 /* eslint-disable */
 const require = (modname) => {
@@ -6650,7 +6650,7 @@ window.bananocoin.bananojs.https.request = (
   };
 
   /**
-   * Get the network block count.
+   * Get the pending blocks for the account.
    *
    * Calls {@link https://docs.nano.org/commands/rpc-protocol/#accounts_pending}
    * @memberof BananodeApi

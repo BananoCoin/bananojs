@@ -37,7 +37,7 @@ run();
 
   <https://github.com/BananoCoin/bananojs/blob/master/docs/banano-client-side.md>
 
-# complete documentation of all functions
+# complete documentation of all functions that are documented.
 
   <https://github.com/BananoCoin/bananojs/blob/master/docs/documentation.md>
 

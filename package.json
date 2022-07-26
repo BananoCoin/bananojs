@@ -11,7 +11,7 @@
     "camo-test": "./node_modules/mocha/bin/mocha.js -t 1000000 test/camo",
     "coverage": "nyc -x 'test/util/**' -x 'test/unit/**' -x 'libraries/**' -x '**/mock-bananode-api.js' ./node_modules/mocha/bin/mocha.js -t 100000 test/unit",
     "coverage-win": "nyc -x 'test\\util\\**' -x 'test\\unit\\**' -x 'libraries\\**' -x '**\\mock-bananode-api.js' -x '**\\bananode-api.js' .\\node_modules\\mocha\\bin\\mocha -t 100000 test\\unit",
-    "docs": "jsdoc2md documentation.js index.js app/scripts/**/*.js > docs/documentation.md",
+    "docs": "jsdoc2md documentation.js index.js app/scripts/*.js > docs/documentation.md",
     "eslint": "eslint --fix '**/*.js'",
     "multisig-test": "./node_modules/mocha/bin/mocha.js -t 1000000 test/multisig",
     "npm-check-updates": "npm-check-updates --target minor -u",
@@ -19,6 +19,7 @@
     "prettier": "prettier \"**/**.{ts,json,css,scss,html}\" --write",
     "test": "./node_modules/mocha/bin/mocha.js -t 100000 test/unit",
     "test-win": ".\\node_modules\\mocha\\bin\\mocha -t 100000 test\\unit",
+    "typescript": "./node_modules/jsdoc/jsdoc.js -t node_modules/tsd-jsdoc/dist/ documentation.js index.js app/scripts/*.js -d console > index.d.ts",
     "vanity-test": "./node_modules/mocha/bin/mocha.js -t 1000000 test/vanity",
     "square-proof-test": "./node_modules/mocha/bin/mocha.js -t 1000000 test/square-proof",
     "start": "node main.js"
@@ -34,11 +35,13 @@
     "elliptic": "^6.5.4",
     "eslint": "^8.20.0",
     "eslint-config-google": "^0.14.0",
+    "jsdoc": "^3.6.11",
     "jsdoc-to-markdown": "^7.1.1",
     "mocha": "^10.0.0",
     "npm-check-updates": "^15.3.4",
     "nyc": "^15.1.0",
-    "prettier": "^2.7.1"
+    "prettier": "^2.7.1",
+    "tsd-jsdoc": "^2.5.0"
   },
   "description": "JavaScript utilities for the banano cryptocurrency.",
   "bugs": {

@@ -1,6 +1,6 @@
 {
   "name": "@bananocoin/bananojs",
-  "version": "2.5.17",
+  "version": "2.6.1",
   "module": "index.js",
   "repository": {
     "type": "git",
@@ -15,7 +15,7 @@
     "eslint": "eslint --fix '**/*.js'",
     "multisig-test": "./node_modules/mocha/bin/mocha.js -t 1000000 test/multisig",
     "npm-check-updates": "npm-check-updates --target minor -u",
-    "preflight": "npm update && npm run npm-check-updates && npm i && npm audit fix && npm run eslint && npm run prettier && npm run coverage && npm run docs && npm run build && npm outdated && echo 'preflight passed'",
+    "preflight": "npm update && npm run npm-check-updates && npm i && npm audit fix && npm run eslint && npm run prettier && npm run coverage && npm run docs && npm run build && npm run typescript && npm outdated && echo 'preflight passed'",
     "prettier": "prettier \"**/**.{ts,json,css,scss,html}\" --write",
     "test": "./node_modules/mocha/bin/mocha.js -t 100000 test/unit",
     "test-win": ".\\node_modules\\mocha\\bin\\mocha -t 100000 test\\unit",
@@ -38,7 +38,7 @@
     "jsdoc": "^3.6.11",
     "jsdoc-to-markdown": "^7.1.1",
     "mocha": "^10.0.0",
-    "npm-check-updates": "^15.3.4",
+    "npm-check-updates": "^16.0.1",
     "nyc": "^15.1.0",
     "prettier": "^2.7.1",
     "tsd-jsdoc": "^2.5.0"

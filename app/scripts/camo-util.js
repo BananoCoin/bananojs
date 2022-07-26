@@ -757,8 +757,9 @@
   };
 
   /**
-   * @memberof CamoUtil
    * checks if a camo account is valid.
+   *
+   * @memberof CamoUtil
    * @param {string} camoAccount the camo account.
    * @return {boolean} true if the camo account is valid.
    */

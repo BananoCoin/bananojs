@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.5.17
+//version 2.6.1
 //license MIT
 /* eslint-disable */
 const require = (modname) => {
@@ -5265,8 +5265,9 @@ window.bananocoin.bananojs.https.request = (
   };
 
   /**
-   * @memberof CamoUtil
    * checks if a camo account is valid.
+   *
+   * @memberof CamoUtil
    * @param {string} camoAccount the camo account.
    * @return {boolean} true if the camo account is valid.
    */
@@ -6384,6 +6385,8 @@ window.bananocoin.bananojs.https.request = (
 
   /**
    * get the pending blocks for the camo banano account.
+   *
+   * @memberof CamoUtil
    * @param {string} seed the seed to use to find the account.
    * @param {string} seedIx the index to use with the seed.
    * @param {string} fromAccount the account to recieve from.
@@ -6416,6 +6419,8 @@ window.bananocoin.bananojs.https.request = (
 
   /**
    * get the pending blocks for the camo nano account.
+   *
+   * @memberof CamoUtil
    * @param {string} seed the seed to use to find the account.
    * @param {string} seedIx the index to use with the seed.
    * @param {string} fromAccount the account to recieve from.
@@ -6448,6 +6453,8 @@ window.bananocoin.bananojs.https.request = (
 
   /**
    * returns data on whether a camo account is valid or not, and why.
+   *
+   * @memberof CamoUtil
    * @param {string} account the account to check.
    * @return {object} the account validity data.
    */
@@ -6458,6 +6465,8 @@ window.bananocoin.bananojs.https.request = (
 
   /**
    * get the banano shared account, used as an intermediary to send finds between the seed and the camo account.
+   *
+   * @memberof CamoUtil
    * @param {string} seed the seed to use to find the account.
    * @param {string} seedIx the index to use with the seed.
    * @param {string} account the camo account to send or recieve from.
@@ -6487,6 +6496,8 @@ window.bananocoin.bananojs.https.request = (
 
   /**
    * get the nano shared account, used as an intermediary to send finds between the seed and the camo account.
+   *
+   * @memberof CamoUtil
    * @param {string} seed the seed to use to find the account.
    * @param {string} seedIx the index to use with the seed.
    * @param {string} account the camo account to send or recieve from.

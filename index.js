@@ -946,6 +946,8 @@
 
   /**
    * get the pending blocks for the camo banano account.
+   *
+   * @memberof CamoUtil
    * @param {string} seed the seed to use to find the account.
    * @param {string} seedIx the index to use with the seed.
    * @param {string} fromAccount the account to recieve from.
@@ -978,6 +980,8 @@
 
   /**
    * get the pending blocks for the camo nano account.
+   *
+   * @memberof CamoUtil
    * @param {string} seed the seed to use to find the account.
    * @param {string} seedIx the index to use with the seed.
    * @param {string} fromAccount the account to recieve from.
@@ -1010,6 +1014,8 @@
 
   /**
    * returns data on whether a camo account is valid or not, and why.
+   *
+   * @memberof CamoUtil
    * @param {string} account the account to check.
    * @return {object} the account validity data.
    */
@@ -1020,6 +1026,8 @@
 
   /**
    * get the banano shared account, used as an intermediary to send finds between the seed and the camo account.
+   *
+   * @memberof CamoUtil
    * @param {string} seed the seed to use to find the account.
    * @param {string} seedIx the index to use with the seed.
    * @param {string} account the camo account to send or recieve from.
@@ -1049,6 +1057,8 @@
 
   /**
    * get the nano shared account, used as an intermediary to send finds between the seed and the camo account.
+   *
+   * @memberof CamoUtil
    * @param {string} seed the seed to use to find the account.
    * @param {string} seedIx the index to use with the seed.
    * @param {string} account the camo account to send or recieve from.

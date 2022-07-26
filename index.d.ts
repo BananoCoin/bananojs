@@ -19,6 +19,184 @@ declare namespace Main {
     function setBananodeApiUrl(url: string): undefined;
 }
 
+declare namespace CamoUtil {
+    /**
+     * receives banano funds at a camo address.
+     * @param toPrivateKey - the private key that receives the funds.
+     * @param fromPublicKey - the public key that sent the funds.
+     * @returns the received hashes in an array.
+     */
+    function camoBananoReceive(toPrivateKey: string, fromPublicKey: string): Promise<string_array>;
+    /**
+     * receives nano funds at a camo address.
+     * @param toPrivateKey - the private key that receives the funds.
+     * @param fromPublicKey - the public key that sent the funds.
+     * @returns the received hashes in an array.
+     */
+    function camoNanoReceive(toPrivateKey: string, fromPublicKey: string): Promise<string_array>;
+    /**
+     * finds a new private key to recieve more banano funds. the key would have no history.
+     * @param seed - the seed to use to find the account.
+     * @returns the private key to use.
+     */
+    function getCamoBananoNextPrivateKeyForReceive(seed: string): Promise<string>;
+    /**
+     * finds a new private key to recieve more banano funds. the key would have no history.
+     * @param seed - the seed to use to find the account.
+     * @returns the private key to use.
+     */
+    function getCamoNanoNextPrivateKeyForReceive(seed: string): Promise<string>;
+    /**
+     * sends banano funds to a camo address.
+     * @param fundingPrivateKey - the private key that sends the funds.
+     * @param fromCamoPrivateKey - the private key used to generate the shared seed.
+     * @param toCamoPublicKey - the public key that receives the funds.
+     * @param amountBananos - the amount of bananos.
+     * @returns the sent hashes in an array.
+     */
+    function camoBananoSend(fundingPrivateKey: string, fromCamoPrivateKey: string, toCamoPublicKey: string, amountBananos: string): Promise<string_array>;
+    /**
+     * sends camo funds to a camo address.
+     * @param fundingPrivateKey - the private key that sends the funds.
+     * @param fromCamoPrivateKey - the private key used to generate the shared seed.
+     * @param toCamoPublicKey - the public key that receives the funds.
+     * @param amountBananos - the amount of bananos.
+     * @returns the sent hashes in an array.
+     */
+    function camoNanoSend(fundingPrivateKey: string, fromCamoPrivateKey: string, toCamoPublicKey: string, amountBananos: string): Promise<string_array>;
+    /**
+     * sends banano funds to a camo account.
+     * This function uses seed index 0 to generate the shared secret,
+     * and seed index "seedIx" to get the private key that contains funds to send.
+     * @param seed - the seed to use to find the account.
+     * @param seedIx - the index to use with the seed.
+     * @param toAccount - the account to send to.
+     * @param amountBananos - the amount of bananos.
+     * @returns the sent hashes in an array.
+     */
+    function camoBananoSendWithdrawalFromSeed(seed: string, seedIx: string, toAccount: string, amountBananos: string): Promise<string_array>;
+    /**
+     * sends nano funds to a camo account.
+     * This function uses seed index 0 to generate the shared secret,
+     * and seed index "seedIx" to get the private key that contains funds to send.
+     * @param seed - the seed to use to find the account.
+     * @param seedIx - the index to use with the seed.
+     * @param toAccount - the account to send to.
+     * @param amountBananos - the amount of bananos.
+     * @returns the sent hashes in an array.
+     */
+    function camoNanoSendWithdrawalFromSeed(seed: string, seedIx: string, toAccount: string, amountBananos: string): Promise<string_array>;
+    /**
+     * get the pending blocks for the camo banano account.
+     * @param seed - the seed to use to find the account.
+     * @param seedIx - the index to use with the seed.
+     * @param fromAccount - the account to recieve from.
+     * @param sharedSeedIx - the index to use with the shared seed.
+     * @param count - the max count to get.
+     * @returns the pending hashes in an array.
+     */
+    function camoBananoGetAccountsPending(seed: string, seedIx: string, fromAccount: string, sharedSeedIx: number, count: number): Promise<string_array>;
+    /**
+     * get the pending blocks for the camo nano account.
+     * @param seed - the seed to use to find the account.
+     * @param seedIx - the index to use with the seed.
+     * @param fromAccount - the account to recieve from.
+     * @param sharedSeedIx - the index to use with the shared seed.
+     * @param count - the max count to get.
+     * @returns the pending hashes in an array.
+     */
+    function camoNanoGetAccountsPending(seed: string, seedIx: string, fromAccount: string, sharedSeedIx: number, count: number): Promise<string_array>;
+    /**
+     * returns data on whether a camo account is valid or not, and why.
+     * @param account - the account to check.
+     * @returns the account validity data.
+     */
+    function getCamoAccountValidationInfo(account: string): any;
+    /**
+     * get the banano shared account, used as an intermediary to send finds between the seed and the camo account.
+     * @param seed - the seed to use to find the account.
+     * @param seedIx - the index to use with the seed.
+     * @param account - the camo account to send or recieve from.
+     * @param sharedSeedIx - the index to use with the shared seed.
+     * @returns the shared account.
+     */
+    function getCamoBananoSharedAccountData(seed: string, seedIx: string, account: string, sharedSeedIx: string): Promise<string>;
+    /**
+     * get the nano shared account, used as an intermediary to send finds between the seed and the camo account.
+     * @param seed - the seed to use to find the account.
+     * @param seedIx - the index to use with the seed.
+     * @param account - the camo account to send or recieve from.
+     * @param sharedSeedIx - the index to use with the shared seed.
+     * @returns the shared account.
+     */
+    function getCamoNanoSharedAccountData(seed: string, seedIx: string, account: string, sharedSeedIx: string): Promise<string>;
+    /**
+     * Recieve banano deposits for a camo account with a given seed.
+     * @param seed - the seed to use to find the account.
+     * @param seedIx - the index to use with the seed.
+     * @param account - the camo account to send or recieve from.
+     * @param sharedSeedIx - the index to use with the shared seed.
+     * @param specificPendingBlockHash - the pending block to recieve.
+     * @returns the response from receiving the block.
+     */
+    function receiveCamoBananoDepositsForSeed(seed: string, seedIx: string, account: string, sharedSeedIx: string, specificPendingBlockHash: string): Promise<string>;
+    /**
+     * Recieve nano deposits for a camo account with a given seed.
+     * @param seed - the seed to use to find the account.
+     * @param seedIx - the index to use with the seed.
+     * @param account - the camo account to send or recieve from.
+     * @param sharedSeedIx - the index to use with the shared seed.
+     * @param specificPendingBlockHash - the pending block to recieve.
+     * @returns the response from receiving the block.
+     */
+    function receiveCamoNanoDepositsForSeed(seed: string, seedIx: string, account: string, sharedSeedIx: string, specificPendingBlockHash: string): Promise<string>;
+    /**
+     * gets the total banano account balance, in raw.
+     * @param toPrivateKey - the private key that receives the funds.
+     * @param fromPublicKey - the public key that sent the funds.
+     * @returns the account balance, in raw.
+     */
+    function getCamoBananoAccountBalanceRaw(toPrivateKey: string, fromPublicKey: string): Promise<string>;
+    /**
+     * gets the total nano account balance, in raw.
+     * @param toPrivateKey - the private key that receives the funds.
+     * @param fromPublicKey - the public key that sent the funds.
+     * @returns the account balance, in raw.
+     */
+    function getCamoNanoAccountBalanceRaw(toPrivateKey: string, fromPublicKey: string): Promise<string>;
+    /**
+     * Gets the camo public key from a private key.
+     *
+     * a normal banano public key is used in ECDSA.
+     *
+     * a camo public key is used in ECDH.
+     *
+     * this is why the derivation is different for the two keys.
+     * @param privateKey - the private key.
+     * @returns the camo public key.
+     */
+    function getCamoPublicKey(privateKey: string): string;
+    /**
+     * Gets the shared secret from a camo public key and a private key.
+     * @param privateKey - the private key.
+     * @param publicKey - the public key.
+     * @returns the shared secret.
+     */
+    function getSharedSecret(privateKey: string, publicKey: string): string;
+    /**
+     * Get the camo account for a given camo public key.
+     * @param camoPublicKey - the camo public key.
+     * @returns the camo account.
+     */
+    function getCamoAccount(camoPublicKey: string): string;
+    /**
+     * checks if a camo account is valid.
+     * @param camoAccount - the camo account.
+     * @returns true if the camo account is valid.
+     */
+    function isCamoAccountValid(camoAccount: string): boolean;
+}
+
 declare namespace BananoUtil {
     /**
      * converts amount from decimal to bananoParts.
@@ -333,6 +511,31 @@ declare namespace BananoUtil {
      * @returns an object saying if the account is valid, and why.
      */
     function getNanoAccountValidationInfo(account: string): AccountValidationInfo;
+}
+
+declare namespace WithdrawUtil {
+    /**
+     * Send a withdrawal from a banano account with a given seed.
+     * @param seed - the seed to use to find the account.
+     * @param seedIx - the index to use with the seed.
+     * @param toAccount - the account to send to.
+     * @param amountBananos - the amount of bananos.
+     * @param representative - the new representative (optional).
+     * @param previous - the new previous (optional).
+     * @returns returns the response returned by the withdraw.
+     */
+    function sendBananoWithdrawalFromSeed(seed: string, seedIx: string, toAccount: string, amountBananos: string, representative: string, previous: string): Promise<object>;
+    /**
+     * Send a withdrawal from a nano account with a given seed.
+     * @param seed - the seed to use to find the account.
+     * @param seedIx - the index to use with the seed.
+     * @param toAccount - the account to send to.
+     * @param amountBananos - the amount of bananos.
+     * @param representative - the new representative (optional).
+     * @param previous - the new previous (optional).
+     * @returns returns the response returned by the withdraw.
+     */
+    function sendNanoWithdrawalFromSeed(seed: string, seedIx: string, toAccount: string, amountBananos: string, representative: string, previous: string): Promise<object>;
 }
 
 declare namespace DepositUtil {

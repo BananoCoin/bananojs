@@ -8,7 +8,7 @@
 
 ## to publish a new version (and put right version number in /dist/)
 
-    npm --no-git-tag-version version patch;npm run build;
+    npm --no-git-tag-version version patch && npm run build && npm run typescript;
 
 ### good to commit here, so published code is same as NPM code.
 

@@ -3,7 +3,11 @@
 <dl>
 <dt><a href="#Main">Main</a> : <code>object</code></dt>
 <dd></dd>
+<dt><a href="#CamoUtil">CamoUtil</a> : <code>object</code></dt>
+<dd></dd>
 <dt><a href="#BananoUtil">BananoUtil</a> : <code>object</code></dt>
+<dd></dd>
+<dt><a href="#WithdrawUtil">WithdrawUtil</a> : <code>object</code></dt>
 <dd></dd>
 <dt><a href="#DepositUtil">DepositUtil</a> : <code>object</code></dt>
 <dd></dd>
@@ -65,6 +69,335 @@ Sets the URL to use for the node behind the Bananode Api
 | Param | Type | Description |
 | --- | --- | --- |
 | url | <code>string</code> | the new url |
+
+<a name="CamoUtil"></a>
+
+## CamoUtil : <code>object</code>
+**Kind**: global namespace  
+
+* [CamoUtil](#CamoUtil) : <code>object</code>
+    * [.camoBananoReceive(toPrivateKey, fromPublicKey)](#CamoUtil.camoBananoReceive) ⇒ <code>Promise.&lt;string\_array&gt;</code>
+    * [.camoNanoReceive(toPrivateKey, fromPublicKey)](#CamoUtil.camoNanoReceive) ⇒ <code>Promise.&lt;string\_array&gt;</code>
+    * [.getCamoBananoNextPrivateKeyForReceive(seed)](#CamoUtil.getCamoBananoNextPrivateKeyForReceive) ⇒ <code>Promise.&lt;string&gt;</code>
+    * [.getCamoNanoNextPrivateKeyForReceive(seed)](#CamoUtil.getCamoNanoNextPrivateKeyForReceive) ⇒ <code>Promise.&lt;string&gt;</code>
+    * [.camoBananoSend(fundingPrivateKey, fromCamoPrivateKey, toCamoPublicKey, amountBananos)](#CamoUtil.camoBananoSend) ⇒ <code>Promise.&lt;string\_array&gt;</code>
+    * [.camoNanoSend(fundingPrivateKey, fromCamoPrivateKey, toCamoPublicKey, amountBananos)](#CamoUtil.camoNanoSend) ⇒ <code>Promise.&lt;string\_array&gt;</code>
+    * [.camoBananoSendWithdrawalFromSeed(seed, seedIx, toAccount, amountBananos)](#CamoUtil.camoBananoSendWithdrawalFromSeed) ⇒ <code>Promise.&lt;string\_array&gt;</code>
+    * [.camoNanoSendWithdrawalFromSeed(seed, seedIx, toAccount, amountBananos)](#CamoUtil.camoNanoSendWithdrawalFromSeed) ⇒ <code>Promise.&lt;string\_array&gt;</code>
+    * [.camoBananoGetAccountsPending(seed, seedIx, fromAccount, sharedSeedIx, count)](#CamoUtil.camoBananoGetAccountsPending) ⇒ <code>Promise.&lt;string\_array&gt;</code>
+    * [.camoNanoGetAccountsPending(seed, seedIx, fromAccount, sharedSeedIx, count)](#CamoUtil.camoNanoGetAccountsPending) ⇒ <code>Promise.&lt;string\_array&gt;</code>
+    * [.getCamoAccountValidationInfo(account)](#CamoUtil.getCamoAccountValidationInfo) ⇒ <code>object</code>
+    * [.getCamoBananoSharedAccountData(seed, seedIx, account, sharedSeedIx)](#CamoUtil.getCamoBananoSharedAccountData) ⇒ <code>Promise.&lt;string&gt;</code>
+    * [.getCamoNanoSharedAccountData(seed, seedIx, account, sharedSeedIx)](#CamoUtil.getCamoNanoSharedAccountData) ⇒ <code>Promise.&lt;string&gt;</code>
+    * [.receiveCamoBananoDepositsForSeed(seed, seedIx, account, sharedSeedIx, specificPendingBlockHash)](#CamoUtil.receiveCamoBananoDepositsForSeed) ⇒ <code>Promise.&lt;string&gt;</code>
+    * [.receiveCamoNanoDepositsForSeed(seed, seedIx, account, sharedSeedIx, specificPendingBlockHash)](#CamoUtil.receiveCamoNanoDepositsForSeed) ⇒ <code>Promise.&lt;string&gt;</code>
+    * [.getCamoBananoAccountBalanceRaw(toPrivateKey, fromPublicKey)](#CamoUtil.getCamoBananoAccountBalanceRaw) ⇒ <code>Promise.&lt;string&gt;</code>
+    * [.getCamoNanoAccountBalanceRaw(toPrivateKey, fromPublicKey)](#CamoUtil.getCamoNanoAccountBalanceRaw) ⇒ <code>Promise.&lt;string&gt;</code>
+    * [.getCamoPublicKey(privateKey)](#CamoUtil.getCamoPublicKey) ⇒ <code>string</code>
+    * [.getSharedSecret(privateKey, publicKey)](#CamoUtil.getSharedSecret) ⇒ <code>string</code>
+    * [.getCamoAccount(camoPublicKey)](#CamoUtil.getCamoAccount) ⇒ <code>string</code>
+    * [.isCamoAccountValid(camoAccount)](#CamoUtil.isCamoAccountValid) ⇒ <code>boolean</code>
+
+<a name="CamoUtil.camoBananoReceive"></a>
+
+### CamoUtil.camoBananoReceive(toPrivateKey, fromPublicKey) ⇒ <code>Promise.&lt;string\_array&gt;</code>
+receives banano funds at a camo address.
+
+**Kind**: static method of [<code>CamoUtil</code>](#CamoUtil)  
+**Returns**: <code>Promise.&lt;string\_array&gt;</code> - the received hashes in an array.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| toPrivateKey | <code>string</code> | the private key that receives the funds. |
+| fromPublicKey | <code>string</code> | the public key that sent the funds. |
+
+<a name="CamoUtil.camoNanoReceive"></a>
+
+### CamoUtil.camoNanoReceive(toPrivateKey, fromPublicKey) ⇒ <code>Promise.&lt;string\_array&gt;</code>
+receives nano funds at a camo address.
+
+**Kind**: static method of [<code>CamoUtil</code>](#CamoUtil)  
+**Returns**: <code>Promise.&lt;string\_array&gt;</code> - the received hashes in an array.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| toPrivateKey | <code>string</code> | the private key that receives the funds. |
+| fromPublicKey | <code>string</code> | the public key that sent the funds. |
+
+<a name="CamoUtil.getCamoBananoNextPrivateKeyForReceive"></a>
+
+### CamoUtil.getCamoBananoNextPrivateKeyForReceive(seed) ⇒ <code>Promise.&lt;string&gt;</code>
+finds a new private key to recieve more banano funds. the key would have no history.
+
+**Kind**: static method of [<code>CamoUtil</code>](#CamoUtil)  
+**Returns**: <code>Promise.&lt;string&gt;</code> - the private key to use.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| seed | <code>string</code> | the seed to use to find the account. |
+
+<a name="CamoUtil.getCamoNanoNextPrivateKeyForReceive"></a>
+
+### CamoUtil.getCamoNanoNextPrivateKeyForReceive(seed) ⇒ <code>Promise.&lt;string&gt;</code>
+finds a new private key to recieve more banano funds. the key would have no history.
+
+**Kind**: static method of [<code>CamoUtil</code>](#CamoUtil)  
+**Returns**: <code>Promise.&lt;string&gt;</code> - the private key to use.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| seed | <code>string</code> | the seed to use to find the account. |
+
+<a name="CamoUtil.camoBananoSend"></a>
+
+### CamoUtil.camoBananoSend(fundingPrivateKey, fromCamoPrivateKey, toCamoPublicKey, amountBananos) ⇒ <code>Promise.&lt;string\_array&gt;</code>
+sends banano funds to a camo address.
+
+**Kind**: static method of [<code>CamoUtil</code>](#CamoUtil)  
+**Returns**: <code>Promise.&lt;string\_array&gt;</code> - the sent hashes in an array.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| fundingPrivateKey | <code>string</code> | the private key that sends the funds. |
+| fromCamoPrivateKey | <code>string</code> | the private key used to generate the shared seed. |
+| toCamoPublicKey | <code>string</code> | the public key that receives the funds. |
+| amountBananos | <code>string</code> | the amount of bananos. |
+
+<a name="CamoUtil.camoNanoSend"></a>
+
+### CamoUtil.camoNanoSend(fundingPrivateKey, fromCamoPrivateKey, toCamoPublicKey, amountBananos) ⇒ <code>Promise.&lt;string\_array&gt;</code>
+sends camo funds to a camo address.
+
+**Kind**: static method of [<code>CamoUtil</code>](#CamoUtil)  
+**Returns**: <code>Promise.&lt;string\_array&gt;</code> - the sent hashes in an array.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| fundingPrivateKey | <code>string</code> | the private key that sends the funds. |
+| fromCamoPrivateKey | <code>string</code> | the private key used to generate the shared seed. |
+| toCamoPublicKey | <code>string</code> | the public key that receives the funds. |
+| amountBananos | <code>string</code> | the amount of bananos. |
+
+<a name="CamoUtil.camoBananoSendWithdrawalFromSeed"></a>
+
+### CamoUtil.camoBananoSendWithdrawalFromSeed(seed, seedIx, toAccount, amountBananos) ⇒ <code>Promise.&lt;string\_array&gt;</code>
+sends banano funds to a camo account.
+This function uses seed index 0 to generate the shared secret,
+and seed index "seedIx" to get the private key that contains funds to send.
+
+**Kind**: static method of [<code>CamoUtil</code>](#CamoUtil)  
+**Returns**: <code>Promise.&lt;string\_array&gt;</code> - the sent hashes in an array.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| seed | <code>string</code> | the seed to use to find the account. |
+| seedIx | <code>string</code> | the index to use with the seed. |
+| toAccount | <code>string</code> | the account to send to. |
+| amountBananos | <code>string</code> | the amount of bananos. |
+
+<a name="CamoUtil.camoNanoSendWithdrawalFromSeed"></a>
+
+### CamoUtil.camoNanoSendWithdrawalFromSeed(seed, seedIx, toAccount, amountBananos) ⇒ <code>Promise.&lt;string\_array&gt;</code>
+sends nano funds to a camo account.
+This function uses seed index 0 to generate the shared secret,
+and seed index "seedIx" to get the private key that contains funds to send.
+
+**Kind**: static method of [<code>CamoUtil</code>](#CamoUtil)  
+**Returns**: <code>Promise.&lt;string\_array&gt;</code> - the sent hashes in an array.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| seed | <code>string</code> | the seed to use to find the account. |
+| seedIx | <code>string</code> | the index to use with the seed. |
+| toAccount | <code>string</code> | the account to send to. |
+| amountBananos | <code>string</code> | the amount of bananos. |
+
+<a name="CamoUtil.camoBananoGetAccountsPending"></a>
+
+### CamoUtil.camoBananoGetAccountsPending(seed, seedIx, fromAccount, sharedSeedIx, count) ⇒ <code>Promise.&lt;string\_array&gt;</code>
+get the pending blocks for the camo banano account.
+
+**Kind**: static method of [<code>CamoUtil</code>](#CamoUtil)  
+**Returns**: <code>Promise.&lt;string\_array&gt;</code> - the pending hashes in an array.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| seed | <code>string</code> | the seed to use to find the account. |
+| seedIx | <code>string</code> | the index to use with the seed. |
+| fromAccount | <code>string</code> | the account to recieve from. |
+| sharedSeedIx | <code>number</code> | the index to use with the shared seed. |
+| count | <code>number</code> | the max count to get. |
+
+<a name="CamoUtil.camoNanoGetAccountsPending"></a>
+
+### CamoUtil.camoNanoGetAccountsPending(seed, seedIx, fromAccount, sharedSeedIx, count) ⇒ <code>Promise.&lt;string\_array&gt;</code>
+get the pending blocks for the camo nano account.
+
+**Kind**: static method of [<code>CamoUtil</code>](#CamoUtil)  
+**Returns**: <code>Promise.&lt;string\_array&gt;</code> - the pending hashes in an array.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| seed | <code>string</code> | the seed to use to find the account. |
+| seedIx | <code>string</code> | the index to use with the seed. |
+| fromAccount | <code>string</code> | the account to recieve from. |
+| sharedSeedIx | <code>number</code> | the index to use with the shared seed. |
+| count | <code>number</code> | the max count to get. |
+
+<a name="CamoUtil.getCamoAccountValidationInfo"></a>
+
+### CamoUtil.getCamoAccountValidationInfo(account) ⇒ <code>object</code>
+returns data on whether a camo account is valid or not, and why.
+
+**Kind**: static method of [<code>CamoUtil</code>](#CamoUtil)  
+**Returns**: <code>object</code> - the account validity data.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| account | <code>string</code> | the account to check. |
+
+<a name="CamoUtil.getCamoBananoSharedAccountData"></a>
+
+### CamoUtil.getCamoBananoSharedAccountData(seed, seedIx, account, sharedSeedIx) ⇒ <code>Promise.&lt;string&gt;</code>
+get the banano shared account, used as an intermediary to send finds between the seed and the camo account.
+
+**Kind**: static method of [<code>CamoUtil</code>](#CamoUtil)  
+**Returns**: <code>Promise.&lt;string&gt;</code> - the shared account.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| seed | <code>string</code> | the seed to use to find the account. |
+| seedIx | <code>string</code> | the index to use with the seed. |
+| account | <code>string</code> | the camo account to send or recieve from. |
+| sharedSeedIx | <code>string</code> | the index to use with the shared seed. |
+
+<a name="CamoUtil.getCamoNanoSharedAccountData"></a>
+
+### CamoUtil.getCamoNanoSharedAccountData(seed, seedIx, account, sharedSeedIx) ⇒ <code>Promise.&lt;string&gt;</code>
+get the nano shared account, used as an intermediary to send finds between the seed and the camo account.
+
+**Kind**: static method of [<code>CamoUtil</code>](#CamoUtil)  
+**Returns**: <code>Promise.&lt;string&gt;</code> - the shared account.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| seed | <code>string</code> | the seed to use to find the account. |
+| seedIx | <code>string</code> | the index to use with the seed. |
+| account | <code>string</code> | the camo account to send or recieve from. |
+| sharedSeedIx | <code>string</code> | the index to use with the shared seed. |
+
+<a name="CamoUtil.receiveCamoBananoDepositsForSeed"></a>
+
+### CamoUtil.receiveCamoBananoDepositsForSeed(seed, seedIx, account, sharedSeedIx, specificPendingBlockHash) ⇒ <code>Promise.&lt;string&gt;</code>
+Recieve banano deposits for a camo account with a given seed.
+
+**Kind**: static method of [<code>CamoUtil</code>](#CamoUtil)  
+**Returns**: <code>Promise.&lt;string&gt;</code> - the response from receiving the block.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| seed | <code>string</code> | the seed to use to find the account. |
+| seedIx | <code>string</code> | the index to use with the seed. |
+| account | <code>string</code> | the camo account to send or recieve from. |
+| sharedSeedIx | <code>string</code> | the index to use with the shared seed. |
+| specificPendingBlockHash | <code>string</code> | the pending block to recieve. |
+
+<a name="CamoUtil.receiveCamoNanoDepositsForSeed"></a>
+
+### CamoUtil.receiveCamoNanoDepositsForSeed(seed, seedIx, account, sharedSeedIx, specificPendingBlockHash) ⇒ <code>Promise.&lt;string&gt;</code>
+Recieve nano deposits for a camo account with a given seed.
+
+**Kind**: static method of [<code>CamoUtil</code>](#CamoUtil)  
+**Returns**: <code>Promise.&lt;string&gt;</code> - the response from receiving the block.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| seed | <code>string</code> | the seed to use to find the account. |
+| seedIx | <code>string</code> | the index to use with the seed. |
+| account | <code>string</code> | the camo account to send or recieve from. |
+| sharedSeedIx | <code>string</code> | the index to use with the shared seed. |
+| specificPendingBlockHash | <code>string</code> | the pending block to recieve. |
+
+<a name="CamoUtil.getCamoBananoAccountBalanceRaw"></a>
+
+### CamoUtil.getCamoBananoAccountBalanceRaw(toPrivateKey, fromPublicKey) ⇒ <code>Promise.&lt;string&gt;</code>
+gets the total banano account balance, in raw.
+
+**Kind**: static method of [<code>CamoUtil</code>](#CamoUtil)  
+**Returns**: <code>Promise.&lt;string&gt;</code> - the account balance, in raw.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| toPrivateKey | <code>string</code> | the private key that receives the funds. |
+| fromPublicKey | <code>string</code> | the public key that sent the funds. |
+
+<a name="CamoUtil.getCamoNanoAccountBalanceRaw"></a>
+
+### CamoUtil.getCamoNanoAccountBalanceRaw(toPrivateKey, fromPublicKey) ⇒ <code>Promise.&lt;string&gt;</code>
+gets the total nano account balance, in raw.
+
+**Kind**: static method of [<code>CamoUtil</code>](#CamoUtil)  
+**Returns**: <code>Promise.&lt;string&gt;</code> - the account balance, in raw.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| toPrivateKey | <code>string</code> | the private key that receives the funds. |
+| fromPublicKey | <code>string</code> | the public key that sent the funds. |
+
+<a name="CamoUtil.getCamoPublicKey"></a>
+
+### CamoUtil.getCamoPublicKey(privateKey) ⇒ <code>string</code>
+Gets the camo public key from a private key.
+
+a normal banano public key is used in ECDSA.
+
+a camo public key is used in ECDH.
+
+this is why the derivation is different for the two keys.
+
+**Kind**: static method of [<code>CamoUtil</code>](#CamoUtil)  
+**Returns**: <code>string</code> - the camo public key.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| privateKey | <code>string</code> | the private key. |
+
+<a name="CamoUtil.getSharedSecret"></a>
+
+### CamoUtil.getSharedSecret(privateKey, publicKey) ⇒ <code>string</code>
+Gets the shared secret from a camo public key and a private key.
+
+**Kind**: static method of [<code>CamoUtil</code>](#CamoUtil)  
+**Returns**: <code>string</code> - the shared secret.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| privateKey | <code>string</code> | the private key. |
+| publicKey | <code>string</code> | the public key. |
+
+<a name="CamoUtil.getCamoAccount"></a>
+
+### CamoUtil.getCamoAccount(camoPublicKey) ⇒ <code>string</code>
+Get the camo account for a given camo public key.
+
+**Kind**: static method of [<code>CamoUtil</code>](#CamoUtil)  
+**Returns**: <code>string</code> - the camo account.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| camoPublicKey | <code>string</code> | the camo public key. |
+
+<a name="CamoUtil.isCamoAccountValid"></a>
+
+### CamoUtil.isCamoAccountValid(camoAccount) ⇒ <code>boolean</code>
+checks if a camo account is valid.
+
+**Kind**: static method of [<code>CamoUtil</code>](#CamoUtil)  
+**Returns**: <code>boolean</code> - true if the camo account is valid.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| camoAccount | <code>string</code> | the camo account. |
 
 <a name="BananoUtil"></a>
 
@@ -675,6 +1008,49 @@ If the account is not valid, the message describes why it is not valid.
 | Param | Type | Description |
 | --- | --- | --- |
 | account | <code>string</code> | the account. |
+
+<a name="WithdrawUtil"></a>
+
+## WithdrawUtil : <code>object</code>
+**Kind**: global namespace  
+
+* [WithdrawUtil](#WithdrawUtil) : <code>object</code>
+    * [.sendBananoWithdrawalFromSeed(seed, seedIx, toAccount, amountBananos, representative, previous)](#WithdrawUtil.sendBananoWithdrawalFromSeed) ⇒ <code>Promise.&lt;object&gt;</code>
+    * [.sendNanoWithdrawalFromSeed(seed, seedIx, toAccount, amountBananos, representative, previous)](#WithdrawUtil.sendNanoWithdrawalFromSeed) ⇒ <code>Promise.&lt;object&gt;</code>
+
+<a name="WithdrawUtil.sendBananoWithdrawalFromSeed"></a>
+
+### WithdrawUtil.sendBananoWithdrawalFromSeed(seed, seedIx, toAccount, amountBananos, representative, previous) ⇒ <code>Promise.&lt;object&gt;</code>
+Send a withdrawal from a banano account with a given seed.
+
+**Kind**: static method of [<code>WithdrawUtil</code>](#WithdrawUtil)  
+**Returns**: <code>Promise.&lt;object&gt;</code> - returns the response returned by the withdraw.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| seed | <code>string</code> | the seed to use to find the account. |
+| seedIx | <code>string</code> | the index to use with the seed. |
+| toAccount | <code>string</code> | the account to send to. |
+| amountBananos | <code>string</code> | the amount of bananos. |
+| representative | <code>string</code> | the new representative (optional). |
+| previous | <code>string</code> | the new previous (optional). |
+
+<a name="WithdrawUtil.sendNanoWithdrawalFromSeed"></a>
+
+### WithdrawUtil.sendNanoWithdrawalFromSeed(seed, seedIx, toAccount, amountBananos, representative, previous) ⇒ <code>Promise.&lt;object&gt;</code>
+Send a withdrawal from a nano account with a given seed.
+
+**Kind**: static method of [<code>WithdrawUtil</code>](#WithdrawUtil)  
+**Returns**: <code>Promise.&lt;object&gt;</code> - returns the response returned by the withdraw.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| seed | <code>string</code> | the seed to use to find the account. |
+| seedIx | <code>string</code> | the index to use with the seed. |
+| toAccount | <code>string</code> | the account to send to. |
+| amountBananos | <code>string</code> | the amount of bananos. |
+| representative | <code>string</code> | the new representative (optional). |
+| previous | <code>string</code> | the new previous (optional). |
 
 <a name="DepositUtil"></a>
 

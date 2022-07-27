@@ -14,20 +14,31 @@ For now here's now to get started:
 
 2.  generate a seed
 
-    ```js
-    const getRandomHex32 = () => {
-      const array = new Uint32Array(32);
+ ```js
+function uint8_to_hex(uint8) {
+  let hex_string = "";
+  for (let i=0; i < uint8.length; i++) {
+    let hex = uint8[i].toString(16);
+    if (hex.length === 1) {
+        hex = "0" + hex;
+    }
+    hex_string += hex;
+  }
+    return hex_string.toUpperCase();
+  }
+const getRandomHex32 = () => {
+      const array = new Uint32Array(8);
       window.crypto.getRandomValues(array);
-      const hex = getByteArrayAsHexString(array);
+      const hex = uint8_to_hex(array);
       return hex;
     };
 
     window.localStorage.seed = getRandomHex32();
-    ```
+   ```
 
 3.  look for account balances (will give an error in an unopened account)
 
-    ```js
+   ```js
     const getAccountInfo = async (ix) => {
       const url = 'https://kaliumapi.appditto.com/api';
       const seed = window.localStorage.seed;
@@ -43,11 +54,11 @@ For now here's now to get started:
       );
       return accountInfo;
     };
-    ```
+```
 
 4.  receive pending deposits
 
-    ```js
+ ```js
     const receiveBananoDeposits = async () => {
       const seed = window.localStorage.seed;
       const privateKey = await window.bananocoinBananojs.getPrivateKey(seed, 0);
@@ -61,11 +72,11 @@ For now here's now to get started:
         account
       );
     };
-    ```
+```
 
 5.  withdraw banano.
 
-    ```js
+  ```js
     const withdrawBanano = async (withdrawAccount, withdrawAmount) => {
       const seed = window.localStorage.seed;
       return await window.bananocoinBananojs.sendBananoWithdrawalFromSeed(
@@ -75,4 +86,4 @@ For now here's now to get started:
         withdrawAmount
       );
     };
-    ```
+```

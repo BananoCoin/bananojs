@@ -208,6 +208,9 @@ describe('bananode-api', () => {
   it('setUrl', async () => {
     await call({}, 'setUrl', undefined);
   });
+  it('getModuleRef', async () => {
+    await call({}, 'getModuleRef', '');
+  });
   describe('setAuth', () => {
     it('setAuth blank', async () => {
       await call({}, 'setAuth', '');

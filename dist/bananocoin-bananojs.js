@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.6.5
+//version 2.6.6
 //license MIT
 /* eslint-disable */
 const require = (modname) => {
@@ -2649,6 +2649,10 @@ window.bananocoin.bananojs.https.request = (
     // console.log('success serUrl', newUrl, url);
   };
 
+  const getModuleRef = () => {
+    return moduleRef;
+  };
+
   const setModuleRef = (newModuleRef) => {
     moduleRef = newModuleRef;
   };
@@ -2663,6 +2667,7 @@ window.bananocoin.bananojs.https.request = (
 
     exports.setUrl = setUrl;
     exports.setModuleRef = setModuleRef;
+    exports.getModuleRef = getModuleRef;
     exports.setLogRequestErrors = setLogRequestErrors;
     exports.getFrontiers = getFrontiers;
     exports.getBlockAccount = getBlockAccount;

@@ -1,6 +1,6 @@
 {
   "name": "@bananocoin/bananojs",
-  "version": "2.6.5",
+  "version": "2.6.6",
   "module": "index.js",
   "repository": {
     "type": "git",
@@ -38,7 +38,7 @@
     "jsdoc": "^3.6.11",
     "jsdoc-to-markdown": "^7.1.1",
     "mocha": "^10.0.0",
-    "npm-check-updates": "^16.0.6",
+    "npm-check-updates": "^16.1.0",
     "nyc": "^15.1.0",
     "prettier": "^2.7.1",
     "tsd-jsdoc": "^2.5.0"

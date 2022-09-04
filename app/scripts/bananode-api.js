@@ -548,6 +548,10 @@
     // console.log('success serUrl', newUrl, url);
   };
 
+  const getModuleRef = () => {
+    return moduleRef;
+  };
+
   const setModuleRef = (newModuleRef) => {
     moduleRef = newModuleRef;
   };
@@ -562,6 +566,7 @@
 
     exports.setUrl = setUrl;
     exports.setModuleRef = setModuleRef;
+    exports.getModuleRef = getModuleRef;
     exports.setLogRequestErrors = setLogRequestErrors;
     exports.getFrontiers = getFrontiers;
     exports.getBlockAccount = getBlockAccount;

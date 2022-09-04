@@ -40,6 +40,25 @@
   };
 
   /**
+   * Sets the Bananode Api Proxy (http pr https proxy)
+   * @memberof Main
+   * @param {Object} proxy the new proxy
+   * @return {undefined} returns nothing.
+   */
+  const setBananodeApiProxy = (proxy) => {
+    bananodeApi.setModuleRef(proxy);
+  };
+
+  /**
+   * Gets the Bananode Api Proxy (http pr https proxy)
+   * @memberof Main
+   * @return {Object} returns the module.
+   */
+  const getBananodeApiProxy = () => {
+    return bananodeApi.getModuleRef();
+  };
+
+  /**
    * converts amount from decimal to bananoParts.
    * @memberof BananoUtil
    * @param {string} decimalAmount the decimal amount of bananos.
@@ -1354,6 +1373,8 @@
 
     exports.setBananodeApi = setBananodeApi;
     exports.setAuth = setAuth;
+    exports.setBananodeApiProxy = setBananodeApiProxy;
+    exports.getBananodeApiProxy = getBananodeApiProxy;
     exports.getBananoPartsFromDecimal = getBananoPartsFromDecimal;
     exports.getBananoPartsAsDecimal = getBananoPartsAsDecimal;
     exports.getBananoDecimalAmountAsRaw = getBananoDecimalAmountAsRaw;

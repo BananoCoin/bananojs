@@ -30,6 +30,14 @@ describe('corner-cases', () => {
     const bananojs = testUtil.getBananojsWithMockApi();
     bananojs.setAuth('');
   });
+  it('setBananodeApiProxy', () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    bananojs.setBananodeApiProxy();
+  });
+  it('getBananodeApiProxy', () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    bananojs.getBananodeApiProxy();
+  });
   it('getAccountPublicKey error Undefined BANANO Account', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
     const message = 'Undefined BANANO Account';

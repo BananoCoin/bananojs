@@ -294,6 +294,10 @@ const setUrl = () => {};
 
 const setAuth = () => {};
 
+const setModuleRef = () => {};
+
+const getModuleRef = () => {};
+
 exports.getAccountBalanceRaw = getAccountBalanceRaw;
 exports.getAccountBalanceAndPendingRaw = getAccountBalanceAndPendingRaw;
 exports.getAccountsBalances = getAccountsBalances;
@@ -308,3 +312,5 @@ exports.getBlockCount = getBlockCount;
 exports.getFrontiers = getFrontiers;
 exports.setUrl = setUrl;
 exports.setAuth = setAuth;
+exports.setModuleRef = setModuleRef;
+exports.getModuleRef = getModuleRef;

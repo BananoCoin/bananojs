@@ -32,6 +32,8 @@
 * [Main](#Main) : <code>object</code>
     * [.setBananodeApi(_bananodeApi)](#Main.setBananodeApi) ⇒ <code>undefined</code>
     * [.setAuth(auth)](#Main.setAuth) ⇒ <code>undefined</code>
+    * [.setBananodeApiProxy(proxy)](#Main.setBananodeApiProxy) ⇒ <code>undefined</code>
+    * [.getBananodeApiProxy()](#Main.getBananodeApiProxy) ⇒ <code>Object</code>
     * [.setBananodeApiUrl(url)](#Main.setBananodeApiUrl) ⇒ <code>undefined</code>
 
 <a name="Main.setBananodeApi"></a>
@@ -58,6 +60,25 @@ Sets the Bananode Api Authorization
 | --- | --- | --- |
 | auth | <code>string</code> | the new authorization |
 
+<a name="Main.setBananodeApiProxy"></a>
+
+### Main.setBananodeApiProxy(proxy) ⇒ <code>undefined</code>
+Sets the Bananode Api Proxy (http pr https proxy)
+
+**Kind**: static method of [<code>Main</code>](#Main)  
+**Returns**: <code>undefined</code> - returns nothing.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| proxy | <code>Object</code> | the new proxy |
+
+<a name="Main.getBananodeApiProxy"></a>
+
+### Main.getBananodeApiProxy() ⇒ <code>Object</code>
+Gets the Bananode Api Proxy (http pr https proxy)
+
+**Kind**: static method of [<code>Main</code>](#Main)  
+**Returns**: <code>Object</code> - returns the module.  
 <a name="Main.setBananodeApiUrl"></a>
 
 ### Main.setBananodeApiUrl(url) ⇒ <code>undefined</code>

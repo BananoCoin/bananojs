@@ -12,6 +12,17 @@ declare namespace Main {
      */
     function setAuth(auth: string): undefined;
     /**
+     * Sets the Bananode Api Proxy (http pr https proxy)
+     * @param proxy - the new proxy
+     * @returns returns nothing.
+     */
+    function setBananodeApiProxy(proxy: any): undefined;
+    /**
+     * Gets the Bananode Api Proxy (http pr https proxy)
+     * @returns returns the module.
+     */
+    function getBananodeApiProxy(): any;
+    /**
      * Sets the URL to use for the node behind the Bananode Api
      * @param url - the new url
      * @returns returns nothing.

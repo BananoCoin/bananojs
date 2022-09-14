@@ -668,7 +668,7 @@
    *
    * @memberof BananoUtil
    * @param {string} seed the seed to use to find the account.
-   * @param {string} seedIx the index to use with the seed.
+   * @param {number} seedIx the index to use with the seed.
    * @return {string} the private key.
    */
   const getPrivateKey = (seed, seedIx) => {

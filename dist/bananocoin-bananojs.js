@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.6.9
+//version 2.6.11
 //license MIT
 /* eslint-disable */
 const require = (modname) => {
@@ -3416,7 +3416,7 @@ window.bananocoin.bananojs.https.request = (
    *
    * @memberof BananoUtil
    * @param {string} seed the seed to use to find the account.
-   * @param {string} seedIx the index to use with the seed.
+   * @param {number} seedIx the index to use with the seed.
    * @return {string} the private key.
    */
   const getPrivateKey = (seed, seedIx) => {

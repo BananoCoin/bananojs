@@ -1002,7 +1002,7 @@ Get the private key for a given seed.
 | Param | Type | Description |
 | --- | --- | --- |
 | seed | <code>string</code> | the seed to use to find the account. |
-| seedIx | <code>string</code> | the index to use with the seed. |
+| seedIx | <code>number</code> | the index to use with the seed. |
 
 <a name="BananoUtil.getBananoAccountValidationInfo"></a>
 

@@ -507,7 +507,7 @@ declare namespace BananoUtil {
      * @param seedIx - the index to use with the seed.
      * @returns the private key.
      */
-    function getPrivateKey(seed: string, seedIx: string): string;
+    function getPrivateKey(seed: string, seedIx: number): string;
     /**
      * Returns an object saying if the banano account is valid or not.
      * If the account is not valid, the message describes why it is not valid.

@@ -1371,6 +1371,13 @@
     exports.loggingUtil = loggingUtil;
     exports.realBananodeApi = realBananodeApi;
 
+    exports.Main = exports;
+    exports.CamoUtil = camoUtil;
+    exports.BananoUtil = bananoUtil;
+    exports.WithdrawUtil = withdrawUtil;
+    exports.DepositUtil = depositUtil;
+    exports.BananodeApi = bananodeApi;
+
     exports.setBananodeApi = setBananodeApi;
     exports.setAuth = setAuth;
     exports.setBananodeApiProxy = setBananodeApiProxy;

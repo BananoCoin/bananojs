@@ -957,7 +957,7 @@ returns true if the work (in bytes) for the hash (in bytes) is valid.
 | Param | Type | Description |
 | --- | --- | --- |
 | hashBytes | <code>string</code> | the hash bytes to check. |
-| workBytes | <code>string</code> | the work bytes to check. |
+| workBytes | <code>Uint8Array</code> | the work bytes to check. |
 
 <a name="BananoUtil.getZeroedWorkBytes"></a>
 

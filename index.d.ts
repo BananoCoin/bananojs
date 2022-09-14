@@ -482,7 +482,7 @@ declare namespace BananoUtil {
      * @param workBytes - the work bytes to check.
      * @returns true if the work is valid for the hash.
      */
-    function isWorkValid(hashBytes: string, workBytes: string): boolean;
+    function isWorkValid(hashBytes: string, workBytes: Uint8Array): boolean;
     /**
      * creates a new Uint8Array(8) to calculate work bytes.
      * @returns the bytes in a Uint8Array.
@@ -668,3 +668,14 @@ declare type AccountValidationInfo = {
 };
 
 
+export {
+  Main,
+  CamoUtil,
+  BananoUtil,
+  WithdrawUtil,
+  DepositUtil,
+  BananodeApi,
+  BananoParts,
+  AccountValidationInfo,
+  BANANO_PREFIX
+}

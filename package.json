@@ -1,12 +1,13 @@
 {
   "name": "@bananocoin/bananojs",
-  "version": "2.6.7",
+  "version": "2.6.9",
   "module": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bananocoin/bananojs.git"
   },
   "scripts": {
+    "build-export-ts": "node build/export-ts.js",
     "build": "node build/build.js",
     "camo-test": "./node_modules/mocha/bin/mocha.js -t 1000000 test/camo",
     "coverage": "nyc -x 'test/util/**' -x 'test/unit/**' -x 'libraries/**' -x '**/mock-bananode-api.js' ./node_modules/mocha/bin/mocha.js -t 100000 test/unit",
@@ -15,7 +16,8 @@
     "eslint": "eslint --fix '**/*.js'",
     "multisig-test": "./node_modules/mocha/bin/mocha.js -t 1000000 test/multisig",
     "npm-check-updates": "npm-check-updates --target minor -u",
-    "preflight": "npm update && npm run npm-check-updates && npm i && npm audit fix && npm run eslint && npm run prettier && npm run coverage && npm run docs && npm run build && npm run typescript && npm outdated && echo 'preflight passed'",
+    "preflight": "npm update && npm run npm-check-updates && npm i && npm audit fix && npm run eslint && npm run prettier && npm run coverage && npm run docs && npm run build && npm run typescript && npm run build-export-ts && npm outdated && echo 'preflight passed'",
+    "prepublish": "npm --no-git-tag-version version patch && npm run build && npm run typescript  && npm run build-export-ts;",
     "prettier": "prettier \"**/**.{ts,json,css,scss,html}\" --write",
     "test": "./node_modules/mocha/bin/mocha.js -t 100000 test/unit",
     "test-win": ".\\node_modules\\mocha\\bin\\mocha -t 100000 test\\unit",
@@ -33,12 +35,12 @@
   "devDependencies": {
     "chai": "^4.3.6",
     "elliptic": "^6.5.4",
-    "eslint": "^8.23.0",
+    "eslint": "^8.23.1",
     "eslint-config-google": "^0.14.0",
     "jsdoc": "^3.6.11",
     "jsdoc-to-markdown": "^7.1.1",
     "mocha": "^10.0.0",
-    "npm-check-updates": "^16.1.0",
+    "npm-check-updates": "^16.1.3",
     "nyc": "^15.1.0",
     "prettier": "^2.7.1",
     "tsd-jsdoc": "^2.5.0"

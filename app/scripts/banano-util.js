@@ -541,7 +541,7 @@
    *
    * @memberof BananoUtil
    * @param {string} hashBytes the hash bytes to check.
-   * @param {string} workBytes the work bytes to check.
+   * @param {Uint8Array} workBytes the work bytes to check.
    * @return {boolean} true if the work is valid for the hash.
    */
   const isWorkValid = (hashBytes, workBytes) => {

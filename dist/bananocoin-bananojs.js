@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.6.7
+//version 2.6.9
 //license MIT
 /* eslint-disable */
 const require = (modname) => {
@@ -3289,7 +3289,7 @@ window.bananocoin.bananojs.https.request = (
    *
    * @memberof BananoUtil
    * @param {string} hashBytes the hash bytes to check.
-   * @param {string} workBytes the work bytes to check.
+   * @param {Uint8Array} workBytes the work bytes to check.
    * @return {boolean} true if the work is valid for the hash.
    */
   const isWorkValid = (hashBytes, workBytes) => {
@@ -6814,6 +6814,13 @@ window.bananocoin.bananojs.https.request = (
     exports.withdrawUtil = withdrawUtil;
     exports.loggingUtil = loggingUtil;
     exports.realBananodeApi = realBananodeApi;
+
+    exports.Main = exports;
+    exports.CamoUtil = camoUtil;
+    exports.BananoUtil = bananoUtil;
+    exports.WithdrawUtil = withdrawUtil;
+    exports.DepositUtil = depositUtil;
+    exports.BananodeApi = bananodeApi;
 
     exports.setBananodeApi = setBananodeApi;
     exports.setAuth = setAuth;

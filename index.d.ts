@@ -687,6 +687,7 @@ declare type AccountValidationInfo = {
 
 
 export {
+  Block,
   Main,
   CamoUtil,
   BananoUtil,

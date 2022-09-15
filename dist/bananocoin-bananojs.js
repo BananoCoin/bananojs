@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.6.11
+//version 2.6.14
 //license MIT
 /* eslint-disable */
 const require = (modname) => {
@@ -3271,6 +3271,27 @@ window.bananocoin.bananojs.https.request = (
     return nacl.sign.detached.verify(hashBytes, signatureBytes, publicKeyBytes);
   };
 
+
+  /**
+   * @typedef {Object} Block
+   * @property {string} type
+   * @property {string} account
+   * @property {string} previous
+   * @property {string} representative
+   * @property {string} balance
+   * @property {string} link
+   * @property {string} signature
+   * @property {string} work
+   */
+
+  /**
+   * signs a block and returns the signature.
+   *
+   * @memberof BananoUtil
+   * @param {string} privateKey the private key to use to sign.
+   * @param {Block} block block to sign
+   * @return {string} the signature
+   */
   const sign = async (privateKey, block) => {
     if (typeof privateKey == 'object') {
       const hwResponse = await privateKey.signBlock(block);

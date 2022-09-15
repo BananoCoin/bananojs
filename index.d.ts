@@ -477,6 +477,13 @@ declare namespace BananoUtil {
      */
     function getAccount(publicKey: string, accountPrefix: string): string;
     /**
+     * signs a block and returns the signature.
+     * @param privateKey - the private key to use to sign.
+     * @param block - block to sign
+     * @returns the signature
+     */
+    function sign(privateKey: string, block: Block): string;
+    /**
      * returns true if the work (in bytes) for the hash (in bytes) is valid.
      * @param hashBytes - the hash bytes to check.
      * @param workBytes - the work bytes to check.
@@ -656,6 +663,17 @@ declare type BananoParts = {
     banano: string;
     banoshi: string;
     raw: string;
+};
+
+declare type Block = {
+    type: string;
+    account: string;
+    previous: string;
+    representative: string;
+    balance: string;
+    link: string;
+    signature: string;
+    work: string;
 };
 
 /**

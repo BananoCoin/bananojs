@@ -20,6 +20,8 @@
 <dl>
 <dt><a href="#BananoParts">BananoParts</a> : <code>Object</code></dt>
 <dd></dd>
+<dt><a href="#Block">Block</a> : <code>Object</code></dt>
+<dd></dd>
 <dt><a href="#AccountValidationInfo">AccountValidationInfo</a> : <code>Object</code></dt>
 <dd></dd>
 </dl>
@@ -461,6 +463,7 @@ checks if a camo account is valid.
     * [.getAccountPublicKey(account)](#BananoUtil.getAccountPublicKey) ⇒ <code>string</code>
     * [.getAccountSuffix(publicKey)](#BananoUtil.getAccountSuffix) ⇒ <code>string</code>
     * [.getAccount(publicKey, accountPrefix)](#BananoUtil.getAccount) ⇒ <code>string</code>
+    * [.sign(privateKey, block)](#BananoUtil.sign) ⇒ <code>string</code>
     * [.isWorkValid(hashBytes, workBytes)](#BananoUtil.isWorkValid) ⇒ <code>boolean</code>
     * [.getZeroedWorkBytes()](#BananoUtil.getZeroedWorkBytes) ⇒ <code>Uint8Array</code>
     * [.getPublicKey(privateKey)](#BananoUtil.getPublicKey) ⇒ <code>string</code>
@@ -946,6 +949,19 @@ Get the account for a given public key.
 | publicKey | <code>string</code> | the public key. |
 | accountPrefix | <code>string</code> | the prefix. ban_ or nano_. |
 
+<a name="BananoUtil.sign"></a>
+
+### BananoUtil.sign(privateKey, block) ⇒ <code>string</code>
+signs a block and returns the signature.
+
+**Kind**: static method of [<code>BananoUtil</code>](#BananoUtil)  
+**Returns**: <code>string</code> - the signature  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| privateKey | <code>string</code> | the private key to use to sign. |
+| block | [<code>Block</code>](#Block) | block to sign |
+
 <a name="BananoUtil.isWorkValid"></a>
 
 ### BananoUtil.isWorkValid(hashBytes, workBytes) ⇒ <code>boolean</code>
@@ -1256,6 +1272,23 @@ Sets an authorization string (http 'Authorization' header), useful if node requi
 | banano | <code>string</code> | The amount of banano. |
 | banoshi | <code>string</code> | The amount of banoshi (not counting whole banano). |
 | raw | <code>string</code> | The amount of raw (not counting whole banano and whole banoshi). |
+
+<a name="Block"></a>
+
+## Block : <code>Object</code>
+**Kind**: global typedef  
+**Properties**
+
+| Name | Type |
+| --- | --- |
+| type | <code>string</code> | 
+| account | <code>string</code> | 
+| previous | <code>string</code> | 
+| representative | <code>string</code> | 
+| balance | <code>string</code> | 
+| link | <code>string</code> | 
+| signature | <code>string</code> | 
+| work | <code>string</code> | 
 
 <a name="AccountValidationInfo"></a>
 

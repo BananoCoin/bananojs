@@ -1288,7 +1288,7 @@ Sets an authorization string (http 'Authorization' header), useful if node requi
 | balance | <code>string</code> | 
 | link | <code>string</code> | 
 | signature | <code>string</code> | 
-| work | <code>string</code> | 
+| work? | <code>string</code> | 
 
 <a name="AccountValidationInfo"></a>
 

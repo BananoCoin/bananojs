@@ -9,7 +9,7 @@ const path = require('path');
 const indexTsFileNm = 'index.d.ts';
 const lines = [
   'export {',
-  '  type Block,',
+  '  Block,',
   '  Main,',
   '  CamoUtil,',
   '  BananoUtil,',

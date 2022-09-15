@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.6.16
+//version 2.6.17
 //license MIT
 /* eslint-disable */
 const require = (modname) => {
@@ -3281,7 +3281,7 @@ window.bananocoin.bananojs.https.request = (
    * @property {string} balance
    * @property {string} link
    * @property {string} signature
-   * @property {string} work
+   * @property {string} work?
    */
 
   /**

@@ -673,7 +673,7 @@ declare type Block = {
     balance: string;
     link: string;
     signature: string;
-    work: string;
+    work?: string;
 };
 
 /**
@@ -687,7 +687,7 @@ declare type AccountValidationInfo = {
 
 
 export {
-  Block,
+  type Block,
   Main,
   CamoUtil,
   BananoUtil,

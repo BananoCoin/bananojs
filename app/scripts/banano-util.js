@@ -533,7 +533,7 @@
    * @property {string} balance
    * @property {string} link
    * @property {string} signature
-   * @property {string} work
+   * @property {string} work?
    */
 
   /**

@@ -500,7 +500,7 @@ declare namespace BananoUtil {
      * @param privateKey - the private key.
      * @returns the public key.
      */
-    function getPublicKey(privateKey: string): string;
+    function getPublicKey(privateKey: string): Promise<string>;
     /**
      * validates a seed.
      * @param seed - the seed to use to validate.

@@ -466,7 +466,7 @@ checks if a camo account is valid.
     * [.sign(privateKey, block)](#BananoUtil.sign) ⇒ <code>string</code>
     * [.isWorkValid(hashBytes, workBytes)](#BananoUtil.isWorkValid) ⇒ <code>boolean</code>
     * [.getZeroedWorkBytes()](#BananoUtil.getZeroedWorkBytes) ⇒ <code>Uint8Array</code>
-    * [.getPublicKey(privateKey)](#BananoUtil.getPublicKey) ⇒ <code>string</code>
+    * [.getPublicKey(privateKey)](#BananoUtil.getPublicKey) ⇒ <code>Promise.&lt;string&gt;</code>
     * [.isSeedValid(seed, seedIx)](#BananoUtil.isSeedValid) ⇒ <code>object</code>
     * [.getPrivateKey(seed, seedIx)](#BananoUtil.getPrivateKey) ⇒ <code>string</code>
     * [.getBananoAccountValidationInfo(account)](#BananoUtil.getBananoAccountValidationInfo) ⇒ [<code>AccountValidationInfo</code>](#AccountValidationInfo)
@@ -984,11 +984,11 @@ creates a new Uint8Array(8) to calculate work bytes.
 **Returns**: <code>Uint8Array</code> - the bytes in a Uint8Array.  
 <a name="BananoUtil.getPublicKey"></a>
 
-### BananoUtil.getPublicKey(privateKey) ⇒ <code>string</code>
+### BananoUtil.getPublicKey(privateKey) ⇒ <code>Promise.&lt;string&gt;</code>
 Get the public key for a given private key.
 
 **Kind**: static method of [<code>BananoUtil</code>](#BananoUtil)  
-**Returns**: <code>string</code> - the public key.  
+**Returns**: <code>Promise.&lt;string&gt;</code> - the public key.  
 
 | Param | Type | Description |
 | --- | --- | --- |

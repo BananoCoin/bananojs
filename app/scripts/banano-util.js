@@ -653,7 +653,7 @@
    *
    * @memberof BananoUtil
    * @param {string} privateKey the private key.
-   * @return {string} the public key.
+   * @return {Promise<string>} the public key.
    */
   const getPublicKey = async (privateKey) => {
     if (typeof privateKey == 'object') {

@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.6.21
+//version 2.6.23
 //license MIT
 /* eslint-disable */
 const require = (modname) => {
@@ -3401,7 +3401,7 @@ window.bananocoin.bananojs.https.request = (
    *
    * @memberof BananoUtil
    * @param {string} privateKey the private key.
-   * @return {string} the public key.
+   * @return {Promise<string>} the public key.
    */
   const getPublicKey = async (privateKey) => {
     if (typeof privateKey == 'object') {

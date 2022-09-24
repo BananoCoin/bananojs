@@ -637,6 +637,12 @@ declare namespace BananodeApi {
      */
     function getBlockCount(): Promise<object>;
     /**
+     * Enables rate limiting, which looks for the rate limiting headers in the response.
+     * @param flag - the flag to use.
+     * @returns returns nothing.
+     */
+    function setUseRateLimit(flag: string): undefined;
+    /**
      * Get the pending blocks for the account.
      *
      * Calls {@link https://docs.nano.org/commands/rpc-protocol/#accounts_pending}

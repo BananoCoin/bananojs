@@ -638,6 +638,17 @@
   };
 
   /**
+   * Enables rate limiting, which looks for the rate limiting headers in the response.
+   *
+   * @memberof BananodeApi
+   * @param {string} flag the flag to use.
+   * @return {undefined} returns nothing.
+   */
+  const setUseRateLimit = async (flag) => {
+    bananodeApi.setUseRateLimit(flag);
+  };
+
+  /**
    * Open a banano account with a given seed.
    * @memberof BananoUtil
    * @param {string} seed the seed to use to find the account.
@@ -1379,6 +1390,7 @@
     exports.BananodeApi = bananodeApi;
 
     exports.setBananodeApi = setBananodeApi;
+    exports.setUseRateLimit = setUseRateLimit;
     exports.setAuth = setAuth;
     exports.setBananodeApiProxy = setBananodeApiProxy;
     exports.getBananodeApiProxy = getBananodeApiProxy;

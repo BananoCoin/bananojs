@@ -1,8 +1,10 @@
 'use strict';
 
 // libraries
+const chai = require('chai');
 
 // modules
+const expect = chai.expect;
 
 const testUtil = require('../util/test-util.js');
 
@@ -24,6 +26,33 @@ const getFakeHttps = (retval) => {
       const fn = onFns['end'];
       fn();
     };
+    response(fakeReq);
+    return fakeReq;
+  };
+  return fakeHttps;
+};
+
+const getSoftRateLimitedHttps = (retval) => {
+  const fakeHttps = {};
+  fakeHttps.request = (options, response) => {
+    const fakeReq = {};
+    fakeReq.statusCode = 200;
+    const onFns = {};
+    fakeReq.on = (fnName, fn) => {
+      onFns[fnName] = fn;
+    };
+    fakeReq.write = (body) => {
+      const fn = onFns['data'];
+      fn(retval);
+    };
+    fakeReq.end = () => {
+      // console.log('onFns', onFns);
+      const fn = onFns['end'];
+      fn();
+    };
+    fakeReq.headers = {};
+    fakeReq.headers['x-ratelimit-remaining'] = 0;
+    fakeReq.headers['x-ratelimit-reset'] = Math.floor(Date.now() / 1000);
     response(fakeReq);
     return fakeReq;
   };
@@ -106,6 +135,14 @@ const getRateLimitedBananodeApi = (retval) => {
   const bananojs = testUtil.getBananojsWithRealApi();
   bananojs.realBananodeApi.setUrl('http://localhost');
   bananojs.realBananodeApi.setModuleRef(getRateLimitedHttps(retval));
+  bananojs.realBananodeApi.setLogRequestErrors(false);
+  return bananojs.realBananodeApi;
+};
+
+const getSoftRateLimitedBananodeApi = (retval) => {
+  const bananojs = testUtil.getBananojsWithRealApi();
+  bananojs.realBananodeApi.setUrl('http://localhost');
+  bananojs.realBananodeApi.setModuleRef(getSoftRateLimitedHttps(retval));
   bananojs.realBananodeApi.setLogRequestErrors(false);
   return bananojs.realBananodeApi;
 };
@@ -335,6 +372,43 @@ describe('bananode-api', () => {
       await call({fake: JSON.stringify(fakeResp)}, 'getAccountsBalances', [
         '',
       ]);
+    });
+  });
+
+  describe('delay', () => {
+    it('delay undefined', async () => {
+      const bananojs = testUtil.getBananojsWithRealApi();
+      bananojs.realBananodeApi.delay(undefined);
+    });
+    it('delay undefined', async () => {
+      const bananojs = testUtil.getBananojsWithRealApi();
+      bananojs.realBananodeApi.delay(Infinity);
+    });
+  });
+  describe('setUseRateLimit', () => {
+    it('setUseRateLimit', async () => {
+      const retval = {count: '1000', unchecked: '10'};
+      const bananojs = getSoftRateLimitedBananodeApi(JSON.stringify(retval));
+      bananojs.setUseRateLimit(true);
+      const expected = retval;
+      const actual = await bananojs.getBlockCount();
+      // console.log('expected', expected);
+      // console.log('actual', actual);
+      expect(expected).to.deep.equal(actual);
+    });
+    it('setUseRateLimit no headers', async () => {
+      const retval = {count: '1000', unchecked: '10'};
+      const bananojs = getFakeBananodeApi(JSON.stringify(retval));
+      bananojs.setUseRateLimit(true);
+      const expected = retval;
+      const actual = await bananojs.getBlockCount();
+      // console.log('expected', expected);
+      // console.log('actual', actual);
+      expect(expected).to.deep.equal(actual);
+    });
+    it('setUseRateLimit index', async () => {
+      const bananojs = testUtil.getBananojsWithRealApi();
+      bananojs.setUseRateLimit(true);
     });
   });
   beforeEach(async () => {});

@@ -1140,6 +1140,7 @@ Recieve deposits for a banano account with a given seed.
     * [.getAccountHistory(account, count, head, raw)](#BananodeApi.getAccountHistory) ⇒ <code>Promise.&lt;object&gt;</code>
     * [.getAccountInfo(account, representativeFlag)](#BananodeApi.getAccountInfo) ⇒ <code>Promise.&lt;object&gt;</code>
     * [.getBlockCount()](#BananodeApi.getBlockCount) ⇒ <code>Promise.&lt;object&gt;</code>
+    * [.setUseRateLimit(flag)](#BananodeApi.setUseRateLimit) ⇒ <code>undefined</code>
     * [.getAccountsPending(accounts, count, source)](#BananodeApi.getAccountsPending) ⇒ <code>Promise.&lt;object&gt;</code>
     * [.setAuth(authString)](#BananodeApi.setAuth) ⇒ <code>undefined</code>
 
@@ -1233,6 +1234,18 @@ Calls [https://docs.nano.org/commands/rpc-protocol/#block_count](https://docs.na
 
 **Kind**: static method of [<code>BananodeApi</code>](#BananodeApi)  
 **Returns**: <code>Promise.&lt;object&gt;</code> - the block count.  
+<a name="BananodeApi.setUseRateLimit"></a>
+
+### BananodeApi.setUseRateLimit(flag) ⇒ <code>undefined</code>
+Enables rate limiting, which looks for the rate limiting headers in the response.
+
+**Kind**: static method of [<code>BananodeApi</code>](#BananodeApi)  
+**Returns**: <code>undefined</code> - returns nothing.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| flag | <code>string</code> | the flag to use. |
+
 <a name="BananodeApi.getAccountsPending"></a>
 
 ### BananodeApi.getAccountsPending(accounts, count, source) ⇒ <code>Promise.&lt;object&gt;</code>

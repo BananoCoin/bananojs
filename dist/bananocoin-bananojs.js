@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.6.23
+//version 2.7.2
 //license MIT
 /* eslint-disable */
 const require = (modname) => {
@@ -2112,6 +2112,8 @@ window.bananocoin.bananojs.https.request = (
 
   let logRequestErrors = true;
 
+  let useRateLimit = false;
+
   const LOG_GET_GENERATED_WORK = false;
 
   let auth;
@@ -2125,6 +2127,20 @@ window.bananocoin.bananojs.https.request = (
    */
   const setAuth = (authString) => {
     auth = authString;
+  };
+
+  const delay = (time) => {
+    // console.log('delay', 'time', time);
+    if (!isNaN(time)) {
+      if (isFinite(time)) {
+        return new Promise((resolve) => {
+          const fn = () => {
+            resolve();
+          };
+          setTimeout(fn, time);
+        });
+      }
+    }
   };
 
   const sendRequest = async (formData) => {
@@ -2178,7 +2194,24 @@ window.bananocoin.bananojs.https.request = (
             chunks += chunk;
           });
 
-          res.on('end', () => {
+          res.on('end', async () => {
+            // console.log('headers', 'useRateLimit', useRateLimit);
+            if (useRateLimit) {
+              if (res.headers !== undefined) {
+                const lastRemaining = parseInt(res.headers['x-ratelimit-remaining'], 10);
+                // console.log('headers', 'lastRemaining', lastRemaining);
+                const lastReset = parseInt(res.headers['x-ratelimit-reset'], 10);
+                // console.log('headers', 'reset', lastReset);
+                const time = Math.floor(Date.now() / 1000);
+                // console.log('headers', 'timer', time);
+                const timeRemaining = lastReset-time;
+                // console.log('headers', 'timeRemaining', timeRemaining);
+                const pauseTime = Math.floor((timeRemaining*1000.0)/(lastRemaining+1));
+                // console.log('headers', 'pauseTime', pauseTime);
+                // console.log('headers', 'delay', 'start');
+                await delay(pauseTime);
+              }
+            }
             if (chunks.length == 0) {
               resolve(undefined);
             } else {
@@ -2657,6 +2690,11 @@ window.bananocoin.bananojs.https.request = (
     moduleRef = newModuleRef;
   };
 
+  const setUseRateLimit = (newUseRateLimit) => {
+    // console.log('setUseRateLimit', newUseRateLimit);
+    useRateLimit = newUseRateLimit;
+  };
+
   const setLogRequestErrors = (newLogRequestErrors) => {
     logRequestErrors = newLogRequestErrors;
   };
@@ -2666,9 +2704,11 @@ window.bananocoin.bananojs.https.request = (
     const exports = {};
 
     exports.setUrl = setUrl;
+    exports.delay = delay;
     exports.setModuleRef = setModuleRef;
     exports.getModuleRef = getModuleRef;
     exports.setLogRequestErrors = setLogRequestErrors;
+    exports.setUseRateLimit = setUseRateLimit;
     exports.getFrontiers = getFrontiers;
     exports.getBlockAccount = getBlockAccount;
     exports.getAccountsPending = getAccountsPending;
@@ -6103,6 +6143,17 @@ window.bananocoin.bananojs.https.request = (
   };
 
   /**
+   * Enables rate limiting, which looks for the rate limiting headers in the response.
+   *
+   * @memberof BananodeApi
+   * @param {string} flag the flag to use.
+   * @return {undefined} returns nothing.
+   */
+  const setUseRateLimit = async (flag) => {
+    bananodeApi.setUseRateLimit(flag);
+  };
+
+  /**
    * Open a banano account with a given seed.
    * @memberof BananoUtil
    * @param {string} seed the seed to use to find the account.
@@ -6844,6 +6895,7 @@ window.bananocoin.bananojs.https.request = (
     exports.BananodeApi = bananodeApi;
 
     exports.setBananodeApi = setBananodeApi;
+    exports.setUseRateLimit = setUseRateLimit;
     exports.setAuth = setAuth;
     exports.setBananodeApiProxy = setBananodeApiProxy;
     exports.getBananodeApiProxy = getBananodeApiProxy;

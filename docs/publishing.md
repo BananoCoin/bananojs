@@ -8,7 +8,7 @@
 
 ## to publish a new version (and put right version number in /dist/)
 
-    npm run prepublish;
+    npm run prenpmpublish;
 
 ### good to commit here, so published code is same as NPM code.
 

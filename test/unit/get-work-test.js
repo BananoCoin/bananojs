@@ -2,6 +2,7 @@
 
 // libraries
 const chai = require('chai');
+// const crypto = require('crypto');
 
 // modules
 const expect = chai.expect;
@@ -16,8 +17,18 @@ describe('get-work', () => {
       '2FA4DAA890EABA6A27415D70EEFF265B0744830421C406798C9B1E8B8E46258B';
     const bananojs = testUtil.getBananojsWithMockApi();
     const workBytes = bananojs.getBytesFromHex(expectedWorkStart).reverse();
-    // const workBytes = bananojs.getZeroedWorkBytes();
     const actualWork = bananojs.getWorkUsingCpu(expectedWorkHash, workBytes);
+    expect(expectedWork).to.deep.equal(actualWork);
+  });
+  it('getWork zero', () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    const expectedWorkHash = 'E2D8BD730E1512568378EC61A2367431F8AC35E66C46508CD0F9F3BCD94DE29B';
+    // start with zero work bytes, getWorkUsingCpu increments by 1 to find work bytes.
+    const workBytes = bananojs.getZeroedWorkBytes();
+    const actualWork = bananojs.getWorkUsingCpu(expectedWorkHash, workBytes);
+    // since we picked the hash to make the test fast.
+    // actualWork should be all zeros.
+    const expectedWork = bananojs.getHexFromBytes(workBytes);
     expect(expectedWork).to.deep.equal(actualWork);
   });
 

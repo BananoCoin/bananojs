@@ -18,7 +18,6 @@ const lines = [
   '  BananodeApi,',
   '  BananoParts,',
   '  AccountValidationInfo,',
-  '  BANANO_PREFIX',
   '}',
 ];
 

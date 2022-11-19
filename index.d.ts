@@ -1,4 +1,5 @@
 declare namespace Main {
+    const BANANO_PREFIX = "ban_";
     /**
      * Sets the Bananode Api (useful for overriding some methods)
      * @param _bananodeApi - the new bananodeApi
@@ -37,14 +38,14 @@ declare namespace CamoUtil {
      * @param fromPublicKey - the public key that sent the funds.
      * @returns the received hashes in an array.
      */
-    function camoBananoReceive(toPrivateKey: string, fromPublicKey: string): Promise<string_array>;
+    function camoBananoReceive(toPrivateKey: string, fromPublicKey: string): Promise<string[]>;
     /**
      * receives nano funds at a camo address.
      * @param toPrivateKey - the private key that receives the funds.
      * @param fromPublicKey - the public key that sent the funds.
      * @returns the received hashes in an array.
      */
-    function camoNanoReceive(toPrivateKey: string, fromPublicKey: string): Promise<string_array>;
+    function camoNanoReceive(toPrivateKey: string, fromPublicKey: string): Promise<string[]>;
     /**
      * finds a new private key to recieve more banano funds. the key would have no history.
      * @param seed - the seed to use to find the account.
@@ -65,7 +66,7 @@ declare namespace CamoUtil {
      * @param amountBananos - the amount of bananos.
      * @returns the sent hashes in an array.
      */
-    function camoBananoSend(fundingPrivateKey: string, fromCamoPrivateKey: string, toCamoPublicKey: string, amountBananos: string): Promise<string_array>;
+    function camoBananoSend(fundingPrivateKey: string, fromCamoPrivateKey: string, toCamoPublicKey: string, amountBananos: string): Promise<string[]>;
     /**
      * sends camo funds to a camo address.
      * @param fundingPrivateKey - the private key that sends the funds.
@@ -74,7 +75,7 @@ declare namespace CamoUtil {
      * @param amountBananos - the amount of bananos.
      * @returns the sent hashes in an array.
      */
-    function camoNanoSend(fundingPrivateKey: string, fromCamoPrivateKey: string, toCamoPublicKey: string, amountBananos: string): Promise<string_array>;
+    function camoNanoSend(fundingPrivateKey: string, fromCamoPrivateKey: string, toCamoPublicKey: string, amountBananos: string): Promise<string[]>;
     /**
      * sends banano funds to a camo account.
      * This function uses seed index 0 to generate the shared secret,
@@ -85,7 +86,7 @@ declare namespace CamoUtil {
      * @param amountBananos - the amount of bananos.
      * @returns the sent hashes in an array.
      */
-    function camoBananoSendWithdrawalFromSeed(seed: string, seedIx: string, toAccount: string, amountBananos: string): Promise<string_array>;
+    function camoBananoSendWithdrawalFromSeed(seed: string, seedIx: string, toAccount: string, amountBananos: string): Promise<string[]>;
     /**
      * sends nano funds to a camo account.
      * This function uses seed index 0 to generate the shared secret,
@@ -96,7 +97,7 @@ declare namespace CamoUtil {
      * @param amountBananos - the amount of bananos.
      * @returns the sent hashes in an array.
      */
-    function camoNanoSendWithdrawalFromSeed(seed: string, seedIx: string, toAccount: string, amountBananos: string): Promise<string_array>;
+    function camoNanoSendWithdrawalFromSeed(seed: string, seedIx: string, toAccount: string, amountBananos: string): Promise<string[]>;
     /**
      * get the pending blocks for the camo banano account.
      * @param seed - the seed to use to find the account.
@@ -106,7 +107,7 @@ declare namespace CamoUtil {
      * @param count - the max count to get.
      * @returns the pending hashes in an array.
      */
-    function camoBananoGetAccountsPending(seed: string, seedIx: string, fromAccount: string, sharedSeedIx: number, count: number): Promise<string_array>;
+    function camoBananoGetAccountsPending(seed: string, seedIx: string, fromAccount: string, sharedSeedIx: number, count: number): Promise<string[]>;
     /**
      * get the pending blocks for the camo nano account.
      * @param seed - the seed to use to find the account.
@@ -116,7 +117,7 @@ declare namespace CamoUtil {
      * @param count - the max count to get.
      * @returns the pending hashes in an array.
      */
-    function camoNanoGetAccountsPending(seed: string, seedIx: string, fromAccount: string, sharedSeedIx: number, count: number): Promise<string_array>;
+    function camoNanoGetAccountsPending(seed: string, seedIx: string, fromAccount: string, sharedSeedIx: number, count: number): Promise<string[]>;
     /**
      * returns data on whether a camo account is valid or not, and why.
      * @param account - the account to check.
@@ -608,7 +609,7 @@ declare namespace BananodeApi {
      * @param accounts - the account to use.
      * @returns the account's balances, in raw.
      */
-    function getAccountsBalances(accounts: string_array): Promise<object>;
+    function getAccountsBalances(accounts: string[]): Promise<object>;
     /**
      * Get the history for an account.
      *
@@ -651,7 +652,7 @@ declare namespace BananodeApi {
      * @param source - if true, get source.
      * @returns the account's pending blocks.
      */
-    function getAccountsPending(accounts: string_array, count: number, source: string): Promise<object>;
+    function getAccountsPending(accounts: string[], count: number, source: string): Promise<object>;
     /**
      * Sets an authorization string (http 'Authorization' header), useful if node requires api key.
      * @param authString - api key as a string\
@@ -702,5 +703,4 @@ export {
   BananodeApi,
   BananoParts,
   AccountValidationInfo,
-  BANANO_PREFIX
 }

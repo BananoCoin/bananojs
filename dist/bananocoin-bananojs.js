@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.7.9
+//version 2.7.10
 //license MIT
 /* eslint-disable */
 const require = (modname) => {
@@ -5516,6 +5516,10 @@ window.bananocoin.bananojs.https.request = (
   const withdrawUtil = require('./app/scripts/withdraw-util.js');
   const loggingUtil = require('./app/scripts/logging-util.js');
 
+  /**
+   * @constant {string}
+   * @memberof Main
+   */
   const BANANO_PREFIX = 'ban_';
 
   const NANO_PREFIX = 'nano_';
@@ -6056,7 +6060,7 @@ window.bananocoin.bananojs.https.request = (
    *
    * Calls {@link https://docs.nano.org/commands/rpc-protocol/#accounts_balances}
    * @memberof BananodeApi
-   * @param {string_array} accounts the account to use.
+   * @param {string[]} accounts the account to use.
    * @return {Promise<object>} the account's balances, in raw.
    */
   const getAccountsBalances = async (accounts) => {
@@ -6301,7 +6305,7 @@ window.bananocoin.bananojs.https.request = (
    * @memberof CamoUtil
    * @param {string} toPrivateKey the private key that receives the funds.
    * @param {string} fromPublicKey the public key that sent the funds.
-   * @return {Promise<string_array>} the received hashes in an array.
+   * @return {Promise<string[]>} the received hashes in an array.
    */
   const camoBananoReceive = async (toPrivateKey, fromPublicKey) => {
     return await camoUtil.receive(
@@ -6318,7 +6322,7 @@ window.bananocoin.bananojs.https.request = (
    * @memberof CamoUtil
    * @param {string} toPrivateKey the private key that receives the funds.
    * @param {string} fromPublicKey the public key that sent the funds.
-   * @return {Promise<string_array>} the received hashes in an array.
+   * @return {Promise<string[]>} the received hashes in an array.
    */
   const camoNanoReceive = async (toPrivateKey, fromPublicKey) => {
     return await camoUtil.receive(
@@ -6367,7 +6371,7 @@ window.bananocoin.bananojs.https.request = (
    * @param {string} fromCamoPrivateKey the private key used to generate the shared seed.
    * @param {string} toCamoPublicKey the public key that receives the funds.
    * @param {string} amountBananos the amount of bananos.
-   * @return {Promise<string_array>} the sent hashes in an array.
+   * @return {Promise<string[]>} the sent hashes in an array.
    */
   const camoBananoSend = async (
       fundingPrivateKey,
@@ -6394,7 +6398,7 @@ window.bananocoin.bananojs.https.request = (
    * @param {string} fromCamoPrivateKey the private key used to generate the shared seed.
    * @param {string} toCamoPublicKey the public key that receives the funds.
    * @param {string} amountBananos the amount of bananos.
-   * @return {Promise<string_array>} the sent hashes in an array.
+   * @return {Promise<string[]>} the sent hashes in an array.
    */
   const camoNanoSend = async (
       fundingPrivateKey,
@@ -6423,7 +6427,7 @@ window.bananocoin.bananojs.https.request = (
    * @param {string} seedIx the index to use with the seed.
    * @param {string} toAccount the account to send to.
    * @param {string} amountBananos the amount of bananos.
-   * @return {Promise<string_array>} the sent hashes in an array.
+   * @return {Promise<string[]>} the sent hashes in an array.
    */
   const camoBananoSendWithdrawalFromSeed = async (
       seed,
@@ -6456,7 +6460,7 @@ window.bananocoin.bananojs.https.request = (
    * @param {string} seedIx the index to use with the seed.
    * @param {string} toAccount the account to send to.
    * @param {string} amountBananos the amount of bananos.
-   * @return {Promise<string_array>} the sent hashes in an array.
+   * @return {Promise<string[]>} the sent hashes in an array.
    */
   const camoNanoSendWithdrawalFromSeed = async (
       seed,
@@ -6488,7 +6492,7 @@ window.bananocoin.bananojs.https.request = (
    * @param {string} fromAccount the account to recieve from.
    * @param {number} sharedSeedIx the index to use with the shared seed.
    * @param {number} count the max count to get.
-   * @return {Promise<string_array>} the pending hashes in an array.
+   * @return {Promise<string[]>} the pending hashes in an array.
    */
   const camoBananoGetAccountsPending = async (
       seed,
@@ -6522,7 +6526,7 @@ window.bananocoin.bananojs.https.request = (
    * @param {string} fromAccount the account to recieve from.
    * @param {number} sharedSeedIx the index to use with the shared seed.
    * @param {number} count the max count to get.
-   * @return {Promise<string_array>} the pending hashes in an array.
+   * @return {Promise<string[]>} the pending hashes in an array.
    */
   const camoNanoGetAccountsPending = async (
       seed,
@@ -6761,7 +6765,7 @@ window.bananocoin.bananojs.https.request = (
    *
    * Calls {@link https://docs.nano.org/commands/rpc-protocol/#accounts_pending}
    * @memberof BananodeApi
-   * @param {string_array} accounts the array of pending accounts.
+   * @param {string[]} accounts the array of pending accounts.
    * @param {number} count the max count to get.
    * @param {string} source if true, get source.
    * @return {Promise<object>} the account's pending blocks.

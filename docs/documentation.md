@@ -448,6 +448,8 @@ checks if a camo account is valid.
     * [.openBananoAccountFromSeed(seed, seedIx, representative, pendingBlockHash, pendingValueRaw)](#BananoUtil.openBananoAccountFromSeed) ⇒ <code>Promise.&lt;string&gt;</code>
     * [.openNanoAccountFromSeed(seed, seedIx, representative, pendingBlockHash, pendingValueRaw)](#BananoUtil.openNanoAccountFromSeed) ⇒ <code>Promise.&lt;string&gt;</code>
     * [.getBlockHash(block)](#BananoUtil.getBlockHash) ⇒ <code>string</code>
+    * [.signMessage(privateKey, message)](#BananoUtil.signMessage) ⇒ <code>string</code>
+    * [.verifyMessage(publicKey, message, signature)](#BananoUtil.verifyMessage) ⇒ <code>string</code>
     * [.signHash(privateKey, hash)](#BananoUtil.signHash) ⇒ <code>string</code>
     * [.verify(hash, signature, publicKey)](#BananoUtil.verify) ⇒ <code>string</code>
     * [.getSignature(privateKey, block)](#BananoUtil.getSignature) ⇒ <code>string</code>
@@ -700,6 +702,33 @@ Get the hash for a given block.
 | Param | Type | Description |
 | --- | --- | --- |
 | block | <code>string</code> | the seed to use to find the account. |
+
+<a name="BananoUtil.signMessage"></a>
+
+### BananoUtil.signMessage(privateKey, message) ⇒ <code>string</code>
+signs a utf-8 message with private key.
+
+**Kind**: static method of [<code>BananoUtil</code>](#BananoUtil)  
+**Returns**: <code>string</code> - the message's hash.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| privateKey | <code>string</code> | the private key to use to sign. |
+| message | <code>string</code> | the utf-8 message to sign. |
+
+<a name="BananoUtil.verifyMessage"></a>
+
+### BananoUtil.verifyMessage(publicKey, message, signature) ⇒ <code>string</code>
+verifies a utf-8 message with public key.
+
+**Kind**: static method of [<code>BananoUtil</code>](#BananoUtil)  
+**Returns**: <code>string</code> - the message's hash.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| publicKey | <code>string</code> | the public key to use to sign. |
+| message | <code>string</code> | the utf-8 message to verify. |
+| signature | <code>string</code> | hex of signature. |
 
 <a name="BananoUtil.signHash"></a>
 

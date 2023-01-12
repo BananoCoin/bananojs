@@ -3291,6 +3291,34 @@ window.bananocoin.bananojs.https.request = (
     return uint4;
   };
 
+  const utf8ToBytes = (utf8) => {
+    let bytes = new Uint8Array(utf8.length);
+    for (let i = 0; i < utf8.length; i++) {
+      let code = utf8.charCodeAt(i);
+      if (code > 0xff) {
+        throw Error("Non utf-8 character found");
+      }
+      bytes[i] = code;
+    }
+    return bytes;
+  }
+
+  const signMessage = (privateKey, message) => {
+    const messageBytes = utf8ToBytes(message);
+    const privateKeyBytes = hexToBytes(privateKey);
+    const signed = nacl.sign.detached(messageBytes, privateKeyBytes);
+    const signature = bytesToHex(signed);
+    return signature;
+  }
+
+  const verifyMessage = (publicKey, message, signature) => {
+    const messageBytes = utf8ToBytes(message);
+    const publicKeyBytes = hexToBytes(publicKey);
+    const signatureBytes = hexToBytes(signature);
+    const verifies = nacl.sign.detached.verify(messageBytes, signatureBytes, publicKeyBytes);
+    return verifies;
+  }
+
   const signHash = (privateKey, hash) => {
     //    console.log( `sign ${JSON.stringify( block )}` );
     const hashBytes = hexToBytes(hash);
@@ -4152,6 +4180,9 @@ window.bananocoin.bananojs.https.request = (
     exports.getPrivateKey = getPrivateKey;
     exports.hash = hash;
     exports.sign = sign;
+    exports.utf8ToBytes = utf8ToBytes;
+    exports.signMessage = signMessage;
+    exports.verifyMessage = verifyMessage;
     exports.signHash = signHash;
     exports.verify = verify;
     exports.getAccountPublicKey = getAccountPublicKey;
@@ -6229,6 +6260,31 @@ window.bananocoin.bananojs.https.request = (
   };
 
   /**
+   * signs a utf-8 message with private key.
+   *
+   * @memberof BananoUtil
+   * @param {string} privateKey the private key to use to sign.
+   * @param {string} message the utf-8 message to sign.
+   * @return {string} the message's hash.
+   */
+  const signMessage = (privateKey, message) => {
+    return bananoUtil.signMessage(privateKey, message);
+  };
+
+  /**
+   * verifies a utf-8 message with public key.
+   *
+   * @memberof BananoUtil
+   * @param {string} publicKey the public key to use to sign.
+   * @param {string} message the utf-8 message to verify.
+   * @param {string} signature hex of signature.
+   * @return {string} the message's hash.
+   */
+  const verifyMessage = (publicKey, message, signature) => {
+    return bananoUtil.verifyMessage(publicKey, message, signature);
+  }
+
+  /**
    * signs a hash.
    *
    * @memberof BananoUtil
@@ -6932,6 +6988,8 @@ window.bananocoin.bananojs.https.request = (
       changeBananoRepresentativeForSeed;
     exports.changeNanoRepresentativeForSeed = changeNanoRepresentativeForSeed;
     exports.getSignature = getSignature;
+    exports.signMessage = signMessage;
+    exports.verifyMessage = verifyMessage;
     exports.signHash = signHash;
     exports.verify = verify;
     exports.getBytesFromHex = getBytesFromHex;

@@ -724,6 +724,31 @@
   };
 
   /**
+   * signs a utf-8 message with private key.
+   *
+   * @memberof BananoUtil
+   * @param {string} privateKey the private key to use to sign.
+   * @param {string} message the utf-8 message to sign.
+   * @return {string} the message's hash.
+   */
+  const signMessage = (privateKey, message) => {
+    return bananoUtil.signMessage(privateKey, message);
+  };
+
+  /**
+   * verifies a utf-8 message with public key.
+   *
+   * @memberof BananoUtil
+   * @param {string} publicKey the public key to use to sign.
+   * @param {string} message the utf-8 message to verify.
+   * @param {string} signature hex of signature.
+   * @return {string} the message's hash.
+   */
+  const verifyMessage = (publicKey, message, signature) => {
+    return bananoUtil.verifyMessage(publicKey, message, signature);
+  }
+
+  /**
    * signs a hash.
    *
    * @memberof BananoUtil
@@ -1427,6 +1452,8 @@
       changeBananoRepresentativeForSeed;
     exports.changeNanoRepresentativeForSeed = changeNanoRepresentativeForSeed;
     exports.getSignature = getSignature;
+    exports.signMessage = signMessage;
+    exports.verifyMessage = verifyMessage;
     exports.signHash = signHash;
     exports.verify = verify;
     exports.getBytesFromHex = getBytesFromHex;

@@ -746,7 +746,7 @@
    */
   const verifyMessage = (publicKey, message, signature) => {
     return bananoUtil.verifyMessage(publicKey, message, signature);
-  }
+  };
 
   /**
    * signs a hash.

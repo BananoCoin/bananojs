@@ -18,23 +18,23 @@ const privateKey = bananoTest.privateKey;
 describe('message-sign', () => {
   it('signature matches expected', () => {
     const bananojs = testUtil.getBananojsWithMockApi();
-    const actualMessageSignature = bananojs.signMessage(privateKey, "test");
+    const actualMessageSignature = bananojs.signMessage(privateKey, 'test');
     expect(actualMessageSignature).to.deep.equal(expectedMessageSignature);
   });
 
-  it('signed message is verified', () => {
+  it('signed message is verified', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
-    const signature = bananojs.signMessage(privateKey, "test");
-    const publicKey = window.bananocoinBananojs.getPublicKey(privateKey);
-    const signatureVerify = bananojs.verifyMessage(publicKey, "test", signature);
+    const signature = bananojs.signMessage(privateKey, 'test');
+    const publicKey = await bananojs.getPublicKey(privateKey);
+    const signatureVerify = bananojs.verifyMessage(publicKey, 'test', signature);
     expect(signatureVerify).to.deep.equal(true);
   });
 
-  it('invalid message is rejected', () => {
+  it('invalid message is rejected', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
-    const signature = bananojs.signMessage(privateKey, "test");
-    const publicKey = window.bananocoinBananojs.getPublicKey(privateKey);
-    const signatureVerify = bananojs.verifyMessage(publicKey, "afjskfjsd7", signature);
+    const signature = bananojs.signMessage(privateKey, 'test');
+    const publicKey = await bananojs.getPublicKey(privateKey);
+    const signatureVerify = bananojs.verifyMessage(publicKey, 'afjskfjsd7', signature);
     expect(signatureVerify).to.deep.equal(false);
   });
 

@@ -504,16 +504,17 @@
   };
 
   const utf8ToBytes = (utf8) => {
-    let bytes = new Uint8Array(utf8.length);
+    const bytes = new Uint8Array(utf8.length);
     for (let i = 0; i < utf8.length; i++) {
-      let code = utf8.charCodeAt(i);
+      const code = utf8.charCodeAt(i);
+      /* istanbul ignore if */
       if (code > 0xff) {
-        throw Error("Non utf-8 character found");
+        throw Error('Non utf-8 character found');
       }
       bytes[i] = code;
     }
     return bytes;
-  }
+  };
 
   const signMessage = (privateKey, message) => {
     const messageBytes = utf8ToBytes(message);
@@ -521,7 +522,7 @@
     const signed = nacl.sign.detached(messageBytes, privateKeyBytes);
     const signature = bytesToHex(signed);
     return signature;
-  }
+  };
 
   const verifyMessage = (publicKey, message, signature) => {
     const messageBytes = utf8ToBytes(message);
@@ -529,7 +530,7 @@
     const signatureBytes = hexToBytes(signature);
     const verifies = nacl.sign.detached.verify(messageBytes, signatureBytes, publicKeyBytes);
     return verifies;
-  }
+  };
 
   const signHash = (privateKey, hash) => {
     //    console.log( `sign ${JSON.stringify( block )}` );

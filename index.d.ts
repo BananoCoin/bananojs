@@ -345,6 +345,21 @@ declare namespace BananoUtil {
      */
     function getBlockHash(block: string): string;
     /**
+     * signs a utf-8 message with private key.
+     * @param privateKey - the private key to use to sign.
+     * @param message - the utf-8 message to sign.
+     * @returns the message's hash.
+     */
+    function signMessage(privateKey: string, message: string): string;
+    /**
+     * verifies a utf-8 message with public key.
+     * @param publicKey - the public key to use to sign.
+     * @param message - the utf-8 message to verify.
+     * @param signature - hex of signature.
+     * @returns the message's hash.
+     */
+    function verifyMessage(publicKey: string, message: string, signature: string): string;
+    /**
      * signs a hash.
      * @param privateKey - the private key to use to sign.
      * @param hash - the hash to sign.

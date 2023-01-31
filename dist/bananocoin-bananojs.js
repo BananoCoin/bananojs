@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.7.13
+//version 2.7.14
 //license MIT
 /* eslint-disable */
 const require = (modname) => {

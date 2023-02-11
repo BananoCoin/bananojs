@@ -9,6 +9,7 @@
 ## to publish a new version (and put right version number in /dist/)
 
     npm run prenpmpublish;
+    git commit -a -m 'bumping deps';
 
 ### good to commit here, so published code is same as NPM code.
 

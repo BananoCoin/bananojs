@@ -10,6 +10,7 @@
 
     npm run prenpmpublish;
     git commit -a -m 'bumping deps';
+    git pull;git push;
 
 ### good to commit here, so published code is same as NPM code.
 

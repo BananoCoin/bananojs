@@ -4,9 +4,9 @@
 
 ### update version in package-lock.json
 
-    npm run preflight;
+## and publish a new version (and put right version number in /dist/)
 
-## to publish a new version (and put right version number in /dist/)
+    npm run preflight;
 
     npm run prenpmpublish;
     git commit -a -m 'bumping deps';

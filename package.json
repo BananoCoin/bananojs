@@ -1,6 +1,6 @@
 {
   "name": "@bananocoin/bananojs",
-  "version": "2.7.18",
+  "version": "2.7.19",
   "module": "index.js",
   "repository": {
     "type": "git",
@@ -35,12 +35,12 @@
   "devDependencies": {
     "chai": "^4.3.7",
     "elliptic": "^6.5.4",
-    "eslint": "^8.34.0",
+    "eslint": "^8.35.0",
     "eslint-config-google": "^0.14.0",
-    "jsdoc": "^4.0.0",
+    "jsdoc": "^4.0.2",
     "jsdoc-to-markdown": "^8.0.0",
     "mocha": "^10.2.0",
-    "npm-check-updates": "^16.7.4",
+    "npm-check-updates": "^16.7.10",
     "nyc": "^15.1.0",
     "prettier": "^2.8.4",
     "tsd-jsdoc": "^2.5.0"
@@ -55,7 +55,7 @@
   },
   "overrides": {
     "tsd-jsdoc": {
-      "jsdoc": "4.0.0"
+      "jsdoc": "4.0.2"
     }
   }
 }

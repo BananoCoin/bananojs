@@ -30,6 +30,15 @@ describe('message-sign', () => {
     expect(signatureVerify).to.deep.equal(true);
   });
 
+  it('signed message hash is verified', async () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    const hash = bananojs.getBlake2bHash(32, 'test');
+    const signature = bananojs.signMessage(privateKey, hash);
+    const publicKey = await bananojs.getPublicKey(privateKey);
+    const signatureVerify = bananojs.verifyMessage(publicKey, hash, signature);
+    expect(signatureVerify).to.deep.equal(true);
+  });
+
   it('invalid message is rejected', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
     const signature = bananojs.signMessage(privateKey, 'test');

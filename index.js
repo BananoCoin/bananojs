@@ -1436,6 +1436,7 @@
     exports.getAccountsBalances = getAccountsBalances;
     exports.getBananoPartsFromRaw = getBananoPartsFromRaw;
     exports.getNanoPartsFromRaw = getNanoPartsFromRaw;
+    exports.getBlake2bHash = bananoUtil.getBlake2bHash;
     exports.getPrivateKey = bananoUtil.getPrivateKey;
     exports.getPublicKey = bananoUtil.getPublicKey;
     exports.getAccount = bananoUtil.getAccount;

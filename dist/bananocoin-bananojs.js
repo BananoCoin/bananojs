@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.7.19
+//version 2.8.1
 //license MIT
 /* eslint-disable */
 const require = (modname) => {
@@ -3374,6 +3374,15 @@ window.bananocoin.bananojs.https.request = (
     return nacl.sign.keyPair.fromSecretKey(accountSecretKeyBytes);
   };
 
+  const getBlake2bHash = (size, str) => {
+    const bytes = Buffer.from(str, 'utf-8');
+    const context = blake.blake2bInit(size);
+    blake.blake2bUpdate(context, bytes);
+    const output = blake.blake2bFinal(context).reverse();
+    const outputHex = bytesToHex(output);
+    return outputHex;
+  };
+
   /**
    * returns true if the work (in bytes) for the hash (in bytes) is valid.
    *
@@ -4203,6 +4212,7 @@ window.bananocoin.bananojs.https.request = (
     exports.isAccountSuffixValid = isAccountSuffixValid;
     exports.isAccountOpen = isAccountOpen;
     exports.isSeedValid = isSeedValid;
+    exports.getBlake2bHash = getBlake2bHash;
     return exports;
   })();
 
@@ -6973,6 +6983,7 @@ window.bananocoin.bananojs.https.request = (
     exports.getAccountsBalances = getAccountsBalances;
     exports.getBananoPartsFromRaw = getBananoPartsFromRaw;
     exports.getNanoPartsFromRaw = getNanoPartsFromRaw;
+    exports.getBlake2bHash = bananoUtil.getBlake2bHash;
     exports.getPrivateKey = bananoUtil.getPrivateKey;
     exports.getPublicKey = bananoUtil.getPublicKey;
     exports.getAccount = bananoUtil.getAccount;

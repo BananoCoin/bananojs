@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.8.1
+//version 2.8.2
 //license MIT
 /* eslint-disable */
 const require = (modname) => {
@@ -3375,7 +3375,7 @@ window.bananocoin.bananojs.https.request = (
   };
 
   const getBlake2bHash = (size, str) => {
-    const bytes = Buffer.from(str, 'utf-8');
+    const bytes = utf8ToBytes(str);
     const context = blake.blake2bInit(size);
     blake.blake2bUpdate(context, bytes);
     const output = blake.blake2bFinal(context).reverse();

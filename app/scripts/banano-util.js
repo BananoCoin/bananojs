@@ -587,7 +587,7 @@
   };
 
   const getBlake2bHash = (size, str) => {
-    const bytes = Buffer.from(str, 'utf-8');
+    const bytes = utf8ToBytes(str);
     const context = blake.blake2bInit(size);
     blake.blake2bUpdate(context, bytes);
     const output = blake.blake2bFinal(context).reverse();

@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.8.2
+//version 2.8.3
 //license MIT
 /* eslint-disable */
 const require = (modname) => {
@@ -1629,7 +1629,7 @@ window.bananocoin.bananojs.https.request = (
       }
       // crypto_hash(h, m, n);
 
-      context = blake.blake2bInit(64, null);
+      let context = blake.blake2bInit(64, null);
       blake.blake2bUpdate(context, m);
       h = blake.blake2bFinal(context);
 

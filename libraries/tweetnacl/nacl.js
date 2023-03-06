@@ -1049,7 +1049,7 @@
       }
       // crypto_hash(h, m, n);
 
-      context = blake.blake2bInit(64, null);
+      let context = blake.blake2bInit(64, null);
       blake.blake2bUpdate(context, m);
       h = blake.blake2bFinal(context);
 

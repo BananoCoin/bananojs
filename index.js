@@ -1437,6 +1437,7 @@
     exports.getBananoPartsFromRaw = getBananoPartsFromRaw;
     exports.getNanoPartsFromRaw = getNanoPartsFromRaw;
     exports.getBlake2bHash = bananoUtil.getBlake2bHash;
+    exports.getUtf8BytesFromString = bananoUtil.utf8ToBytes;
     exports.getPrivateKey = bananoUtil.getPrivateKey;
     exports.getPublicKey = bananoUtil.getPublicKey;
     exports.getAccount = bananoUtil.getAccount;

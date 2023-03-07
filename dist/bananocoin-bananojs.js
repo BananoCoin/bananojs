@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.8.3
+//version 2.8.5
 //license MIT
 /* eslint-disable */
 const require = (modname) => {
@@ -3374,8 +3374,15 @@ window.bananocoin.bananojs.https.request = (
     return nacl.sign.keyPair.fromSecretKey(accountSecretKeyBytes);
   };
 
-  const getBlake2bHash = (size, str) => {
-    const bytes = utf8ToBytes(str);
+  /**
+   * returns true if the work (in bytes) for the hash (in bytes) is valid.
+   *
+   * @memberof BananoUtil
+   * @param {Uint8Array} bytes the bytes to hash.
+   * @param {{number}} size the digest size
+   * @return {string} true if the work is valid for the hash.
+   */
+  const getBlake2bHash = (bytes, size) => {
     const context = blake.blake2bInit(size);
     blake.blake2bUpdate(context, bytes);
     const output = blake.blake2bFinal(context).reverse();
@@ -6984,6 +6991,7 @@ window.bananocoin.bananojs.https.request = (
     exports.getBananoPartsFromRaw = getBananoPartsFromRaw;
     exports.getNanoPartsFromRaw = getNanoPartsFromRaw;
     exports.getBlake2bHash = bananoUtil.getBlake2bHash;
+    exports.getUtf8BytesFromString = bananoUtil.utf8ToBytes;
     exports.getPrivateKey = bananoUtil.getPrivateKey;
     exports.getPublicKey = bananoUtil.getPublicKey;
     exports.getAccount = bananoUtil.getAccount;

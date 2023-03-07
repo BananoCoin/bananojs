@@ -32,7 +32,8 @@ describe('message-sign', () => {
 
   it('signed message hash is verified', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
-    const hash = bananojs.getBlake2bHash(32, 'test');
+    const bytes = bananojs.getUtf8BytesFromString('test');
+    const hash = bananojs.getBlake2bHash(bytes, 32);
     const signature = bananojs.signMessage(privateKey, hash);
     const publicKey = await bananojs.getPublicKey(privateKey);
     const signatureVerify = bananojs.verifyMessage(publicKey, hash, signature);

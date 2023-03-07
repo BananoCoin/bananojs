@@ -586,8 +586,15 @@
     return nacl.sign.keyPair.fromSecretKey(accountSecretKeyBytes);
   };
 
-  const getBlake2bHash = (size, str) => {
-    const bytes = utf8ToBytes(str);
+  /**
+   * returns true if the work (in bytes) for the hash (in bytes) is valid.
+   *
+   * @memberof BananoUtil
+   * @param {Uint8Array} bytes the bytes to hash.
+   * @param {{number}} size the digest size
+   * @return {string} true if the work is valid for the hash.
+   */
+  const getBlake2bHash = (bytes, size) => {
     const context = blake.blake2bInit(size);
     blake.blake2bUpdate(context, bytes);
     const output = blake.blake2bFinal(context).reverse();

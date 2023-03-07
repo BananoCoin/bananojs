@@ -503,9 +503,9 @@ declare namespace BananoUtil {
      * returns true if the work (in bytes) for the hash (in bytes) is valid.
      * @param bytes - the bytes to hash.
      * @param size - the digest size
-     * @returns true if the work is valid for the hash.
+     * @returns the bytes of the hash.
      */
-    function getBlake2bHash(bytes: Uint8Array, size: any): string;
+    function getBlake2bHash(bytes: Uint8Array, size: any): Uint8Array;
     /**
      * returns true if the work (in bytes) for the hash (in bytes) is valid.
      * @param hashBytes - the hash bytes to check.

@@ -471,7 +471,7 @@ checks if a camo account is valid.
     * [.getAccountSuffix(publicKey)](#BananoUtil.getAccountSuffix) ⇒ <code>string</code>
     * [.getAccount(publicKey, accountPrefix)](#BananoUtil.getAccount) ⇒ <code>string</code>
     * [.sign(privateKey, block)](#BananoUtil.sign) ⇒ <code>string</code>
-    * [.getBlake2bHash(bytes, size)](#BananoUtil.getBlake2bHash) ⇒ <code>string</code>
+    * [.getBlake2bHash(bytes, size)](#BananoUtil.getBlake2bHash) ⇒ <code>Uint8Array</code>
     * [.isWorkValid(hashBytes, workBytes)](#BananoUtil.isWorkValid) ⇒ <code>boolean</code>
     * [.getZeroedWorkBytes()](#BananoUtil.getZeroedWorkBytes) ⇒ <code>Uint8Array</code>
     * [.getPublicKey(privateKey)](#BananoUtil.getPublicKey) ⇒ <code>Promise.&lt;string&gt;</code>
@@ -999,11 +999,11 @@ signs a block and returns the signature.
 
 <a name="BananoUtil.getBlake2bHash"></a>
 
-### BananoUtil.getBlake2bHash(bytes, size) ⇒ <code>string</code>
+### BananoUtil.getBlake2bHash(bytes, size) ⇒ <code>Uint8Array</code>
 returns true if the work (in bytes) for the hash (in bytes) is valid.
 
 **Kind**: static method of [<code>BananoUtil</code>](#BananoUtil)  
-**Returns**: <code>string</code> - true if the work is valid for the hash.  
+**Returns**: <code>Uint8Array</code> - the bytes of the hash.  
 
 | Param | Type | Description |
 | --- | --- | --- |

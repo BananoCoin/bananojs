@@ -592,14 +592,13 @@
    * @memberof BananoUtil
    * @param {Uint8Array} bytes the bytes to hash.
    * @param {{number}} size the digest size
-   * @return {string} true if the work is valid for the hash.
+   * @return {Uint8Array} the bytes of the hash.
    */
   const getBlake2bHash = (bytes, size) => {
     const context = blake.blake2bInit(size);
     blake.blake2bUpdate(context, bytes);
-    const output = blake.blake2bFinal(context).reverse();
-    const outputHex = bytesToHex(output);
-    return outputHex;
+    const output = blake.blake2bFinal(context);
+    return output;
   };
 
   /**

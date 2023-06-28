@@ -494,11 +494,11 @@ declare namespace BananoUtil {
     function getAccount(publicKey: string, accountPrefix: string): string;
     /**
      * signs a block and returns the signature.
-     * @param privateKey - the private key to use to sign.
+     * @param privateKeyOrSigner - the private key to use to sign or signer object (ledger).
      * @param block - block to sign
      * @returns the signature
      */
-    function sign(privateKey: string, block: Block): string;
+    function sign(privateKeyOrSigner: string, block: Block): string;
     /**
      * returns true if the work (in bytes) for the hash (in bytes) is valid.
      * @param bytes - the bytes to hash.
@@ -520,10 +520,10 @@ declare namespace BananoUtil {
     function getZeroedWorkBytes(): Uint8Array;
     /**
      * Get the public key for a given private key.
-     * @param privateKey - the private key.
+     * @param privateKeyOrSigner - the private key or signer object (ledger).
      * @returns the public key.
      */
-    function getPublicKey(privateKey: string): Promise<string>;
+    function getPublicKey(privateKeyOrSigner: string): Promise<string>;
     /**
      * validates a seed.
      * @param seed - the seed to use to validate.
@@ -715,25 +715,3 @@ declare type AccountValidationInfo = {
 };
 
 
-export {
-  Block,
-  Main,
-  CamoUtil,
-  BananoUtil,
-  WithdrawUtil,
-  DepositUtil,
-  BananodeApi,
-  BananoParts,
-  AccountValidationInfo,
-}
-export {
-  Block,
-  Main,
-  CamoUtil,
-  BananoUtil,
-  WithdrawUtil,
-  DepositUtil,
-  BananodeApi,
-  BananoParts,
-  AccountValidationInfo,
-}

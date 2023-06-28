@@ -6854,7 +6854,7 @@ window.bananocoin.bananojs.https.request = (
   /**
    * Converts an amount into a raw amount.
    *
-   * @memberof BananoUtil
+   * @memberof Main
    * @param {string} amountStr the amount, as a string.
    * @param {string} amountPrefix the amount, as a string.
    * @return {string} the banano as a raw value.
@@ -6866,7 +6866,7 @@ window.bananocoin.bananojs.https.request = (
   /**
    * Converts an amount into a raw amount.
    *
-   * @memberof BananoUtil
+   * @memberof Main
    * @param {string} amountStr the amount, as a string.
    * @param {string} amountPrefix the amount, as a string.
    * @return {string} the banano as a raw value.
@@ -6877,7 +6877,7 @@ window.bananocoin.bananojs.https.request = (
   /**
    * Converts an amount into a raw amount.
    *
-   * @memberof BananoUtil
+   * @memberof Main
    * @param {string} amountStr the amount, as a string.
    * @param {string} amountPrefix the amount, as a string.
    * @return {string} the banano as a raw value.
@@ -6889,7 +6889,7 @@ window.bananocoin.bananojs.https.request = (
   /**
    * Converts an amount into a raw amount.
    *
-   * @memberof BananoUtil
+   * @memberof Main
    * @param {string} amountStr the amount, as a string.
    * @param {string} amountPrefix the amount, as a string.
    * @return {string} the banano as a raw value.

@@ -38,6 +38,10 @@
     * [.setBananodeApiProxy(proxy)](#Main.setBananodeApiProxy) ⇒ <code>undefined</code>
     * [.getBananodeApiProxy()](#Main.getBananodeApiProxy) ⇒ <code>Object</code>
     * [.setBananodeApiUrl(url)](#Main.setBananodeApiUrl) ⇒ <code>undefined</code>
+    * [.getRawStrFromBananoStr(amountStr, amountPrefix)](#Main.getRawStrFromBananoStr) ⇒ <code>string</code>
+    * [.getRawStrFromBanoshiStr(amountStr, amountPrefix)](#Main.getRawStrFromBanoshiStr) ⇒ <code>string</code>
+    * [.getRawStrFromNanoStr(amountStr, amountPrefix)](#Main.getRawStrFromNanoStr) ⇒ <code>string</code>
+    * [.getRawStrFromNanoshiStr(amountStr, amountPrefix)](#Main.getRawStrFromNanoshiStr) ⇒ <code>string</code>
 
 <a name="Main.BANANO_PREFIX"></a>
 
@@ -97,6 +101,58 @@ Sets the URL to use for the node behind the Bananode Api
 | Param | Type | Description |
 | --- | --- | --- |
 | url | <code>string</code> | the new url |
+
+<a name="Main.getRawStrFromBananoStr"></a>
+
+### Main.getRawStrFromBananoStr(amountStr, amountPrefix) ⇒ <code>string</code>
+Converts an amount into a raw amount.
+
+**Kind**: static method of [<code>Main</code>](#Main)  
+**Returns**: <code>string</code> - the banano as a raw value.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| amountStr | <code>string</code> | the amount, as a string. |
+| amountPrefix | <code>string</code> | the amount, as a string. |
+
+<a name="Main.getRawStrFromBanoshiStr"></a>
+
+### Main.getRawStrFromBanoshiStr(amountStr, amountPrefix) ⇒ <code>string</code>
+Converts an amount into a raw amount.
+
+**Kind**: static method of [<code>Main</code>](#Main)  
+**Returns**: <code>string</code> - the banano as a raw value.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| amountStr | <code>string</code> | the amount, as a string. |
+| amountPrefix | <code>string</code> | the amount, as a string. |
+
+<a name="Main.getRawStrFromNanoStr"></a>
+
+### Main.getRawStrFromNanoStr(amountStr, amountPrefix) ⇒ <code>string</code>
+Converts an amount into a raw amount.
+
+**Kind**: static method of [<code>Main</code>](#Main)  
+**Returns**: <code>string</code> - the banano as a raw value.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| amountStr | <code>string</code> | the amount, as a string. |
+| amountPrefix | <code>string</code> | the amount, as a string. |
+
+<a name="Main.getRawStrFromNanoshiStr"></a>
+
+### Main.getRawStrFromNanoshiStr(amountStr, amountPrefix) ⇒ <code>string</code>
+Converts an amount into a raw amount.
+
+**Kind**: static method of [<code>Main</code>](#Main)  
+**Returns**: <code>string</code> - the banano as a raw value.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| amountStr | <code>string</code> | the amount, as a string. |
+| amountPrefix | <code>string</code> | the amount, as a string. |
 
 <a name="CamoUtil"></a>
 
@@ -456,10 +512,6 @@ checks if a camo account is valid.
     * [.getBytesFromHex(hex)](#BananoUtil.getBytesFromHex) ⇒ <code>Uint8Array</code>
     * [.getHexFromBytes(bytes)](#BananoUtil.getHexFromBytes) ⇒ <code>string</code>
     * [.getWorkUsingCpu(hash, workBytes)](#BananoUtil.getWorkUsingCpu) ⇒ <code>string</code>
-    * [.getRawStrFromBananoStr(amountStr, amountPrefix)](#bananoUtil.getRawStrFromMajorAmountStr) ⇒ <code>string</code>
-    * [.getRawStrFromBanoshiStr(amountStr, amountPrefix)](#BananoUtil.getRawStrFromBanoshiStr) ⇒ <code>string</code>
-    * [.getRawStrFromNanoStr(amountStr, amountPrefix)](#BananoUtil.getRawStrFromNanoStr) ⇒ <code>string</code>
-    * [.getRawStrFromNanoshiStr(amountStr, amountPrefix)](#BananoUtil.getRawStrFromNanoshiStr) ⇒ <code>string</code>
     * [.getBananoAccount(publicKey)](#BananoUtil.getBananoAccount) ⇒ <code>string</code>
     * [.getNanoAccount(publicKey)](#BananoUtil.getNanoAccount) ⇒ <code>string</code>
     * [.getBananoPartsFromRaw(amountRawStr)](#BananoUtil.getBananoPartsFromRaw) ⇒ [<code>BananoParts</code>](#BananoParts)
@@ -470,11 +522,11 @@ checks if a camo account is valid.
     * [.getAccountPublicKey(account)](#BananoUtil.getAccountPublicKey) ⇒ <code>string</code>
     * [.getAccountSuffix(publicKey)](#BananoUtil.getAccountSuffix) ⇒ <code>string</code>
     * [.getAccount(publicKey, accountPrefix)](#BananoUtil.getAccount) ⇒ <code>string</code>
-    * [.sign(privateKey, block)](#BananoUtil.sign) ⇒ <code>string</code>
+    * [.sign(privateKeyOrSigner, block)](#BananoUtil.sign) ⇒ <code>string</code>
     * [.getBlake2bHash(bytes, size)](#BananoUtil.getBlake2bHash) ⇒ <code>Uint8Array</code>
     * [.isWorkValid(hashBytes, workBytes)](#BananoUtil.isWorkValid) ⇒ <code>boolean</code>
     * [.getZeroedWorkBytes()](#BananoUtil.getZeroedWorkBytes) ⇒ <code>Uint8Array</code>
-    * [.getPublicKey(privateKey)](#BananoUtil.getPublicKey) ⇒ <code>Promise.&lt;string&gt;</code>
+    * [.getPublicKey(privateKeyOrSigner)](#BananoUtil.getPublicKey) ⇒ <code>Promise.&lt;string&gt;</code>
     * [.isSeedValid(seed, seedIx)](#BananoUtil.isSeedValid) ⇒ <code>object</code>
     * [.getPrivateKey(seed, seedIx)](#BananoUtil.getPrivateKey) ⇒ <code>string</code>
     * [.getBananoAccountValidationInfo(account)](#BananoUtil.getBananoAccountValidationInfo) ⇒ [<code>AccountValidationInfo</code>](#AccountValidationInfo)
@@ -808,58 +860,6 @@ gets work bytes using the CPU.
 | hash | <code>string</code> | the hash to use to calculate work bytes. |
 | workBytes | <code>Uint8Array</code> | the Uint8Array(8) used to store temporary calculations. |
 
-<a name="bananoUtil.getRawStrFromMajorAmountStr"></a>
-
-### bananoUtil.getRawStrFromMajorAmountStr(amountStr, amountPrefix) ⇒ <code>string</code>
-Converts an amount into a raw amount.
-
-**Kind**: static method of [<code>BananoUtil</code>](#BananoUtil)  
-**Returns**: <code>string</code> - the banano as a raw value.  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| amountStr | <code>string</code> | the amount, as a string. |
-| amountPrefix | <code>string</code> | the amount, as a string. |
-
-<a name="BananoUtil.getRawStrFromBanoshiStr"></a>
-
-### BananoUtil.getRawStrFromBanoshiStr(amountStr, amountPrefix) ⇒ <code>string</code>
-Converts an amount into a raw amount.
-
-**Kind**: static method of [<code>BananoUtil</code>](#BananoUtil)  
-**Returns**: <code>string</code> - the banano as a raw value.  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| amountStr | <code>string</code> | the amount, as a string. |
-| amountPrefix | <code>string</code> | the amount, as a string. |
-
-<a name="BananoUtil.getRawStrFromNanoStr"></a>
-
-### BananoUtil.getRawStrFromNanoStr(amountStr, amountPrefix) ⇒ <code>string</code>
-Converts an amount into a raw amount.
-
-**Kind**: static method of [<code>BananoUtil</code>](#BananoUtil)  
-**Returns**: <code>string</code> - the banano as a raw value.  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| amountStr | <code>string</code> | the amount, as a string. |
-| amountPrefix | <code>string</code> | the amount, as a string. |
-
-<a name="BananoUtil.getRawStrFromNanoshiStr"></a>
-
-### BananoUtil.getRawStrFromNanoshiStr(amountStr, amountPrefix) ⇒ <code>string</code>
-Converts an amount into a raw amount.
-
-**Kind**: static method of [<code>BananoUtil</code>](#BananoUtil)  
-**Returns**: <code>string</code> - the banano as a raw value.  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| amountStr | <code>string</code> | the amount, as a string. |
-| amountPrefix | <code>string</code> | the amount, as a string. |
-
 <a name="BananoUtil.getBananoAccount"></a>
 
 ### BananoUtil.getBananoAccount(publicKey) ⇒ <code>string</code>
@@ -986,7 +986,7 @@ Get the account for a given public key.
 
 <a name="BananoUtil.sign"></a>
 
-### BananoUtil.sign(privateKey, block) ⇒ <code>string</code>
+### BananoUtil.sign(privateKeyOrSigner, block) ⇒ <code>string</code>
 signs a block and returns the signature.
 
 **Kind**: static method of [<code>BananoUtil</code>](#BananoUtil)  
@@ -994,7 +994,7 @@ signs a block and returns the signature.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| privateKey | <code>string</code> | the private key to use to sign. |
+| privateKeyOrSigner | <code>string</code> | the private key to use to sign or signer object (ledger). |
 | block | [<code>Block</code>](#Block) | block to sign |
 
 <a name="BananoUtil.getBlake2bHash"></a>
@@ -1032,7 +1032,7 @@ creates a new Uint8Array(8) to calculate work bytes.
 **Returns**: <code>Uint8Array</code> - the bytes in a Uint8Array.  
 <a name="BananoUtil.getPublicKey"></a>
 
-### BananoUtil.getPublicKey(privateKey) ⇒ <code>Promise.&lt;string&gt;</code>
+### BananoUtil.getPublicKey(privateKeyOrSigner) ⇒ <code>Promise.&lt;string&gt;</code>
 Get the public key for a given private key.
 
 **Kind**: static method of [<code>BananoUtil</code>](#BananoUtil)  
@@ -1040,7 +1040,7 @@ Get the public key for a given private key.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| privateKey | <code>string</code> | the private key. |
+| privateKeyOrSigner | <code>string</code> | the private key or signer object (ledger). |
 
 <a name="BananoUtil.isSeedValid"></a>
 

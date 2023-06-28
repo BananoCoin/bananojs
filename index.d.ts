@@ -29,6 +29,34 @@ declare namespace Main {
      * @returns returns nothing.
      */
     function setBananodeApiUrl(url: string): undefined;
+    /**
+     * Converts an amount into a raw amount.
+     * @param amountStr - the amount, as a string.
+     * @param amountPrefix - the amount, as a string.
+     * @returns the banano as a raw value.
+     */
+    function getRawStrFromBananoStr(amountStr: string, amountPrefix: string): string;
+    /**
+     * Converts an amount into a raw amount.
+     * @param amountStr - the amount, as a string.
+     * @param amountPrefix - the amount, as a string.
+     * @returns the banano as a raw value.
+     */
+    function getRawStrFromBanoshiStr(amountStr: string, amountPrefix: string): string;
+    /**
+     * Converts an amount into a raw amount.
+     * @param amountStr - the amount, as a string.
+     * @param amountPrefix - the amount, as a string.
+     * @returns the banano as a raw value.
+     */
+    function getRawStrFromNanoStr(amountStr: string, amountPrefix: string): string;
+    /**
+     * Converts an amount into a raw amount.
+     * @param amountStr - the amount, as a string.
+     * @param amountPrefix - the amount, as a string.
+     * @returns the banano as a raw value.
+     */
+    function getRawStrFromNanoshiStr(amountStr: string, amountPrefix: string): string;
 }
 
 declare namespace CamoUtil {
@@ -400,34 +428,6 @@ declare namespace BananoUtil {
      * @returns the work bytes as a hex string.
      */
     function getWorkUsingCpu(hash: string, workBytes: Uint8Array): string;
-    /**
-     * Converts an amount into a raw amount.
-     * @param amountStr - the amount, as a string.
-     * @param amountPrefix - the amount, as a string.
-     * @returns the banano as a raw value.
-     */
-    function getRawStrFromBananoStr(amountStr: string, amountPrefix: string): string;
-    /**
-     * Converts an amount into a raw amount.
-     * @param amountStr - the amount, as a string.
-     * @param amountPrefix - the amount, as a string.
-     * @returns the banano as a raw value.
-     */
-    function getRawStrFromBanoshiStr(amountStr: string, amountPrefix: string): string;
-    /**
-     * Converts an amount into a raw amount.
-     * @param amountStr - the amount, as a string.
-     * @param amountPrefix - the amount, as a string.
-     * @returns the banano as a raw value.
-     */
-    function getRawStrFromNanoStr(amountStr: string, amountPrefix: string): string;
-    /**
-     * Converts an amount into a raw amount.
-     * @param amountStr - the amount, as a string.
-     * @param amountPrefix - the amount, as a string.
-     * @returns the banano as a raw value.
-     */
-    function getRawStrFromNanoshiStr(amountStr: string, amountPrefix: string): string;
     /**
      * Get the banano account for a given public key.
      * @param publicKey - the public key.

@@ -49,7 +49,8 @@ describe('camo-account-setup', () => {
   it('find-unopened-account', async () => {
     const privateKey0 = await camoUtil.getFirstUnopenedPrivateKey(
       bananodeApi,
-      camoTestData.seed0
+      camoTestData.seed0,
+      'ban_'
     );
     expect(privateKey0).to.not.equal(camoTestData.seed0private0);
   });
@@ -148,17 +149,17 @@ describe('camo-account-setup', () => {
       console.log('swept pending blocks 4', sweptCount4);
     }
     const publicKey0 = bananoUtil.getPublicKey(privateKey0);
-    const account0 = bananoUtil.getAccount(publicKey0);
+    const account0 = bananoUtil.getAccount(publicKey0, 'ban_');
     console.log('privateKey0', privateKey0, account0);
 
     const publicKeyF = bananoUtil.getPublicKey(privateKeyF);
-    const accountF = bananoUtil.getAccount(publicKeyF);
+    const accountF = bananoUtil.getAccount(publicKeyF, 'ban_');
     console.log('privateKeyF', privateKeyF, accountF);
   });
   it('test-shared-seed', async () => {
     const privateKey0 = camoTestData.shared_seed_private0;
     const publicKey0 = bananoUtil.getPublicKey(privateKey0);
-    const account0 = bananoUtil.getAccount(publicKey0);
+    const account0 = bananoUtil.getAccount(publicKey0, 'ban_');
     const representative0 = await bananodeApi.getAccountRepresentative(
       account0
     );
@@ -176,7 +177,7 @@ describe('camo-account-setup', () => {
 
     const privateKeyF = camoTestData.shared_seed_privateF;
     const publicKeyF = bananoUtil.getPublicKey(privateKeyF);
-    const accountF = bananoUtil.getAccount(publicKeyF);
+    const accountF = bananoUtil.getAccount(publicKeyF, 'ban_');
     const representativeF = await bananodeApi.getAccountRepresentative(
       accountF
     );
@@ -209,7 +210,7 @@ describe('camo-account-setup', () => {
   it('test-keys-0', async () => {
     const privateKey0 = camoTestData.shared_seed_private0;
     const publicKey0 = bananoUtil.getPublicKey(privateKey0);
-    const account0 = bananoUtil.getAccount(publicKey0);
+    const account0 = bananoUtil.getAccount(publicKey0, 'ban_');
     const representative0 = await bananodeApi.getAccountRepresentative(
       account0
     );
@@ -222,7 +223,7 @@ describe('camo-account-setup', () => {
   it('test-keys-F', async () => {
     const privateKeyF = camoTestData.shared_seed_privateF;
     const publicKeyF = bananoUtil.getPublicKey(privateKeyF);
-    const accountF = bananoUtil.getAccount(publicKeyF);
+    const accountF = bananoUtil.getAccount(publicKeyF, 'ban_');
     const representativeF = await bananodeApi.getAccountRepresentative(
       accountF
     );
@@ -250,7 +251,7 @@ describe('camo-account-setup', () => {
       camoTestData.funding_seed,
       camoTestData.funding_seed_ix
     );
-    const amountRaw = bananoUtil.getRawStrFromBananoStr('6');
+    const amountRaw = bananoUtil.getRawStrFromMajorAmountStr('6');
     const balanceRawBefore = await camoUtil.getBalanceRaw(
       bananodeApi,
       camoTestData.shared_seed_privateF,

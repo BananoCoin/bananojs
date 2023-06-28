@@ -456,7 +456,7 @@ checks if a camo account is valid.
     * [.getBytesFromHex(hex)](#BananoUtil.getBytesFromHex) ⇒ <code>Uint8Array</code>
     * [.getHexFromBytes(bytes)](#BananoUtil.getHexFromBytes) ⇒ <code>string</code>
     * [.getWorkUsingCpu(hash, workBytes)](#BananoUtil.getWorkUsingCpu) ⇒ <code>string</code>
-    * [.getRawStrFromBananoStr(amountStr, amountPrefix)](#BananoUtil.getRawStrFromBananoStr) ⇒ <code>string</code>
+    * [.getRawStrFromBananoStr(amountStr, amountPrefix)](#bananoUtil.getRawStrFromMajorAmountStr) ⇒ <code>string</code>
     * [.getRawStrFromBanoshiStr(amountStr, amountPrefix)](#BananoUtil.getRawStrFromBanoshiStr) ⇒ <code>string</code>
     * [.getRawStrFromNanoStr(amountStr, amountPrefix)](#BananoUtil.getRawStrFromNanoStr) ⇒ <code>string</code>
     * [.getRawStrFromNanoshiStr(amountStr, amountPrefix)](#BananoUtil.getRawStrFromNanoshiStr) ⇒ <code>string</code>
@@ -808,9 +808,9 @@ gets work bytes using the CPU.
 | hash | <code>string</code> | the hash to use to calculate work bytes. |
 | workBytes | <code>Uint8Array</code> | the Uint8Array(8) used to store temporary calculations. |
 
-<a name="BananoUtil.getRawStrFromBananoStr"></a>
+<a name="bananoUtil.getRawStrFromMajorAmountStr"></a>
 
-### BananoUtil.getRawStrFromBananoStr(amountStr, amountPrefix) ⇒ <code>string</code>
+### bananoUtil.getRawStrFromMajorAmountStr(amountStr, amountPrefix) ⇒ <code>string</code>
 Converts an amount into a raw amount.
 
 **Kind**: static method of [<code>BananoUtil</code>](#BananoUtil)  

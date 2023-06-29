@@ -29,6 +29,34 @@ declare namespace Main {
      * @returns returns nothing.
      */
     function setBananodeApiUrl(url: string): undefined;
+    /**
+     * Converts an amount into a raw amount.
+     * @param amountStr - the amount, as a string.
+     * @param amountPrefix - the amount, as a string.
+     * @returns the banano as a raw value.
+     */
+    function getRawStrFromBananoStr(amountStr: string, amountPrefix: string): string;
+    /**
+     * Converts an amount into a raw amount.
+     * @param amountStr - the amount, as a string.
+     * @param amountPrefix - the amount, as a string.
+     * @returns the banano as a raw value.
+     */
+    function getRawStrFromBanoshiStr(amountStr: string, amountPrefix: string): string;
+    /**
+     * Converts an amount into a raw amount.
+     * @param amountStr - the amount, as a string.
+     * @param amountPrefix - the amount, as a string.
+     * @returns the banano as a raw value.
+     */
+    function getRawStrFromNanoStr(amountStr: string, amountPrefix: string): string;
+    /**
+     * Converts an amount into a raw amount.
+     * @param amountStr - the amount, as a string.
+     * @param amountPrefix - the amount, as a string.
+     * @returns the banano as a raw value.
+     */
+    function getRawStrFromNanoshiStr(amountStr: string, amountPrefix: string): string;
 }
 
 declare namespace CamoUtil {
@@ -401,34 +429,6 @@ declare namespace BananoUtil {
      */
     function getWorkUsingCpu(hash: string, workBytes: Uint8Array): string;
     /**
-     * Converts an amount into a raw amount.
-     * @param amountStr - the amount, as a string.
-     * @param amountPrefix - the amount, as a string.
-     * @returns the banano as a raw value.
-     */
-    function getRawStrFromBananoStr(amountStr: string, amountPrefix: string): string;
-    /**
-     * Converts an amount into a raw amount.
-     * @param amountStr - the amount, as a string.
-     * @param amountPrefix - the amount, as a string.
-     * @returns the banano as a raw value.
-     */
-    function getRawStrFromBanoshiStr(amountStr: string, amountPrefix: string): string;
-    /**
-     * Converts an amount into a raw amount.
-     * @param amountStr - the amount, as a string.
-     * @param amountPrefix - the amount, as a string.
-     * @returns the banano as a raw value.
-     */
-    function getRawStrFromNanoStr(amountStr: string, amountPrefix: string): string;
-    /**
-     * Converts an amount into a raw amount.
-     * @param amountStr - the amount, as a string.
-     * @param amountPrefix - the amount, as a string.
-     * @returns the banano as a raw value.
-     */
-    function getRawStrFromNanoshiStr(amountStr: string, amountPrefix: string): string;
-    /**
      * Get the banano account for a given public key.
      * @param publicKey - the public key.
      * @returns the account.
@@ -494,11 +494,11 @@ declare namespace BananoUtil {
     function getAccount(publicKey: string, accountPrefix: string): string;
     /**
      * signs a block and returns the signature.
-     * @param privateKey - the private key to use to sign.
+     * @param privateKeyOrSigner - the private key to use to sign or signer object (ledger).
      * @param block - block to sign
      * @returns the signature
      */
-    function sign(privateKey: string, block: Block): string;
+    function sign(privateKeyOrSigner: string, block: Block): string;
     /**
      * returns true if the work (in bytes) for the hash (in bytes) is valid.
      * @param bytes - the bytes to hash.
@@ -520,10 +520,10 @@ declare namespace BananoUtil {
     function getZeroedWorkBytes(): Uint8Array;
     /**
      * Get the public key for a given private key.
-     * @param privateKey - the private key.
+     * @param privateKeyOrSigner - the private key or signer object (ledger).
      * @returns the public key.
      */
-    function getPublicKey(privateKey: string): Promise<string>;
+    function getPublicKey(privateKeyOrSigner: string): Promise<string>;
     /**
      * validates a seed.
      * @param seed - the seed to use to validate.
@@ -715,14 +715,3 @@ declare type AccountValidationInfo = {
 };
 
 
-export {
-  Block,
-  Main,
-  CamoUtil,
-  BananoUtil,
-  WithdrawUtil,
-  DepositUtil,
-  BananodeApi,
-  BananoParts,
-  AccountValidationInfo,
-}

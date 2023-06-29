@@ -3357,16 +3357,18 @@ window.bananocoin.bananojs.https.request = (
    * signs a block and returns the signature.
    *
    * @memberof BananoUtil
-   * @param {string} privateKey the private key to use to sign.
+   * @param {string} privateKeyOrSigner the private key to use to sign or signer object (ledger).
    * @param {Block} block block to sign
    * @return {string} the signature
    */
-  const sign = async (privateKey, block) => {
-    if (typeof privateKey == 'object') {
-      const hwResponse = await privateKey.signBlock(block);
+  const sign = async (privateKeyOrSigner, block) => {
+    if (typeof privateKeyOrSigner === 'object') {
+      // type is signer
+      const hwResponse = await privateKeyOrSigner.signBlock(block);
       return hwResponse.signature;
     } else {
-      return signHash(privateKey, hash(block));
+      // type is private key
+      return signHash(privateKeyOrSigner, hash(block));
     }
   };
 
@@ -3484,14 +3486,16 @@ window.bananocoin.bananojs.https.request = (
    * Get the public key for a given private key.
    *
    * @memberof BananoUtil
-   * @param {string} privateKey the private key.
+   * @param {string} privateKeyOrSigner the private key or signer object (ledger).
    * @return {Promise<string>} the public key.
    */
-  const getPublicKey = async (privateKey) => {
-    if (typeof privateKey == 'object') {
-      return await privateKey.getPublicKey();
+  const getPublicKey = async (privateKeyOrSigner) => {
+    if (typeof privateKeyOrSigner === 'object') {
+      // type is signer
+      return await privateKeyOrSigner.getPublicKey();
     }
-    const accountKeyPair = generateAccountKeyPair(hexToBytes(privateKey));
+    // type is private key
+    const accountKeyPair = generateAccountKeyPair(hexToBytes(privateKeyOrSigner));
     return bytesToHex(accountKeyPair.publicKey);
   };
 
@@ -6850,7 +6854,7 @@ window.bananocoin.bananojs.https.request = (
   /**
    * Converts an amount into a raw amount.
    *
-   * @memberof BananoUtil
+   * @memberof Main
    * @param {string} amountStr the amount, as a string.
    * @param {string} amountPrefix the amount, as a string.
    * @return {string} the banano as a raw value.
@@ -6862,7 +6866,7 @@ window.bananocoin.bananojs.https.request = (
   /**
    * Converts an amount into a raw amount.
    *
-   * @memberof BananoUtil
+   * @memberof Main
    * @param {string} amountStr the amount, as a string.
    * @param {string} amountPrefix the amount, as a string.
    * @return {string} the banano as a raw value.
@@ -6873,7 +6877,7 @@ window.bananocoin.bananojs.https.request = (
   /**
    * Converts an amount into a raw amount.
    *
-   * @memberof BananoUtil
+   * @memberof Main
    * @param {string} amountStr the amount, as a string.
    * @param {string} amountPrefix the amount, as a string.
    * @return {string} the banano as a raw value.
@@ -6885,7 +6889,7 @@ window.bananocoin.bananojs.https.request = (
   /**
    * Converts an amount into a raw amount.
    *
-   * @memberof BananoUtil
+   * @memberof Main
    * @param {string} amountStr the amount, as a string.
    * @param {string} amountPrefix the amount, as a string.
    * @return {string} the banano as a raw value.

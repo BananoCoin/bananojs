@@ -15,6 +15,9 @@
 
   const preamble =
     '0000000000000000000000000000000000000000000000000000000000000006';
+  
+  const bananoMessagePreamble =
+    'bananomsg-';
 
   const prefixDivisors = {
     ban_: {
@@ -516,20 +519,54 @@
     return bytes;
   };
 
-  const signMessage = (privateKey, message) => {
-    const messageBytes = utf8ToBytes(message);
+  const hashMessageToBytes = (message) => {
+    const context = blake.blake2bInit(32, null);
+    // bananoMessagePreamble is technically not needed for dummy blocks but helps separate Nano signing from Banano signing
+    blake.blake2bUpdate(context, bananoMessagePreamble);
+    blake.blake2bUpdate(context, message);
+    const bytes = blake.blake2bFinal(context);
+    return bytes;
+  }
+
+  const DUMMY_BYTES = hexToBytes("0000000000000000000000000000000000000000000000000000000000000000");
+  const DUMMY_BALANCE = hexToBytes("00000000000000000000000000000000");
+
+  const messageDummyBlockHashBytes = (publicKeyBytes, message) => {
+    if (typeof(publicKeyBytes) === 'string') {
+      publicKeyBytes = hexToBytes(publicKeyBytes);
+    }
+    const hashedMessageBytes = hashMessageToBytes(message);
+
+    const context = blake.blake2bInit(32, null);
+    blake.blake2bUpdate(context, hexToBytes(preamble));
+    blake.blake2bUpdate(context, publicKeyBytes);
+    blake.blake2bUpdate(context, DUMMY_BYTES); // previous
+    blake.blake2bUpdate(context, hashedMessageBytes); // representative
+    blake.blake2bUpdate(context, DUMMY_BALANCE);
+    blake.blake2bUpdate(context, DUMMY_BYTES); // link
+    const hashBytes = blake.blake2bFinal(context);
+    return hashBytes;
+  }
+
+  const signMessage = async (privateKey, message) => {
+    const publicKey = await getPublicKey(privateKey);
+    const publicKeyBytes = hexToBytes(publicKey);
     const privateKeyBytes = hexToBytes(privateKey);
-    const signed = nacl.sign.detached(messageBytes, privateKeyBytes);
+    const dummyBlockHashBytes = messageDummyBlockHashBytes(publicKeyBytes, message);
+    const signed = nacl.sign.detached(dummyBlockHashBytes, privateKeyBytes);
     const signature = bytesToHex(signed);
+
     return signature;
   };
 
   const verifyMessage = (publicKey, message, signature) => {
-    const messageBytes = utf8ToBytes(message);
     const publicKeyBytes = hexToBytes(publicKey);
     const signatureBytes = hexToBytes(signature);
-    const verifies = nacl.sign.detached.verify(messageBytes, signatureBytes, publicKeyBytes);
-    return verifies;
+
+    const dummyBlockHashBytes = messageDummyBlockHashBytes(publicKeyBytes, message);
+    const verified = nacl.sign.detached.verify(dummyBlockHashBytes, signatureBytes, publicKeyBytes);
+
+    return verified;
   };
 
   const signHash = (privateKey, hash) => {
@@ -1413,6 +1450,8 @@
     exports.hash = hash;
     exports.sign = sign;
     exports.utf8ToBytes = utf8ToBytes;
+    exports.hashMessageToBytes = hashMessageToBytes;
+    exports.messageDummyBlockHashBytes = messageDummyBlockHashBytes;
     exports.signMessage = signMessage;
     exports.verifyMessage = verifyMessage;
     exports.signHash = signHash;

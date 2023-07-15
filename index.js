@@ -731,8 +731,8 @@
    * @param {string} message the utf-8 message to sign.
    * @return {string} the message's hash.
    */
-  const signMessage = (privateKey, message) => {
-    return bananoUtil.signMessage(privateKey, message);
+  const signMessage = (privateKeyOrSigner, message) => {
+    return bananoUtil.signMessage(privateKeyOrSigner, message);
   };
 
   /**

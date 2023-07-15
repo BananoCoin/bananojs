@@ -531,6 +531,33 @@
   const DUMMY_BYTES = hexToBytes("0000000000000000000000000000000000000000000000000000000000000000");
   const DUMMY_BALANCE = hexToBytes("00000000000000000000000000000000");
 
+  const messageDummyBlock = (publicKeyBytes, message) => {
+    let publicKey;
+    if (typeof(publicKeyBytes) === 'string') {
+      publicKey = publicKeyBytes;
+      publicKeyBytes = hexToBytes(publicKeyBytes);
+    } else {
+      publicKey = bytesToHex(publicKeyBytes);
+    }
+
+    const accountAddress = getAccount(publicKey, 'ban_');
+    const hashedMessageBytes = hashMessageToBytes(message);
+    const hashedMessageHex = bytesToHex(hashedMessageBytes);
+    const representative = getAccount(hashedMessageHex, 'ban_');
+    const dummyHex = bytesToHex(DUMMY_BYTES);
+
+    const block = {
+      type: 'state',
+      account: accountAddress,
+      previous: dummyHex,
+      representative: representative,
+      balance: '0',
+      link: dummyHex
+    }
+
+    return block;
+  }
+
   const messageDummyBlockHashBytes = (publicKeyBytes, message) => {
     if (typeof(publicKeyBytes) === 'string') {
       publicKeyBytes = hexToBytes(publicKeyBytes);
@@ -552,10 +579,17 @@
     const publicKey = await getPublicKey(privateKey);
     const publicKeyBytes = hexToBytes(publicKey);
     const privateKeyBytes = hexToBytes(privateKey);
+    
+
+    if (typeof privateKeyOrSigner === 'object') {
+      // type is signer
+      const hwResponse = await privateKeyOrSigner.signBlock(block);
+      return hwResponse.signature;
+    }
+
     const dummyBlockHashBytes = messageDummyBlockHashBytes(publicKeyBytes, message);
     const signed = nacl.sign.detached(dummyBlockHashBytes, privateKeyBytes);
     const signature = bytesToHex(signed);
-
     return signature;
   };
 
@@ -1451,6 +1485,7 @@
     exports.sign = sign;
     exports.utf8ToBytes = utf8ToBytes;
     exports.hashMessageToBytes = hashMessageToBytes;
+    exports.messageDummyBlock = messageDummyBlock;
     exports.messageDummyBlockHashBytes = messageDummyBlockHashBytes;
     exports.signMessage = signMessage;
     exports.verifyMessage = verifyMessage;

@@ -15,7 +15,7 @@
 
   const preamble =
     '0000000000000000000000000000000000000000000000000000000000000006';
-  
+
   const bananoMessagePreamble =
     'bananomsg-';
 
@@ -506,19 +506,6 @@
     return uint4;
   };
 
-  const utf8ToBytes = (utf8) => {
-    const bytes = new Uint8Array(utf8.length);
-    for (let i = 0; i < utf8.length; i++) {
-      const code = utf8.charCodeAt(i);
-      /* istanbul ignore if */
-      if (code > 0xff) {
-        throw Error('Non utf-8 character found');
-      }
-      bytes[i] = code;
-    }
-    return bytes;
-  };
-
   const hashMessageToBytes = (message) => {
     const context = blake.blake2bInit(32, null);
     // bananoMessagePreamble is technically not needed for dummy blocks but helps separate Nano signing from Banano signing
@@ -526,10 +513,10 @@
     blake.blake2bUpdate(context, message);
     const bytes = blake.blake2bFinal(context);
     return bytes;
-  }
+  };
 
-  const DUMMY_BYTES = hexToBytes("0000000000000000000000000000000000000000000000000000000000000000");
-  const DUMMY_BALANCE = hexToBytes("00000000000000000000000000000000");
+  const DUMMY_BYTES = hexToBytes('0000000000000000000000000000000000000000000000000000000000000000');
+  const DUMMY_BALANCE = hexToBytes('00000000000000000000000000000000');
 
   const messageDummyBlock = (publicKeyBytes, message) => {
     let publicKey;
@@ -552,11 +539,11 @@
       previous: dummyHex,
       representative: representative,
       balance: '0',
-      link: dummyHex
-    }
+      link: dummyHex,
+    };
 
     return block;
-  }
+  };
 
   const messageDummyBlockHashBytes = (publicKeyBytes, message) => {
     if (typeof(publicKeyBytes) === 'string') {
@@ -573,15 +560,15 @@
     blake.blake2bUpdate(context, DUMMY_BYTES); // link
     const hashBytes = blake.blake2bFinal(context);
     return hashBytes;
-  }
+  };
 
-  const signMessage = async (privateKey, message) => {
-    const publicKey = await getPublicKey(privateKey);
+  const signMessage = async (privateKeyOrSigner, message) => {
+    const publicKey = await getPublicKey(privateKeyOrSigner);
     const publicKeyBytes = hexToBytes(publicKey);
-    const privateKeyBytes = hexToBytes(privateKey);
-    
+    const privateKeyBytes = hexToBytes(privateKeyOrSigner);
 
     if (typeof privateKeyOrSigner === 'object') {
+      const block = messageDummyBlock(publicKeyBytes, message);
       // type is signer
       const hwResponse = await privateKeyOrSigner.signBlock(block);
       return hwResponse.signature;
@@ -657,21 +644,6 @@
 
   const generateAccountKeyPair = (accountSecretKeyBytes) => {
     return nacl.sign.keyPair.fromSecretKey(accountSecretKeyBytes);
-  };
-
-  /**
-   * returns true if the work (in bytes) for the hash (in bytes) is valid.
-   *
-   * @memberof BananoUtil
-   * @param {Uint8Array} bytes the bytes to hash.
-   * @param {{number}} size the digest size
-   * @return {Uint8Array} the bytes of the hash.
-   */
-  const getBlake2bHash = (bytes, size) => {
-    const context = blake.blake2bInit(size);
-    blake.blake2bUpdate(context, bytes);
-    const output = blake.blake2bFinal(context);
-    return output;
   };
 
   /**
@@ -1483,7 +1455,6 @@
     exports.getPrivateKey = getPrivateKey;
     exports.hash = hash;
     exports.sign = sign;
-    exports.utf8ToBytes = utf8ToBytes;
     exports.hashMessageToBytes = hashMessageToBytes;
     exports.messageDummyBlock = messageDummyBlock;
     exports.messageDummyBlockHashBytes = messageDummyBlockHashBytes;
@@ -1508,7 +1479,6 @@
     exports.isAccountSuffixValid = isAccountSuffixValid;
     exports.isAccountOpen = isAccountOpen;
     exports.isSeedValid = isSeedValid;
-    exports.getBlake2bHash = getBlake2bHash;
     return exports;
   })();
 

@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.8.10
+//version 2.9.1
 //license MIT
 /* eslint-disable */
 const require = (modname) => {
@@ -2804,6 +2804,9 @@ window.bananocoin.bananojs.https.request = (
   const preamble =
     '0000000000000000000000000000000000000000000000000000000000000006';
 
+  const bananoMessagePreamble =
+    'bananomsg-';
+
   const prefixDivisors = {
     ban_: {
       minorDivisor: BigInt('1000000000000000000000000000'),
@@ -3291,33 +3294,88 @@ window.bananocoin.bananojs.https.request = (
     return uint4;
   };
 
-  const utf8ToBytes = (utf8) => {
-    const bytes = new Uint8Array(utf8.length);
-    for (let i = 0; i < utf8.length; i++) {
-      const code = utf8.charCodeAt(i);
-      /* istanbul ignore if */
-      if (code > 0xff) {
-        throw Error('Non utf-8 character found');
-      }
-      bytes[i] = code;
-    }
+  const hashMessageToBytes = (message) => {
+    const context = blake.blake2bInit(32, null);
+    // bananoMessagePreamble is technically not needed for dummy blocks but helps separate Nano signing from Banano signing
+    blake.blake2bUpdate(context, bananoMessagePreamble);
+    blake.blake2bUpdate(context, message);
+    const bytes = blake.blake2bFinal(context);
     return bytes;
   };
 
-  const signMessage = (privateKey, message) => {
-    const messageBytes = utf8ToBytes(message);
-    const privateKeyBytes = hexToBytes(privateKey);
-    const signed = nacl.sign.detached(messageBytes, privateKeyBytes);
+  const DUMMY_BYTES = hexToBytes('0000000000000000000000000000000000000000000000000000000000000000');
+  const DUMMY_BALANCE = hexToBytes('00000000000000000000000000000000');
+
+  const messageDummyBlock = (publicKeyBytes, message) => {
+    let publicKey;
+    if (typeof(publicKeyBytes) === 'string') {
+      publicKey = publicKeyBytes;
+      publicKeyBytes = hexToBytes(publicKeyBytes);
+    } else {
+      publicKey = bytesToHex(publicKeyBytes);
+    }
+
+    const accountAddress = getAccount(publicKey, 'ban_');
+    const hashedMessageBytes = hashMessageToBytes(message);
+    const hashedMessageHex = bytesToHex(hashedMessageBytes);
+    const representative = getAccount(hashedMessageHex, 'ban_');
+    const dummyHex = bytesToHex(DUMMY_BYTES);
+
+    const block = {
+      type: 'state',
+      account: accountAddress,
+      previous: dummyHex,
+      representative: representative,
+      balance: '0',
+      link: dummyHex,
+    };
+
+    return block;
+  };
+
+  const messageDummyBlockHashBytes = (publicKeyBytes, message) => {
+    if (typeof(publicKeyBytes) === 'string') {
+      publicKeyBytes = hexToBytes(publicKeyBytes);
+    }
+    const hashedMessageBytes = hashMessageToBytes(message);
+
+    const context = blake.blake2bInit(32, null);
+    blake.blake2bUpdate(context, hexToBytes(preamble));
+    blake.blake2bUpdate(context, publicKeyBytes);
+    blake.blake2bUpdate(context, DUMMY_BYTES); // previous
+    blake.blake2bUpdate(context, hashedMessageBytes); // representative
+    blake.blake2bUpdate(context, DUMMY_BALANCE);
+    blake.blake2bUpdate(context, DUMMY_BYTES); // link
+    const hashBytes = blake.blake2bFinal(context);
+    return hashBytes;
+  };
+
+  const signMessage = async (privateKeyOrSigner, message) => {
+    const publicKey = await getPublicKey(privateKeyOrSigner);
+    const publicKeyBytes = hexToBytes(publicKey);
+    const privateKeyBytes = hexToBytes(privateKeyOrSigner);
+
+    if (typeof privateKeyOrSigner === 'object') {
+      const block = messageDummyBlock(publicKeyBytes, message);
+      // type is signer
+      const hwResponse = await privateKeyOrSigner.signBlock(block);
+      return hwResponse.signature;
+    }
+
+    const dummyBlockHashBytes = messageDummyBlockHashBytes(publicKeyBytes, message);
+    const signed = nacl.sign.detached(dummyBlockHashBytes, privateKeyBytes);
     const signature = bytesToHex(signed);
     return signature;
   };
 
   const verifyMessage = (publicKey, message, signature) => {
-    const messageBytes = utf8ToBytes(message);
     const publicKeyBytes = hexToBytes(publicKey);
     const signatureBytes = hexToBytes(signature);
-    const verifies = nacl.sign.detached.verify(messageBytes, signatureBytes, publicKeyBytes);
-    return verifies;
+
+    const dummyBlockHashBytes = messageDummyBlockHashBytes(publicKeyBytes, message);
+    const verified = nacl.sign.detached.verify(dummyBlockHashBytes, signatureBytes, publicKeyBytes);
+
+    return verified;
   };
 
   const signHash = (privateKey, hash) => {
@@ -3374,21 +3432,6 @@ window.bananocoin.bananojs.https.request = (
 
   const generateAccountKeyPair = (accountSecretKeyBytes) => {
     return nacl.sign.keyPair.fromSecretKey(accountSecretKeyBytes);
-  };
-
-  /**
-   * returns true if the work (in bytes) for the hash (in bytes) is valid.
-   *
-   * @memberof BananoUtil
-   * @param {Uint8Array} bytes the bytes to hash.
-   * @param {{number}} size the digest size
-   * @return {Uint8Array} the bytes of the hash.
-   */
-  const getBlake2bHash = (bytes, size) => {
-    const context = blake.blake2bInit(size);
-    blake.blake2bUpdate(context, bytes);
-    const output = blake.blake2bFinal(context);
-    return output;
   };
 
   /**
@@ -4200,7 +4243,9 @@ window.bananocoin.bananojs.https.request = (
     exports.getPrivateKey = getPrivateKey;
     exports.hash = hash;
     exports.sign = sign;
-    exports.utf8ToBytes = utf8ToBytes;
+    exports.hashMessageToBytes = hashMessageToBytes;
+    exports.messageDummyBlock = messageDummyBlock;
+    exports.messageDummyBlockHashBytes = messageDummyBlockHashBytes;
     exports.signMessage = signMessage;
     exports.verifyMessage = verifyMessage;
     exports.signHash = signHash;
@@ -4222,7 +4267,6 @@ window.bananocoin.bananojs.https.request = (
     exports.isAccountSuffixValid = isAccountSuffixValid;
     exports.isAccountOpen = isAccountOpen;
     exports.isSeedValid = isSeedValid;
-    exports.getBlake2bHash = getBlake2bHash;
     return exports;
   })();
 
@@ -6284,12 +6328,47 @@ window.bananocoin.bananojs.https.request = (
    * signs a utf-8 message with private key.
    *
    * @memberof BananoUtil
+   * @param {string} privateKeyOrSigner the private key to use to sign.
+   * @param {string} message the utf-8 message to sign.
+   * @return {string} the message's hash.
+   */
+  const signMessage = (privateKeyOrSigner, message) => {
+    return bananoUtil.signMessage(privateKeyOrSigner, message);
+  };
+
+  /**
+   * signs a utf-8 message with private key. Only used internally and for testing.
+   *
+   * @memberof BananoUtil
+   * @param {string} message the utf-8 message to sign.
+   * @return {string} the message's hash.
+   */
+  const hashMessageToBytes = (message) => {
+    return bananoUtil.hashMessageToBytes(message);
+  };
+
+  /**
+   * generates a dummy block hash that is used for message signing.
+   *
+   * @memberof BananoUtil
    * @param {string} privateKey the private key to use to sign.
    * @param {string} message the utf-8 message to sign.
    * @return {string} the message's hash.
    */
-  const signMessage = (privateKey, message) => {
-    return bananoUtil.signMessage(privateKey, message);
+  const messageDummyBlockHashBytes = (privateKey, message) => {
+    return bananoUtil.messageDummyBlockHashBytes(privateKey, message);
+  };
+
+  /**
+   * generates a dummy block that is used for message signing.
+   *
+   * @memberof BananoUtil
+   * @param {string} privateKey the private key to use to sign.
+   * @param {string} message the utf-8 message to sign.
+   * @return {string} the message's block.
+   */
+  const messageDummyBlock = (privateKey, message) => {
+    return bananoUtil.messageDummyBlock(privateKey, message);
   };
 
   /**
@@ -7011,6 +7090,9 @@ window.bananocoin.bananojs.https.request = (
       changeBananoRepresentativeForSeed;
     exports.changeNanoRepresentativeForSeed = changeNanoRepresentativeForSeed;
     exports.getSignature = getSignature;
+    exports.hashMessageToBytes = hashMessageToBytes;
+    exports.messageDummyBlockHashBytes = messageDummyBlockHashBytes;
+    exports.messageDummyBlock = messageDummyBlock;
     exports.signMessage = signMessage;
     exports.verifyMessage = verifyMessage;
     exports.signHash = signHash;

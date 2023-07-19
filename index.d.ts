@@ -374,11 +374,31 @@ declare namespace BananoUtil {
     function getBlockHash(block: string): string;
     /**
      * signs a utf-8 message with private key.
+     * @param privateKeyOrSigner - the private key to use to sign.
+     * @param message - the utf-8 message to sign.
+     * @returns the message's hash.
+     */
+    function signMessage(privateKeyOrSigner: string, message: string): string;
+    /**
+     * signs a utf-8 message with private key. Only used internally and for testing.
+     * @param message - the utf-8 message to sign.
+     * @returns the message's hash.
+     */
+    function hashMessageToBytes(message: string): string;
+    /**
+     * generates a dummy block hash that is used for message signing.
      * @param privateKey - the private key to use to sign.
      * @param message - the utf-8 message to sign.
      * @returns the message's hash.
      */
-    function signMessage(privateKey: string, message: string): string;
+    function messageDummyBlockHashBytes(privateKey: string, message: string): string;
+    /**
+     * generates a dummy block that is used for message signing.
+     * @param privateKey - the private key to use to sign.
+     * @param message - the utf-8 message to sign.
+     * @returns the message's block.
+     */
+    function messageDummyBlock(privateKey: string, message: string): string;
     /**
      * verifies a utf-8 message with public key.
      * @param publicKey - the public key to use to sign.
@@ -499,13 +519,6 @@ declare namespace BananoUtil {
      * @returns the signature
      */
     function sign(privateKeyOrSigner: string, block: Block): string;
-    /**
-     * returns true if the work (in bytes) for the hash (in bytes) is valid.
-     * @param bytes - the bytes to hash.
-     * @param size - the digest size
-     * @returns the bytes of the hash.
-     */
-    function getBlake2bHash(bytes: Uint8Array, size: any): Uint8Array;
     /**
      * returns true if the work (in bytes) for the hash (in bytes) is valid.
      * @param hashBytes - the hash bytes to check.
@@ -715,3 +728,14 @@ declare type AccountValidationInfo = {
 };
 
 
+export {
+  Block,
+  Main,
+  CamoUtil,
+  BananoUtil,
+  WithdrawUtil,
+  DepositUtil,
+  BananodeApi,
+  BananoParts,
+  AccountValidationInfo,
+}

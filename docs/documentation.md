@@ -504,7 +504,10 @@ checks if a camo account is valid.
     * [.openBananoAccountFromSeed(seed, seedIx, representative, pendingBlockHash, pendingValueRaw)](#BananoUtil.openBananoAccountFromSeed) ⇒ <code>Promise.&lt;string&gt;</code>
     * [.openNanoAccountFromSeed(seed, seedIx, representative, pendingBlockHash, pendingValueRaw)](#BananoUtil.openNanoAccountFromSeed) ⇒ <code>Promise.&lt;string&gt;</code>
     * [.getBlockHash(block)](#BananoUtil.getBlockHash) ⇒ <code>string</code>
-    * [.signMessage(privateKey, message)](#BananoUtil.signMessage) ⇒ <code>string</code>
+    * [.signMessage(privateKeyOrSigner, message)](#BananoUtil.signMessage) ⇒ <code>string</code>
+    * [.hashMessageToBytes(message)](#BananoUtil.hashMessageToBytes) ⇒ <code>string</code>
+    * [.messageDummyBlockHashBytes(privateKey, message)](#BananoUtil.messageDummyBlockHashBytes) ⇒ <code>string</code>
+    * [.messageDummyBlock(privateKey, message)](#BananoUtil.messageDummyBlock) ⇒ <code>string</code>
     * [.verifyMessage(publicKey, message, signature)](#BananoUtil.verifyMessage) ⇒ <code>string</code>
     * [.signHash(privateKey, hash)](#BananoUtil.signHash) ⇒ <code>string</code>
     * [.verify(hash, signature, publicKey)](#BananoUtil.verify) ⇒ <code>string</code>
@@ -523,7 +526,6 @@ checks if a camo account is valid.
     * [.getAccountSuffix(publicKey)](#BananoUtil.getAccountSuffix) ⇒ <code>string</code>
     * [.getAccount(publicKey, accountPrefix)](#BananoUtil.getAccount) ⇒ <code>string</code>
     * [.sign(privateKeyOrSigner, block)](#BananoUtil.sign) ⇒ <code>string</code>
-    * [.getBlake2bHash(bytes, size)](#BananoUtil.getBlake2bHash) ⇒ <code>Uint8Array</code>
     * [.isWorkValid(hashBytes, workBytes)](#BananoUtil.isWorkValid) ⇒ <code>boolean</code>
     * [.getZeroedWorkBytes()](#BananoUtil.getZeroedWorkBytes) ⇒ <code>Uint8Array</code>
     * [.getPublicKey(privateKeyOrSigner)](#BananoUtil.getPublicKey) ⇒ <code>Promise.&lt;string&gt;</code>
@@ -758,11 +760,49 @@ Get the hash for a given block.
 
 <a name="BananoUtil.signMessage"></a>
 
-### BananoUtil.signMessage(privateKey, message) ⇒ <code>string</code>
+### BananoUtil.signMessage(privateKeyOrSigner, message) ⇒ <code>string</code>
 signs a utf-8 message with private key.
 
 **Kind**: static method of [<code>BananoUtil</code>](#BananoUtil)  
 **Returns**: <code>string</code> - the message's hash.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| privateKeyOrSigner | <code>string</code> | the private key to use to sign. |
+| message | <code>string</code> | the utf-8 message to sign. |
+
+<a name="BananoUtil.hashMessageToBytes"></a>
+
+### BananoUtil.hashMessageToBytes(message) ⇒ <code>string</code>
+signs a utf-8 message with private key. Only used internally and for testing.
+
+**Kind**: static method of [<code>BananoUtil</code>](#BananoUtil)  
+**Returns**: <code>string</code> - the message's hash.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| message | <code>string</code> | the utf-8 message to sign. |
+
+<a name="BananoUtil.messageDummyBlockHashBytes"></a>
+
+### BananoUtil.messageDummyBlockHashBytes(privateKey, message) ⇒ <code>string</code>
+generates a dummy block hash that is used for message signing.
+
+**Kind**: static method of [<code>BananoUtil</code>](#BananoUtil)  
+**Returns**: <code>string</code> - the message's hash.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| privateKey | <code>string</code> | the private key to use to sign. |
+| message | <code>string</code> | the utf-8 message to sign. |
+
+<a name="BananoUtil.messageDummyBlock"></a>
+
+### BananoUtil.messageDummyBlock(privateKey, message) ⇒ <code>string</code>
+generates a dummy block that is used for message signing.
+
+**Kind**: static method of [<code>BananoUtil</code>](#BananoUtil)  
+**Returns**: <code>string</code> - the message's block.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -996,19 +1036,6 @@ signs a block and returns the signature.
 | --- | --- | --- |
 | privateKeyOrSigner | <code>string</code> | the private key to use to sign or signer object (ledger). |
 | block | [<code>Block</code>](#Block) | block to sign |
-
-<a name="BananoUtil.getBlake2bHash"></a>
-
-### BananoUtil.getBlake2bHash(bytes, size) ⇒ <code>Uint8Array</code>
-returns true if the work (in bytes) for the hash (in bytes) is valid.
-
-**Kind**: static method of [<code>BananoUtil</code>](#BananoUtil)  
-**Returns**: <code>Uint8Array</code> - the bytes of the hash.  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| bytes | <code>Uint8Array</code> | the bytes to hash. |
-| size | <code>Object</code> | the digest size |
 
 <a name="BananoUtil.isWorkValid"></a>
 

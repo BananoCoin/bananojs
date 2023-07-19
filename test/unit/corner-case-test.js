@@ -291,6 +291,28 @@ describe('corner-cases', () => {
     }
   });
 
+  it('signMessage from hardware wallet', async () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    const destAccount =
+      'ban_3i1aq1cchnmbn9x5rsbap8b15akfh7wj7pwskuzi7ahz8oq6cobd99d4r3b7';
+    const expected =
+      'EA94473875A88E3777C7FF4251410F09B82AACECE02901D78FDAE4BC571AF77D';
+    const accountSigner = {};
+    accountSigner.getPublicKey = async () => {
+      return await bananojs.getPublicKey(destAccount);
+    };
+    accountSigner.signBlock = async (block) => {
+      block.signature = expected;
+      return block;
+    };
+    try {
+      const actual = await bananojs.signMessage(accountSigner, 'test');
+      expect(expected).to.deep.equal(actual);
+    } catch (e) {
+      console.trace(e);
+    }
+  });
+
   beforeEach(async () => {});
 
   afterEach(async () => {

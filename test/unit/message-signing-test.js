@@ -38,26 +38,28 @@ describe('message-sign', () => {
     expect(signatureVerify).to.deep.equal(false);
   });
 
+  it('generates expected dummy block hash from public key bytes', async () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    const publicKey = await bananojs.getPublicKey(privateKey);
+    const publicKeyBytes = bananojs.BananoUtil.hexToBytes(publicKey);
+    const block = bananojs.messageDummyBlock(publicKeyBytes, 'test');
+    const account = bananojs.getAccount(publicKey, 'ban_');
+    expect(account).to.equal(block.account);
+  });
+
   it('generates expected dummy block hash', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
     const publicKey = await bananojs.getPublicKey(privateKey);
     const hashedMessageBytes = bananojs.hashMessageToBytes('test');
     const dummyBlockHashBytes = bananojs.messageDummyBlockHashBytes(publicKey, 'test');
 
-    const hashedMessage = bananojs.getHexFromBytes(hashedMessageBytes);
     const dummyBlockHash = bananojs.getHexFromBytes(dummyBlockHashBytes);
-    
-    const address = bananojs.getAccount(publicKey, 'ban_');
-    const representative = bananojs.getAccount(hashedMessage, 'ban_');
 
-    const block = {
-      type: 'state',
-      account: address,
-      previous: '0000000000000000000000000000000000000000000000000000000000000000',
-      balance: '0',
-      representative: representative,
-      link: '0000000000000000000000000000000000000000000000000000000000000000'
-    }
+    const block = bananojs.messageDummyBlock(publicKey, 'test');
+
+    const hashedMessage = bananojs.getHexFromBytes(hashedMessageBytes);
+    const representative = bananojs.getAccount(hashedMessage, 'ban_');
+    expect(representative).to.equal(block.representative);
 
     const manualDummyBlockHash = bananojs.getBlockHash(block);
     expect(dummyBlockHash).to.equal(manualDummyBlockHash);

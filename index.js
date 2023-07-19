@@ -731,8 +731,31 @@
    * @param {string} message the utf-8 message to sign.
    * @return {string} the message's hash.
    */
-  const signMessage = (privateKey, message) => {
-    return bananoUtil.signMessage(privateKey, message);
+  const signMessage = (privateKeyOrSigner, message) => {
+    return bananoUtil.signMessage(privateKeyOrSigner, message);
+  };
+
+  /**
+   * signs a utf-8 message with private key. Only used internally and for testing.
+   *
+   * @memberof BananoUtil
+   * @param {string} message the utf-8 message to sign.
+   * @return {string} the message's hash.
+   */
+  const hashMessageToBytes = (message) => {
+    return bananoUtil.hashMessageToBytes(message);
+  };
+
+  /**
+   * generates a dummy block hash that is used for message signing.
+   *
+   * @memberof BananoUtil
+   * @param {string} privateKey the private key to use to sign.
+   * @param {string} message the utf-8 message to sign.
+   * @return {string} the message's hash.
+   */
+  const messageDummyBlockHashBytes = (privateKey, message) => {
+    return bananoUtil.messageDummyBlockHashBytes(privateKey, message);
   };
 
   /**
@@ -1454,6 +1477,8 @@
       changeBananoRepresentativeForSeed;
     exports.changeNanoRepresentativeForSeed = changeNanoRepresentativeForSeed;
     exports.getSignature = getSignature;
+    exports.hashMessageToBytes = hashMessageToBytes;
+    exports.messageDummyBlockHashBytes = messageDummyBlockHashBytes;
     exports.signMessage = signMessage;
     exports.verifyMessage = verifyMessage;
     exports.signHash = signHash;

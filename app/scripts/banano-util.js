@@ -506,6 +506,19 @@
     return uint4;
   };
 
+  const utf8ToBytes = (utf8) => {
+    const bytes = new Uint8Array(utf8.length);
+    for (let i = 0; i < utf8.length; i++) {
+      const code = utf8.charCodeAt(i);
+      /* istanbul ignore if */
+      if (code > 0xff) {
+        throw Error('Non utf-8 character found');
+      }
+      bytes[i] = code;
+    }
+    return bytes;
+  };
+
   const hashMessageToBytes = (message) => {
     const context = blake.blake2bInit(32, null);
     // bananoMessagePreamble is technically not needed for dummy blocks but helps separate Nano signing from Banano signing
@@ -644,6 +657,21 @@
 
   const generateAccountKeyPair = (accountSecretKeyBytes) => {
     return nacl.sign.keyPair.fromSecretKey(accountSecretKeyBytes);
+  };
+
+  /**
+   * returns true if the work (in bytes) for the hash (in bytes) is valid.
+   *
+   * @memberof BananoUtil
+   * @param {Uint8Array} bytes the bytes to hash.
+   * @param {{number}} size the digest size
+   * @return {Uint8Array} the bytes of the hash.
+   */
+  const getBlake2bHash = (bytes, size) => {
+    const context = blake.blake2bInit(size);
+    blake.blake2bUpdate(context, bytes);
+    const output = blake.blake2bFinal(context);
+    return output;
   };
 
   /**
@@ -1455,6 +1483,7 @@
     exports.getPrivateKey = getPrivateKey;
     exports.hash = hash;
     exports.sign = sign;
+    exports.utf8ToBytes = utf8ToBytes;
     exports.hashMessageToBytes = hashMessageToBytes;
     exports.messageDummyBlock = messageDummyBlock;
     exports.messageDummyBlockHashBytes = messageDummyBlockHashBytes;
@@ -1479,6 +1508,7 @@
     exports.isAccountSuffixValid = isAccountSuffixValid;
     exports.isAccountOpen = isAccountOpen;
     exports.isSeedValid = isSeedValid;
+    exports.getBlake2bHash = getBlake2bHash;
     return exports;
   })();
 

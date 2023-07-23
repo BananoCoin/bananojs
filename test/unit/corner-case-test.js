@@ -313,6 +313,15 @@ describe('corner-cases', () => {
     }
   });
 
+  it('verify getBlake2bHash bananojs vs hash', async () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    const bytes = bananojs.getUtf8BytesFromString('a');
+    const hash1Bytes = await bananojs.getBlake2bHash(bytes, 32);
+    const actualHash = bananojs.getHexFromBytes(hash1Bytes);
+    const expectedHash = '8928AAE63C84D87EA098564D1E03AD813F107ADD474E56AEDD286349C0C03EA4';
+    expect(expectedHash).to.deep.equal(actualHash);
+  });
+
   beforeEach(async () => {});
 
   afterEach(async () => {

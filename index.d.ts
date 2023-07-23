@@ -521,6 +521,13 @@ declare namespace BananoUtil {
     function sign(privateKeyOrSigner: string, block: Block): string;
     /**
      * returns true if the work (in bytes) for the hash (in bytes) is valid.
+     * @param bytes - the bytes to hash.
+     * @param size - the digest size
+     * @returns the bytes of the hash.
+     */
+    function getBlake2bHash(bytes: Uint8Array, size: any): Uint8Array;
+    /**
+     * returns true if the work (in bytes) for the hash (in bytes) is valid.
      * @param hashBytes - the hash bytes to check.
      * @param workBytes - the work bytes to check.
      * @returns true if the work is valid for the hash.

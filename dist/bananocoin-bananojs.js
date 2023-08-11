@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.9.2
+//version 2.10.0
 //license MIT
 /* eslint-disable */
 const require = (modname) => {
@@ -3311,7 +3311,7 @@ window.bananocoin.bananojs.https.request = (
     if (typeof message === 'string') {
       message = utf8ToBytes(message);
     } else if (!(message instanceof Uint8Array)) {
-      throw Error('Expected message to be of type Uint8Array');
+      throw Error('Expected message to be of type Uint8Array or string');
     }
     const context = blake.blake2bInit(32, null);
     // bananoMessagePreamble is technically not needed for dummy blocks but helps separate Nano signing from Banano signing

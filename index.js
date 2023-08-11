@@ -724,7 +724,7 @@
   };
 
   /**
-   * signs a utf-8 message with private key.
+   * signs a dummy block with a hash of the utf-8 message using private key.
    *
    * @memberof BananoUtil
    * @param {string} privateKeyOrSigner the private key to use to sign.
@@ -771,7 +771,7 @@
   };
 
   /**
-   * verifies a utf-8 message with public key.
+   * verifies a utf-8 message with public key from a dummy block signature.
    *
    * @memberof BananoUtil
    * @param {string} publicKey the public key to use to sign.

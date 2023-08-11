@@ -11,7 +11,7 @@ const bananoTest = require('./banano-test.json');
 const testUtil = require('../util/test-util.js');
 
 const expectedMessageSignature =
-  '93DF9DD1E2BFB2DFB28C12B300BC03D6F5EACCDF7B828ED7B77EACE47B1066257816325525139242CC9011878846E2D88013DB3370FCB56375319D00AD8C5307';
+  '36DA6CEE694A54F40A82C62C3DBF75AAF8425D50821DCCECCB931DCEB6B4938F7FD9B420FDFB1924BE2208085FD607471A57649E7DB964623D280D3AD37C2D0A';
 
 const privateKey = bananoTest.privateKey;
 
@@ -28,6 +28,14 @@ describe('message-sign', () => {
     const publicKey = await bananojs.getPublicKey(privateKey);
     const signatureVerify = bananojs.verifyMessage(publicKey, 'test', signature);
     expect(signatureVerify).to.deep.equal(true);
+  });
+
+  it('signed message generates different valid signatures for different messages', async () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    const signature1 = await bananojs.signMessage(privateKey, 'test1');
+    const signature2 = await bananojs.signMessage(privateKey, 'test2');
+    const publicKey = await bananojs.getPublicKey(privateKey);
+    expect(signature1).to.not.equal(signature2);
   });
 
   it('invalid message is rejected', async () => {

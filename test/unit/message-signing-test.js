@@ -30,11 +30,17 @@ describe('message-sign', () => {
     expect(signatureVerify).to.deep.equal(true);
   });
 
-  it('signed message generates different valid signatures for different messages', async () => {
+  it('different signed messages generates different signatures', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
     const signature1 = await bananojs.signMessage(privateKey, 'test1');
     const signature2 = await bananojs.signMessage(privateKey, 'test2');
-    const publicKey = await bananojs.getPublicKey(privateKey);
+    expect(signature1).to.not.equal(signature2);
+  });
+
+  it('different signed messages without numbers generates different signatures', async () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    const signature1 = await bananojs.signMessage(privateKey, 'abcd');
+    const signature2 = await bananojs.signMessage(privateKey, 'test');
     expect(signature1).to.not.equal(signature2);
   });
 

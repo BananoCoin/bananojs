@@ -762,7 +762,7 @@ Get the hash for a given block.
 <a name="BananoUtil.signMessage"></a>
 
 ### BananoUtil.signMessage(privateKeyOrSigner, message) ⇒ <code>string</code>
-signs a utf-8 message with private key.
+signs a dummy block with a hash of the utf-8 message using private key.
 
 **Kind**: static method of [<code>BananoUtil</code>](#BananoUtil)  
 **Returns**: <code>string</code> - the message's hash.  
@@ -813,7 +813,7 @@ generates a dummy block that is used for message signing.
 <a name="BananoUtil.verifyMessage"></a>
 
 ### BananoUtil.verifyMessage(publicKey, message, signature) ⇒ <code>string</code>
-verifies a utf-8 message with public key.
+verifies a utf-8 message with public key from a dummy block signature.
 
 **Kind**: static method of [<code>BananoUtil</code>](#BananoUtil)  
 **Returns**: <code>string</code> - the message's hash.  

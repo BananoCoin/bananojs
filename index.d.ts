@@ -373,7 +373,7 @@ declare namespace BananoUtil {
      */
     function getBlockHash(block: string): string;
     /**
-     * signs a utf-8 message with private key.
+     * signs a dummy block with a hash of the utf-8 message using private key.
      * @param privateKeyOrSigner - the private key to use to sign.
      * @param message - the utf-8 message to sign.
      * @returns the message's hash.
@@ -400,7 +400,7 @@ declare namespace BananoUtil {
      */
     function messageDummyBlock(privateKey: string, message: string): string;
     /**
-     * verifies a utf-8 message with public key.
+     * verifies a utf-8 message with public key from a dummy block signature.
      * @param publicKey - the public key to use to sign.
      * @param message - the utf-8 message to verify.
      * @param signature - hex of signature.

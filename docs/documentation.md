@@ -504,11 +504,11 @@ checks if a camo account is valid.
     * [.openBananoAccountFromSeed(seed, seedIx, representative, pendingBlockHash, pendingValueRaw)](#BananoUtil.openBananoAccountFromSeed) ⇒ <code>Promise.&lt;string&gt;</code>
     * [.openNanoAccountFromSeed(seed, seedIx, representative, pendingBlockHash, pendingValueRaw)](#BananoUtil.openNanoAccountFromSeed) ⇒ <code>Promise.&lt;string&gt;</code>
     * [.getBlockHash(block)](#BananoUtil.getBlockHash) ⇒ <code>string</code>
-    * [.signMessage(privateKeyOrSigner, message)](#BananoUtil.signMessage) ⇒ <code>string</code>
-    * [.hashMessageToBytes(message)](#BananoUtil.hashMessageToBytes) ⇒ <code>string</code>
-    * [.messageDummyBlockHashBytes(privateKey, message)](#BananoUtil.messageDummyBlockHashBytes) ⇒ <code>string</code>
+    * [.signMessage(privateKeyOrSigner, message)](#BananoUtil.signMessage) ⇒ <code>boolean</code>
+    * [.hashMessageToBytes(message)](#BananoUtil.hashMessageToBytes) ⇒ <code>Uint8Array</code>
+    * [.messageDummyBlockHashBytes(privateKey, message)](#BananoUtil.messageDummyBlockHashBytes) ⇒ <code>Uint8Array</code>
     * [.messageDummyBlock(privateKey, message)](#BananoUtil.messageDummyBlock) ⇒ <code>string</code>
-    * [.verifyMessage(publicKey, message, signature)](#BananoUtil.verifyMessage) ⇒ <code>string</code>
+    * [.verifyMessage(publicKey, message, signature)](#BananoUtil.verifyMessage) ⇒ <code>boolean</code>
     * [.signHash(privateKey, hash)](#BananoUtil.signHash) ⇒ <code>string</code>
     * [.verify(hash, signature, publicKey)](#BananoUtil.verify) ⇒ <code>string</code>
     * [.getSignature(privateKey, block)](#BananoUtil.getSignature) ⇒ <code>string</code>
@@ -761,11 +761,11 @@ Get the hash for a given block.
 
 <a name="BananoUtil.signMessage"></a>
 
-### BananoUtil.signMessage(privateKeyOrSigner, message) ⇒ <code>string</code>
+### BananoUtil.signMessage(privateKeyOrSigner, message) ⇒ <code>boolean</code>
 signs a dummy block with a hash of the utf-8 message using private key.
 
 **Kind**: static method of [<code>BananoUtil</code>](#BananoUtil)  
-**Returns**: <code>string</code> - the message's hash.  
+**Returns**: <code>boolean</code> - the message's signature.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -774,11 +774,11 @@ signs a dummy block with a hash of the utf-8 message using private key.
 
 <a name="BananoUtil.hashMessageToBytes"></a>
 
-### BananoUtil.hashMessageToBytes(message) ⇒ <code>string</code>
+### BananoUtil.hashMessageToBytes(message) ⇒ <code>Uint8Array</code>
 signs a utf-8 message with private key. Only used internally and for testing.
 
 **Kind**: static method of [<code>BananoUtil</code>](#BananoUtil)  
-**Returns**: <code>string</code> - the message's hash.  
+**Returns**: <code>Uint8Array</code> - hashed message's bytes.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -786,11 +786,11 @@ signs a utf-8 message with private key. Only used internally and for testing.
 
 <a name="BananoUtil.messageDummyBlockHashBytes"></a>
 
-### BananoUtil.messageDummyBlockHashBytes(privateKey, message) ⇒ <code>string</code>
+### BananoUtil.messageDummyBlockHashBytes(privateKey, message) ⇒ <code>Uint8Array</code>
 generates a dummy block hash that is used for message signing.
 
 **Kind**: static method of [<code>BananoUtil</code>](#BananoUtil)  
-**Returns**: <code>string</code> - the message's hash.  
+**Returns**: <code>Uint8Array</code> - hashed dummy block's bytes.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -812,11 +812,11 @@ generates a dummy block that is used for message signing.
 
 <a name="BananoUtil.verifyMessage"></a>
 
-### BananoUtil.verifyMessage(publicKey, message, signature) ⇒ <code>string</code>
+### BananoUtil.verifyMessage(publicKey, message, signature) ⇒ <code>boolean</code>
 verifies a utf-8 message with public key from a dummy block signature.
 
 **Kind**: static method of [<code>BananoUtil</code>](#BananoUtil)  
-**Returns**: <code>string</code> - the message's hash.  
+**Returns**: <code>boolean</code> - whether the signature was verified.  
 
 | Param | Type | Description |
 | --- | --- | --- |

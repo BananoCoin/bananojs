@@ -159,8 +159,6 @@ commands['ngetaccount'] = async (privateKey) => {
 };
 
 commands['ngetprivatekey'] = async (seed, seedIx) => {
-  const config = configs.nano;
-  bananodeApi.setUrl(config.bananodeUrl);
   const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
   console.log('nano getprivatekey privateKey', privateKey);
 };
@@ -309,8 +307,6 @@ commands['bgetaccount'] = async (privateKey) => {
 };
 
 commands['bgetprivatekey'] = async (seed, seedIx) => {
-  const config = configs.banano;
-  bananodeApi.setUrl(config.bananodeUrl);
   const privateKey = bananoUtil.getPrivateKey(seed, seedIx);
   console.log('banano getprivatekey privateKey', privateKey);
 };

@@ -4,7 +4,7 @@ Client side bananojs currently uses a field on the window object to store it's c
 
 This will be updated to use a modular include sometime soon (TM).
 
-For now here's now to get started:
+For now here's how to get started:
 
 1.  include bananojs in the web page
 

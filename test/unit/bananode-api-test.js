@@ -217,6 +217,9 @@ const callResponseError = async (retval, fn, arg1, arg2, arg3, arg4) => {
     if (error.message == 'Unexpected token < in JSON at position 0') {
       return;
     }
+    if (error.message == `Unexpected token '<', "<html/>" is not valid JSON`) {
+      return;
+    }
     if (error.message == '{}') {
       return;
     }

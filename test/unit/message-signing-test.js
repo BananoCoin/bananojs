@@ -22,11 +22,21 @@ describe('message-sign', () => {
     expect(actualMessageSignature).to.deep.equal(expectedMessageSignature);
   });
 
-  it('signed message is verified', async () => {
+  it('signed string message is verified', async () => {
     const bananojs = testUtil.getBananojsWithMockApi();
     const signature = await bananojs.signMessage(privateKey, 'test');
     const publicKey = await bananojs.getPublicKey(privateKey);
     const signatureVerify = bananojs.verifyMessage(publicKey, 'test', signature);
+    expect(signatureVerify).to.deep.equal(true);
+  });
+
+  it('signed Uint8Array message is verified', async () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    const message = new Uint8Array(1);
+    message[0] = 1;
+    const signature = await bananojs.signMessage(privateKey, message);
+    const publicKey = await bananojs.getPublicKey(privateKey);
+    const signatureVerify = bananojs.verifyMessage(publicKey, message, signature);
     expect(signatureVerify).to.deep.equal(true);
   });
 

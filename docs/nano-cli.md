@@ -32,7 +32,7 @@
     }
 ```
 
-# recieve pending using private key:
+# receive pending using private key:
 
 ```
     npm start nreceive ${privateKey} ${hash}

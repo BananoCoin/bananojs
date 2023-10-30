@@ -211,7 +211,7 @@ receives nano funds at a camo address.
 <a name="CamoUtil.getCamoBananoNextPrivateKeyForReceive"></a>
 
 ### CamoUtil.getCamoBananoNextPrivateKeyForReceive(seed) ⇒ <code>Promise.&lt;string&gt;</code>
-finds a new private key to recieve more banano funds. the key would have no history.
+finds a new private key to receive more banano funds. the key would have no history.
 
 **Kind**: static method of [<code>CamoUtil</code>](#CamoUtil)  
 **Returns**: <code>Promise.&lt;string&gt;</code> - the private key to use.  
@@ -223,7 +223,7 @@ finds a new private key to recieve more banano funds. the key would have no hist
 <a name="CamoUtil.getCamoNanoNextPrivateKeyForReceive"></a>
 
 ### CamoUtil.getCamoNanoNextPrivateKeyForReceive(seed) ⇒ <code>Promise.&lt;string&gt;</code>
-finds a new private key to recieve more banano funds. the key would have no history.
+finds a new private key to receive more banano funds. the key would have no history.
 
 **Kind**: static method of [<code>CamoUtil</code>](#CamoUtil)  
 **Returns**: <code>Promise.&lt;string&gt;</code> - the private key to use.  
@@ -308,7 +308,7 @@ get the pending blocks for the camo banano account.
 | --- | --- | --- |
 | seed | <code>string</code> | the seed to use to find the account. |
 | seedIx | <code>string</code> | the index to use with the seed. |
-| fromAccount | <code>string</code> | the account to recieve from. |
+| fromAccount | <code>string</code> | the account to receive from. |
 | sharedSeedIx | <code>number</code> | the index to use with the shared seed. |
 | count | <code>number</code> | the max count to get. |
 
@@ -324,7 +324,7 @@ get the pending blocks for the camo nano account.
 | --- | --- | --- |
 | seed | <code>string</code> | the seed to use to find the account. |
 | seedIx | <code>string</code> | the index to use with the seed. |
-| fromAccount | <code>string</code> | the account to recieve from. |
+| fromAccount | <code>string</code> | the account to receive from. |
 | sharedSeedIx | <code>number</code> | the index to use with the shared seed. |
 | count | <code>number</code> | the max count to get. |
 
@@ -352,7 +352,7 @@ get the banano shared account, used as an intermediary to send finds between the
 | --- | --- | --- |
 | seed | <code>string</code> | the seed to use to find the account. |
 | seedIx | <code>string</code> | the index to use with the seed. |
-| account | <code>string</code> | the camo account to send or recieve from. |
+| account | <code>string</code> | the camo account to send or receive from. |
 | sharedSeedIx | <code>string</code> | the index to use with the shared seed. |
 
 <a name="CamoUtil.getCamoNanoSharedAccountData"></a>
@@ -367,13 +367,13 @@ get the nano shared account, used as an intermediary to send finds between the s
 | --- | --- | --- |
 | seed | <code>string</code> | the seed to use to find the account. |
 | seedIx | <code>string</code> | the index to use with the seed. |
-| account | <code>string</code> | the camo account to send or recieve from. |
+| account | <code>string</code> | the camo account to send or receive from. |
 | sharedSeedIx | <code>string</code> | the index to use with the shared seed. |
 
 <a name="CamoUtil.receiveCamoBananoDepositsForSeed"></a>
 
 ### CamoUtil.receiveCamoBananoDepositsForSeed(seed, seedIx, account, sharedSeedIx, specificPendingBlockHash) ⇒ <code>Promise.&lt;string&gt;</code>
-Recieve banano deposits for a camo account with a given seed.
+Receive banano deposits for a camo account with a given seed.
 
 **Kind**: static method of [<code>CamoUtil</code>](#CamoUtil)  
 **Returns**: <code>Promise.&lt;string&gt;</code> - the response from receiving the block.  
@@ -382,14 +382,14 @@ Recieve banano deposits for a camo account with a given seed.
 | --- | --- | --- |
 | seed | <code>string</code> | the seed to use to find the account. |
 | seedIx | <code>string</code> | the index to use with the seed. |
-| account | <code>string</code> | the camo account to send or recieve from. |
+| account | <code>string</code> | the camo account to send or receive from. |
 | sharedSeedIx | <code>string</code> | the index to use with the shared seed. |
-| specificPendingBlockHash | <code>string</code> | the pending block to recieve. |
+| specificPendingBlockHash | <code>string</code> | the pending block to receive. |
 
 <a name="CamoUtil.receiveCamoNanoDepositsForSeed"></a>
 
 ### CamoUtil.receiveCamoNanoDepositsForSeed(seed, seedIx, account, sharedSeedIx, specificPendingBlockHash) ⇒ <code>Promise.&lt;string&gt;</code>
-Recieve nano deposits for a camo account with a given seed.
+Receive nano deposits for a camo account with a given seed.
 
 **Kind**: static method of [<code>CamoUtil</code>](#CamoUtil)  
 **Returns**: <code>Promise.&lt;string&gt;</code> - the response from receiving the block.  
@@ -398,9 +398,9 @@ Recieve nano deposits for a camo account with a given seed.
 | --- | --- | --- |
 | seed | <code>string</code> | the seed to use to find the account. |
 | seedIx | <code>string</code> | the index to use with the seed. |
-| account | <code>string</code> | the camo account to send or recieve from. |
+| account | <code>string</code> | the camo account to send or receive from. |
 | sharedSeedIx | <code>string</code> | the index to use with the shared seed. |
-| specificPendingBlockHash | <code>string</code> | the pending block to recieve. |
+| specificPendingBlockHash | <code>string</code> | the pending block to receive. |
 
 <a name="CamoUtil.getCamoBananoAccountBalanceRaw"></a>
 
@@ -1190,7 +1190,7 @@ Send a withdrawal from a nano account with a given seed.
 <a name="DepositUtil.receiveNanoDepositsForSeed"></a>
 
 ### DepositUtil.receiveNanoDepositsForSeed(seed, seedIx, representative, specificPendingBlockHash) ⇒ <code>Promise.&lt;object&gt;</code>
-Recieve deposits for a nano account with a given seed.
+Receive deposits for a nano account with a given seed.
 
 **Kind**: static method of [<code>DepositUtil</code>](#DepositUtil)  
 **Returns**: <code>Promise.&lt;object&gt;</code> - returns the response returned by the receive.  
@@ -1205,7 +1205,7 @@ Recieve deposits for a nano account with a given seed.
 <a name="DepositUtil.receiveBananoDepositsForSeed"></a>
 
 ### DepositUtil.receiveBananoDepositsForSeed(seed, seedIx, representative, specificPendingBlockHash) ⇒ <code>Promise.&lt;object&gt;</code>
-Recieve deposits for a banano account with a given seed.
+Receive deposits for a banano account with a given seed.
 
 **Kind**: static method of [<code>DepositUtil</code>](#DepositUtil)  
 **Returns**: <code>Promise.&lt;object&gt;</code> - returns the response returned by the receive.  

@@ -2,7 +2,7 @@
 
 ## encrypted amounts
 
-Eventually, when we figure it out, we will ty to implement bullet proofs in banano.
+Eventually, when we figure it out, we will try to implement bullet proofs in banano.
 (We are hoping nano will do it first)
 <https://github.com/PlasmaPower/orv-privacy>
 

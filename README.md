@@ -14,13 +14,20 @@ const run = async () => {
   const bananojs = require('@bananocoin/bananojs');
   bananojs.setBananodeApiUrl('https://kaliumapi.appditto.com/api');
 
+  //generate random seed and wallet, then log first address of wallet
   const crypto = require('crypto');
-  const seed = crypto.randomBytes(32).toString('hex');
+  const seed = crypto.randomBytes(32).toString('hex'); //seeds are 32 bytes
   const privateKey = bananojs.getPrivateKey(seed, 0);
   const publicKey = await bananojs.getPublicKey(privateKey);
-  const account = bananojs.getBananoAccount(publicKey);
+  const account = bananojs.getBananoAccount(publicKey); //the Banano address
+  console.log(account);
 
-  bananojs.getAccountInfo(account).then((res) => console.log(res));
+  //get account info of addresses: https://docs.nano.org/commands/rpc-protocol/#account_info
+  console.log(await bananojs.getAccountInfo(account)); //should log "{ error: 'Account not found' }" since account is unopened (hasn't received any transactions yet)
+  console.log(await bananojs.getAccountInfo("ban_1rp1aceaawpub5zyztzs4tn7gcugm5bc3o6oga16bb18bquqm1bjnoomynze")); //works
+
+  //get account history of address: https://docs.nano.org/commands/rpc-protocol/#account_history
+  console.log(await bananojs.getAccountHistory("ban_1rp1aceaawpub5zyztzs4tn7gcugm5bc3o6oga16bb18bquqm1bjnoomynze", 3)); //(last 3 transactions)
 };
 run();
 ```

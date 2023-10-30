@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.10.2
+//version 2.10.3
 //license MIT
 /* eslint-disable */
 const require = (modname) => {
@@ -6365,7 +6365,7 @@ window.bananocoin.bananojs.https.request = (
    * @memberof BananoUtil
    * @param {string} privateKeyOrSigner the private key to use to sign.
    * @param {string} message the utf-8 message to sign.
-   * @return {string} the message's hash.
+   * @return {string} the message's signature.
    */
   const signMessage = (privateKeyOrSigner, message) => {
     return bananoUtil.signMessage(privateKeyOrSigner, message);
@@ -6376,7 +6376,7 @@ window.bananocoin.bananojs.https.request = (
    *
    * @memberof BananoUtil
    * @param {string} message the utf-8 message to sign.
-   * @return {string} the message's hash.
+   * @return {Uint8Array} hashed message's bytes.
    */
   const hashMessageToBytes = (message) => {
     return bananoUtil.hashMessageToBytes(message);
@@ -6388,7 +6388,7 @@ window.bananocoin.bananojs.https.request = (
    * @memberof BananoUtil
    * @param {string} privateKey the private key to use to sign.
    * @param {string} message the utf-8 message to sign.
-   * @return {string} the message's hash.
+   * @return {Uint8Array} hashed dummy block's bytes.
    */
   const messageDummyBlockHashBytes = (privateKey, message) => {
     return bananoUtil.messageDummyBlockHashBytes(privateKey, message);
@@ -6413,7 +6413,7 @@ window.bananocoin.bananojs.https.request = (
    * @param {string} publicKey the public key to use to sign.
    * @param {string} message the utf-8 message to verify.
    * @param {string} signature hex of signature.
-   * @return {string} the message's hash.
+   * @return {boolean} whether the signature was verified.
    */
   const verifyMessage = (publicKey, message, signature) => {
     return bananoUtil.verifyMessage(publicKey, message, signature);

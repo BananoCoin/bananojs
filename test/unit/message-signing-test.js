@@ -79,6 +79,18 @@ describe('message-sign', () => {
     expect(dummyBlockHash).to.equal(manualDummyBlockHash);
   });
 
+  it('invalid message type is rejected', async () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    let actualErrorMessage = 'no error was thrown';
+    try {
+      await bananojs.signMessage(privateKey, 12);
+    } catch (e) {
+      actualErrorMessage = e.message;
+    }
+    const expectedErrorMessage = 'Expected message to be of type Uint8Array or string';
+    expect(expectedErrorMessage).to.equal(actualErrorMessage);
+  });
+
   beforeEach(async () => {});
 
   afterEach(async () => {

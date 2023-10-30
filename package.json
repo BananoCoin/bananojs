@@ -1,6 +1,6 @@
 {
   "name": "@bananocoin/bananojs",
-  "version": "2.10.2",
+  "version": "2.10.3",
   "module": "index.js",
   "repository": {
     "type": "git",
@@ -37,7 +37,7 @@
     "blakejs": "^1.2.1",
     "chai": "^4.3.10",
     "elliptic": "^6.5.4",
-    "eslint": "^8.51.0",
+    "eslint": "^8.52.0",
     "eslint-config-google": "^0.14.0",
     "jsdoc": "^4.0.2",
     "jsdoc-to-markdown": "^8.0.0",

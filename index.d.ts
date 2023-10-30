@@ -376,22 +376,22 @@ declare namespace BananoUtil {
      * signs a dummy block with a hash of the utf-8 message using private key.
      * @param privateKeyOrSigner - the private key to use to sign.
      * @param message - the utf-8 message to sign.
-     * @returns the message's hash.
+     * @returns the message's signature.
      */
     function signMessage(privateKeyOrSigner: string, message: string): string;
     /**
      * signs a utf-8 message with private key. Only used internally and for testing.
      * @param message - the utf-8 message to sign.
-     * @returns the message's hash.
+     * @returns hashed message's bytes.
      */
-    function hashMessageToBytes(message: string): string;
+    function hashMessageToBytes(message: string): Uint8Array;
     /**
      * generates a dummy block hash that is used for message signing.
      * @param privateKey - the private key to use to sign.
      * @param message - the utf-8 message to sign.
-     * @returns the message's hash.
+     * @returns hashed dummy block's bytes.
      */
-    function messageDummyBlockHashBytes(privateKey: string, message: string): string;
+    function messageDummyBlockHashBytes(privateKey: string, message: string): Uint8Array;
     /**
      * generates a dummy block that is used for message signing.
      * @param privateKey - the private key to use to sign.
@@ -404,9 +404,9 @@ declare namespace BananoUtil {
      * @param publicKey - the public key to use to sign.
      * @param message - the utf-8 message to verify.
      * @param signature - hex of signature.
-     * @returns the message's hash.
+     * @returns whether the signature was verified.
      */
-    function verifyMessage(publicKey: string, message: string, signature: string): string;
+    function verifyMessage(publicKey: string, message: string, signature: string): boolean;
     /**
      * signs a hash.
      * @param privateKey - the private key to use to sign.

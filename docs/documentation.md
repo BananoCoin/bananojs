@@ -211,7 +211,7 @@ receives nano funds at a camo address.
 <a name="CamoUtil.getCamoBananoNextPrivateKeyForReceive"></a>
 
 ### CamoUtil.getCamoBananoNextPrivateKeyForReceive(seed) ⇒ <code>Promise.&lt;string&gt;</code>
-finds a new private key to receive more banano funds. the key would have no history.
+finds a new private key to recieve more banano funds. the key would have no history.
 
 **Kind**: static method of [<code>CamoUtil</code>](#CamoUtil)  
 **Returns**: <code>Promise.&lt;string&gt;</code> - the private key to use.  
@@ -223,7 +223,7 @@ finds a new private key to receive more banano funds. the key would have no hist
 <a name="CamoUtil.getCamoNanoNextPrivateKeyForReceive"></a>
 
 ### CamoUtil.getCamoNanoNextPrivateKeyForReceive(seed) ⇒ <code>Promise.&lt;string&gt;</code>
-finds a new private key to receive more banano funds. the key would have no history.
+finds a new private key to recieve more banano funds. the key would have no history.
 
 **Kind**: static method of [<code>CamoUtil</code>](#CamoUtil)  
 **Returns**: <code>Promise.&lt;string&gt;</code> - the private key to use.  
@@ -308,7 +308,7 @@ get the pending blocks for the camo banano account.
 | --- | --- | --- |
 | seed | <code>string</code> | the seed to use to find the account. |
 | seedIx | <code>string</code> | the index to use with the seed. |
-| fromAccount | <code>string</code> | the account to receive from. |
+| fromAccount | <code>string</code> | the account to recieve from. |
 | sharedSeedIx | <code>number</code> | the index to use with the shared seed. |
 | count | <code>number</code> | the max count to get. |
 
@@ -324,7 +324,7 @@ get the pending blocks for the camo nano account.
 | --- | --- | --- |
 | seed | <code>string</code> | the seed to use to find the account. |
 | seedIx | <code>string</code> | the index to use with the seed. |
-| fromAccount | <code>string</code> | the account to receive from. |
+| fromAccount | <code>string</code> | the account to recieve from. |
 | sharedSeedIx | <code>number</code> | the index to use with the shared seed. |
 | count | <code>number</code> | the max count to get. |
 
@@ -352,7 +352,7 @@ get the banano shared account, used as an intermediary to send finds between the
 | --- | --- | --- |
 | seed | <code>string</code> | the seed to use to find the account. |
 | seedIx | <code>string</code> | the index to use with the seed. |
-| account | <code>string</code> | the camo account to send or receive from. |
+| account | <code>string</code> | the camo account to send or recieve from. |
 | sharedSeedIx | <code>string</code> | the index to use with the shared seed. |
 
 <a name="CamoUtil.getCamoNanoSharedAccountData"></a>
@@ -367,13 +367,13 @@ get the nano shared account, used as an intermediary to send finds between the s
 | --- | --- | --- |
 | seed | <code>string</code> | the seed to use to find the account. |
 | seedIx | <code>string</code> | the index to use with the seed. |
-| account | <code>string</code> | the camo account to send or receive from. |
+| account | <code>string</code> | the camo account to send or recieve from. |
 | sharedSeedIx | <code>string</code> | the index to use with the shared seed. |
 
 <a name="CamoUtil.receiveCamoBananoDepositsForSeed"></a>
 
 ### CamoUtil.receiveCamoBananoDepositsForSeed(seed, seedIx, account, sharedSeedIx, specificPendingBlockHash) ⇒ <code>Promise.&lt;string&gt;</code>
-Receive banano deposits for a camo account with a given seed.
+Recieve banano deposits for a camo account with a given seed.
 
 **Kind**: static method of [<code>CamoUtil</code>](#CamoUtil)  
 **Returns**: <code>Promise.&lt;string&gt;</code> - the response from receiving the block.  
@@ -382,14 +382,14 @@ Receive banano deposits for a camo account with a given seed.
 | --- | --- | --- |
 | seed | <code>string</code> | the seed to use to find the account. |
 | seedIx | <code>string</code> | the index to use with the seed. |
-| account | <code>string</code> | the camo account to send or receive from. |
+| account | <code>string</code> | the camo account to send or recieve from. |
 | sharedSeedIx | <code>string</code> | the index to use with the shared seed. |
-| specificPendingBlockHash | <code>string</code> | the pending block to receive. |
+| specificPendingBlockHash | <code>string</code> | the pending block to recieve. |
 
 <a name="CamoUtil.receiveCamoNanoDepositsForSeed"></a>
 
 ### CamoUtil.receiveCamoNanoDepositsForSeed(seed, seedIx, account, sharedSeedIx, specificPendingBlockHash) ⇒ <code>Promise.&lt;string&gt;</code>
-Receive nano deposits for a camo account with a given seed.
+Recieve nano deposits for a camo account with a given seed.
 
 **Kind**: static method of [<code>CamoUtil</code>](#CamoUtil)  
 **Returns**: <code>Promise.&lt;string&gt;</code> - the response from receiving the block.  
@@ -398,9 +398,9 @@ Receive nano deposits for a camo account with a given seed.
 | --- | --- | --- |
 | seed | <code>string</code> | the seed to use to find the account. |
 | seedIx | <code>string</code> | the index to use with the seed. |
-| account | <code>string</code> | the camo account to send or receive from. |
+| account | <code>string</code> | the camo account to send or recieve from. |
 | sharedSeedIx | <code>string</code> | the index to use with the shared seed. |
-| specificPendingBlockHash | <code>string</code> | the pending block to receive. |
+| specificPendingBlockHash | <code>string</code> | the pending block to recieve. |
 
 <a name="CamoUtil.getCamoBananoAccountBalanceRaw"></a>
 
@@ -505,10 +505,10 @@ checks if a camo account is valid.
     * [.openNanoAccountFromSeed(seed, seedIx, representative, pendingBlockHash, pendingValueRaw)](#BananoUtil.openNanoAccountFromSeed) ⇒ <code>Promise.&lt;string&gt;</code>
     * [.getBlockHash(block)](#BananoUtil.getBlockHash) ⇒ <code>string</code>
     * [.signMessage(privateKeyOrSigner, message)](#BananoUtil.signMessage) ⇒ <code>string</code>
-    * [.hashMessageToBytes(message)](#BananoUtil.hashMessageToBytes) ⇒ <code>string</code>
-    * [.messageDummyBlockHashBytes(privateKey, message)](#BananoUtil.messageDummyBlockHashBytes) ⇒ <code>string</code>
+    * [.hashMessageToBytes(message)](#BananoUtil.hashMessageToBytes) ⇒ <code>Uint8Array</code>
+    * [.messageDummyBlockHashBytes(privateKey, message)](#BananoUtil.messageDummyBlockHashBytes) ⇒ <code>Uint8Array</code>
     * [.messageDummyBlock(privateKey, message)](#BananoUtil.messageDummyBlock) ⇒ <code>string</code>
-    * [.verifyMessage(publicKey, message, signature)](#BananoUtil.verifyMessage) ⇒ <code>string</code>
+    * [.verifyMessage(publicKey, message, signature)](#BananoUtil.verifyMessage) ⇒ <code>boolean</code>
     * [.signHash(privateKey, hash)](#BananoUtil.signHash) ⇒ <code>string</code>
     * [.verify(hash, signature, publicKey)](#BananoUtil.verify) ⇒ <code>string</code>
     * [.getSignature(privateKey, block)](#BananoUtil.getSignature) ⇒ <code>string</code>
@@ -765,7 +765,7 @@ Get the hash for a given block.
 signs a dummy block with a hash of the utf-8 message using private key.
 
 **Kind**: static method of [<code>BananoUtil</code>](#BananoUtil)  
-**Returns**: <code>string</code> - the message's hash.  
+**Returns**: <code>string</code> - the message's signature.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -774,11 +774,11 @@ signs a dummy block with a hash of the utf-8 message using private key.
 
 <a name="BananoUtil.hashMessageToBytes"></a>
 
-### BananoUtil.hashMessageToBytes(message) ⇒ <code>string</code>
+### BananoUtil.hashMessageToBytes(message) ⇒ <code>Uint8Array</code>
 signs a utf-8 message with private key. Only used internally and for testing.
 
 **Kind**: static method of [<code>BananoUtil</code>](#BananoUtil)  
-**Returns**: <code>string</code> - the message's hash.  
+**Returns**: <code>Uint8Array</code> - hashed message's bytes.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -786,11 +786,11 @@ signs a utf-8 message with private key. Only used internally and for testing.
 
 <a name="BananoUtil.messageDummyBlockHashBytes"></a>
 
-### BananoUtil.messageDummyBlockHashBytes(privateKey, message) ⇒ <code>string</code>
+### BananoUtil.messageDummyBlockHashBytes(privateKey, message) ⇒ <code>Uint8Array</code>
 generates a dummy block hash that is used for message signing.
 
 **Kind**: static method of [<code>BananoUtil</code>](#BananoUtil)  
-**Returns**: <code>string</code> - the message's hash.  
+**Returns**: <code>Uint8Array</code> - hashed dummy block's bytes.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -812,11 +812,11 @@ generates a dummy block that is used for message signing.
 
 <a name="BananoUtil.verifyMessage"></a>
 
-### BananoUtil.verifyMessage(publicKey, message, signature) ⇒ <code>string</code>
+### BananoUtil.verifyMessage(publicKey, message, signature) ⇒ <code>boolean</code>
 verifies a utf-8 message with public key from a dummy block signature.
 
 **Kind**: static method of [<code>BananoUtil</code>](#BananoUtil)  
-**Returns**: <code>string</code> - the message's hash.  
+**Returns**: <code>boolean</code> - whether the signature was verified.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -1190,7 +1190,7 @@ Send a withdrawal from a nano account with a given seed.
 <a name="DepositUtil.receiveNanoDepositsForSeed"></a>
 
 ### DepositUtil.receiveNanoDepositsForSeed(seed, seedIx, representative, specificPendingBlockHash) ⇒ <code>Promise.&lt;object&gt;</code>
-Receive deposits for a nano account with a given seed.
+Recieve deposits for a nano account with a given seed.
 
 **Kind**: static method of [<code>DepositUtil</code>](#DepositUtil)  
 **Returns**: <code>Promise.&lt;object&gt;</code> - returns the response returned by the receive.  
@@ -1205,7 +1205,7 @@ Receive deposits for a nano account with a given seed.
 <a name="DepositUtil.receiveBananoDepositsForSeed"></a>
 
 ### DepositUtil.receiveBananoDepositsForSeed(seed, seedIx, representative, specificPendingBlockHash) ⇒ <code>Promise.&lt;object&gt;</code>
-Receive deposits for a banano account with a given seed.
+Recieve deposits for a banano account with a given seed.
 
 **Kind**: static method of [<code>DepositUtil</code>](#DepositUtil)  
 **Returns**: <code>Promise.&lt;object&gt;</code> - returns the response returned by the receive.  

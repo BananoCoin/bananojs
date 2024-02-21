@@ -41,8 +41,8 @@
     "eslint-config-google": "^0.14.0",
     "jsdoc": "^4.0.2",
     "jsdoc-to-markdown": "^8.0.1",
-    "mocha": "^10.2.0",
-    "npm-check-updates": "^16.14.14",
+    "mocha": "^10.3.0",
+    "npm-check-updates": "^16.14.15",
     "nyc": "^15.1.0",
     "prettier": "^3.2.5",
     "tsd-jsdoc": "^2.5.0"

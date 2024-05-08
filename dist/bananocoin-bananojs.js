@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.10.8
+//version 2.10.9
 //license MIT
 /* eslint-disable */
 const require = (modname) => {
@@ -2116,7 +2116,9 @@ window.bananocoin.bananojs.https.request = (
 
   const LOG_GET_GENERATED_WORK = false;
 
-  let auth, arbitraryHeaders;
+  let auth;
+
+  let arbitraryHeaders;
 
   /**
    * Sets an authorization string (http 'Authorization' header), useful if node requires api key.
@@ -2133,12 +2135,12 @@ window.bananocoin.bananojs.https.request = (
    * Sets arbitrary headers
    *
    * @memberof BananodeApi
-   * @param {Object.<string, string>} headers key-value pair object of header names (key) to header values (value), trying to specify Content-Type and Content-Length headers will not work
+   * @param {Object.<string, string>} arbitraryHeaders key-value pair object of header names (key) to header values (value), trying to specify Content-Type and Content-Length headers will not work
    * @return {undefined} returns nothing.
    */
   const setHeaders = (arbitraryHeaders) => {
     arbitraryHeaders = arbitraryHeaders;
-  }
+  };
 
   const delay = (time) => {
     // console.log('delay', 'time', time);
@@ -5693,6 +5695,18 @@ window.bananocoin.bananojs.https.request = (
   };
 
   /**
+   * Sets the Bananode Api Headers
+   * @memberof Main
+   * @param {string} auth the new headers
+   * @return {undefined} returns nothing.
+   */
+  const setHeaders = (auth) => {
+    if (bananodeApi !== undefined) {
+      bananodeApi.setHeaders(auth);
+    }
+  };
+
+  /**
    * Sets the Bananode Api Proxy (http pr https proxy)
    * @memberof Main
    * @param {Object} proxy the new proxy
@@ -7105,6 +7119,7 @@ window.bananocoin.bananojs.https.request = (
     exports.setBananodeApi = setBananodeApi;
     exports.setUseRateLimit = setUseRateLimit;
     exports.setAuth = setAuth;
+    exports.setHeaders = setHeaders;
     exports.setBananodeApiProxy = setBananodeApiProxy;
     exports.getBananodeApiProxy = getBananodeApiProxy;
     exports.getBananoPartsFromDecimal = getBananoPartsFromDecimal;

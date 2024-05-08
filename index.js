@@ -44,6 +44,18 @@
   };
 
   /**
+   * Sets the Bananode Api Headers
+   * @memberof Main
+   * @param {string} auth the new headers
+   * @return {undefined} returns nothing.
+   */
+  const setHeaders = (auth) => {
+    if (bananodeApi !== undefined) {
+      bananodeApi.setHeaders(auth);
+    }
+  };
+
+  /**
    * Sets the Bananode Api Proxy (http pr https proxy)
    * @memberof Main
    * @param {Object} proxy the new proxy
@@ -1456,6 +1468,7 @@
     exports.setBananodeApi = setBananodeApi;
     exports.setUseRateLimit = setUseRateLimit;
     exports.setAuth = setAuth;
+    exports.setHeaders = setHeaders;
     exports.setBananodeApiProxy = setBananodeApiProxy;
     exports.getBananodeApiProxy = getBananodeApiProxy;
     exports.getBananoPartsFromDecimal = getBananoPartsFromDecimal;

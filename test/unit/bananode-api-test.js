@@ -259,6 +259,14 @@ describe('bananode-api', () => {
       await call({}, 'setAuth', 'fakeAuth');
     });
   });
+  describe('setHeaders', () => {
+    it('setHeaders blank', async () => {
+      await call({}, 'setHeaders', '');
+    });
+    it('setHeaders fake', async () => {
+      await call({}, 'setHeaders', 'fakeHeaders');
+    });
+  });
   it('getBlockCount', async () => {
     await call({}, 'getBlockCount');
   });

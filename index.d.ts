@@ -13,6 +13,12 @@ declare namespace Main {
      */
     function setAuth(auth: string): undefined;
     /**
+     * Sets the Bananode Api Headers
+     * @param auth - the new headers
+     * @returns returns nothing.
+     */
+    function setHeaders(auth: string): undefined;
+    /**
      * Sets the Bananode Api Proxy (http pr https proxy)
      * @param proxy - the new proxy
      * @returns returns nothing.
@@ -697,10 +703,18 @@ declare namespace BananodeApi {
     function getAccountsPending(accounts: string[], count: number, source: string): Promise<object>;
     /**
      * Sets an authorization string (http 'Authorization' header), useful if node requires api key.
-     * @param authString - api key as a string\
+     * @param authString - api key as a string
      * @returns returns nothing.
      */
     function setAuth(authString: string): undefined;
+    /**
+     * Sets arbitrary headers
+     * @param arbitraryHeaders - key-value pair object of header names (key) to header values (value), trying to specify Content-Type and Content-Length headers will not work
+     * @returns returns nothing.
+     */
+    function setHeaders(arbitraryHeaders: {
+        [key: string]: string;
+    }): undefined;
 }
 
 /**

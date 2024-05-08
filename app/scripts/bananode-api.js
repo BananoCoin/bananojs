@@ -15,18 +15,29 @@
 
   const LOG_GET_GENERATED_WORK = false;
 
-  let auth;
+  let auth, arbitraryHeaders;
 
   /**
    * Sets an authorization string (http 'Authorization' header), useful if node requires api key.
    *
    * @memberof BananodeApi
-   * @param {string} authString api key as a string\
+   * @param {string} authString api key as a string
    * @return {undefined} returns nothing.
    */
   const setAuth = (authString) => {
     auth = authString;
   };
+
+  /**
+   * Sets arbitrary headers
+   *
+   * @memberof BananodeApi
+   * @param {Object.<string, string>} headers key-value pair object of header names (key) to header values (value), trying to specify Content-Type and Content-Length headers will not work
+   * @return {undefined} returns nothing.
+   */
+  const setHeaders = (arbitraryHeaders) => {
+    arbitraryHeaders = arbitraryHeaders;
+  }
 
   const delay = (time) => {
     // console.log('delay', 'time', time);
@@ -61,6 +72,7 @@
         path: apiUrl.pathname,
         port: apiUrl.port,
         headers: {
+          ...arbitraryHeaders,
           'Content-Type': 'application/json',
           'Content-Length': body.length,
         },
@@ -626,6 +638,7 @@
     exports.log = console.log;
     exports.trace = console.trace;
     exports.setAuth = setAuth;
+    exports.setHeaders = setHeaders;
 
     return exports;
   })();

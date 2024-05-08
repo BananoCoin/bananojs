@@ -35,6 +35,7 @@
     * [.BANANO_PREFIX](#Main.BANANO_PREFIX) : <code>string</code>
     * [.setBananodeApi(_bananodeApi)](#Main.setBananodeApi) ⇒ <code>undefined</code>
     * [.setAuth(auth)](#Main.setAuth) ⇒ <code>undefined</code>
+    * [.setHeaders(headers)](#BananodeApi.setHeaders) ⇒ <code>undefined</code>
     * [.setBananodeApiProxy(proxy)](#Main.setBananodeApiProxy) ⇒ <code>undefined</code>
     * [.getBananodeApiProxy()](#Main.getBananodeApiProxy) ⇒ <code>Object</code>
     * [.setBananodeApiUrl(url)](#Main.setBananodeApiUrl) ⇒ <code>undefined</code>
@@ -1361,7 +1362,19 @@ Sets an authorization string (http 'Authorization' header), useful if node requi
 
 | Param | Type | Description |
 | --- | --- | --- |
-| authString | <code>string</code> | api key as a string\ |
+| authString | <code>string</code> | api key as a string |
+
+<a name="BananodeApi.setHeaders"></a>
+
+### BananodeApi.setHeaders(headers) ⇒ <code>undefined</code>
+Sets arbitrary headers
+
+**Kind**: static method of [<code>BananodeApi</code>](#BananodeApi)  
+**Returns**: <code>undefined</code> - returns nothing.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| headers | <code>Object.&lt;string, string&gt;</code> | key-value pair object of header names (key) to header values (value), trying to specify Content-Type and Content-Length headers will not work |
 
 <a name="BananoParts"></a>
 

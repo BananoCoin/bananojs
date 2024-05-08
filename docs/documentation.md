@@ -35,7 +35,7 @@
     * [.BANANO_PREFIX](#Main.BANANO_PREFIX) : <code>string</code>
     * [.setBananodeApi(_bananodeApi)](#Main.setBananodeApi) ⇒ <code>undefined</code>
     * [.setAuth(auth)](#Main.setAuth) ⇒ <code>undefined</code>
-    * [.setHeaders(auth)](#Main.setHeaders) ⇒ <code>undefined</code>
+    * [.setHeaders(headers)](#Main.setHeaders) ⇒ <code>undefined</code>
     * [.setBananodeApiProxy(proxy)](#Main.setBananodeApiProxy) ⇒ <code>undefined</code>
     * [.getBananodeApiProxy()](#Main.getBananodeApiProxy) ⇒ <code>Object</code>
     * [.setBananodeApiUrl(url)](#Main.setBananodeApiUrl) ⇒ <code>undefined</code>
@@ -74,7 +74,7 @@ Sets the Bananode Api Authorization
 
 <a name="Main.setHeaders"></a>
 
-### Main.setHeaders(auth) ⇒ <code>undefined</code>
+### Main.setHeaders(headers) ⇒ <code>undefined</code>
 Sets the Bananode Api Headers
 
 **Kind**: static method of [<code>Main</code>](#Main)  
@@ -82,7 +82,7 @@ Sets the Bananode Api Headers
 
 | Param | Type | Description |
 | --- | --- | --- |
-| auth | <code>string</code> | the new headers |
+| headers | <code>string</code> | the new headers |
 
 <a name="Main.setBananodeApiProxy"></a>
 
@@ -1245,7 +1245,7 @@ Recieve deposits for a banano account with a given seed.
     * [.setUseRateLimit(flag)](#BananodeApi.setUseRateLimit) ⇒ <code>undefined</code>
     * [.getAccountsPending(accounts, count, source)](#BananodeApi.getAccountsPending) ⇒ <code>Promise.&lt;object&gt;</code>
     * [.setAuth(authString)](#BananodeApi.setAuth) ⇒ <code>undefined</code>
-    * [.setHeaders(arbitraryHeaders)](#BananodeApi.setHeaders) ⇒ <code>undefined</code>
+    * [.setHeaders(_arbitraryHeaders)](#BananodeApi.setHeaders) ⇒ <code>undefined</code>
 
 <a name="BananodeApi.getAccountBalanceRaw"></a>
 
@@ -1379,7 +1379,7 @@ Sets an authorization string (http 'Authorization' header), useful if node requi
 
 <a name="BananodeApi.setHeaders"></a>
 
-### BananodeApi.setHeaders(arbitraryHeaders) ⇒ <code>undefined</code>
+### BananodeApi.setHeaders(_arbitraryHeaders) ⇒ <code>undefined</code>
 Sets arbitrary headers
 
 **Kind**: static method of [<code>BananodeApi</code>](#BananodeApi)  
@@ -1387,7 +1387,7 @@ Sets arbitrary headers
 
 | Param | Type | Description |
 | --- | --- | --- |
-| arbitraryHeaders | <code>Object.&lt;string, string&gt;</code> | key-value pair object of header names (key) to header values (value), trying to specify Content-Type and Content-Length headers will not work |
+| _arbitraryHeaders | <code>Object.&lt;string, string&gt;</code> | key-value pair object of header names (key) to header values (value), trying to specify Content-Type and Content-Length headers will not work |
 
 <a name="BananoParts"></a>
 

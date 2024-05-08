@@ -30,6 +30,15 @@ describe('corner-cases', () => {
     const bananojs = testUtil.getBananojsWithMockApi();
     bananojs.setAuth('');
   });
+  it('setHeaders', () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    bananojs.setHeaders('');
+  });
+  it('setHeaders undefined on undefined api', async () => {
+    const bananojs = testUtil.getBananojsWithMockApi();
+    await bananojs.setBananodeApi();
+    await bananojs.setHeaders();
+  });
   it('setBananodeApiProxy', () => {
     const bananojs = testUtil.getBananojsWithMockApi();
     bananojs.setBananodeApiProxy();

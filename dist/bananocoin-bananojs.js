@@ -1,5 +1,5 @@
 //bananocoin-bananojs.js
-//version 2.10.9
+//version 2.10.10
 //license MIT
 /* eslint-disable */
 const require = (modname) => {
@@ -2135,11 +2135,11 @@ window.bananocoin.bananojs.https.request = (
    * Sets arbitrary headers
    *
    * @memberof BananodeApi
-   * @param {Object.<string, string>} arbitraryHeaders key-value pair object of header names (key) to header values (value), trying to specify Content-Type and Content-Length headers will not work
+   * @param {Object.<string, string>} _arbitraryHeaders key-value pair object of header names (key) to header values (value), trying to specify Content-Type and Content-Length headers will not work
    * @return {undefined} returns nothing.
    */
-  const setHeaders = (arbitraryHeaders) => {
-    arbitraryHeaders = arbitraryHeaders;
+  const setHeaders = (_arbitraryHeaders) => {
+    arbitraryHeaders = _arbitraryHeaders;
   };
 
   const delay = (time) => {
@@ -2175,13 +2175,18 @@ window.bananocoin.bananojs.https.request = (
         path: apiUrl.pathname,
         port: apiUrl.port,
         headers: {
-          ...arbitraryHeaders,
           'Content-Type': 'application/json',
           'Content-Length': body.length,
         },
         timeout: 30000,
       };
-
+      // console.log( 'sendRequest arbitraryHeaders', arbitraryHeaders );
+      if (arbitraryHeaders != undefined) {
+        Object.keys(arbitraryHeaders).forEach((key) => {
+          const value = arbitraryHeaders[key];
+          options.headers[key] = value;
+        });
+      }
       if (!!auth) {
         options.headers['Authorization'] = auth;
       }
@@ -5697,12 +5702,12 @@ window.bananocoin.bananojs.https.request = (
   /**
    * Sets the Bananode Api Headers
    * @memberof Main
-   * @param {string} auth the new headers
+   * @param {string} headers the new headers
    * @return {undefined} returns nothing.
    */
-  const setHeaders = (auth) => {
+  const setHeaders = (headers) => {
     if (bananodeApi !== undefined) {
-      bananodeApi.setHeaders(auth);
+      bananodeApi.setHeaders(headers);
     }
   };
 

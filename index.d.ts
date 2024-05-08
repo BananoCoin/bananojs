@@ -14,10 +14,10 @@ declare namespace Main {
     function setAuth(auth: string): undefined;
     /**
      * Sets the Bananode Api Headers
-     * @param auth - the new headers
+     * @param headers - the new headers
      * @returns returns nothing.
      */
-    function setHeaders(auth: string): undefined;
+    function setHeaders(headers: string): undefined;
     /**
      * Sets the Bananode Api Proxy (http pr https proxy)
      * @param proxy - the new proxy
@@ -709,10 +709,10 @@ declare namespace BananodeApi {
     function setAuth(authString: string): undefined;
     /**
      * Sets arbitrary headers
-     * @param arbitraryHeaders - key-value pair object of header names (key) to header values (value), trying to specify Content-Type and Content-Length headers will not work
+     * @param _arbitraryHeaders - key-value pair object of header names (key) to header values (value), trying to specify Content-Type and Content-Length headers will not work
      * @returns returns nothing.
      */
-    function setHeaders(arbitraryHeaders: {
+    function setHeaders(_arbitraryHeaders: {
         [key: string]: string;
     }): undefined;
 }

@@ -292,6 +292,8 @@ const getBlockCount = async () => {
 
 const setUrl = () => {};
 
+const setHeaders = () => {};
+
 const setAuth = () => {};
 
 const setModuleRef = () => {};
@@ -312,5 +314,6 @@ exports.getBlockCount = getBlockCount;
 exports.getFrontiers = getFrontiers;
 exports.setUrl = setUrl;
 exports.setAuth = setAuth;
+exports.setHeaders = setHeaders;
 exports.setModuleRef = setModuleRef;
 exports.getModuleRef = getModuleRef;

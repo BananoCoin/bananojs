@@ -264,7 +264,12 @@ describe('bananode-api', () => {
       await call({}, 'setHeaders', '');
     });
     it('setHeaders fake', async () => {
-      await call({}, 'setHeaders', 'fakeHeaders');
+      await call({}, 'setHeaders', {'a': 'b'});
+      const retval = {count: '1000', unchecked: '10'};
+      const bananojs = getSoftRateLimitedBananodeApi(JSON.stringify(retval));
+      const actual = await bananojs.getBlockCount();
+      const expected = retval;
+      expect(expected).to.deep.equal(actual);
     });
   });
   it('getBlockCount', async () => {

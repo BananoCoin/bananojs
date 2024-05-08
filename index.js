@@ -46,12 +46,12 @@
   /**
    * Sets the Bananode Api Headers
    * @memberof Main
-   * @param {string} auth the new headers
+   * @param {string} headers the new headers
    * @return {undefined} returns nothing.
    */
-  const setHeaders = (auth) => {
+  const setHeaders = (headers) => {
     if (bananodeApi !== undefined) {
-      bananodeApi.setHeaders(auth);
+      bananodeApi.setHeaders(headers);
     }
   };
 
